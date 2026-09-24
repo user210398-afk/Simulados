@@ -1,0 +1,2894 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado de Imunologia - Questões 01 a 30</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: #f4f6fb;
+            --card-bg: #ffffff;
+            --border-glow: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --correct-green: #10b981;
+            --correct-bg: #ecfdf5;
+            --incorrect-red: #ef4444;
+            --incorrect-bg: #fef2f2;
+            --accent-yellow: #d97706;
+            --input-bg: #f8fafc;
+            --opt-hover: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* TELA HUB (HOME) */
+        .hub-screen {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto 36px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: #ffffff;
+            color: var(--text-main);
+            border: 1px solid #cbd5e1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .mode-selector-box select:hover, .topic-dropdown-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .hub-cards-grid {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 36px 32px;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hub-card-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-2024 { background: var(--primary-light); color: var(--primary); border: 1px solid #bfdbfe; }
+
+        .hub-card h2 { 
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem; 
+            margin-bottom: 12px; 
+            color: var(--text-main); 
+        }
+        .hub-card p { font-size: 0.98rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-2024 { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-2024:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+        /* INTERFACE DO QUIZ UNIFICADO */
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 32px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .combo-badge {
+            background: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: white;
+            display: none;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 28px;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .q-category-tag {
+            display: none;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .q-statement {
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            white-space: pre-line;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        /* GRIFO E BORRACHA */
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 4px;
+            padding: 2px 3px;
+        }
+
+        .hl-word.marked {
+            background-color: #fef08a;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .q-statement.pen-active {
+            cursor: crosshair;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .q-statement.eraser-active {
+            cursor: cell;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: #cbd5e1;
+            transform: translateX(3px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: var(--primary) !important;
+            background: var(--primary-light) !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.4;
+            background: #f1f5f9;
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: #047857 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: #b91c1c !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .btn-confirm {
+            display: none;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
+        }
+
+        .btn-confirm:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .explanation-panel {
+            display: none;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .exp-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .exp-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card, .notes-card, .grid-card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-card { text-align: center; }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .notes-textarea:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+        }
+
+        .chart-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+        .nav-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .q-nav-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .q-nav-btn.active-q {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .q-nav-btn.answered-realista-q {
+            border-color: #93c5fd !important;
+            background: #dbeafe !important;
+            color: #1e40af !important;
+        }
+
+        .q-nav-btn.correct-q {
+            background: var(--correct-green) !important;
+            color: white !important;
+            border-color: var(--correct-green) !important;
+        }
+
+        .q-nav-btn.incorrect-q {
+            background: var(--incorrect-red) !important;
+            color: white !important;
+            border-color: var(--incorrect-red) !important;
+        }
+
+        .nav-btns-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .side-controls-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .action-btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid #e2e8f0;
+        }
+
+        .action-btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .action-btn-danger {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+        .action-btn-danger:hover {
+            background: #fee2e2;
+        }
+
+        /* BOTÃO FLUTUANTE MOVÍVEL E MENU SUSPENSO */
+        .floating-widget-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: flex-end;
+            touch-action: none;
+        }
+
+        .floating-main-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: background 0.2s, transform 0.1s;
+            user-select: none;
+        }
+
+        .floating-main-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .floating-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            width: 210px;
+        }
+
+        .floating-menu.open {
+            display: flex;
+        }
+
+        .floating-menu button {
+            width: 100%;
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .font-btn-row {
+            display: flex;
+            gap: 6px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .font-btn-row button {
+            flex: 1;
+            text-align: center;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        /* RELATÓRIO FINAL */
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .report-score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .report-table th, .report-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .report-table th {
+            background: #f8fafc;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .bar-bg {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            width: 120px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .diagnostic-card {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #92400e;
+        }
+
+        /* CONFIANÇA, SRS, HISTÓRICO, MODAL DE CONFIGURAÇÕES */
+        .conf-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .conf-btn.active-certain {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #047857;
+        }
+
+        .conf-btn.active-guess {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .setting-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .toggle-checkbox {
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: #cbd5e1;
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked {
+            background: var(--primary);
+        }
+
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            background: white;
+            transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked::before {
+            transform: translateX(20px);
+        }
+
+        .history-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: left;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        /* REGRAS DE IMPRESSÃO / PDF OTIMIZADO */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+
+            .hub-header-bar, .mode-selector-box, .side-controls-bar, .nav-btns-inline, .side-panel,
+            .btn-confirm, .conf-btn-group, .btn-layout-toggle-class, .floating-widget-container,
+            .hud-header, .modal-overlay,
+            button, .btn-hub-action {
+                display: none !important;
+            }
+
+            .main-container, .hub-screen, .game-hud, .report-screen, .q-card {
+                box-shadow: none !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .q-statement {
+                color: black !important;
+                font-size: 11pt !important;
+            }
+
+            .opt-btn {
+                border: 1px solid #ccc !important;
+                color: black !important;
+                background: transparent !important;
+                margin-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+
+            .explanation-panel {
+                display: block !important;
+                border-left: 3px solid #000 !important;
+                background: #f8f8f8 !important;
+                color: black !important;
+            }
+
+            .report-table th, .report-table td {
+                color: black !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .game-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .hub-screen { padding: 28px 16px; border-radius: 18px; }
+            .hub-title { font-size: 2rem; }
+            .hub-subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+            .mode-selector-box { flex-direction: column; align-items: stretch; gap: 12px; padding: 16px; }
+            .mode-selector-box select, .topic-dropdown-btn { width: 100%; text-align: center; }
+            .game-hud { padding: 18px; border-radius: 18px; }
+            .hud-header { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px; }
+            .hud-stat { justify-content: space-between; width: 100%; }
+            .q-card { padding: 18px; }
+            .q-statement { font-size: 1rem; margin-bottom: 20px; }
+            .opt-btn { padding: 14px 16px; font-size: 0.92rem; }
+            .nav-btns-inline { gap: 8px; }
+            .side-controls-bar { flex-direction: column; gap: 10px; }
+            .side-controls-bar > button, .nav-btns-inline > button { width: 100%; text-align: center; padding: 14px; }
+            .report-screen { padding: 20px 16px; }
+            .report-score-big { font-size: 3rem; }
+            .report-table { font-size: 0.85rem; }
+            .report-table th, .report-table td { padding: 10px; }
+            .bar-bg { width: 60px; }
+        }
+
+        body.force-mobile-mode { padding: 8px !important; }
+        body.force-mobile-mode .main-container { max-width: 100% !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .report-screen { padding: 15px !important; border-radius: 14px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.8rem !important; }
+        body.force-mobile-mode .game-layout { grid-template-columns: 1fr !important; }
+        body.force-mobile-mode .nav-btns-inline { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .side-controls-bar { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- TELA HOME / HUB CENTRAL -->
+        <div class="hub-screen" id="hub-screen">
+            <div class="hub-header-bar">
+                <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    ⚙️ Configurações
+                </button>
+                <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    📱 Modo Celular: AUTO
+                </button>
+            </div>
+
+            <div class="hub-title">Simulado de Imunologia</div>
+            <div class="hub-subtitle">
+                Plataforma acadêmica de avaliação em Imunologia Médica. Teste seus conhecimentos sobre imunologia tumoral, autoimunidade, transplantes, imunoterapia, imunopatologias e imunossenescência com métricas detalhadas.
+            </div>
+
+            <!-- SELETOR DE MODO DE JOGO E FILTRO MULTI-TEMA -->
+            <div class="mode-selector-box">
+                <div style="display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center;">
+                    <label for="game-mode-select" style="font-weight: 700; color: var(--text-main);">🎯 Modo de Prova:</label>
+                    <select id="game-mode-select">
+                        <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                        <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                    </select>
+                </div>
+
+                <!-- DROPDOWN DE SELEÇÃO MÚLTIPLA DE TEMAS -->
+                <div style="display: flex; gap: 8px; align-items: center; position: relative; width: 100%; justify-content: center;">
+                    <label style="font-weight: 700; color: var(--text-main);">🏷️ Filtrar por Tema(s):</label>
+                    <div id="topic-dropdown-wrapper" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+                        <button type="button" class="topic-dropdown-btn" id="topic-dropdown-btn" onclick="toggleTopicDropdown()" style="width: 100%;">
+                            Todos os Temas ▾
+                        </button>
+                        <div id="topic-checkbox-list" style="display: none; position: absolute; top: 110%; left: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 14px; padding: 14px; max-height: 250px; overflow-y: auto; z-index: 100; box-shadow: var(--shadow-lg); width: 100%; text-align: left;">
+                            <!-- Gerado via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hub-cards-grid">
+                <!-- CARD SIMULADO ÚNICO -->
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-2024">Avaliação de Imunologia</span>
+                        <h2>Banco de Questões 01 a 30</h2>
+                        <p>30 Questões transcritas integralmente da avaliação de Imunologia Médica. Conteúdo abrangendo Evasão Tumoral, Artrite Reumatoide, Imunoterapia, Vitiligo, Guillain-Barré, HIV, Aterosclerose, Transplantes, Gestação e Imunossenescência.</p>
+                    </div>
+                    <button class="btn-hub-action btn-2024" onclick="startSimulado('2024')">
+                        🚀 Iniciar Simulado
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARD DE HISTÓRICO DE TENTATIVAS -->
+            <div class="history-card" id="history-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: var(--text-main); font-size: 1.1rem; font-weight: 700;">📜 Histórico de Desempenho & Evolução</h3>
+                    <button class="action-btn action-btn-secondary" onclick="clearHistory()" style="padding: 4px 10px; font-size: 0.75rem;">Limpar Histórico</button>
+                </div>
+                <div id="history-list-content">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERFACE DO QUIZ UNIFICADO -->
+        <div class="game-hud" id="game-hud">
+            <div class="hud-header">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button class="action-btn action-btn-secondary" onclick="goToHub()" style="padding: 6px 12px; font-size: 0.85rem;">🏠 Menu Principal</button>
+                        <span id="quiz-title-badge" style="font-weight: 800; color: var(--primary);">SIMULADO</span>
+                    </div>
+                    <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">
+                        📱 Modo Celular: AUTO
+                    </button>
+                </div>
+                <div class="hud-stat">
+                    <span>Questão:</span>
+                    <span class="hud-stat-val" id="hud-q-num">1 / 30</span>
+                </div>
+                <div class="hud-stat" id="hud-timer-stat">
+                    <span>⏱️ Tempo:</span>
+                    <span class="hud-stat-val" id="hud-timer">00:00</span>
+                </div>
+                <div class="hud-stat" id="hud-avgtime-stat">
+                    <span>⏱️ Média/Q:</span>
+                    <span class="hud-stat-val" id="hud-avgtime">0s</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Pontuação:</span>
+                    <span class="hud-stat-val" id="hud-score" style="color: var(--correct-green);">0 PTS</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Aproveitamento:</span>
+                    <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                </div>
+                <div class="combo-badge" id="combo-badge">🔥 COMBO x2!</div>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div class="q-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                            <span class="q-category-tag" id="q-category" style="margin-bottom: 0;">CATEGORIA</span>
+                        </div>
+                        <div class="q-statement" id="q-statement">Carregando questão...</div>
+                        <div class="options-group" id="options-group"></div>
+
+                        <!-- SELETOR DE NÍVEL DE CONFIANÇA -->
+                        <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança nesta resposta:</div>
+                            <div class="conf-btn-group">
+                                <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                            ✅ Confirmar Resposta
+                        </button>
+
+                        <div class="nav-btns-inline">
+                            <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()" style="flex: 1;">← Anterior</button>
+                            <button class="action-btn" id="btn-next" onclick="nextQuestion()" style="flex: 1;">Próxima →</button>
+                        </div>
+
+                        <div class="explanation-panel" id="explanation-panel">
+                            <div class="exp-header">
+                                💡 Contextualização Teórica e Justificativa
+                            </div>
+                            <div class="exp-body" id="exp-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="chart-card" id="chart-card-box">
+                        <div class="chart-title">Desempenho em Tempo Real</div>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                            <div class="chart-center-text" id="chart-center">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 0.85rem;">
+                            <span style="color: #059669;">🟢 Acertos: <b id="lbl-correct">0</b></span>
+                            <span style="color: #dc2626;">🔴 Erros: <b id="lbl-incorrect">0</b></span>
+                        </div>
+                    </div>
+
+                    <!-- BLOCO DE NOTAS DA QUESTÃO -->
+                    <div class="notes-card" id="notes-card-box">
+                        <div class="chart-title">📝 Bloco de Notas</div>
+                        <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho ou anotações para esta questão..." oninput="saveNote(this.value)"></textarea>
+                    </div>
+
+                    <div class="grid-card" id="grid-card-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="chart-title" style="margin-bottom: 0;">Grade</div>
+                            <div style="display: flex; gap: 4px;">
+                                <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">🚩 Dúvidas</button>
+                            </div>
+                        </div>
+                        <div class="nav-grid" id="nav-grid"></div>
+                    </div>
+
+                    <div class="side-controls-bar">
+                        <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar Quiz</button>
+                        <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: #059669;">📊 Relatório Final</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDGET FLUTUANTE DE FERRAMENTAS DA QUESTÃO -->
+        <div class="floating-widget-container" id="floating-widget">
+            <div class="floating-menu" id="floating-menu">
+                <div class="font-btn-row">
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(-1)">A-</button>
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(1)">A+</button>
+                </div>
+                <button class="action-btn action-btn-secondary" id="btn-flag" onclick="toggleFlag()">🚩 Dúvida</button>
+                <button class="action-btn action-btn-secondary" id="btn-highlight" onclick="toggleHighlight()">🖍️ Marca-texto</button>
+                <button class="action-btn action-btn-secondary" id="btn-eraser" onclick="toggleEraser()">🧽 Borracha</button>
+            </div>
+            <button class="floating-main-btn" id="floating-main-btn" title="Ferramentas">🛠️</button>
+        </div>
+
+        <!-- TELA DE RELATÓRIO FINAL -->
+        <div class="report-screen" id="report-screen">
+            <div class="report-header-title" id="rep-edition-title">📊 DIAGNÓSTICO FINAL DE DESEMPENHO</div>
+            <div class="report-score-big" id="rep-score-big">0%</div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 1rem;" id="rep-status-msg"></p>
+
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 15px 0;">
+                <div style="background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Total</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);" id="rep-total-time">00:00</div>
+                </div>
+                <div style="background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Médio / Questão</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #6366f1;" id="rep-avg-time">0s</div>
+                </div>
+                <div style="background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;" id="rep-conf-box-summary">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Acertos com Certeza / Chutes</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--correct-green);" id="rep-conf-ratio">0 / 0</div>
+                </div>
+            </div>
+
+            <div class="diagnostic-card" id="rep-diagnostic-box">
+                <strong>💡 Recomendação de Estudos:</strong>
+                <div id="rep-diagnostic-text" style="margin-top: 5px;"></div>
+            </div>
+
+            <h3 style="color: var(--text-main); margin-top: 25px; font-size: 1.2rem; font-weight: 700;">Análise Detalhada por Tema de Imunologia:</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Tema / Categoria</th>
+                            <th>Total</th>
+                            <th>Acertos</th>
+                            <th>Aproveitamento</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rep-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar Quiz</button>
+                <button class="action-btn" onclick="restartGame()">🔄 Refazer Quiz</button>
+                <button class="action-btn" onclick="startCadernoErros()" style="background: #dc2626;">❌ Caderno de Erros</button>
+                <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;">📥 Exportar (.txt)</button>
+                <button class="action-btn" onclick="printReport()" style="background: #8b5cf6;">📄 Exportar (PDF / Impressão)</button>
+                <button class="action-btn action-btn-secondary" onclick="hideReport()">🔍 Revisar Respostas</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span>⚙️ Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()">✖</span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Métrica de Tempo Médio / Questão</div>
+                    <div class="setting-sub">Calcula os segundos gastos em cada questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-avgtime" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🎯 Nível de Confiança ao Responder</div>
+                    <div class="setting-sub">Permite indicar se a resposta foi por certeza ou chute.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-confidence" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📜 Exibir Histórico no Hub</div>
+                    <div class="setting-sub">Exibe o histórico de tentativas salvas na página inicial.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-history" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📝 Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📈 Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🛠️ Barra de Ferramentas Flutuante</div>
+                    <div class="setting-sub">Mostra o botão suspenso com marca-texto, borracha, dúvida e fonte.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-toolbar" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🚩 Grade de Navegação</div>
+                    <div class="setting-sub">Exibe o mapa de questões na barra lateral.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-grid" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. BANCO DE DADOS - IMUNOLOGIA (QUESTÕES 01 A 30)
+           ========================================================================== */
+        const questions2024 = [
+            {
+                num: 1,
+                category: "Imunologia Tumoral e Células NK",
+                statement: "Questão 1 - A tirinha abaixo faz referência a um dos mecanismos de escape “utilizados” pelas células tumorais para evadir-se do reconhecimento por linfócitos TCD8+ (diminuição da expressão de moléculas de MHC de classe I na membrana plasmática). Entretanto essa “estratégia” possibilitaria o seu reconhecimento por células NK. Assinale abaixo a alternativa que descreve a maneira pela qual as células tumorais “conseguem também evitar” o reconhecimento pelas células NK.\n\nTirinha: Célula Tumoral: Entre a cruz e a espada.\n- \"Ops!!! Acho que ganhei uma mutação!!\"\n- \"Droga! O linfócito T vai me matar!!!\"\n- \"Rápido! Preciso esconder o MHC!!!\"\n- \"Ufa!!! Essa foi por pouco!!!\"\n- \"Ahannn!!!!\"\n- \"Ah... Oi célula NK!!!\"",
+                options: [
+                    "A. Aumentam a expressão de moléculas de CTLA-4 em suas membranas, promovendo a exaustão das células NK por meio da ligação nas moléculas de B7.",
+                    "B. Aumentam a expressão de moléculas de PDL-1 em suas membranas, promovendo a apoptose das células NK por meio da ligação nas moléculas de PD-1.",
+                    "C. Aumentam a expressão de moléculas de CD95 (FAS) em suas membranas, promovendo a apoptose das células NK por meio da ligação nas moléculas de CD95L (FASL).",
+                    "D. Aumentam a expressão de moléculas de MHC de classe I não clássicas (Ib), que servem de ligantes para receptores inibitórios de células NK, mas não apresentam antígenos para os linfócitos TCD8+.",
+                    "E. Produzem citocinas como Interferon do tipo I, IL-10 e TGF-beta, que atuam sobre as células NK inibindo a sua atividade citotóxica."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> As células NK monitorizam a perda ou redução de MHC de classe I clássico. Para escaparem simultaneamente dos linfócitos T CD8+ e das células NK, diversas células tumorais expressam moléculas de MHC classe I não clássicas (Ib, tais como HLA-G ou HLA-E), que ativam os receptores inibitórios das células NK sem apresentarem antígenos para a ativação dos T CD8+.<br><br><b>Justificativa da alternativa correta (D):</b> As moléculas de MHC-I não clássicas ligam-se aos receptores inibitórios das células NK bloqueando a sua citotoxicidade, enquanto não ativam a resposta citotóxica dos T CD8+.<br><br><b>Por que as outras estão incorretas:</b><br>• A: CTLA-4 é expresso predominantemente em linfócitos T, e não o mecanismo direto em causa.<br>• B: O eixo PD-1/PD-L1 relaciona-se prioritariamente com a exaustão de linfócitos T e o mecanismo específico de compensação da perda de MHC-I é o fornecimento de ligantes análogos ao MHC-I (Ib).<br>• C: O tumor expressar Fas (CD95) torná-lo-ia suscetível à morte e não imune.<br>• E: O Interferon do tipo I (IFN-α/β) é uma citocina ativadora das células NK, o que invalida a opção."
+            },
+            {
+                num: 2,
+                category: "Autoimunidade - Artrite Reumatoide",
+                statement: "Questão 2 - Na artrite reumatoide ocorre remodelamento do tecido sinovial caracterizado pela formação do chamado “pannus”, como resultado de um processo inflamatório crônico mediado por diferentes células e citocinas. Assinale abaixo a alternativa que descreve o mecanismo mais importante para a ativação do processo inflamatório e erosão óssea associada a essa doença.",
+                options: [
+                    "A. Ativação de osteoblastos por citocinas inflamatórias como IL-6 e TNF-alfa, que levam ao remodelamento do tecido sinovial com angiogênese alterada e deposição de colágeno aumentada.",
+                    "B. Ativação de osteoclastos por RANKL produzido por linfócitos T e fibroblastos sinoviais, sob estímulo de citocinas inflamatórias como TNF-α e IL-1.",
+                    "C. Deposição de imunocomplexos formados pelo fator reumatoide e IgA, com consequente ativação de complemento e ativação de neutrófilos, que levam à destruição da matriz extracelular e fibrose das articulações.",
+                    "D. Ativação de neutrófilos e macrófagos M1 por citocinas liberadas por linfócitos Th17, com produção aumentada de espécies reativas de oxigênio (EROs), responsáveis pela morte por piroptose dos condrócitos.",
+                    "E. Proliferação exacerbada de condrócitos e fibroblastos estimulada pela produção de TGF-beta por macrófagos M2, com remodelamento do tecido cartilaginoso."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A erosão óssea na Artrite Reumatoide é impulsionada pela ativação e diferenciação de osteoclastos induzida pela ligação da molécula RANKL (produzida por células T e fibroblastos sinoviais estimulados por TNF-α e IL-1) ao receptor RANK nos pré-osteoclastos.<br><br><b>Justificativa da alternativa correta (B):</b> Descreve com exatidão o mecanismo central da reabsorção óssea na AR através do eixo RANKL/RANK.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Os osteoclastos é que reabsorvem osso; a ativação de osteoblastos levaria a formação óssea.<br>• C: O Fator Reumatoide é classicamente IgM contra IgG e a erosão óssea principal depende da ativação osteoclástica por RANKL.<br>• D e E: Não representam a cascata de reabsorção e destruição óssea mediada por osteoclastos característica do pannus."
+            },
+            {
+                num: 3,
+                category: "Imunoterapia Onco-Imunológica",
+                statement: "Questão 3 - Um paciente com melanoma metastático apresentou resposta limitada à quimioterapia convencional. O oncologista então propõe imunoterapia com anticorpos contra pontos de checagem. Assinale abaixo a alternativa que descreve o mecanismo de ação desses anticorpos:",
+                options: [
+                    "A. Reativação de linfócitos TCD4+ e TCD8+ que se encontram suprimidos no ambiente tumoral, por meio da estimulação das moléculas de CD3, cadeias zeta e CD28 (simulando 1º e 2º sinal de ativação dos linfócitos).",
+                    "B. Bloqueio das moléculas de PD-1, PDL-1 ou CTLA-4, com reativação de linfócitos TCD4+ e TCD8+ que se encontram suprimidos (exauridos) no ambiente tumoral.",
+                    "C. Bloqueio da ação de células T regulatórias (Treg), por meio da neutralização de citocinas supressoras como IL-10 e TGF-beta.",
+                    "D. Destruição de células tumorais de forma direta, pela indução da ativação de complemento ou pela ativação de citotoxicidade celular dependente de anticorpos por células NK.",
+                    "E. Nenhuma das alternativas da questão está correta."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Anticorpos inibidores de checkpoints imunológicos (anti-PD-1, anti-PD-L1 e anti-CTLA-4) bloqueiam recetores inibitórios que mantêm as células T exauridas/anérgicas, reativando a resposta T citotóxica contra o tumor.<br><br><b>Justificativa da alternativa correta (B):</b> Descreve a remoção do bloqueio molecular (freio) exercido por PD-1/PD-L1 e CTLA-4, restaurando a capacidade efefora das células T.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Não atuam como agonistas estimuladores do TCR/CD3 ou CD28.<br>• C: O alvo primário não é a neutralização solúvel de citocinas como IL-10 e TGF-β.<br>• D: Descreve o mecanismo de anticorpos monoclonais citotóxicos direcionados a antígenos tumorais (ADCC e complemento) e não de bloqueadores de checkpoints."
+            },
+            {
+                num: 4,
+                category: "Autoimunidade - Vitiligo",
+                statement: "Questão 4 - Assinale abaixo a alternativa que melhor descreve o principal mecanismo imunológico envolvido na destruição dos melanócitos no vitiligo.",
+                options: [
+                    "A. Ativação linfócitos de TCD8+, com destruição de melanócitos por meio de mecanismo citotóxico.",
+                    "B. Produção de autoanticorpos que reconhecem antígenos expressos por melanócitos, com ativação de complemento.",
+                    "C. Fagocitose dos melanócitos por macrófagos, via receptor Fc que se ligam a autoanticorpos direcionados a antígenos expressos na membrana dos melanócitos.",
+                    "D. Ativação de linfócitos T CD4+ contra antígenos expressos por melanócitos, com produção de citocinas inflamatórias que estimulam a produção de espécies reativas de oxigênio por macrófagos e neutrófilos residentes.",
+                    "E. Deposição de imunocomplexos nos capilares da epiderme, com ativação de complemento pela via clássica."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O vitiligo é uma doença autoimune organossensível cuja destruição dos melanócitos na epiderme é mediada principalmente por linfócitos T CD8+ citotóxicos autorreativos via perforinas/granzimas e via Fas/FasL.<br><br><b>Justificativa da alternativa correta (A):</b> A citotoxicidade direta mediada por células T CD8+ é a via efetora final primária no vitiligo.<br><br><b>Por que as outras estão incorretas:</b><br>• B e C: O vitiligo não é mediado predominantemente por autoanticorpos, ativação de complemento ou fagocitose por receptores Fc.<br>• D: Embora T CD4+ e citocinas participem do processo, a morte melanocítica é efetuada diretamente por T CD8+.<br>• E: O vitiligo não se enquadra na imunopatologia por imunocomplexos (tipo III)."
+            },
+            {
+                num: 5,
+                category: "Autoimunidade - Tabagismo e Artrite Reumatoide",
+                statement: "Questão 5 - Um dos fatores de risco mais importantes para o desenvolvimento da Artrite Reumatoide é o tabagismo. Assinale abaixo a alternativa que descreve de modo CORRETO o papel do tabagismo na artrite reumatoide:",
+                options: [
+                    "A. O tabagismo aumenta produção de peptídeos citrulinados, por meio da enzima PAD (peptidilarginina deiminase). Esses peptídeos induzem a produção de Fator Reumatoide pelos linfócitos B, que irá formar imunocomplexos com os peptídeos citrulinados, que ao se depositarem no tecido sinovial induzem a ativação de complemento.",
+                    "B. O tabagismo aumenta a produção de Espécies Reativas de Oxigênio por macrófagos M1 presentes no tecido sinovial, levando à destruição de condrócitos e perda de tecido cartilaginoso, assim como a erosão óssea pela indução de apoptose de osteoblastos.",
+                    "C. O tabagismo leva ao aumento do estresse oxidativo, gerando radicais livres que interagem com a matriz extracelular presente no tecido sinovial. Essa interação promove a geração de DAMPs que irão ativar neutrófilos capazes de produzir metaloproteinases de matriz (MMPs), responsáveis pela degradação do tecido cartilaginoso e erosão óssea observada nessa doença.",
+                    "D. O tabagismo aumenta a expressão da enzima PAD (peptidilarginina deiminase) que altera aminoácidos presentes nas moléculas de MHC de classe II (fenda de ligação com peptídeo), aumentando a capacidade de apresentação de antígenos citrulinados para os linfócitos TCD4+.",
+                    "E. O tabagismo aumenta a expressão da enzima PAD (peptidilarginina deiminase) que altera a composição de aminoácidos de algumas proteínas (citrulinização – conversão de arginina em citrulina), gerando antígenos que irão ativar linfócitos TCD4+ e linfócitos B, responsáveis pelas alterações observadas nas articulações."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O tabagismo induz a expressão da enzima PAD (peptidilarginina deiminase) nas vias aéreas. A PAD converte resíduos de arginina em citrulina em diversas proteínas. Essas proteínas citrulinadas funcionam como neoantígenos que quebram a tolerância e ativam T CD4+ e células B (produtoras de ACPA).<br><br><b>Justificativa da alternativa correta (E):</b> Explica com exatidão a indução da enzima PAD pelo tabaco e a geração de neoantígenos por citrulinização.<br><br><b>Por que as outras estão incorretas:</b><br>• A: O Fator Reumatoide reage contra a porção Fc da IgG, e não é uma resposta criada diretamente contra peptídeos citrulinados (que geram os ACPAs).<br>• B e C: Omitirão o papel decisivo do tabaco na alteração pós-traducional de proteínas (citrulinização).<br>• D: A PAD modifica as proteínas do hospedeiro e não a fenda do MHC de classe II."
+            },
+            {
+                num: 6,
+                category: "Imunoterapia - CAR-T e Antígenos Tumorais",
+                statement: "Questão 6 - As células T-CAR representam atualmente uma das formas de imunoterapia mais avançadas para o tratamento de tumores. Entretanto, ainda apresenta limitações em seu uso. A maioria das células aprovadas para uso atualmente são aplicadas para o tratamento de leucemias/linfomas originados de células que expressam CD19. Tendo em vista a expressão dessa molécula podemos considerar que ela representa:",
+                options: [
+                    "A. Um Antígeno Tumor Específico (ATE/TSA).",
+                    "B. Um Antígeno Oncoviral.",
+                    "C. Um Antígeno Associado a Tumor (AAT/TAA).",
+                    "D. Um Antígeno Oncofetal.",
+                    "E. Nenhuma das alternativas dessa questão está correta."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O CD19 é expresso tanto em células B normais como nas neoplásicas da mesma linhagem. Como não é exclusivo das células tumorais, classifica-se como um Antígeno Associado a Tumor (TAA/AAT).<br><br><b>Justificativa da alternativa correta (C):</b> O CD19 é um marcador de linhagem B saudável e neoplásica, enquadrando-se como TAA/AAT.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Não é um TSA/ATE pois é igualmente expresso em células B normais (o que justifica a aplasia de células B como efeito secundário).<br>• B: Não possui origem viral.<br>• D: Não é um antígeno oncofetal (ex: CEA ou alfa-fetoproteína)."
+            },
+            {
+                num: 7,
+                category: "Diagnóstico em Dermatologia - Vitiligo",
+                statement: "Questão 7 - Um paciente apresenta manchas hipopigmentadas nos braços e mãos. O dermatologista suspeita de vitiligo. Assinale abaixo qual característica pode corroborar com a hipótese diagnóstica.",
+                options: [
+                    "A. Lesões que apresentam perda de sensibilidade ao toque ou à temperatura (calor/frio).",
+                    "B. Ausência de anexos cutâneos (pelos e glândulas sudoríparas) nas lesões.",
+                    "C. Fluorescência branco-leitosa das lesões sob luz de Wood.",
+                    "D. Ocorrência de eritema intenso nas bordas das lesões.",
+                    "E. Presença de descamação difusa da pele afetada."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A Luz de Wood emite radiação UV-A. Devido à ausência completa de melanina epidérmica nas áreas de vitiligo, as lesões apresentam uma fluorescência característica de tom branco-leitoso ou marfim.<br><br><b>Justificativa da alternativa correta (C):</b> A acentuação e fluorescência branco-leitosa sob luz de Wood confirma a acromia epidérmica do vitiligo.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Perda de sensibilidade térmica/tátil é característica da Hanseníase.<br>• B: Os anexos e glândulas permanecem funcionais no vitiligo.<br>• D e E: O vitiligo clássico não cursa com eritema nem descamação (esta última é típica de micoses ou psoríase)."
+            },
+            {
+                num: 8,
+                category: "Neuroimunologia - Síndrome de Guillain-Barré",
+                statement: "Questão 8 - A síndrome de Guillain-Barré é uma doença autoimune associada a infecções (bacterianas como a infecção causada por Campylobacter jejuni ou virais como a causada pelo Zika vírus). Em relação a essa doença é CORRETO afirmar que:",
+                options: [
+                    "A. Existem duas formas mais importantes da Síndrome de Guillain-Barré: uma forma que afeta a região cortical do sistema nervoso central (substância cinzenta) provocando perda de funções cognitivas e outra forma que afeta os nervos periféricos causando paralisia flácida.",
+                    "B. O tratamento da Síndrome de Guillain-Barré inclui o suporte sintomatológico e o uso de glicocorticoides em altas doses para diminuir a resposta inflamatória e consequentemente a produção de anticorpos.",
+                    "C. O principal mecanismo imunológico responsável pela destruição das células de Schwann é a ativação de linfócitos TCD8+ (citotóxicos) que reconhecem antígenos presentes na membrana de mielina de uma forma “cruzada” (mimetismo molecular).",
+                    "D. A Síndrome de Guillain-Barré pode ser diagnosticada pela análise do líquido cefalorraquidiano dos pacientes, no qual observa-se a presença de grande número de leucócitos (particularmente linfócitos B), com diminuição da quantidade de proteínas. Um fenômeno conhecido como dissociação albuminocitológica.",
+                    "E. A Síndrome de Guillain-Barré pode ser tratada com o uso de IVIG (imunoglobulina intravenosa). Esse medicamento atua diminuindo a ativação dos linfócitos B (“feedback negativo”) e diminuindo a meia vida de anticorpos da classe IgG na circulação dos pacientes."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O tratamento da Síndrome de Guillain-Barré (SGB) faz-se com Imunoglobulina Intravenosa (IVIG) ou plasmaférese. A IVIG satura os recetores FcRn (acelerando a depuração de autoanticorpos IgG) e ativa recetores inibitórios FcγRIIB nas células B e monócitos.<br><br><b>Justificativa da alternativa correta (E):</b> Descreve com precisão as vias de atuação terapêutica da IVIG na SGB.<br><br><b>Por que as outras estão incorretas:</b><br>• A: A SGB afeta o Sistema Nervoso Periférico e não o córtex cerebral.<br>• B: Corticoides isolados demonstraram ser ineficazes no tratamento da SGB.<br>• C: A lesão é mediada por autoanticorpos (resposta humoral e complemento) contra gangliosídeos e não por T CD8+.<br>• D: A dissociação albuminocitológica caracteriza-se por proteína elevada com contagem celular normal ou baixa."
+            },
+            {
+                num: 9,
+                category: "Imunometabolismo e Aterosclerose",
+                statement: "Questão 9 - Indivíduos obesos, em geral, apresentam alterações metabólicas que contribuem para a formação de placas de ateroma. Analise as afirmações abaixo que descrevem processos que associam a obesidade com o aumento do risco para o desenvolvimento da aterosclerose.\n\nI. A obesidade pode levar à resistência à insulina, que aumenta os níveis de glicose circulantes. Níveis aumentados de glicose podem contribuir para a ativação endotelial e aumentar a deposição de LDL na camada íntima das artérias.\nII. Adipócitos de indivíduos obesos apresentam maior produção de leptina. O aumento dos níveis de leptina contribui para a modificação enzimática das moléculas de LDL, levando à ativação de macrófagos na camada íntima das artérias.\nIII. O aumento no volume dos adipócitos leva à hipóxia do tecido gorduroso. Como consequência da hipóxia, ocorre a apoptose de adipócitos e liberação de ácidos graxos livres, que são convertidos em LDL e se depositam na camada íntima das artérias, com a ativação de macrófagos residentes e produção de citocinas inflamatórias.\nIV. O tecido adiposo de indivíduos obesos apresenta um infiltrado inflamatório com predomínio de macrófagos M1 (Inflamatórios). Esses macrófagos são capazes de capturar ácidos graxos livres provenientes da apoptose dos adipócitos e de migrar para a camada íntima das artérias onde se diferenciarão em células espumosas.\n\nApós a análise é possível afirmar que:",
+                options: [
+                    "A. Somente as afirmações I e III são CORRETAS.",
+                    "B. Somente as afirmações I e IV são CORRETAS.",
+                    "C. Somente as afirmações III e IV são CORRETAS.",
+                    "D. Somente a afirmação I é CORRETA.",
+                    "E. Somente as afirmações I e II são CORRETAS."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A resistência à insulina e a hiperglicemia promovem estresse oxidativo e modificação de lipídeos, ativando o endotélio vascular e acelerando a retenção de LDL na subíntima arterial.<br><br><b>Justificativa da alternativa correta (D):</b> Apenas a afirmação I descreve uma correlação fisiopatológica correta.<br><br><b>Por que as outras estão incorretas:</b><br>• II: A leptina não modifica enzimaticamente o LDL na circulação.<br>• III: Ácidos graxos livres não são convertidos diretamente em lipoproteínas LDL para aterogênese direta.<br>• IV: As células espumosas originam-se de macrófagos locais na parede arterial que fagocitam LDL oxidado (ox-LDL), e não de macrófagos do tecido adiposo que migram pelo sangue carregados de AGL."
+            },
+            {
+                num: 10,
+                category: "Imunometabolismo - Resistência à Insulina",
+                statement: "Questão 10 - A inflamação crônica de baixo grau, observada em indivíduos com obesidade, contribui para o desenvolvimento da resistência à insulina principalmente por:",
+                options: [
+                    "A. Aumentar a produção de ácidos graxos livres que interferem com a produção de insulina.",
+                    "B. Aumentar a produção de TNF-alfa que compete com a insulina na ligação de seu receptor.",
+                    "C. Bloquear a captação de glicose pelas células do músculo esquelético, interferindo com o receptor GLUT-4.",
+                    "D. Interferir com a sinalização dos receptores de insulina.",
+                    "E. Reduzir a expressão dos receptores de insulina nas células."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Na obesidade, citocinas pro-inflamatórias (como TNF-α e IL-6) ativam cinases intracelulares (JNK e IKKβ) que promovem a fosforilação inibitória em serina do substrato do receptor de insulina (IRS-1), bloqueando a sinalização pós-receptor.<br><br><b>Justificativa da alternativa correta (D):</b> As vias inflamatórias bloqueiam funcionalmente a cascata de sinalização intracelular do receptor de insulina.<br><br><b>Por que as outras estão incorretas:</b><br>• A: A resistência atua na resposta tecidual periférica ao hormônio, e não na inibição primária da síntese de insulina nas células beta.<br>• B: O TNF-α não compete pelo sítio de ligação do receptor de insulina.<br>• C e E: O defeito primário é a falha na transdução do sinal do receptor através da fosforilação aberrante do IRS-1."
+            },
+            {
+                num: 11,
+                category: "Imunodeficiências - Monitorização do HIV",
+                statement: "Questão 11 - Assinale abaixo a alternativa que descreve o procedimento CORRETO recomendado para o acompanhamento e determinação da “fase” e grau de evolução da infecção pelo HIV, bem como resposta ao tratamento após a confirmação do diagnóstico:",
+                options: [
+                    "A. Realização de teste imunoenzimático (ELISA) e determinação do número de células TCD4+ circulantes no sangue dos pacientes (citometria de fluxo).",
+                    "B. Determinação do genótipo do vírus para identificação de variantes resistentes e quantificação de anticorpos anti-HIV1/anti-HIV2 por citometria de fluxo.",
+                    "C. Realização de teste imunoenzimático para quantificação de anticorpos anti-HIV1/anti-HIV2 e determinação do número de células TCD4+ circulantes no sangue do paciente (citometria de fluxo).",
+                    "D. Determinação do número de células TCD4+ circulantes no sangue do paciente (citometria de fluxo) e determinação de carga viral (número de cópias do RNA viral) presentes na circulação do paciente.",
+                    "E. Determinação de carga viral (número de cópias do DNA viral) presentes na circulação do paciente e realização de imunoblot (western-blotting) para quantificação de anticorpos anti-HIV na circulação do paciente."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> O seguimento e acompanhamento da evolução clínica e da resposta à terapia antirretroviral (TARV) em doentes com HIV realiza-se através da contagem de Linfócitos T CD4+ (por citometria de fluxo) e da quantificação do RNA viral circulante (Carga Viral por RT-PCR).<br><br><b>Justificativa da alternativa correta (D):</b> CD4+ (citometria) e Carga Viral (RNA) são os dois parâmetros padrão para estadiamento e monitoramento terapêutico.<br><br><b>Por que as outras estão incorretas:</b><br>• A e C: O ELISA é um teste sorológico para diagnóstico inicial e não para acompanhamento quantitativo da TARV.<br>• B: Citometria de fluxo avalia populações celulares e não quantifica anticorpos.<br>• E: A carga viral mede RNA viral plasmático livre e não DNA."
+            },
+            {
+                num: 12,
+                category: "Imunologia Tumoral - Imunogenicidade e Carga Mutacional",
+                statement: "Questão 12 - Analise a imagem abaixo que demonstra o acúmulo de mutações em células de diferentes tipos de câncer. Tendo em vista os mecanismos da resposta imunológica responsável pela detecção e destruição de células tumorais e os mecanismos de escape/evasão tumoral, assinale abaixo a alternativa correta em relação aos mecanismos de evasão e imunogenicidade apresentados pelos tumores indicados pelas setas A e B.\n\n(Gráfico: Somatic mutation prevalence - número de mutações por megabase. Seta A aponta para tumores com baixíssima contagem de mutações; Seta B aponta para tumores com altíssima taxa de mutação como Melanoma e Câncer de Pulmão).",
+                options: [
+                    "A. O tumor indicado pela seta B provavelmente apresenta mais mecanismos de evasão pois é mais imunogênico.",
+                    "B. É impossível inferir a capacidade de evasão ou a imunogenicidade dos tumores somente com os dados apresentados no gráfico.",
+                    "C. O tumor indicado pela seta B provavelmente apresenta mais mecanismos de evasão pois é menos imunogênico.",
+                    "D. O tumor indicado pela seta A provavelmente apresenta menos mecanismos de evasão pois é mais imunogênico.",
+                    "E. O tumor indicado pela seta A provavelmente apresenta mais mecanismos de evasão pois é mais imunogênico."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> Quanto maior a taxa de mutações somáticas num tumor (Seta B), maior a geração de neoantígenos, tornando o tumor altamente imunogênico. Devido à forte pressão de seleção imune, esses tumores necessitam de desenvolver mais mecanismos de evasão para sobreviverem.<br><br><b>Justificativa da alternativa correta (A):</b> Alta carga mutacional implica elevada imunogenicidade e maior seleção de mecanismos avançados de evasão imunológica.<br><br><b>Por que as outras estão incorretas:</b><br>• B: É possível inferir a imunogenicidade com base na densidade de neoantígenos gerados por mutações.<br>• C: O tumor B é *mais* imunogênico.<br>• D e E: Os tumores do grupo A possuem poucas mutações, apresentando reduzida imunogenicidade."
+            },
+            {
+                num: 13,
+                category: "Imunoterapia - Vacina BCG no Câncer",
+                statement: "Questão 13 - A vacina BCG (bacilo Calmette-Guérin) é utilizada há muitas décadas para o tratamento complementar de algumas formas de tumor. Em relação a esse tipo de imunoterapia, assinale a alternativa CORRETA:",
+                options: [
+                    "A. Os bacilos presentes na vacina BCG são capazes de infectar e de induzir a apoptose das células tumorais, uma vez que ativam enzimas envolvidas na clivagem do material genético (DNA) das células neoplásicas.",
+                    "B. A aplicação do bacilo leva a uma resposta inflamatória local, estimulando a diferenciação de linfócitos B produtores de anticorpos capazes de reconhecer e destruir a células tumorais.",
+                    "C. A aplicação da BCG promove a geração de uma resposta imunológica celular (macrófagos e linfócitos T), inicialmente direcionada contra o bacilo presente na vacina, mas que indiretamente reativa as células presentes no microambiente tumoral.",
+                    "D. A vacina BCG é capaz de reativar células imunológicas presentes no ambiente tumoral, pois o bacilo apresenta antígenos com estrutura molecular semelhante àquela de antígenos tumorais específicos, um fenômeno chamado de mimetismo molecular.",
+                    "E. A aplicação da vacina BCG induz a ativação inespecífica e indireta das células imunológicas de modo sistêmico, aumentando a capacidade de destruição das células neoplásicas por meio da indução da produção de anticorpos."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A BCG (usada no cancro da bexiga) funciona como uma imunoterapia inespecífica local. A resposta inflamatória celular Th1/macrófagos montada contra as proteínas micobacterianas inflama e reativa o microambiente tumoral, levando à destruição secundária das células neoplásicas.<br><br><b>Justificativa da alternativa correta (C):</b> A resposta imune celular dirigida ao bacilo inflama localmente o microambiente tumoral e ativa a destruição das células tumorais.<br><br><b>Por que as outras estão incorretas:</b><br>• A: A BCG não é um agente oncolítico direto que induz apoptose via clivagem direta do DNA.<br>• B e E: A resposta efetora é predominantemente **celular** (Th1 e macrófagos) e não mediada por anticorpos.<br>• D: O efeito não decorre de mimetismo molecular com os antígenos tumorais."
+            },
+            {
+                num: 14,
+                category: "Imunologia do Exercício",
+                statement: "Questão 14 - Um paciente sedentário inicia um programa de exercícios aeróbicos moderados (30 minutos, 5 vezes por semana). Após 8 semanas, é coletada amostra de sangue para a dosagem de diversos mediadores imunológicos no sangue do paciente. Tendo em vista o efeito desse tipo de atividade física sobre o sistema imunológico, assinale a alternativa que descreva o que é mais provável de ser detectado no sangue do paciente:",
+                options: [
+                    "A. Aumento da produção de IL-10 e adiponectina.",
+                    "B. Diminuição do número de neutrófilos e macrófagos circulantes.",
+                    "C. Redução produção de IL-6 pelas células musculares esqueléticas.",
+                    "D. Diminuição na produção de IL-10 e leptina.",
+                    "E. Aumento da concentração plasmática de TNF-alfa e IL-1beta."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O exercício físico aeróbico moderado e regular induz um perfil anti-inflamatório sistêmico caracterizado pela libertação de citocinas anti-inflamatórias (como IL-10 e IL-1RA) e pelo aumento da adiponectina (adipocina anti-inflamatória).<br><br><b>Justificativa da alternativa correta (A):</b> O treino moderado continuado promove a elevação dos níveis de IL-10 e de adiponectina.<br><br><b>Por que as outras estão incorretas:</b><br>• B: Não causa diminuição patológica das populações mieloides.<br>• C: O músculo em contração aumenta a síntese e libertação transitória de IL-6 (miocina).<br>• D: O exercício promove o *aumento* de IL-10.<br>• E: O exercício moderado reduz (e não aumenta) mediadores pro-inflamatórios como TNF-α e IL-1β."
+            },
+            {
+                num: 15,
+                category: "Diagnóstico de Parasitoses em Imunodeprimidos",
+                statement: "Questão 15 - Um paciente de 35 anos, diagnosticado com HIV e com contagem de CD4 de 80 células/mm³, apresenta diarreia aquosa crônica há 3 semanas, perda de peso e febre baixa. Ele relata não ter viajado recentemente. A sorologia para hepatite A e exames de rotina não identificaram outras causas. Considerando a suspeita de criptosporidiose, analise a seguir as alternativas que descrevem alguns métodos utilizados para o diagnóstico dessa infecção:\n\nI - Exame protoparasitológico (fezes) com uso de colorações especiais, como o método de Ziehl-Neelsen modificado.\nII - Exame protoparasitológico (fezes) com o uso de anticorpos marcados com fluorocromos (imunofluorescência direta).\nIII - Exame para detecção de antígenos do protozoário nas fezes, por exemplo uso de testes rápidos (imunocromatografia).\nIV - Sorologia com a dosagem de IgG específica em amostras de sangue.\n\nDentre os métodos descritos os que podem ser utilizados para auxiliar na confirmação de criptosporidiose atual são:",
+                options: [
+                    "A. I, II e III.",
+                    "B. I, II e IV.",
+                    "C. II, III e IV.",
+                    "D. I, III e IV.",
+                    "E. I, II, III e IV."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O diagnóstico de infecção ativa/atual por *Cryptosporidium* faz-se por identificação direta do parasita ou dos seus antígenos em amostras fecais (coloração de Ziehl-Neelsen modificada, imunofluorescência direta e pesquisa de antígeno fecal por imunocromatografia).<br><br><b>Justificativa da alternativa correta (A):</b> Os métodos I, II e III são exames diretos nas fezes indicados para confirmar a infecção ativa.<br><br><b>Por que as outras estão incorretas:</b><br>• A opção IV é incorreta pois a pesquisa de IgG sérica reflete exposição prévia e não confirma doença infecciosa aguda/ativa."
+            },
+            {
+                num: 16,
+                category: "Efeitos Adversos de Imunoterapias",
+                statement: "Questão 16 - Embora algumas imunoterapias representem avanços significativos no tratamento de determinados tumores, especialmente aqueles refratários a terapias convencionais, elas podem causar efeitos adversos, que podem ser graves, mas controláveis. Assinale a alternativa que não descreve um efeito adverso associado ao uso de algumas das imunoterapias atuais:",
+                options: [
+                    "A. Síndrome da liberação de citocinas (tempestade de citocinas).",
+                    "B. Síndrome da lise tumoral.",
+                    "C. Aumento da incidência de Doenças autoimunes.",
+                    "D. Síndrome do choque-tóxico.",
+                    "E. Imunossupressão, particularmente diminuição na produção de anticorpos."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A Síndrome do Choque Tóxico é uma doença infeciosa aguda desencadeada por superantígenos bacterianos (ex: *Staphylococcus aureus*), e não uma complicação ou efeito secundário da imunoterapia antineoplásica.<br><br><b>Justificativa da alternativa correta (D):</b> A síndrome do choque tóxico possui etiologia bacteriana e não se relaciona com os efeitos iatrogênicos da imunoterapia.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Frequente com CAR-T e anticorpos biespecíficos.<br>• B: Ocorre na destruição tumoral maciça rápida.<br>• C: Evento adverso clássico dos inibidores de checkpoints.<br>• E: Aplasia B e hipogamaglobulinemia ocorrem em terapias CAR-T anti-CD19."
+            },
+            {
+                num: 17,
+                category: "Imunopatologia da Aterosclerose",
+                statement: "Questão 17 - Em relação aos mecanismos imunológicos envolvidos no desenvolvimento da Aterosclerose, assinale abaixo a alternativa INCORRETA:",
+                options: [
+                    "A. A aterosclerose recebe esse nome devido ao \"endurecimento\" (fibrose) dos vasos, decorrente do processo de cicatrização das camadas internas das artérias. Esse processo é desencadeado pela proliferação de fibroblastos e produção de matriz extracelular em resposta à ativação de macrófagos M2 por moléculas de LDL (lipoproteína de baixa densidade) modificadas depositadas nas artérias.",
+                    "B. A deposição de moléculas de LDL (lipoproteína de baixa densidade) na camada íntima das artérias leva à modificação (oxidativa ou enzimática) dessas moléculas, que atuam como DAMPs ativando macrófagos residentes e antígenos que ativam linfócito T, particularmente Th1.",
+                    "C. A ativação de macrófagos residentes na camada íntima das artérias, por moléculas de LDL (lipoproteína de baixa densidade) modificadas, induz a secreção de citocinas inflamatórias e o recrutamento de linfócitos Th1, que amplificam a resposta inflamatória que ocorre nesse tecido.",
+                    "D. Normalmente, o desenvolvimento das placas de ateroma ocorre em regiões de estresse hemodinâmico (estresse de cisalhamento) que leva à ativação mecânica das células endoteliais, aumentando a permeabilidade vascular desses locais.",
+                    "E. O processo inflamatório nas placas de ateroma é iniciado pela ativação de macrófagos residentes por meio do reconhecimento de moléculas de LDL (lipoproteína de baixa densidade) depositadas e modificadas na íntima das artérias."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A aterosclerose é uma doença inflamatória crônica. A conversão de LDL em ox-LDL ativa macrófagos pro-inflamatórios do perfil **M1** e recruta linfócitos **Th1**, e não um processo cicatricial primário mediado por macrófagos M2.<br><br><b>Justificativa da alternativa incorreta pedida pelo enunciado (A):</b> A patogênese primária é inflamatória e guiada pelo perfil M1/Th1, e não um simples processo cicatricial/reparador por macrófagos M2.<br><br><b>Por que as outras estão corretas:</b><br>• B, C e E: Descrevem corretamente o papel do LDL oxidado agindo como DAMP/antígeno, ativando macrófagos M1 e linfócitos Th1.<br>• D: O estresse de cisalhamento hemodinâmico altera a permeabilidade endotelial."
+            },
+            {
+                num: 18,
+                category: "Imunologia dos Transplantes - Conceitos Gerais",
+                statement: "Questão 18 - Em relação aos transplantes, analise as afirmativas a seguir e escolha a alternativa que contemple todas as corretas:\n\nI – Transplante ALOGÊNICO é aquele feito entre duas espécies diferentes (o caso de órgãos de suínos opara pessoas).\nII – O número de transplantes vem aumentando de forma consistente ao longo dos anos, sendo que, dentre os de órgãos sólidos, os transplantes de coração são os mais frequentes.\nIII – Nas regras para transplantes de órgãos no Brasil, estabelece-se a primazia da escolha em vida do falecido; em todos os outros casos em que isso não foi deixado claramente, vale o pressuposto de que a doação está automaticamente autorizada, não cabendo recurso por parte da família. É graças a esse rigor que estamos podendo prover órgãos para tentar atender a demanda.",
+                options: [
+                    "A. I e III",
+                    "B. II e III",
+                    "C. Nenhuma afirmativa está correta.",
+                    "D. I",
+                    "E. I e II"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Transplante alogênico ocorre entre indivíduos da mesma espécie. Os órgãos sólidos mais transplantados no Brasil são o rim e o fígado. No Brasil, a doação de órgãos pós-morte exige obrigatoriamente a autorização familiar.<br><br><b>Justificativa da alternativa correta (C):</b> As três afirmativas contêm erros conceituais e legislativos graves.<br><br><b>Por que as outras estão incorretas:</b><br>• I: Confunde alogênico com xenotransplante.<br>• II: Erra os órgãos mais transplantados (rim e fígado).<br>• III: Contraria a lei brasileira que exige consentimento da família."
+            },
+            {
+                num: 19,
+                category: "Mecanismos de Rejeição a Enxertos",
+                statement: "Questão 19 - Um dos mecanismos de rejeição a enxertos da resposta adaptativa é a reação às moléculas de MHC do doador. Há duas maneiras básicas de reação: o MHC ser visto como uma molécula estranha, ser processado e apresentado como um antígeno estranho aos linfócitos T CD4+. A outra maneira consiste nos linfócitos T CD4+ reconhecerem o MHC do doador com antígenos processados através do seu TCR. Esta segunda forma carrega uma incongruência intrigante: os TCRs dos linfócitos T CD4+ do receptor foram feitos para reconhecer apenas o MHC do receptor com antígenos processados (próprios ou estranhos). Como é possível que ele reconheça o MHC de OUTRA pessoa com antígenos processados?",
+                options: [
+                    "A. Isso só ocorre quando o receptor sofre uma infecção por bactérias dos gêneros Staphylococcus e Streptococcus, que são capazes de produzir superantígenos.",
+                    "B. As células doadas, pelo fato de estarem em um corpo com sinais bioquímicos diferentes do corpo original, provêm um ambiente químico que modifica a capacidade do TCR de identificar essas moléculas, possibilitando seu reconhecimento.",
+                    "C. Isso só ocorre nos casos de transplantes sucessivos – provavelmente a pessoa que recebeu o enxerto e o está rejeitando por esse mecanismo já havia recebido um enxerto dessa mesma pessoa.",
+                    "D. Não há alternativa que responda adequadamente o que foi perguntado.",
+                    "E. O MHC do doador teria semelhança conformacional com o MHC do receptor apresentando antígenos estranhos. Isso permitiria a ativação dos linfócitos T CD4+ de memória diretamente."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O alorreconhecimento direto decorre de reatividade cruzada conformacional (*cross-reactivity*). O complexo do MHC alogênico intacto do doador ligado a um peptídeo simula a estrutura tridimensional do MHC próprio apresentando um antígeno estranho, ativando os linfócitos T do receptor.<br><br><b>Justificativa da alternativa correta (E):</b> A semelhança conformacional do MHC alogênico com o MHC próprio carregado de peptídeo estranho permite a ativação por reação cruzada.<br><br><b>Por que as outras estão incorretas:</b><br>• A: É um fenómeno alogênico direto e não necessita de infecção por superantígenos.<br>• B: Não depende de alterações químicas do meio sobre a molécula do TCR.<br>• C: Ocorre logo no primeiro contacto com o enxerto alogênico."
+            },
+            {
+                num: 20,
+                category: "Imunologia Transfusional - Sistema ABO",
+                statement: "Questão 20 - Atualmente temos um bom controle de tipagem sanguínea para evitar acidentes durante transfusões. Embora isso possa sugerir que é desnecessário conhecer os problemas passados que já foram superados, é justamente conhecer a história desses problemas e por que eles ocorriam que nos fornece repertório mental para conseguirmos resolver problemas futuros que nem conseguimos imaginar. Uma das questões intrigantes acerca das transfusões era o fato de haver hemólise intravascular imediata mesmo em pessoas que jamais haviam recebido uma transfusão antes. Embora o sangue transfundido fosse de um tipo diferente, sabe-se que a resposta adaptativa leva vários dias para ser montada de forma robusta. Então os eventos imediatos pós transfusionais intrigavam os cientistas no passado. Hoje sabemos que na verdade:",
+                options: [
+                    "A. As hemácias transfundidas expressam MHC de outro indivíduo, e isso não é reconhecido pelo sistema imunológico do receptor, notadamente os linfócitos NK, que atuam com sua citotoxicidade celular promovendo lise extensa das hemácias.",
+                    "B. Durante a vida o indivíduo produzia anticorpos naturais contra carboidratos de bactérias intestinais que reagiam de forma cruzada contra os antígenos de grupo sanguíneo ABO, que são também carboidratos.",
+                    "C. O indivíduo que recebia a transfusão havia produzido anticorpos IgG contra proteínas de bactérias intestinais, que naturalmente invadem a submucosa intestinal ao longo da vida. Esses anticorpos reagiam de forma cruzada contra os antígenos de grupo sanguíneo ABO, que são também proteínas.",
+                    "D. Eles ocorriam porque era acionada a via alternativa do complemento sobre as hemácias",
+                    "E. Eles ocorriam porque a via das lectinas era acionada imediatamente, já que dispensa elementos de resposta adaptativa."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> As reações hemolíticas transfusionais imediatas ABO ocorrem por anticorpos naturais (isohemaglutininas IgM). Estes anticorpos são gerados precocemente por imunização contra carboidratos da microbiota intestinal, que fazem reação cruzada com os antígenos de carboidratos das hemácias do sistema ABO.<br><br><b>Justificativa da alternativa correta (B):</b> A presença de anticorpos naturais resultantes de reação cruzada com carboidratos bacterianos explica a hemólise imediata.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Hemácias maduras praticamente não expressam MHC de classe I.<br>• C: Os antígenos do sistema ABO são carboidratos (e não proteínas) e os anticorpos pré-formados são predominantemente IgM.<br>• D e E: A hemólise intravascular transfusional aguda é despoletada primariamente pela **via clássica do complemento** mediada por anticorpos."
+            },
+            {
+                num: 21,
+                category: "Complicações do Transplante - GVHD",
+                statement: "Questão 21 - No contexto da doença do enxerto versus hospedeiro (GVHD), analise as afirmativas a seguir e escolha a alternativa que contemple todas as corretas:\n\nI – Essa doença constitui a principal causa de morte entre receptores de células tronco hematopoiéticas (transplante de medula).\nII – Na GVHD as células de defesa do receptor identificam as células tronco transplantadas como estranhas e passam a atacá-las em massa, destruindo quase todo o repertório transfundido.\nIII – No caso de transplante heterólogo, devemos necessariamente fazer a análise minuciosa do MHC do doador e do receptor.",
+                options: [
+                    "A. II e III",
+                    "B. II",
+                    "C. I e III",
+                    "D. I e II",
+                    "E. I, II e III"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Na Doença do Enxerto contra Hospedeiro (GVHD), os linfócitos T imunocompetentes do **doador** (enxerto) atacam os tecidos do **receptor** (hospedeiro). A GVHD é uma importante causa de morbimortalidade no transplante de medula alogênico e exige rigorosa compatibilização prévia do HLA/MHC.<br><br><b>Justificativa da alternativa correta (C):</b> Apenas as afirmativas I e III são verdadeiras.<br><br><b>Por que as outras estão incorretas:</b><br>• A afirmativa II inverte a patogênese: na GVHD são as células do doador que atacam o receptor e não o oposto (isso seria rejeição do enxerto)."
+            },
+            {
+                num: 22,
+                category: "Imunossupressão em Transplantes",
+                statement: "Questão 22 - Superadas as barreiras da técnica cirúrgica para os transplantes, o grande problema que restou foi a rejeição do enxerto pelo sistema imunológico do receptor. Estratégias combinadas de prevenção e mitigação da rejeição incluem:",
+                options: [
+                    "A. Busca de parente mais próximo possível para a doação (caso de rins) / Uso de corticoideterapia massiva e prolongada como terapia central.",
+                    "B. Determinação dos alelos HLA-A, HLA-B e HLA-DR; quanto mais alelos compatíveis, menor a rejeição. / Uso de imunossupressores seletivos, como é o caso da ciclosporina.",
+                    "C. Teste de tipo sanguíneo (ABO/Rh) e uso de imunossupressores seletivos, como é o caso de corticoides esteroidais.",
+                    "D. Determinação dos alelos HLA-C, HLA-DP e HLA-DR, que constituem os melhores preditores de rejeição de longo prazo. / Uso de drogas não seletivas, como é o caso do Tacrolimus. Essa inibição generalizada da resposta garante uma boa aceitação do enxerto sem maiores prejuízos ao receptor.",
+                    "E. Busca de parente mais próximo – apenas isso garante maior compatibilidade, embora eles nem sempre estejam disponíveis. / Uso de drogas seletivas como é o caso da ciclosporina, que interfere na atividade do linfócito B e, consequentemente, da produção e anticorpos."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O sucesso do transplante alogênico depende da compatibilidade dos loci HLA-A, HLA-B (MHC-I) e HLA-DR (MHC-II) aliada à imunossupressão direcionada com inibidores da calcineurina (como a Ciclosporina e o Tacrolimus) que inibem seletivamente a IL-2 e a ativação de T.<br><br><b>Justificativa da alternativa correta (B):</b> Descreve a compatibilização dos locos HLA clássicos combinada ao uso de ciclosporina.<br><br><b>Por que as outras estão incorretas:</b><br>• A: O uso prolongado de corticoides em doses elevadas é evitado como terapia isolada por toxicidade severa.<br>• C: Corticoides possuem ação anti-inflamatória/imunossupressora ampla e não seletiva.<br>• D e E: Ciclosporina e tacrolimus atuam inibindo seletivamente a sinalização da calcineurina nos **linfócitos T** e não B."
+            },
+            {
+                num: 23,
+                category: "Infecções Oportunistas no Imunodeprimido",
+                statement: "Questão 23 - Pacientes transplantados, mesmo com todos os cuidados de prevenção à rejeição, acabam tendo que tomar drogas imunossupressoras. Justamente por isso ficam mais suscetíveis a uma série de infecções oportunistas e alguns tumores. O médico que acompanha esses casos deve ter em mente essas doenças para rapidamente associar sintomas com agentes e iniciar terapias para tratá-las. São alguma dessas doenças:",
+                options: [
+                    "A. Tuberculose, pneumonia por Coccidioides immitis, dengue e melanomas",
+                    "B. Mononucleose, Criptosporidiose, rubéola, zika e linfomas",
+                    "C. Herpes Zóster, Paracoccidioidomicose, Doença de Graves, anemia hemolítica e carcinoma hepatocelular",
+                    "D. Sarampo, EBV, Paracoccidioidomicose e leucemias.",
+                    "E. Herpes simplex, pneumocistose, toxoplasmose e linfomas."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> A imunossupressão farmacológica celular predispõe o indivíduo a patógenos oportunistas intracelulares e neoplasias secundárias: *Herpes simplex* (HSV), *Pneumocystis jirovecii* (pneumocistose), *Toxoplasma gondii* (toxoplasmose) e linfomas.<br><br><b>Justificativa da alternativa correta (E):</b> Reúne patógenos oportunistas clássicos da imunossupressão celular e o desenvolvimento de linfomas.<br><br><b>Por que as outras estão incorretas:</b><br>• A, B e D: Apresentam viroses agudas epidêmicas da comunidade (ex: dengue, zika, rubéola, sarampo).<br>• C: Doença de Graves e anemia hemolítica são doenças autoimunes, e não complicações decorrentes do uso de medicação imunossupressora."
+            },
+            {
+                num: 24,
+                category: "Imunologia da Gestação - Interface Materno-Fetal",
+                statement: "Questão 24 - Em relação à gestação e suas relações com o sistema imunológico, avalie as seguintes afirmativas e assinale a alternativa que contempla todas as corretas:\n\nI – Tentativas de se eliminar células do sistema imune na interface materno-fetal resultaram em prejuízo da implantação do feto e prejuízos também para o curso normal da gravidez.\nII – Os elementos da resposta imunológica na interface materno-fetal (células NK, macrófagos, Linfócitos T, células dendríticas e outros) compõem um perigoso arsenal de ataque que é mantido silenciado graças ao tipo de placenta da espécie humana – que possibilita uma separação completa da mãe e o feto – e um sistema de anergia generalizada induzido pelo feto nas células da mãe.\nIII – A eliminação seletiva de elementos do sistema imunológico na interface materno fetal diminuiu em 16,5% a taxa de abortos espontâneos em ratos; isso demonstrou a teoria de Medawar que os antígenos paternos desencadeariam algum grau de resposta imune, ainda que não total, por parte da mãe.",
+                options: [
+                    "A. II e III",
+                    "B. I, II e III",
+                    "C. I",
+                    "D. Nenhuma alternativa desta questão atende ao enunciado",
+                    "E. I e III"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> As células imunes residentes da decídua (como dNK e macrófagos M2) são indispensáveis no remodelamento das artérias espiraladas uterinas e suporte à placentação. A remoção experimental destas células compromete a implantação e a gestação.<br><br><b>Justificativa da alternativa correta (C):</b> Apenas a afirmativa I está correta.<br><br><b>Por que as outras estão incorretas:</b><br>• II: O trofoblasto contacta diretamente os tecidos e o sangue maternos, não havendo separação física total nem anergia imune sistêmica generalizada.<br>• III: A depleção de células imunes na interface prejudica o desenvolvimento gestacional e aumenta a taxa de insucesso."
+            },
+            {
+                num: 25,
+                category: "Imunologia da Gestação - Fases Imunológicas",
+                statement: "Questão 25 - Assinale a única alternativa que contém um erro acerca da imunidade na gravidez:",
+                options: [
+                    "A. Muitos abortos espontâneos estão relacionados a baixos números de TREG durante o segundo terço da gestação.",
+                    "B. O segundo trimestre da gestação é caracterizado por um contexto inflamatório, com predomínio de Th1 e macrófagos de fenótipo M1; isso é importante para estimular o crescimento do feto.",
+                    "C. O estágio de implantação e placentação assemelha-se ao processo de lesão tecidual e subsequente reparo. Nesse estágio temos aumento da expressão de moléculas de adesão no epitélio do lúmen do útero, dentre outras coisas.",
+                    "D. A expressão de CD95L pelo feto induz à apoptose das células CD8+ específicas para antígenos paternos",
+                    "E. No novo modelo da relação sistema imune / gestação temos a divisão em 3 fases, cada uma correspondente a aproximadamente um terço da gestação. Em cada uma delas temos uma situação imunológica diversa do terço anterior."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O 2º trimestre gestacional é uma fase predominantemente **anti-inflamatória e tolerogênica** (Th2, M2 e T reg), permitindo o crescimento fetal seguro. O perfil pro-inflamatório (Th1/M1) predomina no 1º trimestre (implantação) e no 3º trimestre (parto).<br><br><b>Justificativa da alternativa incorreta pedida pelo enunciado (B):</b> O segundo trimestre da gestação é caracterizado por um perfil anti-inflamatório (Th2/M2) e não inflamatório Th1/M1.<br><br><b>Por que as outras estão corretas:</b><br>• A: A deficiência de células T reg associa-se ao insucesso gestacional e abortamento.<br>• C: O 1º trimestre exige inflamação para invasão e reparo tecidual.<br>• D: O trofoblasto expressa FasL (CD95L) induzindo apoptose em T CD8+ autorreativos.<br>• E: Descreve o modelo dinâmico trifásico da gestação."
+            },
+            {
+                num: 26,
+                category: "Neuroimunologia - Mimetismo Molecular",
+                statement: "Questão 26 - Um paciente de 42 anos apresenta fraqueza progressiva em membros inferiores há 5 dias, precedida por episódio de diarreia 3 semanas antes. Exame físico mostra arreflexia em membros inferiores, reflexos preservados em membros superiores, e sensibilidade preservada. Sorologia negativa para HIV, EBV e CMV. Eletroneuromiografia revela redução de amplitude dos potenciais motores e velocidades de condução normais. Exame microbiológico das fezes (colhidas durante o episódio de gastroenterite) mostra: bacilo Gram-negativo curvo, catalase positivo, oxidase positivo, hidrólise de hipurato positivo, crescimento em ágar-chocolate a 42°C em microaerofilia, com colônias em aspecto de \"gotas de água\". Diagnóstico presuntivo de campilobacteriose é feito. Associado ao conjunto dos sintomas, presume-se que o paciente esteja com síndrome de Guillain Barré. A associação entre o agente causador da gastroenterite e essa doença neurológica está baseada em qual mecanismo imunopatológico?",
+                options: [
+                    "A. Invasão do tecido nervoso central pela bactéria, causando inflamação direta do córtex motor.",
+                    "B. Indução de resposta à mudança da microbiota intestinal pela multiplicação exacerbada do Campylobacter jejuni (agente da campilobacteriose). Esse é um caso clássico da importância da microbiota em modificar o eixo intestino-microbiota-cérebro.",
+                    "C. Bloqueio da síntese de neurotransmissores através de inibição de proteases enzimáticas essenciais por toxinas bacterianas que são quimicamente estáveis e continuam circulando mesmo após a eliminação da bactéria.",
+                    "D. Produção de exotoxinas neurotóxicas pela bactéria que bloqueiam diretamente a transmissão sináptica na junção neuromuscular.",
+                    "E. Mimetismo molecular entre antígenos da bactéria antígenos presentes em nervos periféricos, levando a produção de autoanticorpos que apresentam reação cruzada."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O *Campylobacter jejuni* possui lipooligossacarídeos (LOS) na sua parede celular com epítopos idênticos aos gangliosídeos dos nervos periféricos humanos. Esse **mimetismo molecular** induz a produção de anticorpos que reagem de forma cruzada contra a mielina e os axônios periféricos, causando a Síndrome de Guillain-Barré.<br><br><b>Justificativa da alternativa correta (E):</b> Mimetismo molecular entre os lipopolissacarídeos do *C. jejuni* e os gangliosídeos dos nervos periféricos.<br><br><b>Por que as outras estão incorretas:</b><br>• A: Não há invasão do SNC nem infecção direta do córtex motor.<br>• B: Não é um simples desequilíbrio funcional da microbiota, mas uma reação autoimune mediada por autoanticorpos.<br>• C e D: A neuropatia não é causada por neurotoxinas bacterianas direcionadas à junção neuromuscular."
+            },
+            {
+                num: 27,
+                category: "Imunologia Neonatal",
+                statement: "Questão 27 - Alguns dos motivos pelos quais os recém-nascidos são mais suscetíveis a infecções que um adulto ou mesmo a crianças maiores reside no fato de que seu sistema imunológico, EXCETO:",
+                options: [
+                    "A. Há um predomínio de reposta Th2",
+                    "B. Os linfócitos B têm limitações para a troca de classe ou o aumento da afinidade para antígenos.",
+                    "C. A quimiotaxia dos neutrófilos é bastante incipiente",
+                    "D. As APCs têm reduzida capacidade de apresentação antigênica",
+                    "E. A grande maioria dos seus linfócitos T são de memória"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O sistema imunológico neonatal é imaturo, caracterizando-se por desvio funcional para Th2, neutrófilos com quimiotaxia reduzida e diminuição da troca de classe em linfócitos B. O seu repertório de linfócitos T é constituído predominantemente por células **virgens (*naïve*)**, e não por células de memória.<br><br><b>Justificativa da alternativa incorreta pedida pelo enunciado (E):</b> Os recém-nascidos possuem um repertório de células T predominantemente virgens (*naïve*).<br><br><b>Por que as outras estão corretas:</b><br>• A, B, C e D: Descrevem as limitações imunológicas fisiológicas características do recém-nascido."
+            },
+            {
+                num: 28,
+                category: "Imunossenescência",
+                statement: "Questão 28 - O texto mostra a importância de se estudar a imunossenescência em um contexto de saúde pública (resposta às vacinas). Além de uma possível ineficiência das vacinações, há outras consequências da imunossenescência, EXCETO:",
+                options: [
+                    "A. Aumento na incidência de doenças autoimunes.",
+                    "B. Reativação de vírus latentes.",
+                    "C. Mortalidade aumentada para doenças infecciosas.",
+                    "D. Aumento da sensibilidade a citocinas inflamatórias relacionadas à febre, ocasionando picos febris frequentemente desconectados de eventos importantes.",
+                    "E. Aceleração de doenças degenerativas."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A imunossenescência promove a redução da imunidade adaptativa, menor eficácia vacinal e um estado inflamatório crônico (*inflammaging*). Os idosos costumam apresentar **respostas febris atenuadas ou ausentes** durante infecções graves e não uma sensibilidade febril exacerbada.<br><br><b>Justificativa da alternativa incorreta pedida pelo enunciado (D):</b> Os idosos imunossenescentes apresentam tipicamente resposta febril embotada ou hipoativa.<br><br><b>Por que as outras estão corretas:</b><br>• A: O declínio da seleção central e das células T reg favorece o surgimento de autoimunidade no idoso.<br>• B: Perda do controle imune de vírus latentes (ex: *Herpes Zóster* e CMV).<br>• C e E: Aumento da mortalidade por infeções e aceleração de doenças degenerativas pelo *inflammaging*."
+            },
+            {
+                num: 29,
+                category: "Imunossenescência e SASP",
+                statement: "Questão 29 - Nosso entendimento do envelhecimento se acelerou muito nos últimos anos. Uma das descobertas interessantes é que existe um padrão de “inflamação estéril” que se associa com maior declínio fisiológico. Ao lado uma notícia recente repercutindo o trabalho publicado na Nature Aging que requenta algumas noções já conhecidas (ao menos em parte) sobre esse padrão inflamatório. Aparentemente mudanças no estilo de vida poderiam retardar bastante esse padrão inflamatório nocivo citado acima.\nA compreensão esse padrão inflamatório estéril é um ponto central para futuras abordagens que levem a uma melhor qualidade de vida aos idosos – ou a quando pessoas jovens chegarem em idade avançada. Um dos pontos que nos ajudam a entender esse processo são:",
+                options: [
+                    "A. Nenhuma alternativa atende adequadamente ao enunciado.",
+                    "B. As moléculas chamadas de “FAMP” (Padrão Molecular Associado aos Fosfolipídeos), moléculas liberadas quando há muita morte celular decorrente de senescência. Esses fosfolipídeos liberados na corrente sanguínea induzem uma ativação em cascata de diversos fatores inflamatórios.",
+                    "C. Aos neutrófilos, que tem uma queda drástica em número no envelhecimento mas, em compensação, tem uma exacerbação metabólica que os leva a um perfil altamente inflamatório e lesivo aos tecidos.",
+                    "D. Às células dendríticas, que passam a aumentar em número e exacerbar sua capacidade fagocítica, o que as leva a uma fagocitose indiscríminada de antígenos, inclusive próprios, induzindo inflamação.",
+                    "E. As células SASP (Senescence-Associated Secretory Phenotype), que adquirem um fenótipo secretor que aumenta a quantidade de mediadores inflamatórios. Isso tende a influenciar outras células que ainda não estão nesse padrão, fazendo-as convergir justamente para esse padrão secretor."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> As células senescentes adquirem o fenótipo secretor **SASP (*Senescence-Associated Secretory Phenotype*)**, libertando continuamente citocinas pro-inflamatórias, quimiocinas e metaloproteinases. Este fenótipo atua de forma parácrina e sustenta a inflamação estéril crônica do envelhecimento (*inflammaging*).<br><br><b>Justificativa da alternativa correta (E):</b> O fenótipo SASP das células senescentes impulsiona a inflamação estéril e induz alterações parácrinas em células vizinhas.<br><br><b>Por que as outras estão incorretas:</b><br>• A: A opção E está correta.<br>• B: As moléculas endógenas libertadas por lesão/senescência que ativam a imunidade inata são denominadas **DAMPs**.<br>• C: O número de neutrófilos circulantes mantém-se estável com o envelhecimento.<br>• D: Não se observa proliferação exacerbada nem hiperfagocitose indiscriminada nas células dendríticas em idosos."
+            },
+            {
+                num: 30,
+                category: "Imunossenescência e Citomegalovírus",
+                statement: "Questão 30 - Os citomegalovírus (CMV) têm sido associados ao envelhecimento do sistema imune pelo fato de:",
+                options: [
+                    "A. Na sua replicação há um descompasso entre a produção das proteínas de cápside e de envelope; disso resultando uma superprodução de proteínas de cápside que inundam a corrente sanguínea, de maneira semelhante ao vírus da hepatite B. Essa abundância de proteínas virais acaba por afetar nossa resposta imune.",
+                    "B. O fato dele se multiplicar em número baixo insuficiente para produzir sinais clínicos, mas suficiente para estimular a resposta imune induz a uma seleção e ampliação de clones de linfócitos T exclusivos para o CMV, levando a uma perda de diversidade de linfócitos.",
+                    "C. Os citomegalovírus conseguem atuar em células tronco na medula levando-as à lise e impedindo a hematopoiese normal.",
+                    "D. Ao saírem da latência, passam a destruir agudamente linfócitos B, reduzindo nossa resposta humoral.",
+                    "E. Nenhuma alternativa atende adequadamente ao enunciado."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A infecção crônica e latente pelo Citomegalovírus (CMV) exige uma vigilância imune contínua. As reativações subclínicas persistentes conduzem à expansão oligoclonal massiva de linfócitos T de memória específicos para o CMV, restringindo o espaço imunológico e reduzindo a diversidade global do repertório de células T em idosos.<br><br><b>Justificativa da alternativa correta (B):</b> A estimulação crônica de baixo grau pelo CMV consome o repertório T, levando à perda da diversidade de linfócitos T virgens.<br><br><b>Por que as outras estão incorretas:</b><br>• A: A imunossenescência induzida por CMV não decorre do acúmulo de cápsides livres solúveis circulantes.<br>• C: Não ocorre por lise massiva continuada de células-tronco hematopoiéticas na medula.<br>• D: O efeito marcante da imunossenescência afeta a diversidade dos linfócitos T e não a destruição lítica primária de células B."
+            }
+        ];
+
+        /* ==========================================================================
+           2. ESTADO GLOBAL, CONFIGURAÇÕES E MOTOR DO SISTEMA
+           ========================================================================== */
+        let activeEdition = '2024';
+        let currentQuestions = questions2024;
+        let currentQIndex = 0;
+        let userAnswers = [];
+        let userConfidence = [];
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let fontDelta = 0;
+        let gridFilter = 'ALL';
+        let isForceMobile = false;
+
+        /* CRONÔMETRO */
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+
+        /* CONFIGURAÇÕES PADRÃO */
+        let appSettings = {
+            showTimer: true,
+            showAvgTime: true,
+            showConfidence: true,
+            showHistory: true,
+            showNotes: true,
+            showChart: true,
+            showToolbar: true,
+            showGrid: true
+        };
+
+        let isPenActive = false;
+        let isEraserActive = false;
+        let isDrawing = false;
+
+        window.onload = function() {
+            populateTopicFilter();
+            loadSettings();
+            loadState();
+            renderHistory();
+            initFloatingWidget();
+        };
+
+        /* CONFIGURAÇÕES DO PAINEL */
+        function openSettingsModal() {
+            document.getElementById('cfg-timer').checked = appSettings.showTimer;
+            document.getElementById('cfg-avgtime').checked = appSettings.showAvgTime;
+            document.getElementById('cfg-confidence').checked = appSettings.showConfidence;
+            document.getElementById('cfg-history').checked = appSettings.showHistory;
+            document.getElementById('cfg-notes').checked = appSettings.showNotes;
+            document.getElementById('cfg-chart').checked = appSettings.showChart;
+            document.getElementById('cfg-toolbar').checked = appSettings.showToolbar;
+            document.getElementById('cfg-grid').checked = appSettings.showGrid;
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            appSettings.showTimer = document.getElementById('cfg-timer').checked;
+            appSettings.showAvgTime = document.getElementById('cfg-avgtime').checked;
+            appSettings.showConfidence = document.getElementById('cfg-confidence').checked;
+            appSettings.showHistory = document.getElementById('cfg-history').checked;
+            appSettings.showNotes = document.getElementById('cfg-notes').checked;
+            appSettings.showChart = document.getElementById('cfg-chart').checked;
+            appSettings.showToolbar = document.getElementById('cfg-toolbar').checked;
+            appSettings.showGrid = document.getElementById('cfg-grid').checked;
+
+            saveSettings();
+            applySettings();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('simulado_imuno_settings', JSON.stringify(appSettings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('simulado_imuno_settings');
+            if (saved) {
+                try {
+                    appSettings = { ...appSettings, ...JSON.parse(saved) };
+                } catch(e) { console.error(e); }
+            }
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('hud-timer-stat').style.display = appSettings.showTimer ? 'flex' : 'none';
+            document.getElementById('hud-avgtime-stat').style.display = appSettings.showAvgTime ? 'flex' : 'none';
+            document.getElementById('confidence-box').style.display = appSettings.showConfidence ? 'block' : 'none';
+            document.getElementById('history-section').style.display = appSettings.showHistory ? 'block' : 'none';
+            document.getElementById('notes-card-box').style.display = appSettings.showNotes ? 'block' : 'none';
+            document.getElementById('chart-card-box').style.display = appSettings.showChart ? 'block' : 'none';
+            
+            const widget = document.getElementById('floating-widget');
+            if (widget) {
+                const isGameHudVisible = document.getElementById('game-hud').style.display === 'flex';
+                widget.style.display = (appSettings.showToolbar && isGameHudVisible) ? 'flex' : 'none';
+            }
+            
+            document.getElementById('grid-card-box').style.display = appSettings.showGrid ? 'block' : 'none';
+        }
+
+        /* TIMER LOGIC */
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalElapsedSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').innerText = `${mins}:${secs}`;
+        }
+
+        /* ALTERNADOR DE MODO CELULAR MANUAL */
+        function toggleMobileLayout() {
+            isForceMobile = !isForceMobile;
+            applyLayoutMode();
+            saveState();
+        }
+
+        function applyLayoutMode() {
+            document.body.classList.toggle('force-mobile-mode', isForceMobile);
+            const btns = document.querySelectorAll('.btn-layout-toggle-class');
+            btns.forEach(btn => {
+                btn.innerText = isForceMobile ? '📱 Modo Celular: LIGADO' : '📱 Modo Celular: AUTO';
+                if (isForceMobile) {
+                    btn.style.background = 'var(--accent-yellow)';
+                    btn.style.color = '#fff';
+                } else {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            });
+        }
+
+        /* LÓGICA DE SELEÇÃO MULTI-TEMA */
+        function populateTopicFilter() {
+            const container = document.getElementById('topic-checkbox-list');
+            container.innerHTML = '';
+
+            const allQs = questions2024;
+            const categories = [...new Set(allQs.map(q => q.category))].sort();
+
+            let html = `
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; cursor: pointer; color: var(--text-main); font-weight: bold;">
+                    <input type="checkbox" value="ALL" id="cb-all-topics" checked onchange="toggleAllTopics(this)">
+                    [Selecionar Todos os Temas]
+                </label>
+                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
+            `;
+
+            categories.forEach((cat) => {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.88rem; cursor: pointer; color: var(--text-main);">
+                        <input type="checkbox" class="topic-cb" value="${cat}" checked onchange="updateTopicSelection()">
+                        ${cat}
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateTopicBtnLabel();
+        }
+
+        function toggleTopicDropdown() {
+            const list = document.getElementById('topic-checkbox-list');
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('#topic-dropdown-wrapper')) {
+                const list = document.getElementById('topic-checkbox-list');
+                if (list) list.style.display = 'none';
+            }
+        };
+
+        function toggleAllTopics(source) {
+            const cbs = document.querySelectorAll('.topic-cb');
+            cbs.forEach(cb => cb.checked = source.checked);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicSelection() {
+            const cbs = document.querySelectorAll('.topic-cb');
+            const allCb = document.getElementById('cb-all-topics');
+            const total = cbs.length;
+            const checkedCount = document.querySelectorAll('.topic-cb:checked').length;
+
+            allCb.checked = (checkedCount === total);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicBtnLabel() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            const total = document.querySelectorAll('.topic-cb').length;
+            const btn = document.getElementById('topic-dropdown-btn');
+
+            if (checked.length === 0) {
+                btn.innerText = 'Nenhum tema ▾';
+            } else if (checked.length === total) {
+                btn.innerText = 'Todos os Temas ▾';
+            } else if (checked.length === 1) {
+                btn.innerText = `${checked[0].value.substring(0, 16)}... ▾`;
+            } else {
+                btn.innerText = `${checked.length} Temas Selecionados ▾`;
+            }
+        }
+
+        function getSelectedTopics() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        function startSimulado(year) {
+            activeEdition = year;
+            gameMode = document.getElementById('game-mode-select').value;
+            const selectedTopics = getSelectedTopics();
+
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema para iniciar o simulado.');
+                return;
+            }
+
+            let baseQuestions = questions2024.map(q => ({...q}));
+
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                baseQuestions = baseQuestions.filter(q => selectedTopics.includes(q.category));
+            }
+
+            if (baseQuestions.length === 0) {
+                alert('Não há questões correspondentes aos temas selecionados no simulado escolhido.');
+                return;
+            }
+
+            currentQuestions = baseQuestions;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            isPenActive = false;
+            isEraserActive = false;
+
+            const modeLabel = gameMode === 'estudo' ? 'MODO ESTUDO' : 'SIMULADO REALISTA';
+            let editionBadgeText = 'IMUNOLOGIA Q01-30';
+
+            document.getElementById('quiz-title-badge').innerText = `${editionBadgeText} (${modeLabel})`;
+            document.getElementById('quiz-title-badge').style.color = '#2563eb';
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+
+            resetTimer();
+            startTimer();
+
+            setupGrifoEvents();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+            saveState();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            renderHistory();
+        }
+
+        function changeFontSize(delta) {
+            fontDelta = Math.max(-2, Math.min(4, fontDelta + delta));
+            const stmt = document.getElementById('q-statement');
+            stmt.style.fontSize = (1.08 + fontDelta * 0.1) + 'rem';
+            document.querySelectorAll('.opt-btn').forEach(b => {
+                b.style.fontSize = (0.98 + fontDelta * 0.1) + 'rem';
+            });
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = '#f59e0b';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#d97706';
+                btn.innerText = '🚩 Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+                btn.innerText = '🚩 Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                btn.id = `nav-btn-${idx}`;
+                
+                let label = idx + 1;
+                if (isFlagged) label += ' 🚩';
+                btn.innerText = label;
+
+                if (isAnswered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        btn.classList.add('answered-realista-q');
+                    }
+                }
+
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => { loadQuestion(idx); };
+                grid.appendChild(btn);
+            });
+        }
+
+        /* CANETA GRIFO E BORRACHA */
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            const btnPen = document.getElementById('btn-highlight');
+            const btnEraser = document.getElementById('btn-eraser');
+
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            if (isPenActive) {
+                btnPen.style.background = '#fef08a';
+                btnPen.style.color = '#854d0e';
+                btnPen.style.borderColor = '#fde047';
+                btnPen.innerText = '🖍️ Marca-texto';
+            } else {
+                btnPen.style.background = '';
+                btnPen.style.color = '';
+                btnPen.style.borderColor = '';
+                btnPen.innerText = '🖍️ Marca-texto';
+            }
+
+            if (isEraserActive) {
+                btnEraser.style.background = '#fee2e2';
+                btnEraser.style.color = '#991b1b';
+                btnEraser.style.borderColor = '#fca5a5';
+                btnEraser.innerText = '🧽 Borracha';
+            } else {
+                btnEraser.style.background = '';
+                btnEraser.style.color = '';
+                btnEraser.style.borderColor = '';
+                btnEraser.innerText = '🧽 Borracha';
+            }
+        }
+
+        /* LÓGICA DO BOTÃO FLUTUANTE MOVÍVEL */
+        function initFloatingWidget() {
+            const container = document.getElementById('floating-widget');
+            const mainBtn = document.getElementById('floating-main-btn');
+            const menu = document.getElementById('floating-menu');
+
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+            let hasDragged = false;
+
+            mainBtn.addEventListener('click', (e) => {
+                if (!hasDragged) {
+                    menu.classList.toggle('open');
+                }
+            });
+
+            function onPointerDown(e) {
+                isDragging = true;
+                hasDragged = false;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                startX = clientX;
+                startY = clientY;
+
+                const rect = container.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                document.addEventListener('mousemove', onPointerMove);
+                document.addEventListener('mouseup', onPointerUp);
+                document.addEventListener('touchmove', onPointerMove, { passive: false });
+                document.addEventListener('touchend', onPointerUp);
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const deltaX = clientX - startX;
+                const deltaY = clientY - startY;
+
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    hasDragged = true;
+                }
+
+                let newLeft = initialLeft + deltaX;
+                let newTop = initialTop + deltaY;
+
+                const maxLeft = window.innerWidth - container.offsetWidth;
+                const maxTop = window.innerHeight - container.offsetHeight;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                container.style.left = newLeft + 'px';
+                container.style.top = newTop + 'px';
+                container.style.right = 'auto';
+                container.style.bottom = 'auto';
+
+                if (e.cancelable) e.preventDefault();
+            }
+
+            function onPointerUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onPointerMove);
+                document.removeEventListener('mouseup', onPointerUp);
+                document.removeEventListener('touchmove', onPointerMove);
+                document.removeEventListener('touchend', onPointerUp);
+            }
+
+            mainBtn.addEventListener('mousedown', onPointerDown);
+            mainBtn.addEventListener('touchstart', onPointerDown, { passive: true });
+        }
+
+        function renderStatementWithWords(text) {
+            const container = document.getElementById('q-statement');
+            container.innerHTML = '';
+
+            const lines = text.split('\n');
+            lines.forEach((line, lIdx) => {
+                const chunks = line.split(/(\s+)/);
+                chunks.forEach(chunk => {
+                    if (chunk.trim().length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'hl-word';
+                        span.innerText = chunk;
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(chunk));
+                    }
+                });
+                if (lIdx < lines.length - 1) {
+                    container.appendChild(document.createElement('br'));
+                }
+            });
+        }
+
+        function setupGrifoEvents() {
+            const qStmt = document.getElementById('q-statement');
+
+            function markWordAtEvent(e) {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                let target = e.target;
+                if (e.touches && e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    target = document.elementFromPoint(touch.clientX, touch.clientY);
+                }
+                if (target && target.classList && target.classList.contains('hl-word')) {
+                    if (isPenActive) {
+                        target.classList.add('marked');
+                    } else if (isEraserActive) {
+                        target.classList.remove('marked');
+                    }
+                }
+            }
+
+            qStmt.addEventListener('mousedown', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            });
+
+            qStmt.addEventListener('mousemove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                markWordAtEvent(e);
+            });
+
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            qStmt.addEventListener('touchstart', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            }, { passive: true });
+
+            qStmt.addEventListener('touchmove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                if (e.cancelable) e.preventDefault();
+                markWordAtEvent(e);
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        }
+
+        /* NAVEGAÇÃO E SELEÇÃO DE QUESTÕES */
+        function loadQuestion(idx) {
+            if (currentQIndex !== null) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            isPenActive = false;
+            isEraserActive = false;
+            updatePenEraserUI();
+            updateFlagUI();
+
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            
+            const categoryTag = document.getElementById('q-category');
+            categoryTag.innerText = q.category.toUpperCase();
+
+            renderStatementWithWords(q.statement);
+            changeFontSize(0);
+
+            const optsContainer = document.getElementById('options-group');
+            optsContainer.innerHTML = '';
+
+            const answered = userAnswers[idx] !== null;
+            document.getElementById('btn-confirm').style.display = 'none';
+
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                categoryTag.style.display = 'inline-block';
+            } else {
+                categoryTag.style.display = 'none';
+            }
+
+            updateConfidenceUI();
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.id = `opt-btn-${optIdx}`;
+                btn.innerText = optText;
+
+                if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                    btn.classList.add('strikethrough');
+                }
+
+                if (answered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        btn.classList.add('disabled');
+                        if (optIdx === q.correct) {
+                            btn.classList.add('correct-choice');
+                        }
+                        if (userAnswers[idx] === optIdx && optIdx !== q.correct) {
+                            btn.classList.add('incorrect-choice');
+                        }
+                    } else {
+                        if (userAnswers[idx] === optIdx) {
+                            btn.classList.add('selected-choice');
+                        }
+                        btn.onclick = () => selectOption(optIdx);
+                        btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                    btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                }
+
+                optsContainer.appendChild(btn);
+            });
+
+            const expPanel = document.getElementById('explanation-panel');
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                expPanel.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = q.context;
+            } else {
+                expPanel.style.display = 'none';
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+
+            const btnNext = document.getElementById('btn-next');
+            if (idx === currentQuestions.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.disabled = false;
+            } else {
+                btnNext.innerText = "Próxima →";
+                btnNext.disabled = false;
+            }
+        }
+
+        function setConfidence(level) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            const btnCert = document.getElementById('conf-btn-certeza');
+            const btnChute = document.getElementById('conf-btn-chute');
+
+            btnCert.classList.toggle('active-certain', selectedConfidence === 'certeza');
+            btnChute.classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function saveNote(text) {
+            questionNotes[currentQIndex] = text;
+            saveState();
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            if (strikethroughState[currentQIndex] && strikethroughState[currentQIndex][optIdx]) return;
+
+            selectedOptionIndex = optIdx;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function toggleStrikethrough(optIdx, e) {
+            if (e) e.preventDefault();
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+
+            if (!strikethroughState[currentQIndex]) {
+                strikethroughState[currentQIndex] = [false, false, false, false, false];
+            }
+
+            strikethroughState[currentQIndex][optIdx] = !strikethroughState[currentQIndex][optIdx];
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+            if (btn) {
+                btn.classList.toggle('strikethrough', strikethroughState[currentQIndex][optIdx]);
+            }
+
+            if (strikethroughState[currentQIndex][optIdx] && selectedOptionIndex === optIdx) {
+                selectedOptionIndex = null;
+                if (btn) btn.classList.remove('selected-choice');
+                document.getElementById('btn-confirm').style.display = 'none';
+            }
+            saveState();
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+
+            const optIdx = selectedOptionIndex;
+            userAnswers[currentQIndex] = optIdx;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+            const q = currentQuestions[currentQIndex];
+            const isCorrect = optIdx === q.correct;
+
+            if (isCorrect) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+                if (streak >= 2 && gameMode === 'estudo') {
+                    const badge = document.getElementById('combo-badge');
+                    badge.style.display = 'inline-block';
+                    badge.innerText = `🔥 COMBO x${streak}!`;
+                }
+            } else {
+                streak = 0;
+                document.getElementById('combo-badge').style.display = 'none';
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+            saveState();
+        }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            let totalSecondsSpent = 0;
+
+            userAnswers.forEach((ans, i) => {
+                if (ans !== null) {
+                    answered++;
+                    if (ans === currentQuestions[i].correct) correct++;
+                    totalSecondsSpent += (questionTimes[i] || 0);
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            const avgTime = answered > 0 ? Math.round(totalSecondsSpent / answered) : 0;
+
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+            document.getElementById('hud-avgtime').innerText = `${avgTime}s`;
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) {
+                showReport();
+            } else if (currentQIndex < currentQuestions.length - 1) {
+                loadQuestion(currentQIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                loadQuestion(currentQIndex - 1);
+            }
+        }
+
+        function resetQuiz() {
+            if (confirm(`Tem certeza de que deseja recomeçar o Simulado de Imunologia?`)) {
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                userConfidence = new Array(currentQuestions.length).fill(null);
+                questionTimes = new Array(currentQuestions.length).fill(0);
+                strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+                questionNotes = new Array(currentQuestions.length).fill('');
+                flaggedQuestions = new Array(currentQuestions.length).fill(false);
+                score = 0;
+                streak = 0;
+                isFinished = false;
+                selectedOptionIndex = null;
+                selectedConfidence = null;
+
+                resetTimer();
+                startTimer();
+
+                document.getElementById('combo-badge').style.display = 'none';
+                updateHUD();
+                drawChart();
+                if (document.getElementById('report-screen').style.display === 'block') {
+                    hideReport();
+                }
+                loadQuestion(0);
+                saveState();
+            }
+        }
+
+        /* GRÁFICO REAL-TIME EM CANVAS */
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 160;
+            canvas.height = 160;
+
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            userAnswers.forEach((ans, i) => {
+                if (ans === null) unanswered++;
+                else if (ans === currentQuestions[i].correct) correct++;
+                else incorrect++;
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const total = currentQuestions.length;
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 65;
+            const innerRadius = 46;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#ef4444' },
+                { val: unanswered, color: '#e2e8f0' }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                startAngle += sliceAngle;
+            });
+        }
+
+        /* RELATÓRIO FINAL + HISTÓRICO + MÉTRICAS DE TEMPO */
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0;
+            let answered = 0;
+            let totalSecs = 0;
+            let certainCorrect = 0;
+            let guessCorrect = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) {
+                    catStats[cat] = { total: 0, correct: 0 };
+                }
+                catStats[cat].total++;
+
+                const ans = userAnswers[idx];
+                totalSecs += (questionTimes[idx] || 0);
+
+                if (ans !== null) {
+                    answered++;
+                    if (ans === q.correct) {
+                        correct++;
+                        catStats[cat].correct++;
+                        if (userConfidence[idx] === 'chute') guessCorrect++;
+                        else certainCorrect++;
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            const avgTimeSecs = answered > 0 ? Math.round(totalSecs / answered) : 0;
+
+            const minsStr = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secsStr = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('rep-total-time').innerText = `${minsStr}:${secsStr}`;
+            document.getElementById('rep-avg-time').innerText = `${avgTimeSecs}s / questão`;
+            document.getElementById('rep-conf-ratio').innerText = `${certainCorrect} / ${guessCorrect}`;
+
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            const editionName = 'IMUNOLOGIA Q01-30';
+            document.getElementById('rep-edition-title').innerText = `📊 DIAGNÓSTICO DE DESEMPENHO (${editionName})`;
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            document.getElementById('rep-status-msg').innerText = `Você respondeu ${answered} de ${currentQuestions.length} questões com ${score} pontos totais.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            let weakCategories = [];
+
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                if (pct < 70) weakCategories.push(catName);
+
+                const tr = document.createElement('tr');
+                const badgeClass = pct >= 70 ? 'color: #059669;' : 'color: #d97706;';
+                const badgeText = pct >= 70 ? '🟢 Excelente' : '🟡 Revisar';
+
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td>${stats.total}</td>
+                    <td>${stats.correct}</td>
+                    <td>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: ${pct}%; background: ${pct < 60 ? '#ef4444' : pct < 80 ? '#f59e0b' : '#10b981'};"></div>
+                        </div>
+                        <b>${pct}%</b>
+                    </td>
+                    <td style="${badgeClass}"><b>${badgeText}</b></td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const diagBox = document.getElementById('rep-diagnostic-text');
+            if (weakCategories.length > 0) {
+                diagBox.innerHTML = `Com base no seu aproveitamento na ${editionName}, sugerimos focar a revisão nos temas:<br>👉 <b style="color: #d97706;">${weakCategories.join(', ')}</b>.`;
+            } else {
+                diagBox.innerHTML = `🎉 Desempenho fantástico! Seu aproveitamento superou 70% em todas as categorias de Imunologia.`;
+            }
+
+            saveAttemptToHistory(editionName, overallPercent, score, `${minsStr}:${secsStr}`);
+            saveState();
+        }
+
+        function saveAttemptToHistory(edition, pct, pts, timeStr) {
+            let history = JSON.parse(localStorage.getItem('simulado_imuno_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                edition,
+                pct,
+                pts,
+                timeStr
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('simulado_imuno_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-content');
+            let history = JSON.parse(localStorage.getItem('simulado_imuno_history') || '[]');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>';
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const color = item.pct >= 70 ? '#10b981' : (item.pct >= 50 ? '#f59e0b' : '#ef4444');
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <b>${item.edition}</b> <span style="color: var(--text-muted); font-size: 0.8rem;">(${item.date})</span><br>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Tempo: ${item.timeStr} | ${item.pts} PTS</span>
+                        </div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: ${color};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (confirm('Deseja realmente apagar o histórico de desempenho?')) {
+                localStorage.removeItem('simulado_imuno_history');
+                renderHistory();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function hideReport() {
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+            startTimer();
+            loadQuestion(currentQIndex);
+        }
+
+        function startCadernoErros() {
+            const errorQs = [];
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null && userAnswers[idx] !== q.correct) {
+                    errorQs.push(q);
+                }
+            });
+
+            if (errorQs.length === 0) {
+                alert('Você não cometeu erros no simulado atual!');
+                return;
+            }
+
+            currentQuestions = errorQs;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            document.getElementById('quiz-title-badge').innerText = `CADERNO DE ERROS (${currentQuestions.length} Qs)`;
+            document.getElementById('quiz-title-badge').style.color = '#dc2626';
+
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+        }
+
+        function exportNotesAndReport() {
+            let correct = 0;
+            let answered = 0;
+
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null) {
+                    answered++;
+                    if (userAnswers[idx] === q.correct) correct++;
+                }
+            });
+
+            const overallPercent = answered > 0 ? Math.round((correct / currentQuestions.length) * 100) : 0;
+            const editionName = 'IMUNOLOGIA Q01-30';
+
+            let text = `==================================================\n`;
+            text += `   RELATÓRIO E ANOTAÇÕES - IMUNOLOGIA (Q01-30)\n`;
+            text += `==================================================\n\n`;
+            text += `Edição: ${editionName}\n`;
+            text += `Modo de Execução: ${gameMode === 'estudo' ? 'Modo Estudo' : 'Simulado Realista'}\n`;
+            text += `Aproveitamento Geral: ${overallPercent}%\n`;
+            text += `Questões Respondidas: ${answered} de ${currentQuestions.length}\n`;
+            text += `Pontuação Total: ${score} PTS\n\n`;
+            text += `--------------------------------------------------\n`;
+            text += ` DETALHAMENTO DAS QUESTÕES E ANOTAÇÕES DA SESSÃO\n`;
+            text += `--------------------------------------------------\n\n`;
+
+            currentQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                let status = 'Não Respondida';
+                if (userAns !== null) {
+                    status = userAns === q.correct ? 'ACERTOU (🟢)' : 'ERROU (🔴)';
+                }
+                const flag = flaggedQuestions[idx] ? ' [SINALIZADA COM DÚVIDA 🚩]' : '';
+                const conf = userConfidence[idx] ? ` [Confiança: ${userConfidence[idx].toUpperCase()}]` : '';
+                const timeSpent = questionTimes[idx] ? ` [Tempo: ${questionTimes[idx]}s]` : '';
+                const note = questionNotes[idx] ? questionNotes[idx] : '(Sem anotações)';
+
+                text += `Questão ${idx + 1} (Original #${q.num})${flag}${conf}${timeSpent} - Tema: ${q.category}\n`;
+                text += `Status: ${status}\n`;
+                text += `Sua Anotação: ${note}\n`;
+                text += `--------------------------------------------------\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_Imunologia_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function restartGame() {
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+            saveState();
+        }
+
+        /* PERSISTÊNCIA AUTOMÁTICA EM LOCALSTORAGE */
+        function saveState() {
+            const state = {
+                activeEdition,
+                userAnswers,
+                userConfidence,
+                questionTimes,
+                totalElapsedSeconds,
+                strikethroughState,
+                questionNotes,
+                flaggedQuestions,
+                score,
+                streak,
+                gameMode,
+                isFinished,
+                isForceMobile
+            };
+            localStorage.setItem('simulado_imuno_state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('simulado_imuno_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.isForceMobile !== undefined) {
+                        isForceMobile = state.isForceMobile;
+                        applyLayoutMode();
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos', e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
