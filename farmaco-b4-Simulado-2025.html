@@ -1,0 +1,3026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado de Farmacologia - Questões 04 a 45</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: #f4f6fb;
+            --card-bg: #ffffff;
+            --border-glow: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --correct-green: #10b981;
+            --correct-bg: #ecfdf5;
+            --incorrect-red: #ef4444;
+            --incorrect-bg: #fef2f2;
+            --accent-yellow: #d97706;
+            --input-bg: #f8fafc;
+            --opt-hover: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* TELA HUB (HOME) */
+        .hub-screen {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto 36px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: #ffffff;
+            color: var(--text-main);
+            border: 1px solid #cbd5e1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .mode-selector-box select:hover, .topic-dropdown-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .hub-cards-grid {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 36px 32px;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hub-card-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-2024 { background: var(--primary-light); color: var(--primary); border: 1px solid #bfdbfe; }
+
+        .hub-card h2 { 
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem; 
+            margin-bottom: 12px; 
+            color: var(--text-main); 
+        }
+        .hub-card p { font-size: 0.98rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-2024 { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-2024:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+        /* INTERFACE DO QUIZ UNIFICADO */
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 32px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .combo-badge {
+            background: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: white;
+            display: none;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 28px;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .q-category-tag {
+            display: none;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .q-statement {
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            white-space: pre-line;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        /* GRIFO E BORRACHA */
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 4px;
+            padding: 2px 3px;
+        }
+
+        .hl-word.marked {
+            background-color: #fef08a;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .q-statement.pen-active {
+            cursor: crosshair;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .q-statement.eraser-active {
+            cursor: cell;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: #cbd5e1;
+            transform: translateX(3px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: var(--primary) !important;
+            background: var(--primary-light) !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.4;
+            background: #f1f5f9;
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: #047857 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: #b91c1c !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .btn-confirm {
+            display: none;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
+        }
+
+        .btn-confirm:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .explanation-panel {
+            display: none;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .exp-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .exp-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card, .notes-card, .grid-card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-card { text-align: center; }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .notes-textarea:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+        }
+
+        .chart-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+        .nav-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .q-nav-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .q-nav-btn.active-q {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .q-nav-btn.answered-realista-q {
+            border-color: #93c5fd !important;
+            background: #dbeafe !important;
+            color: #1e40af !important;
+        }
+
+        .q-nav-btn.correct-q {
+            background: var(--correct-green) !important;
+            color: white !important;
+            border-color: var(--correct-green) !important;
+        }
+
+        .q-nav-btn.incorrect-q {
+            background: var(--incorrect-red) !important;
+            color: white !important;
+            border-color: var(--incorrect-red) !important;
+        }
+
+        .nav-btns-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .side-controls-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .action-btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid #e2e8f0;
+        }
+
+        .action-btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .action-btn-danger {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+        .action-btn-danger:hover {
+            background: #fee2e2;
+        }
+
+        /* BOTÃO FLUTUANTE MOVÍVEL E MENU SUSPENSO */
+        .floating-widget-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: flex-end;
+            touch-action: none;
+        }
+
+        .floating-main-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: background 0.2s, transform 0.1s;
+            user-select: none;
+        }
+
+        .floating-main-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .floating-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            width: 210px;
+        }
+
+        .floating-menu.open {
+            display: flex;
+        }
+
+        .floating-menu button {
+            width: 100%;
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .font-btn-row {
+            display: flex;
+            gap: 6px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .font-btn-row button {
+            flex: 1;
+            text-align: center;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        /* RELATÓRIO FINAL */
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .report-score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .report-table th, .report-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .report-table th {
+            background: #f8fafc;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .bar-bg {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            width: 120px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .diagnostic-card {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #92400e;
+        }
+
+        /* CONFIANÇA, SRS, HISTÓRICO, MODAL DE CONFIGURAÇÕES */
+        .conf-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .conf-btn.active-certain {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #047857;
+        }
+
+        .conf-btn.active-guess {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .setting-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .toggle-checkbox {
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: #cbd5e1;
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked {
+            background: var(--primary);
+        }
+
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            background: white;
+            transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked::before {
+            transform: translateX(20px);
+        }
+
+        .history-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: left;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        /* REGRAS DE IMPRESSÃO / PDF OTIMIZADO */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+
+            .hub-header-bar, .mode-selector-box, .side-controls-bar, .nav-btns-inline, .side-panel,
+            .btn-confirm, .conf-btn-group, .btn-layout-toggle-class, .floating-widget-container,
+            .hud-header, .modal-overlay,
+            button, .btn-hub-action {
+                display: none !important;
+            }
+
+            .main-container, .hub-screen, .game-hud, .report-screen, .q-card {
+                box-shadow: none !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .q-statement {
+                color: black !important;
+                font-size: 11pt !important;
+            }
+
+            .opt-btn {
+                border: 1px solid #ccc !important;
+                color: black !important;
+                background: transparent !important;
+                margin-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+
+            .explanation-panel {
+                display: block !important;
+                border-left: 3px solid #000 !important;
+                background: #f8f8f8 !important;
+                color: black !important;
+            }
+
+            .report-table th, .report-table td {
+                color: black !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .game-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .hub-screen { padding: 28px 16px; border-radius: 18px; }
+            .hub-title { font-size: 2rem; }
+            .hub-subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+            .mode-selector-box { flex-direction: column; align-items: stretch; gap: 12px; padding: 16px; }
+            .mode-selector-box select, .topic-dropdown-btn { width: 100%; text-align: center; }
+            .game-hud { padding: 18px; border-radius: 18px; }
+            .hud-header { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px; }
+            .hud-stat { justify-content: space-between; width: 100%; }
+            .q-card { padding: 18px; }
+            .q-statement { font-size: 1rem; margin-bottom: 20px; }
+            .opt-btn { padding: 14px 16px; font-size: 0.92rem; }
+            .nav-btns-inline { gap: 8px; }
+            .side-controls-bar { flex-direction: column; gap: 10px; }
+            .side-controls-bar > button, .nav-btns-inline > button { width: 100%; text-align: center; padding: 14px; }
+            .report-screen { padding: 20px 16px; }
+            .report-score-big { font-size: 3rem; }
+            .report-table { font-size: 0.85rem; }
+            .report-table th, .report-table td { padding: 10px; }
+            .bar-bg { width: 60px; }
+        }
+
+        body.force-mobile-mode { padding: 8px !important; }
+        body.force-mobile-mode .main-container { max-width: 100% !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .report-screen { padding: 15px !important; border-radius: 14px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.8rem !important; }
+        body.force-mobile-mode .game-layout { grid-template-columns: 1fr !important; }
+        body.force-mobile-mode .nav-btns-inline { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .side-controls-bar { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- TELA HOME / HUB CENTRAL -->
+        <div class="hub-screen" id="hub-screen">
+            <div class="hub-header-bar">
+                <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    ⚙️ Configurações
+                </button>
+                <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    📱 Modo Celular: AUTO
+                </button>
+            </div>
+
+            <div class="hub-title">Simulado de Farmacologia</div>
+            <div class="hub-subtitle">
+                Plataforma acadêmica de avaliação em Farmacologia. Teste seus conhecimentos sobre farmacodinâmica, sistema autônomo e cardiovascular com métricas detalhadas em tempo real.
+            </div>
+
+            <!-- SELETOR DE MODO DE JOGO E FILTRO MULTI-TEMA -->
+            <div class="mode-selector-box">
+                <div style="display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center;">
+                    <label for="game-mode-select" style="font-weight: 700; color: var(--text-main);">🎯 Modo de Prova:</label>
+                    <select id="game-mode-select">
+                        <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                        <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                    </select>
+                </div>
+
+                <!-- DROPDOWN DE SELEÇÃO MÚLTIPLA DE TEMAS -->
+                <div style="display: flex; gap: 8px; align-items: center; position: relative; width: 100%; justify-content: center;">
+                    <label style="font-weight: 700; color: var(--text-main);">🏷️ Filtrar por Tema(s):</label>
+                    <div id="topic-dropdown-wrapper" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+                        <button type="button" class="topic-dropdown-btn" id="topic-dropdown-btn" onclick="toggleTopicDropdown()" style="width: 100%;">
+                            Todos os Temas ▾
+                        </button>
+                        <div id="topic-checkbox-list" style="display: none; position: absolute; top: 110%; left: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 14px; padding: 14px; max-height: 250px; overflow-y: auto; z-index: 100; box-shadow: var(--shadow-lg); width: 100%; text-align: left;">
+                            <!-- Gerado via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hub-cards-grid">
+                <!-- CARD SIMULADO ÚNICO -->
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-2024">Avaliação de Farmacologia</span>
+                        <h2>Banco de Questões 04 a 45</h2>
+                        <p>42 Questões transcritas integralmente da avaliação de Farmacologia. Conteúdo abrangendo Fármacos Autônomos, Diuréticos, Anti-hipertensivos, Bloqueadores Neuromusculares e Neurofarmacologia.</p>
+                    </div>
+                    <button class="btn-hub-action btn-2024" onclick="startSimulado('2024')">
+                        🚀 Iniciar Simulado
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARD DE HISTÓRICO DE TENTATIVAS -->
+            <div class="history-card" id="history-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: var(--text-main); font-size: 1.1rem; font-weight: 700;">📜 Histórico de Desempenho & Evolução</h3>
+                    <button class="action-btn action-btn-secondary" onclick="clearHistory()" style="padding: 4px 10px; font-size: 0.75rem;">Limpar Histórico</button>
+                </div>
+                <div id="history-list-content">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERFACE DO QUIZ UNIFICADO -->
+        <div class="game-hud" id="game-hud">
+            <div class="hud-header">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button class="action-btn action-btn-secondary" onclick="goToHub()" style="padding: 6px 12px; font-size: 0.85rem;">🏠 Menu Principal</button>
+                        <span id="quiz-title-badge" style="font-weight: 800; color: var(--primary);">SIMULADO</span>
+                    </div>
+                    <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">
+                        📱 Modo Celular: AUTO
+                    </button>
+                </div>
+                <div class="hud-stat">
+                    <span>Questão:</span>
+                    <span class="hud-stat-val" id="hud-q-num">1 / 42</span>
+                </div>
+                <div class="hud-stat" id="hud-timer-stat">
+                    <span>⏱️ Tempo:</span>
+                    <span class="hud-stat-val" id="hud-timer">00:00</span>
+                </div>
+                <div class="hud-stat" id="hud-avgtime-stat">
+                    <span>⏱️ Média/Q:</span>
+                    <span class="hud-stat-val" id="hud-avgtime">0s</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Pontuação:</span>
+                    <span class="hud-stat-val" id="hud-score" style="color: var(--correct-green);">0 PTS</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Aproveitamento:</span>
+                    <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                </div>
+                <div class="combo-badge" id="combo-badge">🔥 COMBO x2!</div>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div class="q-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                            <span class="q-category-tag" id="q-category" style="margin-bottom: 0;">CATEGORIA</span>
+                        </div>
+                        <div class="q-statement" id="q-statement">Carregando questão...</div>
+                        <div class="options-group" id="options-group"></div>
+
+                        <!-- SELETOR DE NÍVEL DE CONFIANÇA -->
+                        <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança nesta resposta:</div>
+                            <div class="conf-btn-group">
+                                <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                            ✅ Confirmar Resposta
+                        </button>
+
+                        <div class="nav-btns-inline">
+                            <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()" style="flex: 1;">← Anterior</button>
+                            <button class="action-btn" id="btn-next" onclick="nextQuestion()" style="flex: 1;">Próxima →</button>
+                        </div>
+
+                        <div class="explanation-panel" id="explanation-panel">
+                            <div class="exp-header">
+                                💡 Contextualização Teórica e Justificativa
+                            </div>
+                            <div class="exp-body" id="exp-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="chart-card" id="chart-card-box">
+                        <div class="chart-title">Desempenho em Tempo Real</div>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                            <div class="chart-center-text" id="chart-center">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 0.85rem;">
+                            <span style="color: #059669;">🟢 Acertos: <b id="lbl-correct">0</b></span>
+                            <span style="color: #dc2626;">🔴 Erros: <b id="lbl-incorrect">0</b></span>
+                        </div>
+                    </div>
+
+                    <!-- BLOCO DE NOTAS DA QUESTÃO -->
+                    <div class="notes-card" id="notes-card-box">
+                        <div class="chart-title">📝 Bloco de Notas</div>
+                        <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho ou anotações para esta questão..." oninput="saveNote(this.value)"></textarea>
+                    </div>
+
+                    <div class="grid-card" id="grid-card-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="chart-title" style="margin-bottom: 0;">Grade</div>
+                            <div style="display: flex; gap: 4px;">
+                                <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">🚩 Dúvidas</button>
+                            </div>
+                        </div>
+                        <div class="nav-grid" id="nav-grid"></div>
+                    </div>
+
+                    <div class="side-controls-bar">
+                        <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar Quiz</button>
+                        <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: #059669;">📊 Relatório Final</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDGET FLUTUANTE DE FERRAMENTAS DA QUESTÃO -->
+        <div class="floating-widget-container" id="floating-widget">
+            <div class="floating-menu" id="floating-menu">
+                <div class="font-btn-row">
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(-1)">A-</button>
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(1)">A+</button>
+                </div>
+                <button class="action-btn action-btn-secondary" id="btn-flag" onclick="toggleFlag()">🚩 Dúvida</button>
+                <button class="action-btn action-btn-secondary" id="btn-highlight" onclick="toggleHighlight()">🖍️ Marca-texto</button>
+                <button class="action-btn action-btn-secondary" id="btn-eraser" onclick="toggleEraser()">🧽 Borracha</button>
+            </div>
+            <button class="floating-main-btn" id="floating-main-btn" title="Ferramentas">🛠️</button>
+        </div>
+
+        <!-- TELA DE RELATÓRIO FINAL -->
+        <div class="report-screen" id="report-screen">
+            <div class="report-header-title" id="rep-edition-title">📊 DIAGNÓSTICO FINAL DE DESEMPENHO</div>
+            <div class="report-score-big" id="rep-score-big">0%</div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 1rem;" id="rep-status-msg"></p>
+
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 15px 0;">
+                <div style="background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Total</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);" id="rep-total-time">00:00</div>
+                </div>
+                <div style="background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Médio / Questão</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #6366f1;" id="rep-avg-time">0s</div>
+                </div>
+                <div style="background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;" id="rep-conf-box-summary">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Acertos com Certeza / Chutes</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--correct-green);" id="rep-conf-ratio">0 / 0</div>
+                </div>
+            </div>
+
+            <div class="diagnostic-card" id="rep-diagnostic-box">
+                <strong>💡 Recomendação de Estudos:</strong>
+                <div id="rep-diagnostic-text" style="margin-top: 5px;"></div>
+            </div>
+
+            <h3 style="color: var(--text-main); margin-top: 25px; font-size: 1.2rem; font-weight: 700;">Análise Detalhada por Tema de Farmacologia:</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Tema / Categoria</th>
+                            <th>Total</th>
+                            <th>Acertos</th>
+                            <th>Aproveitamento</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rep-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar Quiz</button>
+                <button class="action-btn" onclick="restartGame()">🔄 Refazer Quiz</button>
+                <button class="action-btn" onclick="startCadernoErros()" style="background: #dc2626;">❌ Caderno de Erros</button>
+                <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;">📥 Exportar (.txt)</button>
+                <button class="action-btn" onclick="printReport()" style="background: #8b5cf6;">📄 Exportar (PDF / Impressão)</button>
+                <button class="action-btn action-btn-secondary" onclick="hideReport()">🔍 Revisar Respostas</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span>⚙️ Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()">✖</span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Métrica de Tempo Médio / Questão</div>
+                    <div class="setting-sub">Calcula os segundos gastos em cada questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-avgtime" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🎯 Nível de Confiança ao Responder</div>
+                    <div class="setting-sub">Permite indicar se a resposta foi por certeza ou chute.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-confidence" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📜 Exibir Histórico no Hub</div>
+                    <div class="setting-sub">Exibe o histórico de tentativas salvas na página inicial.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-history" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📝 Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📈 Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🛠️ Barra de Ferramentas Flutuante</div>
+                    <div class="setting-sub">Mostra o botão suspenso com marca-texto, borracha, dúvida e fonte.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-toolbar" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🚩 Grade de Navegação</div>
+                    <div class="setting-sub">Exibe o mapa de questões na barra lateral.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-grid" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. BANCO DE DADOS - FARMACOLOGIA (QUESTÕES 04 A 45)
+           ========================================================================== */
+        const questions2024 = [
+            {
+                num: 4,
+                category: "Sistema Cardiovascular e Agonistas Adrenérgicos",
+                statement: "04. Sobre o uso da fenilefrina pela paciente é correto afirmar:",
+                options: [
+                    "a) Irá causar broncodilatação com melhora da ventilação pulmonar e função respiratória.",
+                    "b) Irá causar vasoconstrição com redução do extravasamento de fluido extravascular.",
+                    "c) Se houvesse absorção e efeito sistêmico, haveria aumento da resistência vascular periférica e da frequência cardíaca.",
+                    "d) Se houvesse absorção e efeito sistêmico, haveria maior liberação de renina e ativação do sistema renina-angiotensina-aldosterona."
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> A fenilefrina estimula receptores alfa-1 no músculo liso vascular, provocando vasoconstrição, o que diminui o fluxo sanguíneo local e reduz o extravasamento de plasma (edema/congestão).<br><br><b>Análise das alternativas incorretas:</b><br>• a) Broncodilatação ocorre por estímulo de receptores beta-2 (ex: salbutamol), não alfa-1.<br>• c) A fenilefrina em absorção sistêmica aumenta a resistência vascular periférica, mas causa bradicardia reflexa (e não aumento da frequência cardíaca) via barorreceptores.<br>• d) A liberação de renina nos rins é mediada por receptores beta-1 adrenérgicos.<br><br><b>Mini-resumo:</b> A fenilefrina é um agonista seletivo dos receptores alfa-1 adrenérgicos. Sua principal ação é a vasoconstrição dos vasos sanguíneos periféricos e de mucosas, sendo usada como descongestionante e vasopressor."
+            },
+            {
+                num: 5,
+                category: "Inotrópicos e Choque Cardiogênico",
+                statement: "05. Utilize o relato de caso abaixo para responder as questões 05 e 06:\nO paciente José foi admitido no hospital devido a infarto agudo do miocárdio, o qual evoluiu com complicações. A mais séria foi de choque cardiogênico, síndrome clínica ocasionada por grande falência contrátil do coração, cuja evolução é geralmente fatal. A par das outras medidas indicadas para o caso, foi iniciado infusão de dopamina na dosagem de 5 microgramas/kg/minuto, posteriormente, foi aumentada para 10 e 15mcg/kg/min. Nessa última dosagem, houve uma resposta razoável, com aumento da pressão arterial média, melhora da perfusão periférica e do nível de consciência do paciente. Assim ele pôde ser mantido por algumas horas, mas uma arritmia ventricular refratária aos medicamentos empregados, determinou o óbito.\n\nSobre o uso de dopamina no paciente José é correto afirmar:",
+                options: [
+                    "a) Apesar do paciente ter morrido, a escolha da dopamina foi adequada, pois a dose inicialmente utilizada é capaz de aumentar débito cardíaco e resistência vascular periférica.",
+                    "b) Dopamina não deve ser utilizada no tratamento do choque cardiogênico, pois não apresenta efeito inotrópico positivo importante.",
+                    "c) Não deveria ter sido utilizada dopamina em 5 microgramas/kg/minuto, pois nesta dose ocorre intenso aumento da resistência vascular periférica.",
+                    "d) Não deveria ter sido utilizada dose alta, pois dopamina é bastante arritmogênica."
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> O aumento da dose para níveis elevados (10–15 mcg/kg/min) ativa fortemente receptores beta-1 e alfa-1, aumentando excessivamente o trabalho cardíaco, o consumo de oxigênio do miocárdio isquêmico e desencadeando arritmias letais, como a que levou o paciente ao óbito.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Na dose de 5 mcg/kg/min a dopamina atua principalmente em receptores beta-1 (inotrópico), sem aumento significativo de resistência vascular periférica (alfa-1).<br>• b) A dopamina apresenta sim efeito inotrópico positivo importante por agir em receptores beta-1.<br>• c) Em 5 mcg/kg/minuto a ação predominante é inotrópica (beta-1) e dopaminérgica, não ocorrendo intenso aumento da resistência vascular periférica.<br><br><b>Mini-resumo:</b> A dopamina atua de forma dose-dependente: doses baixas (D1/D2) causam vasodilatação renal; doses intermediárias (Beta-1) aumentam a inotropia/débito cardíaco; doses altas (Alfa-1) provocam vasoconstrição vigorosa, mas aumentam acentuadamente o risco de arritmias ventriculares graves."
+            },
+            {
+                num: 6,
+                category: "Inotrópicos e Choque Cardiogênico",
+                statement: "06. Qual dos fármacos abaixo é melhor escolha para o paciente José:",
+                options: [
+                    "a) Fenilefrina.",
+                    "b) Noradrenalina.",
+                    "c) Dobutamina.",
+                    "d) Doxazosina."
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> A dobutamina é um agonista predominantemente beta-1 seletivo com excelente efeito inotrópico positivo e menor potencial arritmogênico que a dopamina em doses elevadas, sendo a droga de escolha para suporte inotrópico no choque cardiogênico.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Fenilefrina é alfa-1 puro, aumentando a pós-carga e sobrecarregando ainda mais um coração falido.<br>• b) Noradrenalina é preferida no choque séptico/distributivo; no cardiogênico puro sem vasoplegia, aumenta muito a pós-carga.<br>• d) Doxazosina é um antagonista alfa-1 (vasodilatador/anti-hipertensivo), inadequado para choque.<br><br><b>Mini-resumo:</b> No choque cardiogênico, busca-se aumentar a contratilidade cardíaca (efeito inotrópico) sem elevar excessivamente a pós-carga ou o risco de arritmias fatais."
+            },
+            {
+                num: 7,
+                category: "Diuréticos e Alterações Eletrolíticas",
+                statement: "07. Utilize o relato de caso abaixo para responder as questões 07, 08 e 09:\nPaciente Maria, 57 anos, hipertensa e nefropata fazia uso de enalapril, furosemida e espironolactona. Devido a uma descompensação pressórica, houve a necessidade de alterar seu tratamento, substituindo os fármacos anteriores por hidroclorotiazida e anlodipino.\n\nQual das alterações eletrolíticas abaixo é mais esperada na paciente Maria:",
+                options: [
+                    "a) Hipomagnesemia;",
+                    "b) Hipocalcemia;",
+                    "c) Hipercalemia;",
+                    "d) Hipocalemia;"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> Com a retirada da espironolactona (poupador de potássio) e do enalapril (que retém potássio) e introdução do tiazídico (hidroclorotiazida), há perda expressiva de potássio pela urina, levando à hipocalemia.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Embora tiazídicos possam excretar magnésio, a alteração clássica e mais proeminente e monitorada é a depleção de potássio.<br>• b) Tiazídicos aumentam a reabsorção de cálcio (causam hipercalcemia, não hipocalcemia).<br>• c) A hipercalemia era esperada no esquema anterior (enalapril + espironolactona), não com o novo esquema.<br><br><b>Mini-resumo:</b> Diuréticos tiazídicos (hidroclorotiazida) aumentam a excreção renal de potássio no túbulo contorcido distal ao aumentar a oferta de sódio ao duto coletor."
+            },
+            {
+                num: 8,
+                category: "Mecanismo de Ação de Diuréticos",
+                statement: "08. Qual das sentenças melhor descreve o mecanismo de ação da Hidroclorotiazida:",
+                options: [
+                    "a) Diurético de alça - inibidor do co-transporte Na+ K+ 2Cl-;",
+                    "b) Diurético tiazídico - inibidor do co-transporte Na+ Cl-;",
+                    "c) Poupador de K+ esteroidal;",
+                    "d) Poupador de K+ não esteroidal;"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> A hidroclorotiazida atua bloqueando especificamente o cotransportador Na+/Cl- no túbulo contorcido distal.<br><br><b>Análise das alternativas incorretas:</b><br>• a) O inibidor do cotransporte Na+/K+/2Cl- é o diurético de alça (ex: furosemida).<br>• c) Poupador de K+ esteroidal é a espironolactona.<br>• d) Poupadores de K+ não esteroidais são amilorida e triantereno.<br><br><b>Mini-resumo:</b> Os diuréticos tiazídicos inibem o cotransportador de sódio e cloro (Na+/Cl-) na membrana luminal do túbulo contorcido distal dos néfrons."
+            },
+            {
+                num: 9,
+                category: "Anti-hipertensivos - Bloqueadores de Canal de Cálcio",
+                statement: "09. Qual dos mecanismos abaixo será promovido pelo anlodipino:",
+                options: [
+                    "a) Redução da renina plasmática.",
+                    "b) Redução da atividade nervosa simpática.",
+                    "c) Redução da reabsorção renal de sódio.",
+                    "d) Redução da resistência vascular periférica."
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> Ao bloquear os canais de cálcio no músculo liso vascular arterial, o anlodipino promove o relaxamento das arteríolas, reduzindo a resistência vascular periférica e, consequentemente, a pressão arterial.<br><br><b>Análise das alternativas incorretas:</b><br>• a) A vasodilatação e leve queda de pressão podem até estimular a liberação reflexa de renina.<br>• b) Bloqueadores de canal de cálcio podem induzir ativação simpática reflexa.<br>• c) A redução primária da reabsorção de sódio é função de diuréticos, não o mecanismo direto do anlodipino.<br><br><b>Mini-resumo:</b> O anlodipino é um bloqueador dos canais de cálcio do tipo L diidropiridínico, com ação predominantemente na musculatura lisa arterial, gerando vasodilatação periférica."
+            },
+            {
+                num: 10,
+                category: "Nefroproteção e Anti-hipertensivos",
+                statement: "10. Utilize o relato de caso abaixo para responder as questões 10 e 11:\nUma mulher com 42 anos de idade, portadora de doença renal policística, procura atendimento médico por apresentar picos hipertensivos em três ocasiões diferentes, em repouso. A paciente não faz uso de medicações e não tem histórico prévio de Hipertensão Arterial Sistêmica (HAS). Ao exame físico, apresenta: pressão arterial (PA) = 190 x 140 mmHg; auscultas cardíaca e pulmonar normais; edema em membros inferiores 2+/4+. Sua dosagem de creatinina é de 1,8 mg/dL (normal: 0,6-1,2) e a proteinúria 24 horas é de 870 mg/dL. A paciente foi orientada com medidas não farmacológicas e farmacológicas.\n\nNessa situação, para que a progressão da doença renal se torne mais lenta, qual anti-hipertensivo deve ser iniciado na terapia?",
+                options: [
+                    "a) Furosemida;",
+                    "b) Hidroclorotiazida;",
+                    "c) Clonidina;",
+                    "d) Losartana;"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> A losartana (BRA) promove vasodilatação da arteríola eferente renal, diminuindo a pressão intraglomerular e a proteinúria, retardando assim a progressão da doença renal crônica.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Furosemida trata a sobrecarga de volume/edema, mas não desacelera a progressão da nefropatia proteinúrica.<br>• b) Hidroclorotiazida é pouco eficaz na função renal reduzida (creatinina de 1,8 mg/dL) e não oferece a nefroproteção específica dos BRAs/iECAs.<br>• c) Clonidina é uma droga de segunda/terceira linha e não apresenta propriedade de nefroproteção hemodinâmica renal.<br><br><b>Mini-resumo:</b> Em pacientes com Doença Renal Crônica e proteinúria, os inibidores do Sistema Renina-Angiotensina-Aldosterona (iECA ou BRA) são de primeira escolha por apresentarem efeito nefroprotetor, reduzindo a pressão intraglomerular."
+            },
+            {
+                num: 11,
+                category: "Diuréticos na Insuficiência Renal",
+                statement: "11. Nessa situação, para reduzir o edema da paciente de forma mais eficaz deve ser iniciada terapia com:",
+                options: [
+                    "a) Furosemida;",
+                    "b) Hidroclorotiazida;",
+                    "c) Clonidina;",
+                    "d) Losartana;"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> A furosemida inibe o cotransportador Na+/K+/2Cl- na alça de Henle e mantém sua eficácia mesmo em pacientes com taxa de filtração glomerular reduzida, sendo a droga mais eficaz no alívio de edemas secundários à doença renal.<br><br><b>Análise das alternativas incorretas:</b><br>• b) Tiazídicos perdem grande parte da eficácia diurética quando o clearance de creatinina está reduzido.<br>• c) Clonidina é um anti-hipertensivo de ação central, sem efeito diurético.<br>• d) Losartana reduz pressão arterial e proteinúria a longo prazo, mas não é um agente diurético potente para alívio agudo de edema.<br><br><b>Mini-resumo:</b> Diuréticos de alça são os agentes mais potentes para promover natriurese e diurese rápidas em pacientes com retenção fluida (edema) e alteração de função renal."
+            },
+            {
+                num: 12,
+                category: "Efeitos Adversos dos Anti-hipertensivos",
+                statement: "12. Paciente João, 47 anos, inicia tratamento anti-hipertensivo com vasodilatador de artériolas de pouco efeito cardíaco. Após 2 semanas, João retorna ao seu médico queixando-se de muito edema nas pernas. Provavelmente João está utilizando:",
+                options: [
+                    "a) Anlodipino.",
+                    "b) Verapamil.",
+                    "c) Metoprolol.",
+                    "d) Valsartana."
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> O anlodipino produz vasodilatação arteriolar seletiva. Essa dilatação pré-capilar desproporcional em relação à circulação venosa aumenta a pressão hidrostática no leito capilar das extremidades, extravasando líquido para o interstício e causando edema de membros inferiores.<br><br><b>Análise das alternativas incorretas:</b><br>• b) Verapamil é um não-diidropiridínico com efeito cardíaco pronunciado (cronotrópico/inotrópico negativo) e tem o efeito adverso clássico de constipação intestinal, não sendo um vasodilatador arteriolar puro.<br>• c) Metoprolol é um betabloqueador (diminui frequência e débito cardíaco), não é vasodilatador arteriolar puro.<br>• d) Valsartana é um antagonista de receptor AT1 e geralmente previne ou reduz o edema induzido por bloqueadores de canal de cálcio.<br><br><b>Mini-resumo:</b> Os bloqueadores dos canais de cálcio diidropiridínicos (como anlodipino) agem seletivamente nas artériolas (vasos de resistência), podendo gerar edema maleolar/periférico por aumento da pressão hidrostática capilar."
+            },
+            {
+                num: 13,
+                category: "Associações Medicamentosas Anti-hipertensivas",
+                statement: "13. Utilize o caso clínico abaixo para responder as questões 13 e 14:\nM.M.C, 46 anos, masculino, branco, solteiro, professor, procedente de Jundiaí, interior de São Paulo. Hipertenso desde os 35 anos em uso de losartana. O paciente refere que, há um mês submeteu-se a exame médico e constatou níveis pressóricos de 160/100 mmHg (várias medidas). Embora estivesse totalmente assintomático, foi aconselhado a procurar atendimento clínico. Nega doenças sérias no passado e refere que sua pressão arterial, medida há dois anos, era normal. Não pratica atividade física regular e a obesidade o acompanha desde criança. Seu pai e sua mãe são hipertensos e seu avô faleceu em decorrência de um AVC. Sabe-se que a FC basal de JW está em torno de 130 bpm, não apresenta diabetes e nem dislipidemia.\n\nConsiderando a aplicação de uma farmacoterapia anti-hipertensiva segura e eficaz, qual dos medicamentos abaixo deve ser evitado na associação para M.M.C.",
+                options: [
+                    "a) Enalapril;",
+                    "b) Hidralazina;",
+                    "c) Atenolol;",
+                    "d) Propranolol;"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> O paciente já faz uso de losartana (um BRA). Associar enalapril (um iECA) resulta em duplo bloqueio do SRAA, o que não é recomendado por diretrizes clínicas devido a riscos de eventos adversos sérios como insuficiência renal e hipercalemia.<br><br><b>Análise das alternativas incorretas:</b><br>• b, c, d) Hidralazina ou Betabloqueadores (como Atenolol/Propranolol, este último considerando a taquicardia basal de 130 bpm do paciente) poderiam ser associados à losartana se clinicamente indicados, sem a contraindicação direta do duplo bloqueio.<br><br><b>Mini-resumo:</b> A combinação de dois fármacos que atuam sobre o mesmo sistema (duplo bloqueio do Sistema Renina-Angiotensina-Aldosterona, como iECA + BRA) é contraindicada pelo aumento do risco de hipotensão, hipercalemia e lesão renal aguda sem benefício clínico adicional."
+            },
+            {
+                num: 14,
+                category: "Diretrizes de Hipertensão Arterial",
+                statement: "14. Considerando a aplicação de uma farmacoterapia anti-hipertensiva inicial segura e eficaz, qual dos medicamentos ou combinações poderiam ser prescritos para M.M.C, seguindo as orientações das Diretrizes Brasileiras de Hipertensão (2020 ou 2025):",
+                options: [
+                    "a) Apenas losartana;",
+                    "b) Losartana + clonidina;",
+                    "c) Atenolol + alfametildopa;",
+                    "d) Propranolol + hidroclorotiazida;"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> Para hipertensão estágio 2, recomenda-se associação de fármacos de classes diferentes. Embora a combinação ideal seja BRA/iECA + Tiazídico/BCC, entre as alternativas apresentadas, a opção (d) oferece uma associação válida de duas drogas anti-hipertensivas ativas.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Apenas losartana representa monoterapia, insuficiente para o estágio 2 da doença (PA 160/100 mmHg).<br>• b) Clonidina não é fármaco de escolha inicial para associação.<br>• c) Alfametildopa é restrita quase exclusivamente ao manejo da hipertensão na gestação.<br><br><b>Mini-resumo:</b> Para hipertensão estágio 2 (PA >= 160/100 mmHg), as diretrizes de hipertensão recomendam o início da terapia farmacológica com a combinação de dois anti-hipertensivos."
+            },
+            {
+                num: 15,
+                category: "Farmacologia do Sistema Renina-Angiotensina",
+                statement: "15. Os fármacos inibidores do sistema renina-angiotensina-aldosterona estão entre os anti-hipertensivos mais utilizados na última década, tanto para o tratamento da hipertensão arterial sistêmica, quanto o tratamento das cardiopatias.\nAnalise as sentenças abaixo e assinale a alternativa correta:\nI. O captopril e o enalapril são inibidores da enzima conversora de angiotensina, sendo o primeiro um fármaco ativo e o segundo um pró-fármaco;\nII. Losartana é um bloqueador do receptor AT1 e, portanto, promove tosse como reação adversa;\nIII. Captopril deve ser evitado em pacientes com doença renal crônica, a fim de não inibir os efeitos compensatórios da angiotensina II e aldosterona nos rins;\nIV. Losartana reduz, nos pacientes estresse oxidativo, processo inflamatório e fibrogênese nos rins, previne ou reduz também a hipertrofia e remodelagem cardíaca na insuficiência cardíaca, e ainda melhorar o clearance de creatinina na nefropatia diabética;\nV. O fármaco captopril é capaz de reduzir nos pacientes a resistência vascular periférica, a retenção de água e sódio pelos rins e a concentração plasmática de aldosterona;\nEstão corretas somente as sentenças:",
+                options: [
+                    "a) I, II e III;",
+                    "b) II, IV e V;",
+                    "c) I, IV e V;",
+                    "d) II, III e IV;"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> I é verdadeira (Captopril é ativo, Enalapril é pró-fármaco). IV é verdadeira (múltiplos benefícios cardiorrenais da losartana). V é verdadeira (efeitos vasculares e renais do captopril).<br><br><b>Análise das alternativas incorretas:</b><br>• II está incorreta porque a tosse seca é um efeito adverso característico dos iECAs (devido ao acúmulo de bradicinina) e não dos BRAs como a losartana.<br>• III está incorreta porque os iECAs são indicados justamente por seu efeito nefroprotetor em nefropatias.<br><br><b>Mini-resumo:</b> Os iECAs e BRAs reduzem a Angiotensina II e Aldosterona, promovendo vasodilatação, redução de retenção hidrossódica e proteção contra remodelamento cardiovascular/renal. Tosse por acúmulo de bradicinina ocorre com iECAs, mas não com BRAs."
+            },
+            {
+                num: 16,
+                category: "Farmacologia na Gestação",
+                statement: "16. Utilize o caso clínico abaixo para responder as questões 16, 17 e 18:\nMTF, 34 anos, sexo feminino, teve diagnóstico de HAS aos 34 anos de idade e utilizava losartana 50mg 1x/dia. Ha 1 ano atrás MTF decidiu engravidar e seu médico substituiu o medicamento losartana por anlodipino 5mg 1x/dia. Sabe-se que a paciente apresenta asma brônquica e hipertrigliceridemia, porém nenhuma outra doença metabólica foi relatada.\nA PA da paciente manteve-se estabilizada em 125/80 mmHg até a 25 semana de gestação, quando a paciente começou a apresentar PAS 170 e PAD 110 mmHg e proteinúria (600mg/24 h).\nA partir desse momento, o medicamento anlodipino foi substituído por alfa-metildopa 750 mg/dia e sua PA voltou a 125/80 mmHg.\n\nConsiderando que o fármaco losartana estava controlando a Pressão arterial da paciente adequadamente, por que ela foi substituída por anlodipino?",
+                options: [
+                    "a) Foi um erro ter alterado a terapia com losartana, ela deveria ter sido mantida, já que a pressão da paciente estava estável;",
+                    "b) Por ser um antagonista de receptores AT1. Não se deve inibir o sistema renina-angiotensina-aldosterona durante a gestação, esta conduta poderia causar malformação fetal;",
+                    "c) A substituição de losartana por anlodipino não foi adequada, pois anlodipino também pode causar mal formação fetal, além de aumentar o risco de um parto prematuro;",
+                    "d) Houve a substituição porque losartana está contra-indicada para pacientes asmáticos, aumentando o risco de broncoespasmo;"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> A losartana atravessa a barreira placentária e causa fetotoxicidade grave (defeitos de ossificação craniana, insuficiência renal fetal). Portanto, deve ser descontinuada ao planejar gravidez.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Manter losartana na gestação é totalmente contraindicado.<br>• c) Anlodipino não apresenta o padrão teratogênico grave dos inibidores do SRAA e pode ser usado na gravidez.<br>• d) Losartana não provoca broncoespasmo nem tem contraindicação na asma.<br><br><b>Mini-resumo:</b> Medicamentos que atuam no SRAA (iECAs e BRAs) são estritamente contraindicados na gestação devido à teratogenecidade (malformações renais, oligoidrâmnio, hipoplasia pulmonar)."
+            },
+            {
+                num: 17,
+                category: "Simpatolíticos de Ação Central",
+                statement: "17. Sobre o fármaco alfa-metildopa, analise as sentenças abaixo e assinale a alternativa correta:\nI. é um agonista de receptores alfa2-adrenérgicos;\nII. é um fármaco utilizado no processo de sedação em unidade de terapia intensiva;\nIII. é um fármaco colinérgico de ação direta;\nIV. seu uso contínuo aumenta o risco de anemia hemolítica por processo autoimune;\nEstão corretas:",
+                options: [
+                    "a) Somente I e II;",
+                    "b) Somente III e IV;",
+                    "c) Somente II e V;",
+                    "d) Somente I e IV;"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> I está correta (atua via receptores alfa-2 centrais pré-sinápticos) e IV está correta (uso prolongado pode induzir autoanticorpos contra hemácias, levando a teste de Coombs positivo e anemia hemolítica autoimune).<br><br><b>Análise das alternativas incorretas:</b><br>• II está errada: O agonista alfa-2 usado para sedação em UTI é a dexmedetomidina.<br>• III está errada: Alfa-metildopa é um agente adrenérgico/simpaticolítico central, não colinérgico.<br><br><b>Mini-resumo:</b> A alfa-metildopa é convertida em alfa-metilnoradrenalina, atuando como agonista alfa-2 adrenérgico central para reduzir o efluxo simpático. Seu efeito adverso imunológico clássico é a anemia hemolítica autoimune."
+            },
+            {
+                num: 18,
+                category: "Tocolíticos e Farmacologia Obstétrica",
+                statement: "18. Caso a gestante comece a apresentar contrações prematuras, e risco de um parto prematuro, quais fármacos podem ser administrados, a fim de reduzir o risco de parto prematuro:",
+                options: [
+                    "a) Propranolol ou enalapril.",
+                    "b) Doxazosina ou alfametildopa.",
+                    "c) Fenoterol ou losartana.",
+                    "d) Salbutamol ou nifedipino."
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> O salbutamol relaxa a musculatura uterina por ação nos receptores beta-2, e o nifedipino bloqueia a entrada de cálcio necessária para a contração do miométrio.<br><br><b>Análise das alternativas incorretas:</b><br>• a, b, c) Contêm drogas contraindicadas na gravidez (enalapril, losartana) ou que não possuem ação tocolítica (propranolol, doxazosina, alfametildopa).<br><br><b>Mini-resumo:</b> Fármacos tocolíticos (que inibem o trabalho de parto prematuro) atuam relaxando o miométrio. As principais opções incluem agonistas beta-2 seletivos (salbutamol/terbutalina) e bloqueadores de canais de cálcio (nifedipino)."
+            },
+            {
+                num: 19,
+                category: "Antagonistas de Mineralocorticoides",
+                statement: "19. Qual dos fármacos abaixo pode reduzir o risco de hipocalemia e remodelagem cardíaca:",
+                options: [
+                    "a) Furosemida;",
+                    "b) Amilorida;",
+                    "c) Finerenona;",
+                    "d) Hidroclorotiazida;"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> A finerenona bloqueia o receptor de mineralocorticoide, prevenindo a excreção de potássio (combate a hipocalemia) e inibindo a fibrose e a hipertrofia tecidual no coração.<br><br><b>Análise das alternativas incorretas:</b><br>• a e d) Furosemida e hidroclorotiazida causam hipocalemia.<br>• b) Amilorida poupa potássio, mas não apresenta o perfil marcante de redução de remodelamento da finerenona.<br><br><b>Mini-resumo:</b> Antagonistas dos receptores de mineralocorticoides (como finerenona e espironolactona) retêm potássio e bloqueiam os efeitos profibróticos da aldosterona no miocárdio."
+            },
+            {
+                num: 20,
+                category: "Indicações Terapêuticas dos Diuréticos",
+                statement: "20. Diuréticos são fármacos amplamente utilizados no tratamento da hipertensão arterial sistêmica, cardiopatias e doença renal. Qual das sentenças abaixo indica, respectivamente, um bom diurético para o tratamento do edema, da hipertensão arterial sistêmica de estágio 01 e da insuficiência cardíaca:",
+                options: [
+                    "a) Hidroclorotiazida, espironolactona e furosemida;",
+                    "b) Espironolactona, furosemida e captopril;",
+                    "c) Furosemida, hidroclorotiazida e espironolactona;",
+                    "d) Hidroclorotiazida, hidralazina e nitroprussiato de sódio;"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> Furosemida é a droga de escolha para controle do edema; Hidroclorotiazida é diurético tiazídico indicado na HAS estágio 1; Espironolactona é o antagonista de aldosterona usado na insuficiência cardíaca.<br><br><b>Análise das alternativas incorretas:</b><br>• As demais sequências trocam a ordem de indicação ou contêm medicamentos não diuréticos.<br><br><b>Mini-resumo:</b> Edema = Diuréticos de alça (Furosemida); HAS estágio 1 = Tiazídicos (Hidroclorotiazida); Insuficiência Cardíaca = Poupadores de K+/Antialdosterônicos (Espironolactona)."
+            },
+            {
+                num: 21,
+                category: "Agonistas Beta-2 Adrenérgicos",
+                statement: "21. O fenoterol e o salbutamol, dois simpatomiméticos bastante utilizados no tratamento da asma, podem causar todos os efeitos a seguir com exceção de:",
+                options: [
+                    "a) Relaxamento de esfíncteres;",
+                    "b) Taquicardia;",
+                    "c) Tremor;",
+                    "d) Vasodilatação de alguns leitos vasculares;"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> O relaxamento de esfíncteres no trato gastrointestinal e urinário não é um efeito adverso característico dos agonistas beta-2; o estímulo adrenérgico no geral promove a contração de esfíncteres via receptores alfa-1.<br><br><b>Análise das alternativas incorretas:</b><br>• b, c, d) Taquicardia (estímulo beta-1 e reflexo), tremor muscular (beta-2) e vasodilatação periférica são efeitos colaterais conhecidos.<br><br><b>Mini-resumo:</b> Agonistas beta-2 adrenérgicos promovem broncodilatação e relaxamento vascular/uterino, podendo produzir tremor e taquicardia em doses elevadas."
+            },
+            {
+                num: 22,
+                category: "Simpatomiméticos de Ação Mista",
+                statement: "22. A efedrina é um simpatomimético de ação mista, esta é utilizada em quadros de hipotensão causada por anestésicos gerais. Sabe-se que a efedrina promove:",
+                options: [
+                    "a) Somente ativação de receptores adrenérgicos;",
+                    "b) Somente aumento de noradrenalina na fenda sináptica;",
+                    "c) Ativação de receptores adrenérgicos e aumento de noradrenalina na fenda sináptica;",
+                    "d) Inibição das enzimas MAO e COMT;"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> A definição de ação simpatomimética mista engloba tanto o estímulo direto em receptores adrenérgicos quanto a liberação indireta de noradrenalina dos terminais nervosos.<br><br><b>Análise das alternativas incorretas:</b><br>• a e b) Descrevem apenas metade do mecanismo (direto ou indireto isoladamente).<br>• d) A efedrina não atua primariamente como inibidor enzimático da MAO/COMT.<br><br><b>Mini-resumo:</b> Fármacos de ação mista (como a efedrina) atuam estimulando diretamente os receptores adrenérgicos e aumentando a liberação do neurotransmissor endógeno."
+            },
+            {
+                num: 23,
+                category: "Antidepressivos e Tônus Adrenérgico",
+                statement: "23. Utilize o caso clínico abaixo para responder as questões 23 e 24:\nUma mulher, com 53 anos de idade, peso de 59 kg e altura de 1,56 m, é atendida em ambulatório, apresentando pressão arterial (PA) = 180 x 110 mmHg. A paciente relata histórico de hipertensão, controlada com dieta hipossódica e uso de captopril (25 mg/dia) em duas tomadas. Informa que, há dois meses, após episódios de humor marcadamente deprimido, anedonia, astenia, ideação suicida e anorexia, seu médico lhe receitou venlafaxina (75 mg/dia), um antidepressivo, que atua no sistema nervoso central, inibindo a recaptação de serotonina e noradrenalina, tendo aumentado a dosagem progressivamente. A paciente refere que, após o uso desta medicação, vem sentindo cefaleia, mal-estar abdominal e instabilidade nos níveis pressóricos. Pergunta-se:\n\nO fármaco venlafaxina pode ser classificado como:",
+                options: [
+                    "a) Colinérgico de ação indireta;",
+                    "b) Adrenérgico de ação indireta;",
+                    "c) Adrenérgico de ação direta;",
+                    "d) Colinérgico de ação direta;"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> Como a venlafaxina bloqueia o transportador de recaptação sem interagir diretamente como agonista nos receptores pós-sinápticos, ela amplifica a ação da noradrenalina endógena (ação indireta).<br><br><b>Análise das alternativas incorretas:</b><br>• a e d) Não envolve o sistema colinérgico.<br>• c) Ação direta exigiria ligação direta aos receptores adrenérgicos.<br><br><b>Mini-resumo:</b> Fármacos que inibem a recaptação de noradrenalina aumentam a disponibilidade do neurotransmissor na fenda sináptica, sendo classificados como adrenérgicos de ação indireta."
+            },
+            {
+                num: 24,
+                category: "Interações Medicamentosas na Hipertensão",
+                statement: "24. Diante do caso clínico descrito acima, podemos concluir:",
+                options: [
+                    "a) O captopril não é um bom anti-hipertensivo para o perfil da paciente;",
+                    "b) O captopril estava reagindo com a venlafaxina piorando o quadro de depressão;",
+                    "c) A venlafaxina estava reduzindo a efetividade do tratamento anti-hipertensivo instituído;",
+                    "d) A paciente deveria associar losartana ao tratamento;"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> O aumento do tônus simpático periférico provocado pelo acúmulo de noradrenalina induzido pela venlafaxina antagoniza a ação hipotensora do captopril, descompensando os níveis pressóricos.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Captopril mantinha a pressão controlada antes da introdução do antidepressivo.<br>• b) Não há reação entre captopril e venlafaxina que exacerbe a depressão.<br>• d) Associar losartana geraria duplo bloqueio do SRAA, o que é contraindicado.<br><br><b>Mini-resumo:</b> Inibidores da recaptação de noradrenalina (como a venlafaxina) podem elevar a pressão arterial e diminuir a eficácia de tratamentos anti-hipertensivos prévios."
+            },
+            {
+                num: 25,
+                category: "Vasodilatadores e Abertura de Canais de Potássio",
+                statement: "25. Homem de 32 anos procura atendimento por queda progressiva de cabelo há 2 anos, principalmente em região frontoparietal e vértex, com histórico familiar de calvície precoce. Nega comorbidades e uso de medicações, exame físico mostra rarefação capilar em padrão androgenético, sem sinais de alopecia cicatricial. Após avaliação, foi iniciado tratamento com minoxidil tópico 5%, com orientações sobre uso contínuo, tempo de resposta e possíveis efeitos adversos. O paciente foi orientado a retornar em 4 meses para acompanhamento da evolução clínica.\nSobre o Minoxidil é correto afirmar:",
+                options: [
+                    "a) é um vasodilatador bloqueador de canais de potássio na membrana do músculo liso vascular;",
+                    "b) é um vasodilatador bloqueador de canais de cálcio do tipo diidropiridinas;",
+                    "c) é um vasodilatador de mecanismo de ação desconhecido, utilizado somente por via tópica;",
+                    "d) é um vasodilatador direto utilizado topicamente para queda de cabelo e crescimento da barba e via oral em doses mais elevadas para hipertensão;"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> O minoxidil foi originalmente desenvolvido como vasodilatador arterial oral para hipertensão severa e, devido ao efeito colateral de hipertricose, passou a ser utilizado topicamente para alopecia.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Ele é um abridor (ativador) e não bloqueador dos canais de potássio.<br>• b) Bloqueadores dos canais de cálcio diidropiridínicos são drogas como anlodipino.<br>• c) Seu mecanismo celular de abertura de canais de potássio é bem conhecido.<br><br><b>Mini-resumo:</b> O minoxidil atua como abridor dos canais de potássio sensíveis a ATP no músculo liso vascular, promovendo vasodilatação. É usado via oral para hipertensão e via tópica para alopecia."
+            },
+            {
+                num: 26,
+                category: "Diuréticos Osmóticos",
+                statement: "26. Paciente Joaquim inicia terapia intravenosa com manitol. Sobre esta conduta é correto afirmar:",
+                options: [
+                    "a) É utilizada para fazer lavagem intestinal, a fim de realizar uma colonoscopia;",
+                    "b) Inibe transportadores de sódio no túbulo proximal e ramo descendente da alça de Henle;",
+                    "c) Promove diurese osmótica e reduzir a hipertensão intracraniana;",
+                    "d) Não deve ser utilizado por via intravenosa. Este fármaco tem o uso restrito para via oral;"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> O manitol IV cria um gradiente osmótico no sangue que atrai água do parênquima cerebral para o espaço vascular, reduzindo a pressão intracraniana.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Lavagem intestinal utiliza soluções orais específicas, não manitol intravenoso.<br>• b) Age por propriedade físico-química osmótica na retenção de água no lúmen, não inibindo transportadores de sódio.<br>• d) A administração no contexto de emergência neurocirúrgica é estritamente intravenosa.<br><br><b>Mini-resumo:</b> O manitol é um diurético osmótico IV que expande a osmolaridade plasmática, drenando edemas de tecidos (como o cérebro) para a circulação e promovendo diurese."
+            },
+            {
+                num: 27,
+                category: "Tratamento do Feocromocitoma",
+                statement: "27. Paciente Maria tem diagnóstico de feocromocitoma. Sabendo-se que este tumor causa hipertensão secundária, devido o excesso de catecolamina circulante, para seu tratamento deve-se utilizar:",
+                options: [
+                    "a) Simpatomimético de ação indireta.",
+                    "b) Antagonista alfa-adrenérgico.",
+                    "c) Simpatolítico de ação central.",
+                    "d) Anticolinesterásico."
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> O bloqueio alfa-adrenérgico com antagonistas (ex: doxazosina, fenoxibenzamina) previne a vasoconstrição severa provocada pelas altas concentrações de adrenalina e noradrenalina.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Simpatomiméticos agravariam a crise hipertensiva.<br>• c) Simpatolíticos centrais não conseguem deter a liberação periférica direta do tumor.<br>• d) Anticolinesterásicos agem no sistema parassimpático e junção neuromuscular.<br><br><b>Mini-resumo:</b> O feocromocitoma secretor de catecolaminas exige bloqueio alfa-adrenérgico para conter a vasoconstrição periférica severa e o controle da pressão arterial."
+            },
+            {
+                num: 28,
+                category: "Seletividade de Antagonistas Mineralocorticoides",
+                statement: "28. Paciente Aruan, 45 anos, precisa iniciar terapia com diurético que reduza a hipertrofia e remodelagem cardíaca, sem ação em receptores androgênicos. Qual a melhor opção para este paciente:",
+                options: [
+                    "a) Furosemida.",
+                    "b) Espironolactona.",
+                    "c) Finerenona.",
+                    "d) Hidroclorotiazida."
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> A finerenona evita efeitos adversos antiandrogênicos (como ginecomastia e disfunção sexual) comuns à espironolactona, mantendo a ação protetora contra o remodelamento cardíaco.<br><br><b>Análise das alternativas incorretas:</b><br>• a e d) Furosemida e hidroclorotiazida não atuam no bloqueio direto de receptores de aldosterona.<br>• b) A espironolactona possui acentuada afinidade por receptores androgênicos.<br><br><b>Mini-resumo:</b> A finerenona é um antagonista não esteroidal altamente seletivo do receptor mineralocorticoide, bloqueando a fibrose miocárdica sem causar os efeitos colaterais hormonais da espironolactona."
+            },
+            {
+                num: 29,
+                category: "Antagonistas Muscarínicos e Antiespasmódicos",
+                statement: "29. A N-butil-escopolamina é o princípio ativo do medicamento Buscopan®. Este fármaco é amplamente utilizado para diminuir cólicas intestinais e renais por atuar como:",
+                options: [
+                    "a) Antagonista muscarínico;",
+                    "b) Inibidor da MAO;",
+                    "c) Simpatolítico;",
+                    "d) Agonista muscarínico;",
+                    "e) Anticolinesterásico;"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> Ao bloquear receptores muscarínicos (M3) no músculo liso visceral, previne a contração involuntária excessiva (espasmo/cólica).<br><br><b>Análise das alternativas incorretas:</b><br>• b, c, e) Não atua em MAO, receptores adrenérgicos ou na enzima acetilcolinesterase.<br>• d) Agonistas muscarínicos intensificariam as contrações e cólicas viscerais.<br><br><b>Mini-resumo:</b> Os antagonistas muscarínicos (anticolinérgicos) causam relaxamento do músculo liso trato gastrointestinal e geniturinário ao bloquear os receptores M3 de acetilcolina."
+            },
+            {
+                num: 30,
+                category: "Farmacologia Cardíaca da Atropina",
+                statement: "30. A atropina já foi amplamente utilizada na ressuscitação cardiorrespiratória, e ainda hoje existem várias indicações clínicas que utilizam este fármaco. Sobre a atropina, é correto afirmar:",
+                options: [
+                    "a) Ativa receptores beta adrenérgicos no coração retirando o paciente da parada cardiorrespiratória;",
+                    "b) Ativa receptores muscarínicos no coração, aumentando a frequência cardíaca;",
+                    "c) Inibe a enzima acetilcolinesterase promovendo ações excitatórias no sistema nervoso central do paciente;",
+                    "d) Antagoniza receptores muscarínicos no coração, diminuindo as ações bradicárdicas da acetilcolina;",
+                    "e) Inibe a enzima MAO, aumentando os efeitos cardioestimuladores da adrenalina no coração;"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> O bloqueio dos receptores muscarínicos M2 pela atropina anula a ação vagal (inibidora) sobre os nós sinoatrial e atrioventricular, revertendo quadros de bradicardia.<br><br><b>Análise das alternativas incorretas:</b><br>• a, e) Atropina é um anticolinérgico, sem ação direta em receptores beta ou na enzima MAO.<br>• b) A atropina é antagonista, e não agonista; ativação muscarínica reduz a frequência.<br>• c) Inibidores da acetilcolinesterase são drogas como a neostigmina.<br><br><b>Mini-resumo:</b> A atropina é um antagonista competitivo dos receptores muscarínicos. No coração, bloqueia os receptores M2, anulando o efeito de redução de frequência do nervo vago."
+            },
+            {
+                num: 31,
+                category: "Anticolinérgicos Inalatórios",
+                statement: "31. O brometo de ipratrópio (Atrovent®) é um fármaco frequentemente utilizado para promover:",
+                options: [
+                    "a) Hipersecreção gástrica;",
+                    "b) Broncodilatação;",
+                    "c) Bradicardia;",
+                    "d) Vasoconstrição;",
+                    "e) Diarreia;"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> O bloqueio dos receptores muscarínicos M3 na musculatura lisa brônquica inibe o tônus parassimpático e gera relaxamento dos brônquios.<br><br><b>Análise das alternativas incorretas:</b><br>• a, c, e) Agentes anticolinérgicos reduzem secreções, diminuem o trânsito intestinal e tendem a aumentar a frequência cardíaca.<br><br><b>Mini-resumo:</b> O brometo de ipratrópio é um antagonista muscarínico inalatório. Ao bloquear os receptores M3 no trato respiratório, atua promovendo broncodilatação."
+            },
+            {
+                num: 32,
+                category: "Toxicologia e Antídotos Colinérgicos",
+                statement: "32. No Brasil, o \"Chumbinho\" é um produto clandestino, irregularmente utilizado como raticida. Não possui registro na Anvisa, nem em nenhum outro órgão de governo. O agrotóxico carbamato aldicarbe (classificado como colinomiméticos de ação indireta) é o preferido pelos contraventores, encontrado em cerca de 50% dos \"chumbinhos\" analisados. A outra metade são organofosforados diversos. A Anvisa afirma que a matéria prima para este produto vem de roubo de carga ou entrada ilegal de produtos químicos pelas fronteiras. Seu uso está relacionado intensamente a assassinatos, suicídios, e mortes por intoxicação acidental.\nPergunta-se:\n\nO tratamento de um paciente intoxicado com chumbinho poderá ser feito com:",
+                options: [
+                    "a) Atropina;",
+                    "b) Neostigmina ;",
+                    "c) Nitroprussiato de sódio;",
+                    "d) Fisostigmina;",
+                    "e) Metildopa;"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> A atropina compete com o excesso de acetilcolina nos receptores muscarínicos, revertendo sintomas graves de hiperestimulação colinérgica como broncorreia e bradicardia.<br><br><b>Análise das alternativas incorretas:</b><br>• b e d) Neostigmina e fisostigmina aumentam ainda mais os níveis de acetilcolina, agravando o envenenamento.<br>• c e e) Não possuem efeito antídoto na síndrome colinérgica.<br><br><b>Mini-resumo:</b> A intoxicação por carbamatos ou organofosforados gera exacerbação colinérgica por inibição da acetilcolinesterase. A atropina é o antídoto de escolha para bloquear os efeitos muscarínicos."
+            },
+            {
+                num: 33,
+                category: "Efeitos Oculares e Gerais da Atropina",
+                statement: "33. Sobre atropina podemos afirmar que a mesma:",
+                options: [
+                    "a) Pode provocar intensa taquicardia devido ao bloqueio dos receptores nicotinicos cardíacos.",
+                    "b) Inibem intensamente o tônus intestinal, a motilidade e aumentam as secreções do TGI.",
+                    "c) Pode provocar midríase, cicloplegia e fotofobia.",
+                    "d) Podem produzir broncoconstrição."
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> O bloqueio muscarínico M3 no esfíncter da íris e músculo ciliar causa dilatação pupilar (midríase), paralisia da acomodação (cicloplegia) e intolerância à luz (fotofobia).<br><br><b>Análise das alternativas incorretas:</b><br>• a) O coração possui receptores muscarínicos M2, não nicotínicos.<br>• b) A atropina reduz secreções no trato digestivo.<br>• d) O efeito brônquico é de broncodilatação.<br><br><b>Mini-resumo:</b> A atropina bloqueia a ação muscarínica parassimpática no olho, levando à perda de reflexo fotomotor (midríase), fotofobia e incapacidade de focar de perto (cicloplegia)."
+            },
+            {
+                num: 34,
+                category: "Toxina Botulínica e Junção Neuromuscular",
+                statement: "34. O uso da toxina botulínica vai muito além da estética, sendo utilizada no tratamento da enxaqueca, espasticidades, pós AVC, estrabismo, Parkinson etc. Sabe-se que este fármaco promove:",
+                options: [
+                    "a) Paralisia, por bloquear receptores nicotínicos na junção neuromuscular;",
+                    "b) Paralisia, por bloquear a liberação da acetilcolina na junção neuromuscular;",
+                    "c) Paralisia, por inibir a enzima acetilcolinesterase;",
+                    "d) Relaxamento, por promover dessensibilização de receptores nicotínicos na junção neuromuscular;",
+                    "e) Relaxamento, por aumentar a atividade catalítica da enzima acetilcolinesterase;"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> A toxina botulínica cliva proteínas SNAP-25 do complexo SNARE nos terminais pré-sinápticos, impedindo a exocitose das vesículas de acetilcolina na fenda sináptica.<br><br><b>Análise das alternativas incorretas:</b><br>• a, d) Não atua por bloqueio pós-sináptico direto dos receptores nicotínicos.<br>• c, e) Não interfere no funcionamento da enzima acetilcolinesterase.<br><br><b>Mini-resumo:</b> A toxina botulínica impede a liberação pré-sináptica de acetilcolina na junção neuromuscular, impedindo a despolarização muscular e causando paralisia flácida."
+            },
+            {
+                num: 35,
+                category: "Miastenia Gravis e Anticolinesterásicos",
+                statement: "35. Uma mulher de 30 anos apresenta quadro de fraqueza muscular nos membros inferiores com predomínio distal, há alguns anos. Na evolução apresentou fraqueza muscular nos membros superiores. O exame físico mostrava nervos cranianos sem alterações, atrofia bilateral dos músculos quadríceps e interósseos dos pés, redução da força muscular mais intensa em tibiais anteriores e interósseos dorsais dos pés e reflexos tendinosos globalmente hipoativos. Notou, também, dificuldade para mastigar e deglutir. A dosagem de anticorpos anti-receptor nicotínico foi positiva o que confirmou miastenia gravis (Arquivos de neuropsiquiatria, 2003).\nO tratamento da paciente pode ser feito com:",
+                options: [
+                    "a) Toxina botulínica;",
+                    "b) Piridostigmina / fisostigmina;",
+                    "c) Succinilcolina;",
+                    "d) Pancurônio;",
+                    "e) Atropina;"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> Ao inibir a degradação da acetilcolina, os anticolinesterásicos aumentam a concentração do neurotransmissor na fenda, superando o bloqueio provocado pelos autoanticorpos na Miastenia Gravis.<br><br><b>Análise das alternativas incorretas:</b><br>• a, c, d) Toxina botulínica, succinilcolina e pancurônio induzem ou mantêm o bloqueio neuromuscular, piorando o quadro.<br>• e) Atropina é antagonista muscarínico, sem benefício na transmissão motora esquelética.<br><br><b>Mini-resumo:</b> A Miastenia Gravis é uma doença autoimune contra receptores nicotínicos motores. O tratamento sintomático utiliza anticolinesterásicos (ex: piridostigmina) para prolongar a ação da acetilcolina."
+            },
+            {
+                num: 36,
+                category: "Bloqueadores Neuromusculares",
+                statement: "36. Os antagonistas seletivos dos receptores nicotínicos são utilizados primariamente para produzir bloqueio neuromuscular não-despolarizante (competitivo) durante procedimentos cirúrgicos. Os agentes bloqueadores não-despolarizantes da JNM atuam ao antagonizar diretamente os receptores nicotínicos de ACh, impedindo, assim, a ligação da ACh endógena e a despolarização subsequente das células musculares.\nFonte: GOLAN, D. E. et al. Princípios de farmacologia: a base fisiopatológica da farmacoterapia. [s.l.] 2.ed. São Paulo: Guanabara, 2009.\n\nConsiderando o conteúdo estudado sobre os bloqueadores neuromusculares, analise as afirmativas a seguir.\nI. Os bloqueadores neuromusculares podem ser classificados em despolarizantes e agentes bloqueadores não despolarizantes, isto é, antagonistas de receptores nicotínicos musculares.\nII. O succinilcolina é um exemplo de agente, antagonistas de receptores nicotínicos musculares.\nIII. Os primeiros efeitos dos agentes bloqueadores não despolarizantes ocorrem sobre os músculos envolvidos nos músculos da face e depois nos músculos da respiração podendo levar a parada respiratória.\nIV. A recuperação do paciente após a retirada do ssuccinilcolina é mais lenta quando comparada aos fármacos não despolarizantes (curares).\nEstá correto apenas o que se afirmar em:",
+                options: [
+                    "a) I e III.",
+                    "b) I e IV.",
+                    "c) II e III.",
+                    "d) II e IV."
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> I está correta (divisão em despolarizantes e não-despolarizantes) e III está correta (a paralisia inicia-se por músculos pequenos da face/olhos e atinge o diafragma por último).<br><br><b>Análise das alternativas incorretas:</b><br>• II está errada: A succinilcolina é um bloqueador despolarizante (agonista do receptor nicotínico).<br>• IV está errada: A succinilcolina possui curtíssima duração devido à rápida hidrólise pela pseudocolinesterase plasmática.<br><br><b>Mini-resumo:</b> Os bloqueadores neuromusculares dividem-se em despolarizantes (succinilcolina) e não-despolarizantes (antagonistas competitivos). A paralisia progride da musculatura extrínseca/facial até a musculatura respiratória."
+            },
+            {
+                num: 37,
+                category: "Aplicações de Anticolinesterásicos",
+                statement: "37. O uso clínico para agentes anticolinesterásicos reversíveis são:\nI. Tratamento sintomático do glaucoma.\nII. Íleo paralítico após procedimento cirúrgico.\nIII. como antídoto nas intoxicações causadas por relaxantes musculares despolarizantes (succinilcolina).\nIV como antídotos nas intoxicações por anticolinérgicos\nestão corretas:\nestão corretas as questões",
+                options: [
+                    "a) I e II",
+                    "b) I e III",
+                    "c) II e IV",
+                    "d) Todas estão corretas"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> As afirmativas I, II e IV correspondem a usos clínicos estabelecidos. Dentre as opções combinadas oferecidas, a opção (a) lista afirmativas estritamente verdadeiras sem incorporar o erro conceitual da III.<br><br><b>Análise das alternativas incorretas:</b><br>• III está incorreta porque anticolinesterásicos não revertem bloqueio por succinilcolina (podendo prolongá-lo por inibição do seu metabolismo).<br><br><b>Mini-resumo:</b> Anticolinesterásicos reversíveis aumentam os níveis de acetilcolina, sendo utilizados no glaucoma, no íleo paralítico e na reversão do bloqueio por anticolinérgicos ou curares não-despolarizantes."
+            },
+            {
+                num: 38,
+                category: "Mecanismos e Alvos Farmacológicos",
+                statement: "38. Marque o item que representa exemplos de fármacos que causam as seguintes ações respectivamente:\n1. Relaxar a musculatura lisa\n2. Liberar adrenalina da suprarrenal\n3. Relaxar a musculatura esquelética",
+                options: [
+                    "a) Curare, atropina, succinilcolina",
+                    "b) Curare, atropina e nicotina",
+                    "c) Atropina, curare e pilocarpina",
+                    "d) Atropina, nicotina e curare"
+                ],
+                correct: 3,
+                context: "<b>Justificativa:</b> Atropina bloqueia M3 e relaxa músculo liso visceral; Nicotina estimula receptores Nn e libera adrenalina na medula adrenal; Curare bloqueia Nm e relaxa a musculatura esquelética.<br><br><b>Análise das alternativas incorretas:</b><br>• As demais opções trocam a correspondência exata entre os fármacos e seus receptores alvos.<br><br><b>Mini-resumo:</b> O bloqueio muscarínico (atropina) relaxa o músculo liso; o estímulo nicotínico ganglionar (nicotina) estimula a adrenal; e o bloqueio nicotínico muscular (curare) relaxa o músculo esquelético."
+            },
+            {
+                num: 39,
+                category: "Indicações de Fármacos Colinérgicos/Anticolinérgicos",
+                statement: "39. Os medicamentos oxibutinina, biperideno e rivastigmina são indicados respectivamente para:",
+                options: [
+                    "a) Incontinência urinária, antiparkinsoniano e tratamento de demência de Alzheimer",
+                    "b) Antiparkinsoniano incontinência urinária, e tratamento de demência de Alzheimer",
+                    "c) Tratamento de demência de Alzheimer Incontinência urinária, antiparkinsoniano",
+                    "d) Incontinência urinária, tratamento de demência de Alzheimer antiparkinsoniano"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> Oxibutinina reduz hiperatividade do detrusor na bexiga; Biperideno reduz sintomas colinérgicos no Parkinson; Rivastigmina inibe a acetilcolinesterase central no Alzheimer.<br><br><b>Análise das alternativas incorretas:</b><br>• b, c, d) As indicações clínicas estão fora da ordem em que os medicamentos foram citados.<br><br><b>Mini-resumo:</b> Oxibutinina é um anticolinérgico urinário; Biperideno é um anticolinérgico central usado no Parkinson; Rivastigmina é um anticolinesterásico indicado no Alzheimer."
+            },
+            {
+                num: 40,
+                category: "Síndrome Anticolinérgica em Idosos",
+                statement: "40. Um paciente idoso desenvolve confusão mental, boca seca e retenção urinária após o início de um novo medicamento para incontinência urinária. Qual o mecanismo farmacológico provável?",
+                options: [
+                    "a) Estimulação dos receptores betadrenérgicos",
+                    "b) Inibição da acetilcolinesterase",
+                    "c) Bloqueio dos receptores muscarínicos",
+                    "d) Ativação dos receptores nicotínicos"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> O bloqueio dos receptores muscarínicos reduz salivação (boca seca), contração da bexiga (retenção urinária) e afeta a cognição central em idosos (confusão mental).<br><br><b>Análise das alternativas incorretas:</b><br>• a, d) Receptores beta-adrenérgicos ou nicotínicos não justificam essa tríade de sintomas.<br>• b) Inibir a acetilcolinesterase aumentaria os efeitos colinérgicos (causando sialorreia e diurese).<br><br><b>Mini-resumo:</b> O bloqueio dos receptores muscarínicos (efeito anticolinérgico) em idosos manifesta-se tipicamente com ressecamento de mucosas, retenção urinária e alterações de nível de consciência."
+            },
+            {
+                num: 41,
+                category: "Contraindicações dos Anticolinérgicos",
+                statement: "41. Qual é uma contraindicação importante ao uso de anticolinérgicos?",
+                options: [
+                    "a) Hipotensão arterial",
+                    "b) Glaucoma de ângulo fechado",
+                    "c) Anemia ferropriva",
+                    "d) Asma brônquica"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> A midríase desencadeada por anticolinérgicos reduz o ângulo iridocorneano, bloqueando a drenagem do humor aquoso e podendo deflagrar crise aguda de glaucoma.<br><br><b>Análise das alternativas incorretas:</b><br>• a, c) Hipotensão e anemia não são contraindicações diretas de uso de anticolinérgicos.<br>• d) Anticolinérgicos inalatórios são indicados no tratamento do broncoespasmo.<br><br><b>Mini-resumo:</b> Anticolinérgicos causam dilação pupilar (midríase), sendo contraindicados em pacientes com glaucoma de ângulo fechado devido ao risco de aumento agudo da pressão intraocular."
+            },
+            {
+                num: 42,
+                category: "Tratamento Farmacológico da DPOC",
+                statement: "42. Um anticolinérgico inalatório comumente prescrito no tratamento da DPOC é:",
+                options: [
+                    "a) Ipratrópio",
+                    "b) Salbutamol",
+                    "c) Montelucaste",
+                    "d) Beclometasona"
+                ],
+                correct: 0,
+                context: "<b>Justificativa:</b> O brometo de ipratrópio inibe os receptores muscarínicos M3 da musculatura lisa brônquica, promovendo broncodilatação eficiente na DPOC.<br><br><b>Análise das alternativas incorretas:</b><br>• b) Salbutamol é um agonista beta-2 adrenérgico.<br>• c) Montelucaste é um antagonista de receptores de leucotrienos.<br>• d) Beclometasona é um glicocorticoide inalatório.<br><br><b>Mini-resumo:</b> O ipratrópio é um antagonista muscarínico inalatório de curta duração amplamente empregado na terapêutica broncodilatadora da DPOC e da asma."
+            },
+            {
+                num: 43,
+                category: "Tratamento de Intoxicações Anticolinérgicas",
+                statement: "43. Qual fármaco pode ser utilizado como antídoto em casos de intoxicação por anticolinérgicos?",
+                options: [
+                    "a) Naloxona",
+                    "b) Flumazenil",
+                    "c) Fisostigmina",
+                    "d) Pralidoxima"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> A fisostigmina atravessa a barreira hematoencefálica e inibe a acetilcolinesterase, elevando os níveis de acetilcolina no SNC e periferia para reverter o bloqueio por atropina.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Naloxona é o antagonista específico para opioides.<br>• b) Flumazenil é o antagonista para benzodiazepínicos.<br>• d) Pralidoxima é utilizada para reativar a colinesterase em envenenamento por organofosforados.<br><br><b>Mini-resumo:</b> A fisostigmina é um anticolinesterásico de amina terciária que cruza a barreira hematoencefálica, sendo o antídoto de escolha na síndrome anticolinérgica central e periférica."
+            },
+            {
+                num: 44,
+                category: "Indicações Terapêuticas de Anticolinesterásicos",
+                statement: "44. Qual das seguintes condições é classicamente tratada com anticolinesterásicos?",
+                options: [
+                    "a) Hipertensão arterial",
+                    "b) Miastenia gravis",
+                    "c) Asma brônquica",
+                    "d) Diabetes mellitus tipo 2"
+                ],
+                correct: 1,
+                context: "<b>Justificativa:</b> Os anticolinesterásicos impedem a degradação da acetilcolina, garantindo maior permanência do neurotransmissor na fenda motora para reverter a fraqueza da Miastenia Gravis.<br><br><b>Análise das alternativas incorretas:</b><br>• a, c, d) Não têm indicação na hipertensão, diabetes ou asma (nesta última, poderiam causar broncoespasmo).<br><br><b>Mini-resumo:</b> Os inibidores da acetilcolinesterase (como a piridostigmina) são empregados como pilar do tratamento sintomático da Miastenia Gravis."
+            },
+            {
+                num: 45,
+                category: "Tratamento da Demência de Alzheimer",
+                statement: "45. Qual dos seguintes é um anticolinesterásico é prescrito no tratamento da doença de Alzheimer?",
+                options: [
+                    "a) Atropina",
+                    "b) Succinilcolina",
+                    "c) Donepezila",
+                    "d) Pilocarpina"
+                ],
+                correct: 2,
+                context: "<b>Justificativa:</b> A donepezila inibe de forma seletiva e reversível a acetilcolinesterase no SNC, compensando o déficit colinérgico característico do Alzheimer.<br><br><b>Análise das alternativas incorretas:</b><br>• a) Atropina é um anticolinérgico (pioraria o déficit cognitivo).<br>• b) Succinilcolina é um bloqueador neuromuscular despolarizante.<br>• d) Pilocarpina é um agonista muscarínico direto usado no glaucoma.<br><br><b>Mini-resumo:</b> Os inibidores centrais da acetilcolinesterase (donepezila, rivastigmina, galantamina) aumentam a disponibilidade de acetilcolina no cérebro, atenuando sintomas cognitivos na Doença de Alzheimer."
+            }
+        ];
+
+        /* ==========================================================================
+           2. ESTADO GLOBAL, CONFIGURAÇÕES E MOTOR DO SISTEMA 6.0
+           ========================================================================== */
+        let activeEdition = '2024';
+        let currentQuestions = questions2024;
+        let currentQIndex = 0;
+        let userAnswers = [];
+        let userConfidence = [];
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let fontDelta = 0;
+        let gridFilter = 'ALL';
+        let isForceMobile = false;
+
+        /* CRONÔMETRO */
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+
+        /* CONFIGURAÇÕES PADRÃO */
+        let appSettings = {
+            showTimer: true,
+            showAvgTime: true,
+            showConfidence: true,
+            showHistory: true,
+            showNotes: true,
+            showChart: true,
+            showToolbar: true,
+            showGrid: true
+        };
+
+        let isPenActive = false;
+        let isEraserActive = false;
+        let isDrawing = false;
+
+        window.onload = function() {
+            populateTopicFilter();
+            loadSettings();
+            loadState();
+            renderHistory();
+            initFloatingWidget();
+        };
+
+        /* CONFIGURAÇÕES DO PAINEL */
+        function openSettingsModal() {
+            document.getElementById('cfg-timer').checked = appSettings.showTimer;
+            document.getElementById('cfg-avgtime').checked = appSettings.showAvgTime;
+            document.getElementById('cfg-confidence').checked = appSettings.showConfidence;
+            document.getElementById('cfg-history').checked = appSettings.showHistory;
+            document.getElementById('cfg-notes').checked = appSettings.showNotes;
+            document.getElementById('cfg-chart').checked = appSettings.showChart;
+            document.getElementById('cfg-toolbar').checked = appSettings.showToolbar;
+            document.getElementById('cfg-grid').checked = appSettings.showGrid;
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            appSettings.showTimer = document.getElementById('cfg-timer').checked;
+            appSettings.showAvgTime = document.getElementById('cfg-avgtime').checked;
+            appSettings.showConfidence = document.getElementById('cfg-confidence').checked;
+            appSettings.showHistory = document.getElementById('cfg-history').checked;
+            appSettings.showNotes = document.getElementById('cfg-notes').checked;
+            appSettings.showChart = document.getElementById('cfg-chart').checked;
+            appSettings.showToolbar = document.getElementById('cfg-toolbar').checked;
+            appSettings.showGrid = document.getElementById('cfg-grid').checked;
+
+            saveSettings();
+            applySettings();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('simulado_farma_settings', JSON.stringify(appSettings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('simulado_farma_settings');
+            if (saved) {
+                try {
+                    appSettings = { ...appSettings, ...JSON.parse(saved) };
+                } catch(e) { console.error(e); }
+            }
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('hud-timer-stat').style.display = appSettings.showTimer ? 'flex' : 'none';
+            document.getElementById('hud-avgtime-stat').style.display = appSettings.showAvgTime ? 'flex' : 'none';
+            document.getElementById('confidence-box').style.display = appSettings.showConfidence ? 'block' : 'none';
+            document.getElementById('history-section').style.display = appSettings.showHistory ? 'block' : 'none';
+            document.getElementById('notes-card-box').style.display = appSettings.showNotes ? 'block' : 'none';
+            document.getElementById('chart-card-box').style.display = appSettings.showChart ? 'block' : 'none';
+            
+            const widget = document.getElementById('floating-widget');
+            if (widget) {
+                const isGameHudVisible = document.getElementById('game-hud').style.display === 'flex';
+                widget.style.display = (appSettings.showToolbar && isGameHudVisible) ? 'flex' : 'none';
+            }
+            
+            document.getElementById('grid-card-box').style.display = appSettings.showGrid ? 'block' : 'none';
+        }
+
+        /* TIMER LOGIC */
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalElapsedSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').innerText = `${mins}:${secs}`;
+        }
+
+        /* ALTERNADOR DE MODO CELULAR MANUAL */
+        function toggleMobileLayout() {
+            isForceMobile = !isForceMobile;
+            applyLayoutMode();
+            saveState();
+        }
+
+        function applyLayoutMode() {
+            document.body.classList.toggle('force-mobile-mode', isForceMobile);
+            const btns = document.querySelectorAll('.btn-layout-toggle-class');
+            btns.forEach(btn => {
+                btn.innerText = isForceMobile ? '📱 Modo Celular: LIGADO' : '📱 Modo Celular: AUTO';
+                if (isForceMobile) {
+                    btn.style.background = 'var(--accent-yellow)';
+                    btn.style.color = '#fff';
+                } else {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            });
+        }
+
+        /* LÓGICA DE SELEÇÃO MULTI-TEMA */
+        function populateTopicFilter() {
+            const container = document.getElementById('topic-checkbox-list');
+            container.innerHTML = '';
+
+            const allQs = questions2024;
+            const categories = [...new Set(allQs.map(q => q.category))].sort();
+
+            let html = `
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; cursor: pointer; color: var(--text-main); font-weight: bold;">
+                    <input type="checkbox" value="ALL" id="cb-all-topics" checked onchange="toggleAllTopics(this)">
+                    [Selecionar Todos os Temas]
+                </label>
+                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
+            `;
+
+            categories.forEach((cat) => {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.88rem; cursor: pointer; color: var(--text-main);">
+                        <input type="checkbox" class="topic-cb" value="${cat}" checked onchange="updateTopicSelection()">
+                        ${cat}
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateTopicBtnLabel();
+        }
+
+        function toggleTopicDropdown() {
+            const list = document.getElementById('topic-checkbox-list');
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('#topic-dropdown-wrapper')) {
+                const list = document.getElementById('topic-checkbox-list');
+                if (list) list.style.display = 'none';
+            }
+        };
+
+        function toggleAllTopics(source) {
+            const cbs = document.querySelectorAll('.topic-cb');
+            cbs.forEach(cb => cb.checked = source.checked);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicSelection() {
+            const cbs = document.querySelectorAll('.topic-cb');
+            const allCb = document.getElementById('cb-all-topics');
+            const total = cbs.length;
+            const checkedCount = document.querySelectorAll('.topic-cb:checked').length;
+
+            allCb.checked = (checkedCount === total);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicBtnLabel() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            const total = document.querySelectorAll('.topic-cb').length;
+            const btn = document.getElementById('topic-dropdown-btn');
+
+            if (checked.length === 0) {
+                btn.innerText = 'Nenhum tema ▾';
+            } else if (checked.length === total) {
+                btn.innerText = 'Todos os Temas ▾';
+            } else if (checked.length === 1) {
+                btn.innerText = `${checked[0].value.substring(0, 16)}... ▾`;
+            } else {
+                btn.innerText = `${checked.length} Temas Selecionados ▾`;
+            }
+        }
+
+        function getSelectedTopics() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        function startSimulado(year) {
+            activeEdition = year;
+            gameMode = document.getElementById('game-mode-select').value;
+            const selectedTopics = getSelectedTopics();
+
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema para iniciar o simulado.');
+                return;
+            }
+
+            let baseQuestions = questions2024.map(q => ({...q}));
+
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                baseQuestions = baseQuestions.filter(q => selectedTopics.includes(q.category));
+            }
+
+            if (baseQuestions.length === 0) {
+                alert('Não há questões correspondentes aos temas selecionados no simulado escolhido.');
+                return;
+            }
+
+            currentQuestions = baseQuestions;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            isPenActive = false;
+            isEraserActive = false;
+
+            const modeLabel = gameMode === 'estudo' ? 'MODO ESTUDO' : 'SIMULADO REALISTA';
+            let editionBadgeText = 'FARMACOLOGIA Q04-45';
+
+            document.getElementById('quiz-title-badge').innerText = `${editionBadgeText} (${modeLabel})`;
+            document.getElementById('quiz-title-badge').style.color = '#2563eb';
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+
+            resetTimer();
+            startTimer();
+
+            setupGrifoEvents();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+            saveState();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            renderHistory();
+        }
+
+        function changeFontSize(delta) {
+            fontDelta = Math.max(-2, Math.min(4, fontDelta + delta));
+            const stmt = document.getElementById('q-statement');
+            stmt.style.fontSize = (1.08 + fontDelta * 0.1) + 'rem';
+            document.querySelectorAll('.opt-btn').forEach(b => {
+                b.style.fontSize = (0.98 + fontDelta * 0.1) + 'rem';
+            });
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = '#f59e0b';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#d97706';
+                btn.innerText = '🚩 Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+                btn.innerText = '🚩 Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                btn.id = `nav-btn-${idx}`;
+                
+                let label = idx + 1;
+                if (isFlagged) label += ' 🚩';
+                btn.innerText = label;
+
+                if (isAnswered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        btn.classList.add('answered-realista-q');
+                    }
+                }
+
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => { loadQuestion(idx); };
+                grid.appendChild(btn);
+            });
+        }
+
+        /* CANETA GRIFO E BORRACHA */
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            const btnPen = document.getElementById('btn-highlight');
+            const btnEraser = document.getElementById('btn-eraser');
+
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            if (isPenActive) {
+                btnPen.style.background = '#fef08a';
+                btnPen.style.color = '#854d0e';
+                btnPen.style.borderColor = '#fde047';
+                btnPen.innerText = '🖍️ Marca-texto';
+            } else {
+                btnPen.style.background = '';
+                btnPen.style.color = '';
+                btnPen.style.borderColor = '';
+                btnPen.innerText = '🖍️ Marca-texto';
+            }
+
+            if (isEraserActive) {
+                btnEraser.style.background = '#fee2e2';
+                btnEraser.style.color = '#991b1b';
+                btnEraser.style.borderColor = '#fca5a5';
+                btnEraser.innerText = '🧽 Borracha';
+            } else {
+                btnEraser.style.background = '';
+                btnEraser.style.color = '';
+                btnEraser.style.borderColor = '';
+                btnEraser.innerText = '🧽 Borracha';
+            }
+        }
+
+        /* LÓGICA DO BOTÃO FLUTUANTE MOVÍVEL */
+        function initFloatingWidget() {
+            const container = document.getElementById('floating-widget');
+            const mainBtn = document.getElementById('floating-main-btn');
+            const menu = document.getElementById('floating-menu');
+
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+            let hasDragged = false;
+
+            mainBtn.addEventListener('click', (e) => {
+                if (!hasDragged) {
+                    menu.classList.toggle('open');
+                }
+            });
+
+            function onPointerDown(e) {
+                isDragging = true;
+                hasDragged = false;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                startX = clientX;
+                startY = clientY;
+
+                const rect = container.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                document.addEventListener('mousemove', onPointerMove);
+                document.addEventListener('mouseup', onPointerUp);
+                document.addEventListener('touchmove', onPointerMove, { passive: false });
+                document.addEventListener('touchend', onPointerUp);
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const deltaX = clientX - startX;
+                const deltaY = clientY - startY;
+
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    hasDragged = true;
+                }
+
+                let newLeft = initialLeft + deltaX;
+                let newTop = initialTop + deltaY;
+
+                const maxLeft = window.innerWidth - container.offsetWidth;
+                const maxTop = window.innerHeight - container.offsetHeight;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                container.style.left = newLeft + 'px';
+                container.style.top = newTop + 'px';
+                container.style.right = 'auto';
+                container.style.bottom = 'auto';
+
+                if (e.cancelable) e.preventDefault();
+            }
+
+            function onPointerUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onPointerMove);
+                document.removeEventListener('mouseup', onPointerUp);
+                document.removeEventListener('touchmove', onPointerMove);
+                document.removeEventListener('touchend', onPointerUp);
+            }
+
+            mainBtn.addEventListener('mousedown', onPointerDown);
+            mainBtn.addEventListener('touchstart', onPointerDown, { passive: true });
+        }
+
+        function renderStatementWithWords(text) {
+            const container = document.getElementById('q-statement');
+            container.innerHTML = '';
+
+            const lines = text.split('\n');
+            lines.forEach((line, lIdx) => {
+                const chunks = line.split(/(\s+)/);
+                chunks.forEach(chunk => {
+                    if (chunk.trim().length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'hl-word';
+                        span.innerText = chunk;
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(chunk));
+                    }
+                });
+                if (lIdx < lines.length - 1) {
+                    container.appendChild(document.createElement('br'));
+                }
+            });
+        }
+
+        function setupGrifoEvents() {
+            const qStmt = document.getElementById('q-statement');
+
+            function markWordAtEvent(e) {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                let target = e.target;
+                if (e.touches && e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    target = document.elementFromPoint(touch.clientX, touch.clientY);
+                }
+                if (target && target.classList && target.classList.contains('hl-word')) {
+                    if (isPenActive) {
+                        target.classList.add('marked');
+                    } else if (isEraserActive) {
+                        target.classList.remove('marked');
+                    }
+                }
+            }
+
+            qStmt.addEventListener('mousedown', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            });
+
+            qStmt.addEventListener('mousemove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                markWordAtEvent(e);
+            });
+
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            qStmt.addEventListener('touchstart', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            }, { passive: true });
+
+            qStmt.addEventListener('touchmove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                if (e.cancelable) e.preventDefault();
+                markWordAtEvent(e);
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        }
+
+        /* NAVEGAÇÃO E SELEÇÃO DE QUESTÕES */
+        function loadQuestion(idx) {
+            if (currentQIndex !== null) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            isPenActive = false;
+            isEraserActive = false;
+            updatePenEraserUI();
+            updateFlagUI();
+
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            
+            const categoryTag = document.getElementById('q-category');
+            categoryTag.innerText = q.category.toUpperCase();
+
+            renderStatementWithWords(q.statement);
+            changeFontSize(0);
+
+            const optsContainer = document.getElementById('options-group');
+            optsContainer.innerHTML = '';
+
+            const answered = userAnswers[idx] !== null;
+            document.getElementById('btn-confirm').style.display = 'none';
+
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                categoryTag.style.display = 'inline-block';
+            } else {
+                categoryTag.style.display = 'none';
+            }
+
+            updateConfidenceUI();
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.id = `opt-btn-${optIdx}`;
+                btn.innerText = optText;
+
+                if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                    btn.classList.add('strikethrough');
+                }
+
+                if (answered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        btn.classList.add('disabled');
+                        if (optIdx === q.correct) {
+                            btn.classList.add('correct-choice');
+                        }
+                        if (userAnswers[idx] === optIdx && optIdx !== q.correct) {
+                            btn.classList.add('incorrect-choice');
+                        }
+                    } else {
+                        if (userAnswers[idx] === optIdx) {
+                            btn.classList.add('selected-choice');
+                        }
+                        btn.onclick = () => selectOption(optIdx);
+                        btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                    btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                }
+
+                optsContainer.appendChild(btn);
+            });
+
+            const expPanel = document.getElementById('explanation-panel');
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                expPanel.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = q.context;
+            } else {
+                expPanel.style.display = 'none';
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+
+            const btnNext = document.getElementById('btn-next');
+            if (idx === currentQuestions.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.disabled = false;
+            } else {
+                btnNext.innerText = "Próxima →";
+                btnNext.disabled = false;
+            }
+        }
+
+        function setConfidence(level) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            const btnCert = document.getElementById('conf-btn-certeza');
+            const btnChute = document.getElementById('conf-btn-chute');
+
+            btnCert.classList.toggle('active-certain', selectedConfidence === 'certeza');
+            btnChute.classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function saveNote(text) {
+            questionNotes[currentQIndex] = text;
+            saveState();
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            if (strikethroughState[currentQIndex] && strikethroughState[currentQIndex][optIdx]) return;
+
+            selectedOptionIndex = optIdx;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function toggleStrikethrough(optIdx, e) {
+            if (e) e.preventDefault();
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+
+            if (!strikethroughState[currentQIndex]) {
+                strikethroughState[currentQIndex] = [false, false, false, false, false];
+            }
+
+            strikethroughState[currentQIndex][optIdx] = !strikethroughState[currentQIndex][optIdx];
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+            if (btn) {
+                btn.classList.toggle('strikethrough', strikethroughState[currentQIndex][optIdx]);
+            }
+
+            if (strikethroughState[currentQIndex][optIdx] && selectedOptionIndex === optIdx) {
+                selectedOptionIndex = null;
+                if (btn) btn.classList.remove('selected-choice');
+                document.getElementById('btn-confirm').style.display = 'none';
+            }
+            saveState();
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+
+            const optIdx = selectedOptionIndex;
+            userAnswers[currentQIndex] = optIdx;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+            const q = currentQuestions[currentQIndex];
+            const isCorrect = optIdx === q.correct;
+
+            if (isCorrect) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+                if (streak >= 2 && gameMode === 'estudo') {
+                    const badge = document.getElementById('combo-badge');
+                    badge.style.display = 'inline-block';
+                    badge.innerText = `🔥 COMBO x${streak}!`;
+                }
+            } else {
+                streak = 0;
+                document.getElementById('combo-badge').style.display = 'none';
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+            saveState();
+        }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            let totalSecondsSpent = 0;
+
+            userAnswers.forEach((ans, i) => {
+                if (ans !== null) {
+                    answered++;
+                    if (ans === currentQuestions[i].correct) correct++;
+                    totalSecondsSpent += (questionTimes[i] || 0);
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            const avgTime = answered > 0 ? Math.round(totalSecondsSpent / answered) : 0;
+
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+            document.getElementById('hud-avgtime').innerText = `${avgTime}s`;
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) {
+                showReport();
+            } else if (currentQIndex < currentQuestions.length - 1) {
+                loadQuestion(currentQIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                loadQuestion(currentQIndex - 1);
+            }
+        }
+
+        function resetQuiz() {
+            if (confirm(`Tem certeza de que deseja recomeçar o Simulado de Farmacologia?`)) {
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                userConfidence = new Array(currentQuestions.length).fill(null);
+                questionTimes = new Array(currentQuestions.length).fill(0);
+                strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+                questionNotes = new Array(currentQuestions.length).fill('');
+                flaggedQuestions = new Array(currentQuestions.length).fill(false);
+                score = 0;
+                streak = 0;
+                isFinished = false;
+                selectedOptionIndex = null;
+                selectedConfidence = null;
+
+                resetTimer();
+                startTimer();
+
+                document.getElementById('combo-badge').style.display = 'none';
+                updateHUD();
+                drawChart();
+                if (document.getElementById('report-screen').style.display === 'block') {
+                    hideReport();
+                }
+                loadQuestion(0);
+                saveState();
+            }
+        }
+
+        /* GRÁFICO REAL-TIME EM CANVAS */
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 160;
+            canvas.height = 160;
+
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            userAnswers.forEach((ans, i) => {
+                if (ans === null) unanswered++;
+                else if (ans === currentQuestions[i].correct) correct++;
+                else incorrect++;
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const total = currentQuestions.length;
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 65;
+            const innerRadius = 46;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#ef4444' },
+                { val: unanswered, color: '#e2e8f0' }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                startAngle += sliceAngle;
+            });
+        }
+
+        /* RELATÓRIO FINAL + HISTÓRICO + MÉTRICAS DE TEMPO */
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0;
+            let answered = 0;
+            let totalSecs = 0;
+            let certainCorrect = 0;
+            let guessCorrect = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) {
+                    catStats[cat] = { total: 0, correct: 0 };
+                }
+                catStats[cat].total++;
+
+                const ans = userAnswers[idx];
+                totalSecs += (questionTimes[idx] || 0);
+
+                if (ans !== null) {
+                    answered++;
+                    if (ans === q.correct) {
+                        correct++;
+                        catStats[cat].correct++;
+                        if (userConfidence[idx] === 'chute') guessCorrect++;
+                        else certainCorrect++;
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            const avgTimeSecs = answered > 0 ? Math.round(totalSecs / answered) : 0;
+
+            const minsStr = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secsStr = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('rep-total-time').innerText = `${minsStr}:${secsStr}`;
+            document.getElementById('rep-avg-time').innerText = `${avgTimeSecs}s / questão`;
+            document.getElementById('rep-conf-ratio').innerText = `${certainCorrect} / ${guessCorrect}`;
+
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            const editionName = 'FARMACOLOGIA Q04-45';
+            document.getElementById('rep-edition-title').innerText = `📊 DIAGNÓSTICO DE DESEMPENHO (${editionName})`;
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            document.getElementById('rep-status-msg').innerText = `Você respondeu ${answered} de ${currentQuestions.length} questões com ${score} pontos totais.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            let weakCategories = [];
+
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                if (pct < 70) weakCategories.push(catName);
+
+                const tr = document.createElement('tr');
+                const badgeClass = pct >= 70 ? 'color: #059669;' : 'color: #d97706;';
+                const badgeText = pct >= 70 ? '🟢 Excelente' : '🟡 Revisar';
+
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td>${stats.total}</td>
+                    <td>${stats.correct}</td>
+                    <td>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: ${pct}%; background: ${pct < 60 ? '#ef4444' : pct < 80 ? '#f59e0b' : '#10b981'};"></div>
+                        </div>
+                        <b>${pct}%</b>
+                    </td>
+                    <td style="${badgeClass}"><b>${badgeText}</b></td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const diagBox = document.getElementById('rep-diagnostic-text');
+            if (weakCategories.length > 0) {
+                diagBox.innerHTML = `Com base no seu aproveitamento na ${editionName}, sugerimos focar a revisão nos temas:<br>👉 <b style="color: #d97706;">${weakCategories.join(', ')}</b>.`;
+            } else {
+                diagBox.innerHTML = `🎉 Desempenho fantástico! Seu aproveitamento superou 70% em todas as categorias de Farmacologia.`;
+            }
+
+            saveAttemptToHistory(editionName, overallPercent, score, `${minsStr}:${secsStr}`);
+            saveState();
+        }
+
+        function saveAttemptToHistory(edition, pct, pts, timeStr) {
+            let history = JSON.parse(localStorage.getItem('simulado_farma_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                edition,
+                pct,
+                pts,
+                timeStr
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('simulado_farma_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-content');
+            let history = JSON.parse(localStorage.getItem('simulado_farma_history') || '[]');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>';
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const color = item.pct >= 70 ? '#10b981' : (item.pct >= 50 ? '#f59e0b' : '#ef4444');
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <b>${item.edition}</b> <span style="color: var(--text-muted); font-size: 0.8rem;">(${item.date})</span><br>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Tempo: ${item.timeStr} | ${item.pts} PTS</span>
+                        </div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: ${color};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (confirm('Deseja realmente apagar o histórico de desempenho?')) {
+                localStorage.removeItem('simulado_farma_history');
+                renderHistory();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function hideReport() {
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+            startTimer();
+            loadQuestion(currentQIndex);
+        }
+
+        function startCadernoErros() {
+            const errorQs = [];
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null && userAnswers[idx] !== q.correct) {
+                    errorQs.push(q);
+                }
+            });
+
+            if (errorQs.length === 0) {
+                alert('Você não cometeu erros no simulado atual!');
+                return;
+            }
+
+            currentQuestions = errorQs;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            document.getElementById('quiz-title-badge').innerText = `CADERNO DE ERROS (${currentQuestions.length} Qs)`;
+            document.getElementById('quiz-title-badge').style.color = '#dc2626';
+
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+        }
+
+        function exportNotesAndReport() {
+            let correct = 0;
+            let answered = 0;
+
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null) {
+                    answered++;
+                    if (userAnswers[idx] === q.correct) correct++;
+                }
+            });
+
+            const overallPercent = answered > 0 ? Math.round((correct / currentQuestions.length) * 100) : 0;
+            const editionName = 'FARMACOLOGIA Q04-45';
+
+            let text = `==================================================\n`;
+            text += `   RELATÓRIO E ANOTAÇÕES - FARMACOLOGIA (Q04-45)\n`;
+            text += `==================================================\n\n`;
+            text += `Edição: ${editionName}\n`;
+            text += `Modo de Execução: ${gameMode === 'estudo' ? 'Modo Estudo' : 'Simulado Realista'}\n`;
+            text += `Aproveitamento Geral: ${overallPercent}%\n`;
+            text += `Questões Respondidas: ${answered} de ${currentQuestions.length}\n`;
+            text += `Pontuação Total: ${score} PTS\n\n`;
+            text += `--------------------------------------------------\n`;
+            text += ` DETALHAMENTO DAS QUESTÕES E ANOTAÇÕES DA SESSÃO\n`;
+            text += `--------------------------------------------------\n\n`;
+
+            currentQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                let status = 'Não Respondida';
+                if (userAns !== null) {
+                    status = userAns === q.correct ? 'ACERTOU (🟢)' : 'ERROU (🔴)';
+                }
+                const flag = flaggedQuestions[idx] ? ' [SINALIZADA COM DÚVIDA 🚩]' : '';
+                const conf = userConfidence[idx] ? ` [Confiança: ${userConfidence[idx].toUpperCase()}]` : '';
+                const timeSpent = questionTimes[idx] ? ` [Tempo: ${questionTimes[idx]}s]` : '';
+                const note = questionNotes[idx] ? questionNotes[idx] : '(Sem anotações)';
+
+                text += `Questão ${idx + 1} (Original #${q.num})${flag}${conf}${timeSpent} - Tema: ${q.category}\n`;
+                text += `Status: ${status}\n`;
+                text += `Sua Anotação: ${note}\n`;
+                text += `--------------------------------------------------\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_Farmacologia_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function restartGame() {
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+            saveState();
+        }
+
+        /* PERSISTÊNCIA AUTOMÁTICA EM LOCALSTORAGE */
+        function saveState() {
+            const state = {
+                activeEdition,
+                userAnswers,
+                userConfidence,
+                questionTimes,
+                totalElapsedSeconds,
+                strikethroughState,
+                questionNotes,
+                flaggedQuestions,
+                score,
+                streak,
+                gameMode,
+                isFinished,
+                isForceMobile
+            };
+            localStorage.setItem('simulado_farma_state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('simulado_farma_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.isForceMobile !== undefined) {
+                        isForceMobile = state.isForceMobile;
+                        applyLayoutMode();
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos', e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
