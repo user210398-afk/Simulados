@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Simulados - Prova TFCs (Micologia Médica)</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #1e1b4b 100%);
+            --card-bg: rgba(21, 28, 44, 0.85);
+            --border-glow: rgba(99, 102, 241, 0.3);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct-green: #10b981;
+            --correct-bg: rgba(16, 185, 129, 0.15);
+            --incorrect-red: #ef4444;
+            --incorrect-bg: rgba(239, 68, 68, 0.15);
+            --accent-yellow: #f59e0b;
+            --input-bg: rgba(0, 0, 0, 0.25);
+            --opt-hover: rgba(99, 102, 241, 0.15);
+        }
+
+        body.light-theme {
+            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --border-glow: rgba(99, 102, 241, 0.25);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --opt-hover: rgba(99, 102, 241, 0.1);
+        }
+
+        body.theme-clean-light {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --card-bg: #ffffff;
+            --border-glow: #cbd5e1;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --correct-green: #059669;
+            --correct-bg: #ecfdf5;
+            --incorrect-red: #dc2626;
+            --incorrect-bg: #fef2f2;
+            --accent-yellow: #d97706;
+            --input-bg: #f8fafc;
+            --opt-hover: #e0f2fe;
+        }
+
+        body.theme-clean-light .hub-screen,
+        body.theme-clean-light .game-hud,
+        body.theme-clean-light .flashcards-screen,
+        body.theme-clean-light .report-screen,
+        body.theme-clean-light .q-card,
+        body.theme-clean-light .side-panel > div,
+        body.theme-clean-light .modal-box {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+        }
+
+        body.theme-clean-light .mode-selector-box,
+        body.theme-clean-light .hud-header {
+            background: #f1f5f9 !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        body.theme-clean-light .hub-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
+        }
+
+        body.theme-clean-light .hub-card:hover {
+            border-color: #0284c7 !important;
+            box-shadow: 0 12px 24px rgba(2, 132, 199, 0.12) !important;
+        }
+
+        body.theme-clean-light .opt-btn {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        body.theme-clean-light .opt-btn:hover:not(.disabled) {
+            background: #e0f2fe !important;
+            border-color: #0284c7 !important;
+        }
+
+        body.theme-clean-light .opt-btn.selected-choice {
+            background: #bae6fd !important;
+            border-color: #0284c7 !important;
+            color: #0369a1 !important;
+        }
+
+        body.theme-clean-light .opt-btn.correct-choice {
+            background: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #047857 !important;
+        }
+
+        body.theme-clean-light .opt-btn.incorrect-choice {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
+        }
+
+        body.theme-clean-light .explanation-panel {
+            background: #f0f9ff !important;
+            border-left: 4px solid #0284c7 !important;
+        }
+
+        body.theme-clean-light .q-nav-btn {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #475569 !important;
+        }
+
+        body.theme-clean-light .action-btn-secondary {
+            background: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        body.theme-clean-light .action-btn-secondary:hover {
+            background: #cbd5e1 !important;
+        }
+
+        body.theme-clean-light .history-card {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        body.theme-clean-light .setting-item {
+            border-bottom-color: #e2e8f0 !important;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* TELA HUB (HOME) */
+        .hub-screen {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 40px rgba(99, 102, 241, 0.2);
+            position: relative;
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-size: 2.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #10b981, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .hub-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 25px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        body.light-theme .mode-selector-box {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .hub-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 30px 22px;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        body.light-theme .hub-card {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hub-card-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .badge-tfcs { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .badge-pt1 { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+        .badge-pt2 { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .badge-flashcards { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); }
+
+        .hub-card h2 { font-size: 1.45rem; margin-bottom: 12px; color: var(--text-main); }
+        .hub-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-tfcs { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
+        .btn-tfcs:hover { background: linear-gradient(135deg, #059669 0%, #047857 100%); transform: scale(1.02); }
+
+        .btn-pt1 { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: white; }
+        .btn-pt1:hover { background: linear-gradient(135deg, #0369a1 0%, #075985 100%); transform: scale(1.02); }
+
+        .btn-pt2 { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); color: white; }
+        .btn-pt2:hover { background: linear-gradient(135deg, #be185d 0%, #9d174d 100%); transform: scale(1.02); }
+
+        .btn-flash { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .btn-flash:hover { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); transform: scale(1.02); }
+
+        /* INTERFACE DO QUIZ UNIFICADO */
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px 25px;
+            border-radius: 14px;
+            border: 1px solid var(--border-glow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        body.light-theme .hud-header {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #38bdf8;
+        }
+
+        .combo-badge {
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: white;
+            display: none;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 25px;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .q-category-tag {
+            display: none;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+
+        .q-statement {
+            font-size: 1.05rem;
+            line-height: 1.65;
+            margin-bottom: 25px;
+            white-space: pre-line;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 3px;
+            padding: 1px 2px;
+        }
+
+        .hl-word.marked {
+            background-color: #fef08a;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .q-statement.pen-active {
+            cursor: crosshair;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .q-statement.eraser-active {
+            cursor: cell;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .opt-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        body.light-theme .opt-btn {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.2) !important;
+            font-weight: 600;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.45;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: #10b981 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: #ef4444 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        .btn-confirm {
+            display: none;
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            font-weight: 800;
+            font-size: 1.05rem;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .explanation-panel {
+            display: none;
+            background: rgba(0, 0, 0, 0.15);
+            border-left: 4px solid #38bdf8;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 15px;
+        }
+
+        body.light-theme .explanation-panel {
+            background: rgba(241, 245, 249, 0.95);
+        }
+
+        .exp-header {
+            color: #38bdf8;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 8px;
+        }
+
+        .exp-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .notes-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .notes-textarea:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .grid-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .nav-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .nav-grid::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .q-nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.light-theme .q-nav-btn {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .q-nav-btn.active-q {
+            border-color: #38bdf8;
+            color: var(--text-main);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        .q-nav-btn.answered-realista-q {
+            border-color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.2) !important;
+            color: var(--text-main) !important;
+        }
+
+        .q-nav-btn.correct-q {
+            background: var(--correct-green) !important;
+            color: white !important;
+            border-color: var(--correct-green) !important;
+        }
+
+        .q-nav-btn.incorrect-q {
+            background: var(--incorrect-red) !important;
+            color: white !important;
+            border-color: var(--incorrect-red) !important;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .action-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        body.light-theme .action-btn-secondary {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .action-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .action-btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+        .action-btn-danger:hover {
+            background: rgba(239, 68, 68, 0.4);
+            color: white;
+        }
+
+        /* TELA DE FLASHCARDS */
+        .flashcards-screen {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .flashcard-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 35px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        body.light-theme .flashcard-card {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        /* RELATÓRIO FINAL */
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4ade80, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .report-score-big {
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            color: var(--text-main);
+            margin: 15px 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .report-table th, .report-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .report-table th {
+            background: rgba(0, 0, 0, 0.1);
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .bar-bg {
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 5px;
+            width: 120px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .diagnostic-card {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .conf-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-glow);
+            background: rgba(0,0,0,0.2);
+            color: var(--text-muted);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .conf-btn.active-certain {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .conf-btn.active-guess {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: #f59e0b;
+            color: #f59e0b;
+        }
+
+        .srs-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .srs-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.15s;
+        }
+
+        .srs-btn:hover { transform: scale(1.03); }
+        .srs-hard { background: #ef4444; }
+        .srs-good { background: #f59e0b; }
+        .srs-easy { background: #10b981; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            max-width: 550px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #38bdf8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        body.light-theme .setting-item {
+            border-bottom-color: rgba(0,0,0,0.08);
+        }
+
+        .setting-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .setting-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .toggle-checkbox {
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: rgba(255,255,255,0.2);
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked {
+            background: var(--primary);
+        }
+
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            background: white;
+            transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked::before {
+            transform: translateX(20px);
+        }
+
+        .history-card {
+            background: rgba(0,0,0,0.15);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+
+            .hub-header-bar, .mode-selector-box, .controls-bar, .side-panel,
+            .btn-confirm, .conf-btn-group, .btn-layout-toggle-class,
+            #btn-theme-toggle, .hud-header, .modal-overlay,
+            button, .btn-hub-action {
+                display: none !important;
+            }
+
+            .main-container, .hub-screen, .game-hud, .report-screen, .q-card {
+                box-shadow: none !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .q-statement {
+                color: black !important;
+                font-size: 11pt !important;
+            }
+
+            .opt-btn {
+                border: 1px solid #ccc !important;
+                color: black !important;
+                background: transparent !important;
+                margin-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+
+            .explanation-panel {
+                display: block !important;
+                border-left: 3px solid #000 !important;
+                background: #f8f8f8 !important;
+                color: black !important;
+            }
+
+            .report-table th, .report-table td {
+                color: black !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .game-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .hub-screen { padding: 25px 15px; border-radius: 16px; }
+            .hub-title { font-size: 1.8rem; }
+            .hub-subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+            .mode-selector-box { flex-direction: column; align-items: stretch; gap: 12px; padding: 15px; }
+            .mode-selector-box select, .topic-dropdown-btn { width: 100%; text-align: center; }
+            .game-hud { padding: 15px; border-radius: 16px; }
+            .hud-header { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px; }
+            .hud-stat { justify-content: space-between; width: 100%; }
+            .q-card { padding: 15px; }
+            .q-statement { font-size: 0.98rem; margin-bottom: 20px; }
+            .opt-btn { padding: 12px 14px; font-size: 0.9rem; }
+            .controls-bar { flex-direction: column; gap: 12px; }
+            .controls-bar > div { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+            .action-btn { width: 100%; text-align: center; padding: 14px; }
+            .flashcards-screen { padding: 20px 15px; }
+            .flashcard-card { padding: 20px 15px; min-height: 240px; }
+            .report-screen { padding: 20px 15px; }
+            .report-score-big { font-size: 3rem; }
+            .report-table { font-size: 0.82rem; }
+            .report-table th, .report-table td { padding: 8px 10px; }
+            .bar-bg { width: 60px; }
+        }
+
+        body.force-mobile-mode { padding: 8px !important; }
+        body.force-mobile-mode .main-container { max-width: 100% !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .flashcards-screen,
+        body.force-mobile-mode .report-screen { padding: 15px !important; border-radius: 12px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.6rem !important; }
+        body.force-mobile-mode .game-layout { grid-template-columns: 1fr !important; }
+        body.force-mobile-mode .controls-bar { flex-direction: column !important; }
+        body.force-mobile-mode .controls-bar > div { width: 100% !important; flex-direction: column !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- TELA HOME / HUB CENTRAL -->
+        <div class="hub-screen" id="hub-screen">
+            <div class="hub-header-bar">
+                <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.9rem;">
+                    ⚙️ Configurações
+                </button>
+                <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.9rem;">
+                    📱 Modo Celular: AUTO
+                </button>
+                <button class="action-btn action-btn-secondary" id="btn-theme-toggle" onclick="cycleTheme()" style="padding: 8px 16px; font-size: 0.9rem;">
+                    🌙 Tema Escuro
+                </button>
+            </div>
+
+            <div class="hub-title">🔬 PORTAL DE SIMULADOS - PROVA TFCS</div>
+            <div class="hub-subtitle">
+                Banco unificado contendo todas as questões de micologia médica das Provas TFCs. Selecione o modo de estudo desejado, filtre por temas específicos e acompanhe seu rendimento em tempo real.
+            </div>
+
+            <div class="mode-selector-box">
+                <div style="display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center;">
+                    <label for="game-mode-select" style="font-weight: 800; color: #38bdf8;">🎯 Modo de Prova:</label>
+                    <select id="game-mode-select">
+                        <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                        <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 8px; align-items: center; position: relative; width: 100%; justify-content: center;">
+                    <label style="font-weight: 800; color: #38bdf8;">🏷️ Filtrar por Tema(s):</label>
+                    <div id="topic-dropdown-wrapper" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+                        <button type="button" class="topic-dropdown-btn" id="topic-dropdown-btn" onclick="toggleTopicDropdown()" style="width: 100%;">
+                            Todos os Temas ▾
+                        </button>
+                        <div id="topic-checkbox-list" style="display: none; position: absolute; top: 110%; left: 0; background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 14px; padding: 14px; max-height: 250px; overflow-y: auto; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.6); width: 100%; text-align: left; backdrop-filter: blur(16px);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hub-cards-grid">
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-tfcs">Prova TFCs</span>
+                        <h2>Simulado Completo - TFCs</h2>
+                        <p>Banco integral unificado de questões das Provas TFCs cobrindo aspergilose, micoses oportunistas, mucormicose, pneumocistose, dermatofitoses, cromomicose e micoses superficiais.</p>
+                    </div>
+                    <button class="btn-hub-action btn-tfcs" onclick="startSimulado('tfcs_full')">
+                        🚀 Iniciar Simulado Completo
+                    </button>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-pt1">Parte 1</span>
+                        <h2>Simulado TFCs - Bloco 1 (Primeira Metade)</h2>
+                        <p>Questões focadas em aspergilose, micoses oportunistas, mucormicose, pneumocistose e infecções fúngicas invasivas.</p>
+                    </div>
+                    <button class="btn-hub-action btn-pt1" onclick="startSimulado('tfcs_pt1')">
+                        ⚡ Iniciar Parte 1
+                    </button>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-pt2">Parte 2</span>
+                        <h2>Simulado TFCs - Bloco 2 (Segunda Metade)</h2>
+                        <p>Questões abordando cromomicose, esporotricose, lacaziose, dermatofitoses, micoses superficiais e biologia fúngica.</p>
+                    </div>
+                    <button class="btn-hub-action btn-pt2" onclick="startSimulado('tfcs_pt2')">
+                        🔀 Iniciar Parte 2
+                    </button>
+                </div>
+
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-flashcards">Revisão Ativa</span>
+                        <h2>Modo Flashcards TFCs</h2>
+                        <p>Cartões de estudo interativos gerados a partir do banco TFCs para memorização de conceitos, achados microscópicos e infectologia fúngica.</p>
+                    </div>
+                    <button class="btn-hub-action btn-flash" onclick="startFlashcards()">
+                        🎴 Estudar por Flashcards
+                    </button>
+                </div>
+            </div>
+
+            <div class="history-card" id="history-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: #38bdf8; font-size: 1.15rem;">📜 Histórico de Desempenho & Evolução</h3>
+                    <button class="action-btn action-btn-secondary" onclick="clearHistory()" style="padding: 4px 10px; font-size: 0.75rem;">Limpar Histórico</button>
+                </div>
+                <div id="history-list-content">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERFACE DO QUIZ UNIFICADO -->
+        <div class="game-hud" id="game-hud">
+            <div class="hud-header">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <div class="hud-stat">
+                        <span id="quiz-title-badge" style="font-weight: 800; color: #a5b4fc;">SIMULADO TFCS</span>
+                    </div>
+                    <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">
+                        📱 Modo Celular: AUTO
+                    </button>
+                </div>
+                <div class="hud-stat">
+                    <span>Questão:</span>
+                    <span class="hud-stat-val" id="hud-q-num">1 / 30</span>
+                </div>
+                <div class="hud-stat" id="hud-timer-stat">
+                    <span>⏱️ Tempo:</span>
+                    <span class="hud-stat-val" id="hud-timer">00:00</span>
+                </div>
+                <div class="hud-stat" id="hud-avgtime-stat">
+                    <span>⏱️ Média/Q:</span>
+                    <span class="hud-stat-val" id="hud-avgtime">0s</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Pontuação:</span>
+                    <span class="hud-stat-val" id="hud-score" style="color: #4ade80;">0 PTS</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Aproveitamento:</span>
+                    <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                </div>
+                <div class="combo-badge" id="combo-badge">🔥 COMBO x2!</div>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div class="q-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                            <span class="q-category-tag" id="q-category" style="margin-bottom: 0;">CATEGORIA</span>
+                            <div id="toolbar-box" style="display: flex; gap: 6px; margin-left: auto; align-items: center; flex-wrap: wrap;">
+                                <div style="display: flex; background: rgba(0,0,0,0.1); border: 1px solid var(--border-glow); border-radius: 8px; padding: 2px;">
+                                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(-1)" style="padding: 4px 8px; font-size: 0.8rem; border-radius: 6px;">A-</button>
+                                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(1)" style="padding: 4px 8px; font-size: 0.8rem; border-radius: 6px;">A+</button>
+                                </div>
+                                <button class="action-btn action-btn-secondary" id="btn-flag" onclick="toggleFlag()" style="padding: 6px 10px; font-size: 0.8rem;">🚩 Dúvida</button>
+                                <button class="action-btn action-btn-secondary" id="btn-highlight" onclick="toggleHighlight()" style="padding: 6px 10px; font-size: 0.8rem;">🖍️ Marca-texto</button>
+                                <button class="action-btn action-btn-secondary" id="btn-eraser" onclick="toggleEraser()" style="padding: 6px 10px; font-size: 0.8rem;">🧽 Borracha</button>
+                            </div>
+                        </div>
+                        <div class="q-statement" id="q-statement">Carregando questão...</div>
+                        <div class="options-group" id="options-group"></div>
+
+                        <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança nesta resposta:</div>
+                            <div class="conf-btn-group">
+                                <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                            ✅ Confirmar Resposta
+                        </button>
+
+                        <div class="explanation-panel" id="explanation-panel">
+                            <div class="exp-header">
+                                💡 Contextualização Teórica e Justificativa
+                            </div>
+                            <div class="exp-body" id="exp-body"></div>
+                        </div>
+                    </div>
+
+                    <div class="controls-bar">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                            <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: #059669;">📊 Ver Relatório Final</button>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()">← Anterior</button>
+                            <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Zerar Quiz</button>
+                            <button class="action-btn" id="btn-next" onclick="nextQuestion()">Próxima →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="chart-card" id="chart-card-box">
+                        <div class="chart-title">Desempenho em Tempo Real</div>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                            <div class="chart-center-text" id="chart-center">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 0.85rem;">
+                            <span style="color: #10b981;">🟢 Acertos: <b id="lbl-correct">0</b></span>
+                            <span style="color: #ef4444;">🔴 Erros: <b id="lbl-incorrect">0</b></span>
+                        </div>
+                    </div>
+
+                    <div class="notes-card" id="notes-card-box">
+                        <div class="chart-title">📝 Bloco de Notas</div>
+                        <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho ou anotações para esta questão..." oninput="saveNote(this.value)"></textarea>
+                    </div>
+
+                    <div class="grid-card" id="grid-card-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="chart-title" style="margin-bottom: 0;">Grade</div>
+                            <div style="display: flex; gap: 4px;">
+                                <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">🚩 Dúvidas</button>
+                            </div>
+                        </div>
+                        <div class="nav-grid" id="nav-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA MODO FLASHCARDS -->
+        <div class="flashcards-screen" id="flashcards-screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2 style="color: #f59e0b; font-size: 1.6rem; font-weight: 800;">🎴 Flashcards - Prova TFCs</h2>
+                <div style="display: flex; gap: 8px;">
+                    <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 6px 12px; font-size: 0.85rem;">
+                        📱 Modo Celular: AUTO
+                    </button>
+                    <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu</button>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); margin-top: 5px;" id="flash-card-counter">Cartão 1 de 30</p>
+
+            <div class="flashcard-card">
+                <div>
+                    <span class="q-category-tag" id="flash-category" style="display: inline-block; margin-bottom: 15px;">TEMA</span>
+                    <div id="flash-front" style="font-size: 1.15rem; line-height: 1.6; color: var(--text-main); font-weight: 600;">
+                        Pergunta do Flashcard...
+                    </div>
+                    <div id="flash-back" style="display: none; margin-top: 25px; border-top: 1px dashed var(--border-glow); padding-top: 20px; font-size: 1rem; line-height: 1.6;">
+                        Resposta...
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center;">
+                    <button class="action-btn" id="btn-reveal-flash" onclick="toggleFlashcardAnswer()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); width: 100%;">
+                        👁️ Revelar Resposta Direta e Conceito
+                    </button>
+
+                    <div id="srs-panel" style="display: none;">
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 700;">Como foi responder este cartão?</div>
+                        <div class="srs-btn-group">
+                            <button class="srs-btn srs-hard" onclick="rateFlashcard('hard')">🔴 Difícil / Errei<br><span style="font-size: 0.72rem; font-weight: normal;">Revisar em 1 dia</span></button>
+                            <button class="srs-btn srs-good" onclick="rateFlashcard('good')">🟡 Bom<br><span style="font-size: 0.72rem; font-weight: normal;">Revisar em 3 dias</span></button>
+                            <button class="srs-btn srs-easy" onclick="rateFlashcard('easy')">🟢 Fácil<br><span style="font-size: 0.72rem; font-weight: normal;">Revisar em 7 dias</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="prevFlashcard()">← Anterior</button>
+                <button class="action-btn action-btn-secondary" onclick="shuffleFlashcards()">🔀 Embaralhar</button>
+                <button class="action-btn" onclick="nextFlashcard()">Próximo →</button>
+            </div>
+        </div>
+
+        <!-- TELA DE RELATÓRIO FINAL -->
+        <div class="report-screen" id="report-screen">
+            <div class="report-header-title" id="rep-edition-title">📊 DIAGNÓSTICO FINAL DE DESEMPENHO</div>
+            <div class="report-score-big" id="rep-score-big">0%</div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 1rem;" id="rep-status-msg"></p>
+
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 15px 0;">
+                <div style="background: rgba(0,0,0,0.2); padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border-glow); text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Total</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #38bdf8;" id="rep-total-time">00:00</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.2); padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border-glow); text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Médio / Questão</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #a5b4fc;" id="rep-avg-time">0s</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.2); padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border-glow); text-align: center;" id="rep-conf-box-summary">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Acertos com Certeza / Chutes</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #4ade80;" id="rep-conf-ratio">0 / 0</div>
+                </div>
+            </div>
+
+            <div class="diagnostic-card" id="rep-diagnostic-box">
+                <strong>💡 Recomendação de Estudos:</strong>
+                <div id="rep-diagnostic-text" style="margin-top: 5px;"></div>
+            </div>
+
+            <h3 style="color: #38bdf8; margin-top: 25px; font-size: 1.2rem;">Análise Detalhada por Tema das Provas TFCs:</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Tema / Categoria</th>
+                            <th>Total</th>
+                            <th>Acertos</th>
+                            <th>Aproveitamento</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rep-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Zerar Quiz</button>
+                <button class="action-btn" onclick="restartGame()">🔄 Refazer Quiz</button>
+                <button class="action-btn" onclick="startCadernoErros()" style="background: #dc2626;">❌ Caderno de Erros</button>
+                <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;">📥 Exportar (.txt)</button>
+                <button class="action-btn" onclick="printReport()" style="background: #8b5cf6;">📄 Exportar (PDF / Impressão)</button>
+                <button class="action-btn action-btn-secondary" onclick="hideReport()">🔍 Revisar Respostas</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span>⚙️ Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()">✖</span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Métrica de Tempo Médio / Questão</div>
+                    <div class="setting-sub">Calcula os segundos gastos em cada questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-avgtime" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🎯 Nível de Confiança ao Responder</div>
+                    <div class="setting-sub">Permite indicar se a resposta foi por certeza ou chute.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-confidence" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🎴 Algoritmo SRS nos Flashcards</div>
+                    <div class="setting-sub">Ativa os botões de Repetição Espaçada nos cartões.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-srs" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📜 Exibir Histórico no Hub</div>
+                    <div class="setting-sub">Exibe o histórico de tentativas salvas na página inicial.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-history" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📝 Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📈 Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🛠️ Barra de Ferramentas da Questão</div>
+                    <div class="setting-sub">Mostra botões de marca-texto, borracha, dúvida e fonte.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-toolbar" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🚩 Grade de Navegação</div>
+                    <div class="setting-sub">Exibe o mapa de questões na barra lateral.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-grid" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           BANCO DE DADOS - PROVAS TFCS (COMPLETO)
+           ========================================================================== */
+        const questionsTFCs = [
+            {
+                num: 1,
+                category: "Aspergilose e Micoses Oportunistas",
+                statement: "Um paciente com 55 anos de idade, sexo masculino, é atendido em um hospital com queixa de dores nas costas, febre nos últimos dias e falta de ar. O paciente tem histórico prévio de Doença Pulmonar Obstrutiva Crônica (DPOC) diagnosticada a 6 anos, com acompanhamento periódico e uso de glicocorticoide (baixas doses). Ao ser examinado, o médico nota aumento da frequência respiratória, presença de estertores na ausculta pulmonar, e temperatura de 38,5ºC. O RX de tórax mostra infiltrado pulmonar difuso, afetando ambos os pulmões (lobos inferiores) e região perihilar. O paciente é então internado para tratamento (início de antibacteriano de amplo espectro) e investigação diagnóstica. É coletado uma amostra de escarro induzido e enviado para análise microbiológica (isolamento/cultura). Nos dias subsequentes, apesar do tratamento não há melhora, e são coletadas novas amostras de escarro induzido, também enviados para análise microbiológica (isolamento/cultura). Em todas as amostras de escarro obtidas houve crescimento de fungo filamentoso (bolor), tanto em culturas incubadas à 25ºC, quanto à 37ºC. Após a análise do quadro clínico e dos resultados dos exames, o diagnóstico MAIS PROVÁVEL É:",
+                options: [
+                    "A. Aspergilose pulmonar invasiva.",
+                    "B. Não é possível estabelecer o diagnóstico definitivo com os dados apresentados.",
+                    "C. Pneumocistose.",
+                    "D. Aspergiloma.",
+                    "E. Aspergilose pulmonar crônica."
+                ],
+                correct: 4,
+                context: "<b>Justificativa da alternativa correta:</b><br>O histórico de DPOC e o uso contínuo de corticosteroides em baixas doses em um paciente sem neutropenia grave, associados à ausência de cavitação focal (aspergiloma) e de angioinvasão aguda (aspergilose invasiva), com achado repetido e persistente de Aspergillus spp. em amostras seriadas de escarro, caracterizam a Aspergilose pulmonar crônica.<br><br><b>Análise e correção das alternativas incorretas:</b><br>• A (Aspergilose pulmonar invasiva): Ocorre tipicamente em pacientes com imunossupressão grave e cursa com angioinvasão.<br>• B (Não é possível estabelecer...): Diferente de amostra isolada, o isolamento sequencial em múltiplas coletas associado ao quadro clínico (DPOC) autoriza o diagnóstico.<br>• C (Pneumocistose): P. jirovecii não se desenvolve como bolor em culturas convencionais.<br>• D (Aspergiloma): Caracteriza-se por massa fúngica focal em cavidade pulmonar pré-existente."
+            },
+            {
+                num: 2,
+                category: "Micoses Oportunistas e Fatores de Risco",
+                statement: "Fungos oportunistas estão entre as principais causas de morte de pacientes que apresentam algum tipo de imunodeficiência ou comprometimento do sistema imunológico. Dependendo do tipo de imunodeficiência ou doença de base é possível observar maior prevalência de determinado tipo de fungo. Nas alternativas abaixo, assinale aquela que descreve agentes MAIS PREVALENTES entre indivíduos que apresentam: I) NEUTROPENIA SEVERA (<500 células/mm3); II) DEFICIÊNCIA DE LINFÓCITOS TCD4+ (AIDS p.ex.); III) DIABETES DESCOMPENSADA COM CETOACIDOSE; IV) PACIENTE INTERNADO EM UTI COM USO DE CATETER.",
+                options: [
+                    "A. I=Aspergillus spp; II=Candida spp; III=Rhizopus spp; IV= Pneumocystis jirovecii.",
+                    "B. I=Aspergillus spp; II=Rhizopus spp; III=Pneumocystis jirovecii; IV=Candida spp.",
+                    "C. I=Pneumocystis jirovecii.; II=Aspergillus spp; III=Rhizopus spp; IV=Candida spp.",
+                    "D. I= Rhizopus spp; II= Aspergillus spp; III= Candida spp; IV=Pneumocystis jirovecii.",
+                    "E. I=Aspergillus spp; II=Pneumocystis jirovecii; III=Rhizopus spp; IV=Candida spp."
+                ],
+                correct: 4,
+                context: "<b>Justificativa da alternativa correta:</b><br>A neutropenia grave (I) predispõe à aspergilose; a queda de linfócitos T-CD4+ (II) compromete o controle de Pneumocystis jirovecii; a cetoacidose diabética (III) predispõe à mucormicose por Rhizopus spp.; e o uso de cateteres venosos centrais (IV) gera superfície para biofilmes por Candida spp.<br><br><b>Análise das incorretas:</b><br>• A, B, C e D invertem as associações entre os mecanismos de imunodeficiência e os patógenos fúngicos."
+            },
+            {
+                num: 3,
+                category: "Mucormicose Cutânea",
+                statement: "Uma paciente de 28 anos de idade está internada em decorrência de queimaduras provocadas por álcool em membros superiores. Devido à extensão das queimaduras, a paciente foi submetida a enxerto de pele (autólogo) e estava recuperando-se bem. Após 5 dias da realização do enxerto notou-se que as lesões do braço direito estavam apresentando sinais de infecção, iniciando-se tratamento com antibacterianos de amplo espectro. Após 3 dias, apesar do tratamento, não houve melhora e a mão e o braço direito da paciente apresentaram sinais de trombose, com isquemia e necrose extensa. Devido à gravidade do caso e risco de morte optou-se pela amputação do membro acima do cotovelo. A análise histopatológica do tecido do membro amputado mostrou a presença de micro-organismo com invasão de vasos sanguíneos. Iniciou-se o tratamento com anfotericina B e após 7 dias o coto do membro amputado já apresentava sinais de cicatrização. Após analisar o caso e o resultado do exame histopatológico, o diagnóstico MAIS PROVÁVEL É:",
+                options: [
+                    "A. Cromomicose subcutânea.",
+                    "B. Aspergilose cutânea/subcutânea.",
+                    "C. Paracoccidioidomicose cutânea/subcutânea.",
+                    "D. Esporotricose subcutânea.",
+                    "E. Mucormicose cutânea/subcutânea."
+                ],
+                correct: 4,
+                context: "<b>Justificativa da alternativa correta:</b><br>A presença de lesões invasivas com rápida evolução para necrose/isquemia e trombose em área de trauma em queimadura sem resposta a antibióticos, associada à identificação histopatológica de hifas cenocíticas largas e com ramificações em ângulo reto (90°) invadindo vasos, estabelece o diagnóstico de Mucormicose.<br><br><b>Análise das incorretas:</b><br>• A, B, C e D: Cromomicose é indolente; Aspergilose tem hifas septadas a 45°; Paracoccidioides e Sporothrix apresentam leveduras teciduais."
+            },
+            {
+                num: 4,
+                category: "Pneumocistose",
+                statement: "Infecções pelo fungo Pneumocystis jirovecii estão entre as mais comuns em indivíduos que apresentam imunodeficiência. Em relação a esse micro-organismo, assinale abaixo a afirmação INCORRETA:",
+                options: [
+                    "A. Apresenta um ciclo de vida que inclui uma forma com reprodução assexuada (formas tróficas) e uma forma com reprodução sexuada (formação de cistos).",
+                    "B. É um fungo termodimórfico, que nos tecidos do hospedeiro (37ºC) apresenta-se na forma de leveduras (forma trófica) e à temperatura ambiente (25ºC) apresenta-se na forma de cistos.",
+                    "C. Inicialmente o agente etiológico foi classificado como um tipo de protozoário, mas análises moleculares permitiram sua identificação como fungo.",
+                    "D. Em geral manifesta-se como infecção respiratória (pneumonia intersticial), mas em casos raros pode apresentar uma forma disseminada.",
+                    "E. É um dos principais fungos oportunistas que afetam indivíduos com HIV/AIDS."
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>A afirmativa B é a INCORRETA (solicitada). O Pneumocystis jirovecii não é um fungo termodimórfico. A alternância entre a forma trófica e cística decorre de etapas do seu ciclo reprodutivo bifásico, e ambas coexistem nos tecidos.<br><br><b>Análise das demais:</b><br>• A, C, D e E são corretas (ciclo sexual/assexuado, histórico de protozoário, pneumonia intersticial, marcador de AIDS)."
+            },
+            {
+                num: 5,
+                category: "Candida auris e Multirresistência",
+                statement: "Nos últimos anos as autoridades de saúde têm alertado para a ocorrência de casos de infecção por Candida auris em todos os continentes, e os possíveis problemas associados a essa espécie de patógeno. Em relação à infecção causada por essa espécie de Candida es CORRETO afirmar que:",
+                options: [
+                    "A. Trata-se de patógeno oportunista, que faz parte da microbiota normal de nossa pele e mucosa, mas que apresenta resistência a grande parte dos antifúngicos disponíveis atualmente.",
+                    "B. Trata-se de um patógeno oportunista, normalmente não encontrado em nossa microbiota normal, responsável por casos de candidíase invasiva em pacientes hospitalizados, multirresistente aos antifúngicos disponíveis.",
+                    "C. Trata-se de uma espécie da Candida anteriormente desconhecida, e que por isso apresenta difícil diagnóstico. Embora uma vez diagnosticada responda bem a tratamentos com antifúngicos convencionais.",
+                    "D. Trata-se de uma espécie de Candida anteriormente desconhecida como patógeno humano, mas que adquiriu a capacidade de ser transmitida de indivíduo para indivíduo por via respiratória.",
+                    "E. Trata-se de um patógeno oportunista, transmitido por via respiratória, encontrado em fezes de aves migratórias que espalharam essa espécie de fungo por todos os continentes."
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>Candida auris é um fungo emergente que não integra a microbiota humana comensal, causa surtos nosocomiais de infecções invasivas e caracteriza-se por alto grau de multirresistência aos antifúngicos.<br><br><b>Análise das incorretas:</b><br>• A: Não faz parte da microbiota normal.<br>• C: Não responde bem aos antifúngicos convencionais.<br>• D e E: Transmissão por contato direto e fómites, não respiratória."
+            },
+            {
+                num: 6,
+                category: "Mucormicose e Diagnóstico",
+                statement: "Em relação à forma de diagnóstico das mucormicoses é CORRETO afirmar que:",
+                options: [
+                    "A. O exame direto de amostras do raspado de lesões, com observação de hifas hialinas, septadas é suficiente para o diagnóstico.",
+                    "B. O diagnóstico deve ser realizado por meio da cultura e isolamento do fungo em meios de cultura seletivos (Sabouraud com adição de Cicloheximida para evitar o crescimento de fungos saprófitas).",
+                    "C. No exame histopatológico das lesões são observadas hifas cenocíticas, hialinas, de aparência irregular com ramificações em ângulo reto.",
+                    "D. Para confirmação diagnóstica é necessária a demonstração de dimorfismo térmico, com cultivo do fungo a temperatura ambiente e à 37ºC.",
+                    "E. A detecção de antígenos circulantes por testes imunoenzimáticos (ELISA) ou do material genético do fungo por técnicas de biologia molecular é considerado o padrão ouro de diagnóstico."
+                ],
+                correct: 2,
+                context: "<b>Justificativa da alternativa correta:</b><br>A demonstração histopatológica de invasão tecidual por hifas hialinas, desprovidas de septos (cenocíticas), de diâmetro variável e ramificadas em ângulos de 90° representa o achado diagnóstico fundamental da mucormicose.<br><br><b>Análise das incorretas:</b><br>• A: Mucorales não possuem hifas regularmente septadas.<br>• B: Cicloheximida inibe Mucorales.<br>• D: São fungos filamentosos monomórficos.<br>• E: O padrão-ouro é a histopatologia."
+            },
+            {
+                num: 7,
+                category: "Aspergilose e Espectro Clínico",
+                statement: "Analise a seguir as afirmações a respeito da Aspergilose:\nI - Pode apresentar diferentes manifestações clínicas, dependente da doença de base ou status imunológico do paciente;\nII - É causada por diversas espécies de fungos filamentosos demáceos do gênero Aspergillus;\nIII - As formas mais graves estão associadas a pacientes com diabetes descompensada e cetoacidose;\nIV - O diagnóstico de certeza é feito pela observação de hifas hialinas, septadas, com ramification em ângulo agudo nos tecidos provenientes de lesões dos pacientes afetados;\nV - A sorologia para detecção de antígenos (beta-glucanos) é importante para monitoramento e detecção precoce de casos em pacientes submetidos a transplante de medula-óssea que apresentam neutropenia grave.\nApós a análise é possível afirmar que:",
+                options: [
+                    "A. Somente as afirmações I e V são corretas.",
+                    "B. Somente as afirmações II, III e IV são corretas.",
+                    "C. Todas as afirmações são corretas.",
+                    "D. Somente as afirmações I e III são corretas.",
+                    "E. Somente a afirmação I é correta."
+                ],
+                correct: 4,
+                context: "<b>Justificativa da alternativa correta:</b><br>Apenas a afirmativa I está correta. A aspergilose varia desde manifestações alérgicas ou colonizações até formas invasivas dependendo da imunocompetência.<br><br><b>Análise das incorretas:</b><br>• II: Aspergillus são hialinos.<br>• III: Cetoacidose está ligada à mucormicose.<br>• IV: Hifas hialinas septadas dão diagnóstico presuntivo (hialohifomicose).<br>• V: O marcador específico é a galactomanana."
+            },
+            {
+                num: 8,
+                category: "Pneumocistose e Diagnóstico Laboratorial",
+                statement: "O diagnóstico da Pneumocistose (infecção por Pneumocystis jirovecii) deve ser feita por:",
+                options: [
+                    "A. Isolamento em cultura microbiológica e posterior identificação por meio da técnica de MALDI-TOF, uma vez que é difícil a diferenciação de outras espécies com testes bioquímicos ou microbiológicos tradicionais.",
+                    "B. Biópsia de lesões e observação de formas tróficas ou cistos no interior de macrófagos.",
+                    "C. Sorologia para detecção de anticorpos específicos contra antígenos específicos do fungo.",
+                    "D. Exame direto de lavado bronco alveolar ou escarro induzido, e observação das formas tróficas (coradas com Giemsa) ou de cistos (coradas com prata – Grocott).",
+                    "E. Isolamento e identificação em cultura microbiológica, com o uso de meio Sabouraud acrescido de Cicloheximida para inibição de crescimento de fungos saprófitas."
+                ],
+                correct: 3,
+                context: "<b>Justificativa da alternativa correta:</b><br>O Pneumocystis jirovecii não é cultivável in vitro. O diagnóstico apoia-se no exame microscópico direto de lavado broncoalveolar ou escarro induzido com Giemsa ou Grocott.<br><br><b>Análise das incorretas:</b><br>• A e E: P. jirovecii não cresce em Sabouraud.<br>• B: Ciclo extracelular alveolar.<br>• C: Anticorpos não definem infecção aguda devido à alta soropositividade populacional."
+            },
+            {
+                num: 9,
+                category: "Aspergilose Pulmonar Invasiva",
+                statement: "Uma mulher de 31 anos, internada em um hospital após transplante de medula-óssea, apresentando neutropenia importante (235 células/mm3), apresenta febre e dispneia. RX de tórax mostra infiltrado denso no lobo superior esquerdo, sem cavitações. Sem melhora com antibiótico, realiza broncoscopia e biópsia. O diagnóstico MAIS PROVÁVEL É:",
+                options: [
+                    "A. Paracoccidioidomicose aguda.",
+                    "B. Mucormicose pulmonar.",
+                    "C. Aspergiloma.",
+                    "D. Aspergilose pulmonar invasiva.",
+                    "E. Aspergilose pulmonar crônica.",
+                    "F. Pneumocistose."
+                ],
+                correct: 3,
+                context: "<b>Justificativa da alternativa correta:</b><br>Neutropenia grave pós-transplante associada à histopatologia de hifas hialinas, septadas, com ramificação dicotômica em ângulo agudo (~45°) caracteriza a Aspergilose pulmonar invasiva.<br><br><b>Análise das incorretas:</b><br>• A, B, C, E e F: Apresentam padrões histológicos ou clínicos divergentes (leveduras múltiplas, hifas a 90°, bola fúngica intracavitária, DPOC ou exsudato cístico alveolar)."
+            },
+            {
+                num: 10,
+                category: "Diagnóstico Laboratorial da Aspergilose",
+                statement: "Qual(is) o(s) teste(s) laboratorial(is) pode(m) ser realizado(s), e que terá(ão) maior utilidade para auxiliar no diagnóstico definitivo?",
+                options: [
+                    "A. Exame direto de lavado bronco alveolar.",
+                    "B. Cultura microbiológica em meio Sabouraud simples.",
+                    "C. Teste sorológico para detecção de antígeno específico.",
+                    "D. Cultura microbiológica em meio Sabouraud + Cicloheximida.",
+                    "E. Teste sorológico para detecção de anticorpos específicos (IgG e IgM)."
+                ],
+                correct: 1, 
+                context: "<b>Justificativa da alternativa correta:</b><br>A pesquisa de antígenos circulantes (galactomanana) e o isolamento fúngico em cultura simples de Sabouraud auxiliam no diagnóstico da aspergilose invasiva.<br><br><b>Análise das incorretas:</b><br>• A: Exame direto simples tem valor limitado para espécies filamentosas.<br>• D: Cicloheximida inibe Aspergillus.<br>• E: Neutropênicos graves não produzem resposta humoral detectável."
+            },
+            {
+                num: 11,
+                category: "Lacaziose (Doença de Jorge Lobo)",
+                statement: "De paciente vindo da região norte com lesão de aspecto de queloide na orelha, obteve-se, no exame histopatológico, células fúngicas em cadeia. Podemos desconfiar de forma fundamentada de que se trata de:",
+                options: [
+                    "A. Criptococose",
+                    "B. Lacaziose",
+                    "C. Cromomicose",
+                    "D. Esporotricose",
+                    "E. Infecção por Streptococcus pyogenes"
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>A ocorrência na Região Norte, lesões queloidiformes na orelha e histopatologia de leveduras arredondadas em correntes/cadeias interligadas por istmos confirmam a Lacaziose (Lacazia loboi).<br><br><b>Análise das incorretas:</b><br>• A, C, D e E: Criptococose (capsulada isolada), Cromomicose (corpúsculos muriformes), Esporotricose (em charuto) e S. pyogenes (bactéria)."
+            },
+            {
+                num: 12,
+                category: "Esporotricose Zoonótica",
+                statement: "Analise as seguintes afirmativas e indique a alternativa que contempla TODAS AS AFIRMATIVAS CORRETAS:\nI - A esporotricose é uma das principais doenças emergentes do Estado de São Paulo.\nII - Um fator de risco para se adquirir a esporotricose são os ferimentos com objetos perfurocortantes contaminados, como espinhos de plantas ou arranhaduras e mordeduras de gatos, por exemplo.\nIII - Biópsias de tecidos afetados pela esporotricose corados por PAS ou Grocott demonstram a presença de hifas hialinas típicas do fungo.",
+                options: [
+                    "A. I e II",
+                    "B. II e III",
+                    "C. Nenhuma afirmativa está correta",
+                    "D. I e III",
+                    "E. I",
+                    "F. II",
+                    "G. I, II e III",
+                    "H. III"
+                ],
+                correct: 0,
+                context: "<b>Justificativa da alternativa correta:</b><br>Estão corretas as afirmativas I (epidemia de esporotricose felina em SP) e II (transmissão traumática por espinhos e arranhaduras de gatos).<br><br><b>Análise da afirmativa III:</b><br>• III está incorreta: Nos tecidos humanos a 37°C, o Sporothrix apresenta-se na forma leveduriforme, e não como hifas hialinas."
+            },
+            {
+                num: 13,
+                category: "Severidade da Esporotricose",
+                statement: "Dois proprietários de gato adquiriram esporotricose a partir de arranhadura de gatos. Em um caso, o gato estava saudável e não tinha a doença. Em outro, o animal estava doente e com lesões bastante disseminadas pela pele. Podemos pressupor que o quadro clínico nos dois casos no ser humano será o mesmo em termos de gravidade e velocidade?",
+                options: [
+                    "A. SIM, COM CERTEZA",
+                    "B. PROVAVELMENTE, NÃO."
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>Animais doentes com lesões ativas possuem carga fúngica muito superior nas garras do que gatos hígidos. Um inóculo maior reduz o período de incubação e eleva a gravidade clínica.<br><br><b>Análise da incorreta:</b><br>• A: Desconsidera a relação entre o inóculo fúngico inoculado e a severidade."
+            },
+            {
+                num: 14,
+                category: "Histopatologia da Esporotricose",
+                statement: "A partir de lesões com suspeita de serem esporotricose, foi feita uma biópsia e constatou-se que o achado era compatível com essa doença. Qual das imagens teciduais se encaixaria nessa situação?",
+                options: [
+                    "A. Leveduras pleomórficas alongadas em forma de charuto",
+                    "B. Hifas com conidióforos em margarida",
+                    "C. Esférulas com endósporos",
+                    "D. Corpúsculos muriformes",
+                    "E. Células em roda de leme"
+                ],
+                correct: 0,
+                context: "<b>Justificativa da alternativa correta:</b><br>A observação tecidual de leveduras pleomórficas alongadas em forma de charuto caracteriza a fase leveduriforme do Sporothrix nos tecidos a 37°C.<br><br><b>Análise das incorretas:</b><br>• B, C, D e E representam outras estruturas fúngicas (margarida em cultura a 25°C, Coccidioides, Cromoblastomicose e Paracoccidioides)."
+            },
+            {
+                num: 15,
+                category: "Cromoblastomicose em Imunossuprimidos",
+                statement: "Turista espanhol de 58 anos com histórico de transplante renal em uso de imunossupressores apresentou placa verrucosa na mão direita. Exame histopatológico revelou fungo com pigmentação nas hifas. Podemos suspeitar de:",
+                options: [
+                    "A. Hialo-hifomicose",
+                    "B. Doença de Jorge Lobo",
+                    "C. Cromomicose",
+                    "D. Esporotricose",
+                    "E. Aspergilose"
+                ],
+                correct: 2,
+                context: "<b>Justificativa da alternativa correta:</b><br>Lesão verrucosa crônica associada a estruturas fúngicas demáceas (com pigmentação de melanina) apoia o diagnóstico de cromomicose.<br><br><b>Análise das incorretas:</b><br>• A e E: Causadas por fungos hialinos (sem pigmento).<br>• B: Lacaziose (nódulos queloidianos com leveduras em cadeia).<br>• D: Esporotricose (leveduras em charuto)."
+            },
+            {
+                num: 16,
+                category: "Micetomas e Grãos",
+                statement: "De um paciente com tumoração nos pés com presença de grãos, fez-se biópsia que constatou presença de filamentos de parede dupla nos tecidos, com pouca produção de pus e evolução crônica sem afetar o estado geral. Trata-se de:",
+                options: [
+                    "A. Candidíase.",
+                    "B. Paracoccidioidomicose",
+                    "C. Esporotricose",
+                    "D. Micetoma",
+                    "E. Criptococose"
+                ],
+                correct: 3,
+                context: "<b>Justificativa da alternativa correta:</b><br>A tríade clínica de aumento pseudotumoral crônico nos membros inferiores, fístulas e eliminação de grãos define a síndrome do Micetoma.<br><br><b>Análise das incorretas:</b><br>• A, B, C e E não cursam tipicamente com a formação e drenagem de grãos fúngicos macroscópicos."
+            },
+            {
+                num: 17,
+                category: "Cromomicose Atípica",
+                statement: "Pescador de 74 anos apresentou lesão em expansão na coxa direita com eritema anular (30x30 cm). Exame direto com KOH revelou estruturas fúngicas e biópsia demonstrou granuloma com células gigantes. Cultura em Sabouraud mostrou colônias com superfície preta. De qual doença você desconfiou?",
+                options: [
+                    "A. Cromomicose",
+                    "B. Feo-hifomicose",
+                    "C. Não é possível responder por serem estruturas genéricas.",
+                    "D. Hialo-hifomicose",
+                    "E. Lobomicose"
+                ],
+                correct: 0,
+                context: "<b>Justificativa da alternativa correta:</b><br>O desenvolvimento de colônias demáceas negras em cultura aliado à identificação de corpúsculos muriformes acastanhados confirma a Cromomicose.<br><br><b>Análise das incorretas:</b><br>• B: Feohifomicose não forma corpúsculos muriformes.<br>• D e E: Fungos hialinos ou Lacaziose."
+            },
+            {
+                num: 18,
+                category: "Corpúsculos Muriformes",
+                statement: "As estruturas observadas no exame direto e histológico da cromomicose são chamadas:",
+                options: [
+                    "A. Blastoconídeos",
+                    "B. Corpúsculos muriformes",
+                    "C. Esporângios",
+                    "D. Corpúsculo de Hassall",
+                    "E. 'Grãos' eumicóticos"
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>Os corpúsculos muriformes (corpos fumagoides ou células escleróticas) são elementos fúngicos acastanhados com parede espessa que se dividem por cissiparidade em múltiplos planos nos tecidos, sendo patognomônicos da cromoblastomicose.<br><br><b>Análise das incorretas:</b><br>• A, C, D e E: Blastoconídeos (brotamento), esporângios (Mucorales), Hassall (timo) e grãos (micetoma)."
+            },
+            {
+                num: 19,
+                category: "Padrão Lesional na Cromoblastomicose",
+                statement: "Dada sua suspeita de cromoblastomicose, podemos afirmar que o padrão de lesão observado no caso clínico (placa anular extensa de 30x30 cm) é típico?",
+                options: [
+                    "A. SIM",
+                    "B. NÃO"
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>As lesões clássicas da cromomicose são pápulas e nódulos que evoluem para placas verrucosas em 'couve-flor'. A apresentação em placa anular extensa mimetizando tinea corporis é atípica.<br><br><b>Análise da incorreta:</b><br>• A: Desconsidera a raridade do padrão anular extenso."
+            },
+            {
+                num: 20,
+                category: "Caracterização de Fungos Demáceos",
+                statement: "A cultura do agente isolado na cromomicose mostra que se trata claramente de um fungo:",
+                options: [
+                    "A. Fastidioso",
+                    "B. Demaciácio",
+                    "C. Dimórfico",
+                    "D. Leveduriforme",
+                    "E. Hialino"
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>Fungos que sintetizam pigmentos de melanina na parede celular, resultando em colônias castanhas a pretas, pertencem ao grupo dos fungos demáceos (demaciácios).<br><br><b>Análise das incorretas:</b><br>• E: Hialino define fungos sem pigmento esuro.<br>• A, C e D não descrevem a pigmentação em cultura."
+            },
+            {
+                num: 21,
+                category: "Transmissão de Micoses Superficiais",
+                statement: "Escolha a situação que NÃO é congruente com a forma de infecção conhecida das dermatofitoses e da pitiríase versicolor:",
+                options: [
+                    "A. Banheiro público com compartilhamento de uma mesma toalha entre banhistas.",
+                    "B. Aluno que presenteou a namorada com uma rosa e ela acabou se espetando com um espinho.",
+                    "C. Brincar em playgrounds com areia.",
+                    "D. Criança que vivia com cães acaba adquirindo micose de pele dos animais."
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>A inoculação traumática por espinhos vegetais é o mecanismo clássico de transmissão da esporotricose. Dermatofitoses transmitem-se por contato interpessoal, animal ou solo, e pitiríase versicolor tem origem endógena.<br><br><b>Análise das demais:</b><br>• A, C e D descrevem vias reais de transmissão de dermatófitos (fômites, areia geofílica e animais zoofílicos)."
+            },
+            {
+                num: 22,
+                category: "Dermatofitoses e Reservatórios",
+                statement: "Analise as seguintes afirmativas e indique a alternativa que contempla todas as afirmações corretas:\nI - As dermatofitoses podem ser transmitidas de animais para o ser humano.\nII - O tratamento das dermatofitoses não pode exceder os 15 dias em hipótese alguma, pois as drogas antifúngicas são muito tóxicas e acabam por comprometer de forma importante o fígado.\nIII - O Microsporum gypseum é um dermatófito geofílico, o que significa que o solo é a maior fonte de infecção.",
+                options: [
+                    "A. I e III",
+                    "B. Apenas afirmativa II",
+                    "C. I, II e III",
+                    "D. II e III",
+                    "E. Apenas afirmativa III"
+                ],
+                correct: 0,
+                context: "<b>Justificativa da alternativa correta:</b><br>Estão corretas as afirmativas I (espécies zoofílicas) e III (Microsporum gypseum é geofílico).<br><br><b>Análise da afirmativa II:</b><br>• II está incorreta: Várias dermatofitoses exigem tratamentos sistêmicos prolongados por semanas a meses, sem limite rígido de 15 dias."
+            },
+            {
+                num: 23,
+                category: "Coleta em Dermatofitoses",
+                statement: "A partir de um caso suspeito de DERMATOFITOSE, a coleta de material clínico em consultório deve seguir o protocolo de:",
+                options: [
+                    "A. Raspar as bordas da lesão de maneira superficial, coletando escamas de pele e pelos.",
+                    "B. No centro ou periferia da lesão, coletar fragmento de pele de pelo menos 1 mm cúbico para coloração de Gram.",
+                    "C. Raspar o centro da lesão de maneira superficial, coletando escamas de pele e pelos.",
+                    "D. Raspar as bordas da lesão de forma vigorosa até que sangre levemente.",
+                    "E. Retirar fragmento profundo com punch para histopatológico."
+                ],
+                correct: 0,
+                context: "<b>Justificativa da alternativa correta:</b><br>A borda ativa das lesões dermatofíticas possui maior densidade fúngica. A raspagem deve ser superficial para obter escamas queratinizadas sem provocar sangramento.<br><br><b>Análise das incorretas:</b><br>• B, D e E: Colorações de Gram, sangramentos e biópsias profundas são desnecessárias para micoses superficiais."
+            },
+            {
+                num: 24,
+                category: "Micoses Superficiais (Tinea Nigra)",
+                statement: "A observação clínica de mácula hipercrômica (acastanhada) bem delimitada na região palmar corresponde a:",
+                options: [
+                    "A. Nenhuma alternativa desta questão está correta",
+                    "B. Piedra nigra",
+                    "C. Tinea fávica",
+                    "D. Piedra preta",
+                    "E. Tinea mannus"
+                ],
+                correct: 0,
+                context: "<b>Justificativa da alternativa correta:</b><br>A lesão descrita é a Tinea nigra (causada por Hortaea werneckii). Como essa opção não consta nas alternativas listadas (B a E), a resposta correta é 'Nenhuma alternativa desta questão está correta'.<br><br><b>Análise das incorretas:</b><br>• B e D: Piedra (preta/nigra) acomete a haste do cabelo.<br>• C: Tinea fávica afeta o couro cabeludo.<br>• E: Tinea manuum apresenta eritema e descamação, não mácula castanha isolada."
+            },
+            {
+                num: 25,
+                category: "Malassezia e Pitiríase Versicolor",
+                statement: "Analise as seguintes afirmativas e indique a alternativa que contempla todas as afirmações corretas:\nI - A Malassezia pachydermatis é a única espécie não lipodependente entre as malassézias.\nII - O habitat da Malassezia furfur é a própria pele do hospedeiro.\nIII - A pitiríase versicolor tem uma variedade de apresentações, incluindo manchas hipopigmentadas, hiperpigmentadas e até mesmo eritematosas.",
+                options: [
+                    "A. I e II",
+                    "B. III",
+                    "C. II e III",
+                    "D. I",
+                    "E. I, II e III"
+                ],
+                correct: 4,
+                context: "<b>Justificativa da alternativa correta:</b><br>Todas as afirmações são verdadeiras: M. pachydermatis não é lipodependente, M. furfur integra a comensalidade da pele e a pitiríase versicolor apresenta variações cromáticas (hipo, hiper ou eritematosas).<br><br><b>Análise das demais:</b><br>• Demais opções omitiram uma ou mais afirmativas corretas."
+            },
+            {
+                num: 26,
+                category: "Microscopia da Pitiríase Versicolor",
+                statement: "Qual dos exames diretos abaixo representa um resultado positivo para pitiríase versicolor (aspecto de 'esparguete com almôndegas')?",
+                options: [
+                    "A. Hifas septadas ramificadas (Aspergillus)",
+                    "B. Hifas curtas, grossas e ligeiramente curvadas associadas a agrupamentos de leveduras globosas",
+                    "C. Macroconídios pluricelulares septados (Alternaria)",
+                    "D. Leveduras ovais isoladas com brotamento simples",
+                    "E. Corpúsculos muriformes"
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>O padrão microscópico direto característico da Malassezia na pele exibe hifas curtas e grossas associadas a agrupamentos de leveduras (esparguete com almôndegas).<br><br><b>Análise das incorretas:</b><br>• A, C, D e E correspondem a Aspergillus, Alternaria, Candida ou agentes de cromoblastomicose."
+            },
+            {
+                num: 27,
+                category: "Identificação Molecular de Dermatófitos",
+                statement: "A identificação das espécies de dermatófitos baseada em morfologia é subjetiva. Avanços atuais utilizam para agrupamento clínico:",
+                options: [
+                    "A. Da região ITS do RNA fúngico, sequência que codifica a fração 70S do ribossomo.",
+                    "B. Da região ITS do DNA fúngico, sequência que codifica o RNA ribossômico.",
+                    "C. Da região ITS do DNA fúngico, sequência de DNA não codificante situada entre os genes ribossômicos nucleares.",
+                    "D. Da região da beta tubulina.",
+                    "E. Da região FGTS do DNA fúngico."
+                ],
+                correct: 2,
+                context: "<b>Justificativa da alternativa correta:</b><br>A região ITS (Internal Transcribed Spacer) refere-se aos espaçadores de DNA não codificante localizados no genoma nuclear entre os genes dos RNAs ribossômicos, servindo como barcode padrão para dermatófitos.<br><br><b>Análise das incorretas:</b><br>• A e B: A ITS é não codificante e ribossomos eucarióticos são 80S.<br>• D e E: Beta-tubulina tem uso secundário e FGTS não existe."
+            },
+            {
+                num: 28,
+                category: "Trichophyton indotineae",
+                statement: "Em relação ao Trichophyton indotineae, analise as seguintes afirmativas:\nI - O manejo de infecções por T. indotineae não requer abordagens muito diferentes de outros dermatófitos.\nII - Em caso de suspeita, um encaminhamento para testes moleculares confirmatórios é necessário.\nIII - Uma vez confirmada a infecção, é aconselhável testar familiares e contatos próximos.",
+                options: [
+                    "A. I",
+                    "B. I e III",
+                    "C. II e III",
+                    "D. I e II",
+                    "E. Nenhuma afirmativa está correta"
+                ],
+                correct: 2,
+                context: "<b>Justificativa da alternativa correta:</b><br>Estão corretas as afirmativas II (exige testes moleculares por semelhança morfológica) e III (alta contagiosidade familiar).<br><br><b>Análise da afirmativa I:</b><br>• I está incorreta: T. indotineae é notoriamente resistente à terbinafina."
+            },
+            {
+                num: 29,
+                category: "Biologia e Alvos de Antifúngicos",
+                statement: "O mais importante alvo da maioria das drogas antifúngicas à nossa disposição é:",
+                options: [
+                    "A. As alfa glucanas encontradas na membrana celular dos fungos.",
+                    "B. A quitina encontrada na parede celular dos fungos.",
+                    "C. As beta glucanas encontradas na membrana celular dos fungos.",
+                    "D. O ergosterol, encontrado na membrana celular dos fungos.",
+                    "E. O ergosterol, encontrado na parede celular dos fungos."
+                ],
+                correct: 3,
+                context: "<b>Justificativa da alternativa correta:</b><br>O ergosterol é o esterol essencial componente da membrana plasmática celular fúngica e constitui o alvo primário das principais classes de antifúngicos (polienos e azóis).<br><br><b>Análise das incorretas:</b><br>• A e C: Glucanas localizam-se na parede celular.<br>• B: Quitina está na parede celular.<br>• E: Ergosterol localiza-se na membrana, e não na parede."
+            },
+            {
+                num: 30,
+                category: "Fatores de Risco e Características Fúngicas",
+                statement: "Como grupo de microrganismos, qual a característica que melhor caracteriza os fungos na infectologia humana?",
+                options: [
+                    "A. Nenhuma das anteriores",
+                    "B. Oportunismo",
+                    "C. Facilidade do contágio da maioria das micoses",
+                    "D. Virulência",
+                    "E. Alta prevalência entre as doenças infecciosas"
+                ],
+                correct: 1,
+                context: "<b>Justificativa da alternativa correta:</b><br>O oportunismo é a marca do reino Fungi. A grande maioria das infecções fúngicas graves manifesta-se quando há falha imunológica ou ruptura de barreira no hospedeiro.<br><br><b>Análise das incorretas:</b><br>• C, D e E: Micoses sistêmicas não têm alta facilidade de contágio interpessoal, possuem baixa virulência comparadas a vírus/bactérias e menor prevalência na população hígida."
+            }
+        ];
+
+        const questionsTFCs_pt1 = questionsTFCs.slice(0, 15);
+        const questionsTFCs_pt2 = questionsTFCs.slice(15, 30);
+
+        /* ==========================================================================
+           ESTADO GLOBAL, CONFIGURAÇÕES E MOTOR DO SISTEMA
+           ========================================================================== */
+        let activeEdition = 'tfcs_full';
+        let currentQuestions = questionsTFCs;
+        let currentQIndex = 0;
+        let userAnswers = [];
+        let userConfidence = [];
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let fontDelta = 0;
+        let gridFilter = 'ALL';
+        let currentTheme = 'dark';
+        let isForceMobile = false;
+
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+
+        let appSettings = {
+            showTimer: true,
+            showAvgTime: true,
+            showConfidence: true,
+            showSRS: true,
+            showHistory: true,
+            showNotes: true,
+            showChart: true,
+            showToolbar: true,
+            showGrid: true
+        };
+
+        let flashcardDeck = [];
+        let flashcardIndex = 0;
+        let srsData = {};
+
+        let isPenActive = false;
+        let isEraserActive = false;
+        let isDrawing = false;
+
+        window.onload = function() {
+            populateTopicFilter();
+            loadSettings();
+            loadState();
+            renderHistory();
+        };
+
+        function openSettingsModal() {
+            document.getElementById('cfg-timer').checked = appSettings.showTimer;
+            document.getElementById('cfg-avgtime').checked = appSettings.showAvgTime;
+            document.getElementById('cfg-confidence').checked = appSettings.showConfidence;
+            document.getElementById('cfg-srs').checked = appSettings.showSRS;
+            document.getElementById('cfg-history').checked = appSettings.showHistory;
+            document.getElementById('cfg-notes').checked = appSettings.showNotes;
+            document.getElementById('cfg-chart').checked = appSettings.showChart;
+            document.getElementById('cfg-toolbar').checked = appSettings.showToolbar;
+            document.getElementById('cfg-grid').checked = appSettings.showGrid;
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            appSettings.showTimer = document.getElementById('cfg-timer').checked;
+            appSettings.showAvgTime = document.getElementById('cfg-avgtime').checked;
+            appSettings.showConfidence = document.getElementById('cfg-confidence').checked;
+            appSettings.showSRS = document.getElementById('cfg-srs').checked;
+            appSettings.showHistory = document.getElementById('cfg-history').checked;
+            appSettings.showNotes = document.getElementById('cfg-notes').checked;
+            appSettings.showChart = document.getElementById('cfg-chart').checked;
+            appSettings.showToolbar = document.getElementById('cfg-toolbar').checked;
+            appSettings.showGrid = document.getElementById('cfg-grid').checked;
+
+            saveSettings();
+            applySettings();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('simulado_tfcs_settings', JSON.stringify(appSettings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('simulado_tfcs_settings');
+            if (saved) {
+                try {
+                    appSettings = { ...appSettings, ...JSON.parse(saved) };
+                } catch(e) { console.error(e); }
+            }
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('hud-timer-stat').style.display = appSettings.showTimer ? 'flex' : 'none';
+            document.getElementById('hud-avgtime-stat').style.display = appSettings.showAvgTime ? 'flex' : 'none';
+            document.getElementById('confidence-box').style.display = appSettings.showConfidence ? 'block' : 'none';
+            document.getElementById('history-section').style.display = appSettings.showHistory ? 'block' : 'none';
+            document.getElementById('notes-card-box').style.display = appSettings.showNotes ? 'block' : 'none';
+            document.getElementById('chart-card-box').style.display = appSettings.showChart ? 'block' : 'none';
+            document.getElementById('toolbar-box').style.display = appSettings.showToolbar ? 'flex' : 'none';
+            document.getElementById('grid-card-box').style.display = appSettings.showGrid ? 'block' : 'none';
+        }
+
+        function cycleTheme() {
+            if (currentTheme === 'dark') {
+                applyTheme('light');
+            } else if (currentTheme === 'light') {
+                applyTheme('clean-light');
+            } else {
+                applyTheme('dark');
+            }
+            saveState();
+        }
+
+        function applyTheme(themeName) {
+            currentTheme = themeName;
+            document.body.classList.remove('light-theme', 'theme-clean-light');
+
+            const btn = document.getElementById('btn-theme-toggle');
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                if (btn) btn.innerText = '☀️ Claro Clássico';
+            } else if (currentTheme === 'clean-light') {
+                document.body.classList.add('theme-clean-light');
+                if (btn) btn.innerText = '❄️ Claro Clínico';
+            } else {
+                if (btn) btn.innerText = '🌙 Tema Escuro';
+            }
+        }
+
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalElapsedSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').innerText = `${mins}:${secs}`;
+        }
+
+        function toggleMobileLayout() {
+            isForceMobile = !isForceMobile;
+            applyLayoutMode();
+            saveState();
+        }
+
+        function applyLayoutMode() {
+            document.body.classList.toggle('force-mobile-mode', isForceMobile);
+            const btns = document.querySelectorAll('.btn-layout-toggle-class');
+            btns.forEach(btn => {
+                btn.innerText = isForceMobile ? '📱 Modo Celular: LIGADO' : '📱 Modo Celular: AUTO';
+                if (isForceMobile) {
+                    btn.style.background = 'var(--accent-yellow)';
+                    btn.style.color = '#000';
+                } else {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            });
+        }
+
+        function populateTopicFilter() {
+            const container = document.getElementById('topic-checkbox-list');
+            container.innerHTML = '';
+
+            const categories = [...new Set(questionsTFCs.map(q => q.category))].sort();
+
+            let html = `
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; cursor: pointer; color: var(--text-main); font-weight: bold;">
+                    <input type="checkbox" value="ALL" id="cb-all-topics" checked onchange="toggleAllTopics(this)">
+                    [Selecionar Todos os Temas]
+                </label>
+                <hr style="border: 0; border-top: 1px solid var(--border-glow); margin: 8px 0;">
+            `;
+
+            categories.forEach((cat) => {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.88rem; cursor: pointer; color: var(--text-main);">
+                        <input type="checkbox" class="topic-cb" value="${cat}" checked onchange="updateTopicSelection()">
+                        ${cat}
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateTopicBtnLabel();
+        }
+
+        function toggleTopicDropdown() {
+            const list = document.getElementById('topic-checkbox-list');
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('#topic-dropdown-wrapper')) {
+                const list = document.getElementById('topic-checkbox-list');
+                if (list) list.style.display = 'none';
+            }
+        };
+
+        function toggleAllTopics(source) {
+            const cbs = document.querySelectorAll('.topic-cb');
+            cbs.forEach(cb => cb.checked = source.checked);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicSelection() {
+            const cbs = document.querySelectorAll('.topic-cb');
+            const allCb = document.getElementById('cb-all-topics');
+            const total = cbs.length;
+            const checkedCount = document.querySelectorAll('.topic-cb:checked').length;
+
+            allCb.checked = (checkedCount === total);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicBtnLabel() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            const total = document.querySelectorAll('.topic-cb').length;
+            const btn = document.getElementById('topic-dropdown-btn');
+
+            if (checked.length === 0) {
+                btn.innerText = 'Nenhum tema ▾';
+            } else if (checked.length === total) {
+                btn.innerText = 'Todos os Temas ▾';
+            } else if (checked.length === 1) {
+                btn.innerText = `${checked[0].value.substring(0, 16)}... ▾`;
+            } else {
+                btn.innerText = `${checked.length} Temas Selecionados ▾`;
+            }
+        }
+
+        function getSelectedTopics() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        function startSimulado(type) {
+            activeEdition = type;
+            gameMode = document.getElementById('game-mode-select').value;
+            const selectedTopics = getSelectedTopics();
+
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema para iniciar o simulado.');
+                return;
+            }
+
+            let baseQuestions;
+            if (type === 'tfcs_full') {
+                baseQuestions = questionsTFCs;
+            } else if (type === 'tfcs_pt1') {
+                baseQuestions = questionsTFCs_pt1;
+            } else if (type === 'tfcs_pt2') {
+                baseQuestions = questionsTFCs_pt2;
+            }
+
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                baseQuestions = baseQuestions.filter(q => selectedTopics.includes(q.category));
+            }
+
+            if (baseQuestions.length === 0) {
+                alert('Não há questões correspondentes aos temas selecionados.');
+                return;
+            }
+
+            currentQuestions = baseQuestions;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            isPenActive = false;
+            isEraserActive = false;
+
+            const modeLabel = gameMode === 'estudo' ? 'MODO ESTUDO' : 'SIMULADO REALISTA';
+            let editionBadgeText = 'PROVA TFCS (COMPLETA)';
+            if (type === 'tfcs_pt1') editionBadgeText = 'PROVA TFCS (PARTE 1)';
+            if (type === 'tfcs_pt2') editionBadgeText = 'PROVA TFCS (PARTE 2)';
+
+            document.getElementById('quiz-title-badge').innerText = `${editionBadgeText} (${modeLabel})`;
+            document.getElementById('quiz-title-badge').style.color = '#38bdf8';
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('flashcards-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+
+            resetTimer();
+            startTimer();
+
+            setupGrifoEvents();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+            saveState();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('flashcards-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            renderHistory();
+        }
+
+        function changeFontSize(delta) {
+            fontDelta = Math.max(-2, Math.min(4, fontDelta + delta));
+            const stmt = document.getElementById('q-statement');
+            stmt.style.fontSize = (1.05 + fontDelta * 0.1) + 'rem';
+            document.querySelectorAll('.opt-btn').forEach(b => {
+                b.style.fontSize = (0.98 + fontDelta * 0.1) + 'rem';
+            });
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = '#f59e0b';
+                btn.style.color = '#000';
+                btn.innerText = '🚩 Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.innerText = '🚩 Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                btn.id = `nav-btn-${idx}`;
+                
+                let label = q.num || (idx + 1);
+                if (isFlagged) label += ' 🚩';
+                btn.innerText = label;
+
+                if (isAnswered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        btn.classList.add('answered-realista-q');
+                    }
+                }
+
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => { loadQuestion(idx); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            const btnPen = document.getElementById('btn-highlight');
+            const btnEraser = document.getElementById('btn-eraser');
+
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            if (isPenActive) {
+                btnPen.style.background = 'var(--accent-yellow)';
+                btnPen.style.color = '#000';
+                btnPen.innerText = '🖍️ Marca-texto';
+            } else {
+                btnPen.style.background = '';
+                btnPen.style.color = '';
+                btnPen.innerText = '🖍️ Marca-texto';
+            }
+
+            if (isEraserActive) {
+                btnEraser.style.background = '#ef4444';
+                btnEraser.style.color = '#fff';
+                btnEraser.innerText = '🧽 Borracha';
+            } else {
+                btnEraser.style.background = '';
+                btnEraser.style.color = '';
+                btnEraser.innerText = '🧽 Borracha';
+            }
+        }
+
+        function renderStatementWithWords(text) {
+            const container = document.getElementById('q-statement');
+            container.innerHTML = '';
+
+            const lines = text.split('\n');
+            lines.forEach((line, lIdx) => {
+                const chunks = line.split(/(\s+)/);
+                chunks.forEach(chunk => {
+                    if (chunk.trim().length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'hl-word';
+                        span.innerText = chunk;
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(chunk));
+                    }
+                });
+                if (lIdx < lines.length - 1) {
+                    container.appendChild(document.createElement('br'));
+                }
+            });
+        }
+
+        function setupGrifoEvents() {
+            const qStmt = document.getElementById('q-statement');
+
+            function markWordAtEvent(e) {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                let target = e.target;
+                if (e.touches && e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    target = document.elementFromPoint(touch.clientX, touch.clientY);
+                }
+                if (target && target.classList && target.classList.contains('hl-word')) {
+                    if (isPenActive) {
+                        target.classList.add('marked');
+                    } else if (isEraserActive) {
+                        target.classList.remove('marked');
+                    }
+                }
+            }
+
+            qStmt.addEventListener('mousedown', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            });
+
+            qStmt.addEventListener('mousemove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                markWordAtEvent(e);
+            });
+
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            qStmt.addEventListener('touchstart', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            }, { passive: true });
+
+            qStmt.addEventListener('touchmove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                if (e.cancelable) e.preventDefault();
+                markWordAtEvent(e);
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        }
+
+        function loadQuestion(idx) {
+            if (currentQIndex !== null) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            isPenActive = false;
+            isEraserActive = false;
+            updatePenEraserUI();
+            updateFlagUI();
+
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            
+            const categoryTag = document.getElementById('q-category');
+            categoryTag.innerText = q.category.toUpperCase();
+
+            renderStatementWithWords(q.statement);
+            changeFontSize(0);
+
+            const optsContainer = document.getElementById('options-group');
+            optsContainer.innerHTML = '';
+
+            const answered = userAnswers[idx] !== null;
+            document.getElementById('btn-confirm').style.display = 'none';
+
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                categoryTag.style.display = 'inline-block';
+            } else {
+                categoryTag.style.display = 'none';
+            }
+
+            updateConfidenceUI();
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.id = `opt-btn-${optIdx}`;
+                btn.innerText = optText;
+
+                if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                    btn.classList.add('strikethrough');
+                }
+
+                if (answered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        btn.classList.add('disabled');
+                        if (optIdx === q.correct) {
+                            btn.classList.add('correct-choice');
+                        }
+                        if (userAnswers[idx] === optIdx && optIdx !== q.correct) {
+                            btn.classList.add('incorrect-choice');
+                        }
+                    } else {
+                        if (userAnswers[idx] === optIdx) {
+                            btn.classList.add('selected-choice');
+                        }
+                        btn.onclick = () => selectOption(optIdx);
+                        btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                    btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                }
+
+                optsContainer.appendChild(btn);
+            });
+
+            const expPanel = document.getElementById('explanation-panel');
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                expPanel.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = q.context;
+            } else {
+                expPanel.style.display = 'none';
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+
+            const btnNext = document.getElementById('btn-next');
+            if (idx === currentQuestions.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.disabled = false;
+            } else {
+                btnNext.innerText = "Próxima →";
+                btnNext.disabled = false;
+            }
+        }
+
+        function setConfidence(level) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            const btnCert = document.getElementById('conf-btn-certeza');
+            const btnChute = document.getElementById('conf-btn-chute');
+
+            btnCert.classList.toggle('active-certain', selectedConfidence === 'certeza');
+            btnChute.classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function saveNote(text) {
+            questionNotes[currentQIndex] = text;
+            saveState();
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            if (strikethroughState[currentQIndex] && strikethroughState[currentQIndex][optIdx]) return;
+
+            selectedOptionIndex = optIdx;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function toggleStrikethrough(optIdx, e) {
+            if (e) e.preventDefault();
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+
+            if (!strikethroughState[currentQIndex]) {
+                strikethroughState[currentQIndex] = [false, false, false, false, false];
+            }
+
+            strikethroughState[currentQIndex][optIdx] = !strikethroughState[currentQIndex][optIdx];
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+            if (btn) {
+                btn.classList.toggle('strikethrough', strikethroughState[currentQIndex][optIdx]);
+            }
+
+            if (strikethroughState[currentQIndex][optIdx] && selectedOptionIndex === optIdx) {
+                selectedOptionIndex = null;
+                if (btn) btn.classList.remove('selected-choice');
+                document.getElementById('btn-confirm').style.display = 'none';
+            }
+            saveState();
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+
+            const optIdx = selectedOptionIndex;
+            userAnswers[currentQIndex] = optIdx;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+            const q = currentQuestions[currentQIndex];
+            const isCorrect = optIdx === q.correct;
+
+            if (isCorrect) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+                if (streak >= 2 && gameMode === 'estudo') {
+                    const badge = document.getElementById('combo-badge');
+                    badge.style.display = 'inline-block';
+                    badge.innerText = `🔥 COMBO x${streak}!`;
+                }
+            } else {
+                streak = 0;
+                document.getElementById('combo-badge').style.display = 'none';
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+            saveState();
+        }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            let totalSecondsSpent = 0;
+
+            userAnswers.forEach((ans, i) => {
+                if (ans !== null) {
+                    answered++;
+                    if (ans === currentQuestions[i].correct) correct++;
+                    totalSecondsSpent += (questionTimes[i] || 0);
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            const avgTime = answered > 0 ? Math.round(totalSecondsSpent / answered) : 0;
+
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+            document.getElementById('hud-avgtime').innerText = `${avgTime}s`;
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) {
+                showReport();
+            } else if (currentQIndex < currentQuestions.length - 1) {
+                loadQuestion(currentQIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                loadQuestion(currentQIndex - 1);
+            }
+        }
+
+        function resetQuiz() {
+            if (confirm(`Tem certeza de que deseja zerar o Simulado Atual?`)) {
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                userConfidence = new Array(currentQuestions.length).fill(null);
+                questionTimes = new Array(currentQuestions.length).fill(0);
+                strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+                questionNotes = new Array(currentQuestions.length).fill('');
+                flaggedQuestions = new Array(currentQuestions.length).fill(false);
+                score = 0;
+                streak = 0;
+                isFinished = false;
+                selectedOptionIndex = null;
+                selectedConfidence = null;
+
+                resetTimer();
+                startTimer();
+
+                document.getElementById('combo-badge').style.display = 'none';
+                updateHUD();
+                drawChart();
+                if (document.getElementById('report-screen').style.display === 'block') {
+                    hideReport();
+                }
+                loadQuestion(0);
+                saveState();
+            }
+        }
+
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 180;
+            canvas.height = 180;
+
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            userAnswers.forEach((ans, i) => {
+                if (ans === null) unanswered++;
+                else if (ans === currentQuestions[i].correct) correct++;
+                else incorrect++;
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const total = currentQuestions.length;
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 70;
+            const innerRadius = 50;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#ef4444' },
+                { val: unanswered, color: currentTheme === 'dark' ? '#334155' : '#cbd5e1' }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                startAngle += sliceAngle;
+            });
+        }
+
+        function startFlashcards() {
+            const selectedTopics = getSelectedTopics();
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema.');
+                return;
+            }
+
+            let all = [...questionsTFCs];
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                all = all.filter(q => selectedTopics.includes(q.category));
+            }
+
+            flashcardDeck = all;
+            flashcardIndex = 0;
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('flashcards-screen').style.display = 'block';
+
+            loadFlashcard();
+        }
+
+        function loadFlashcard() {
+            if (flashcardDeck.length === 0) return;
+            const card = flashcardDeck[flashcardIndex];
+
+            document.getElementById('flash-card-counter').innerText = `Cartão ${flashcardIndex + 1} de ${flashcardDeck.length}`;
+            document.getElementById('flash-category').innerText = card.category.toUpperCase();
+
+            let cleanQuestion = card.statement.trim();
+            let rawAnswer = card.options[card.correct];
+            let cleanAnswer = rawAnswer.trim();
+
+            let miniResumo = card.context.replace(/<[^>]*>?/gm, '').trim();
+
+            document.getElementById('flash-front').innerHTML = `
+                <div style="font-size: 0.85rem; color: #f59e0b; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">❓ Questão TFCs #${card.num}</div>
+                <div style="font-size: 1.05rem; line-height: 1.6; color: var(--text-main); font-weight: 600; white-space: pre-line;">${cleanQuestion}</div>
+            `;
+
+            document.getElementById('flash-back').innerHTML = `
+                <div style="font-size: 0.85rem; color: #10b981; font-weight: 800; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">🎯 Alternativa Correta</div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #10b981; margin-bottom: 16px;">${cleanAnswer}</div>
+                <div style="font-size: 0.85rem; color: #38bdf8; font-weight: 800; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">💡 Justificativa e Conceito Chave</div>
+                <div style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main); background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: 10px; border-left: 4px solid #38bdf8;">${miniResumo}</div>
+            `;
+
+            document.getElementById('flash-back').style.display = 'none';
+            document.getElementById('srs-panel').style.display = 'none';
+            document.getElementById('btn-reveal-flash').style.display = 'inline-block';
+        }
+
+        function toggleFlashcardAnswer() {
+            document.getElementById('flash-back').style.display = 'block';
+            document.getElementById('btn-reveal-flash').style.display = 'none';
+            if (appSettings.showSRS) {
+                document.getElementById('srs-panel').style.display = 'block';
+            }
+        }
+
+        function rateFlashcard(rating) {
+            const card = flashcardDeck[flashcardIndex];
+            const cardKey = `srs_tfcs_${card.num}`;
+            
+            let days = 1;
+            if (rating === 'good') days = 3;
+            if (rating === 'easy') days = 7;
+
+            srsData[cardKey] = {
+                lastReviewed: Date.now(),
+                nextReview: Date.now() + (days * 24 * 60 * 60 * 1000),
+                rating: rating
+            };
+
+            localStorage.setItem('simulado_tfcs_srs', JSON.stringify(srsData));
+            nextFlashcard();
+        }
+
+        function nextFlashcard() {
+            if (flashcardIndex < flashcardDeck.length - 1) {
+                flashcardIndex++;
+                loadFlashcard();
+            }
+        }
+
+        function prevFlashcard() {
+            if (flashcardIndex > 0) {
+                flashcardIndex--;
+                loadFlashcard();
+            }
+        }
+
+        function shuffleFlashcards() {
+            for (let i = flashcardDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcardDeck[i], flashcardDeck[j]] = [flashcardDeck[j], flashcardDeck[i]];
+            }
+            flashcardIndex = 0;
+            loadFlashcard();
+        }
+
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0;
+            let answered = 0;
+            let totalSecs = 0;
+            let certainCorrect = 0;
+            let guessCorrect = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) {
+                    catStats[cat] = { total: 0, correct: 0 };
+                }
+                catStats[cat].total++;
+
+                const ans = userAnswers[idx];
+                totalSecs += (questionTimes[idx] || 0);
+
+                if (ans !== null) {
+                    answered++;
+                    if (ans === q.correct) {
+                        correct++;
+                        catStats[cat].correct++;
+                        if (userConfidence[idx] === 'chute') guessCorrect++;
+                        else certainCorrect++;
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            const avgTimeSecs = answered > 0 ? Math.round(totalSecs / answered) : 0;
+
+            const minsStr = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secsStr = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('rep-total-time').innerText = `${minsStr}:${secsStr}`;
+            document.getElementById('rep-avg-time').innerText = `${avgTimeSecs}s / questão`;
+            document.getElementById('rep-conf-ratio').innerText = `${certainCorrect} / ${guessCorrect}`;
+
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            let editionName = 'PROVA TFCS COMPLETA';
+            if (activeEdition === 'tfcs_pt1') editionName = 'PROVA TFCS (PARTE 1)';
+            if (activeEdition === 'tfcs_pt2') editionName = 'PROVA TFCS (PARTE 2)';
+
+            document.getElementById('rep-edition-title').innerText = `📊 DIAGNÓSTICO DE DESEMPENHO (${editionName})`;
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            document.getElementById('rep-status-msg').innerText = `Você respondeu ${answered} de ${currentQuestions.length} questões com ${score} pontos totais.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            let weakCategories = [];
+
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                if (pct < 70) weakCategories.push(catName);
+
+                const tr = document.createElement('tr');
+                const badgeClass = pct >= 70 ? 'color: #34d399;' : 'color: #fbbf24;';
+                const badgeText = pct >= 70 ? '🟢 Excelente' : '🟡 Revisar';
+
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td>${stats.total}</td>
+                    <td>${stats.correct}</td>
+                    <td>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: ${pct}%; background: ${pct < 60 ? '#ef4444' : pct < 80 ? '#f59e0b' : '#10b981'};"></div>
+                        </div>
+                        <b>${pct}%</b>
+                    </td>
+                    <td style="${badgeClass}"><b>${badgeText}</b></td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const diagBox = document.getElementById('rep-diagnostic-text');
+            if (weakCategories.length > 0) {
+                diagBox.innerHTML = `Com base no seu aproveitamento na ${editionName}, sugerimos focar a revisão nos temas:<br>👉 <b style="color: #f59e0b;">${weakCategories.join(', ')}</b>.`;
+            } else {
+                diagBox.innerHTML = `🎉 Desempenho fantástico! Seu aproveitamento superou 70% em todas as categorias da ${editionName}.`;
+            }
+
+            saveAttemptToHistory(editionName, overallPercent, score, `${minsStr}:${secsStr}`);
+            saveState();
+        }
+
+        function saveAttemptToHistory(edition, pct, pts, timeStr) {
+            let history = JSON.parse(localStorage.getItem('simulado_tfcs_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                edition,
+                pct,
+                pts,
+                timeStr
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('simulado_tfcs_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-content');
+            let history = JSON.parse(localStorage.getItem('simulado_tfcs_history') || '[]');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>';
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const color = item.pct >= 70 ? '#10b981' : (item.pct >= 50 ? '#f59e0b' : '#ef4444');
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <b>${item.edition}</b> <span style="color: var(--text-muted); font-size: 0.8rem;">(${item.date})</span><br>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Tempo: ${item.timeStr} | ${item.pts} PTS</span>
+                        </div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: ${color};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (confirm('Deseja realmente apagar o histórico de desempenho?')) {
+                localStorage.removeItem('simulado_tfcs_history');
+                renderHistory();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function hideReport() {
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            startTimer();
+            loadQuestion(currentQIndex);
+        }
+
+        function startCadernoErros() {
+            const errorQs = [];
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null && userAnswers[idx] !== q.correct) {
+                    errorQs.push(q);
+                }
+            });
+
+            if (errorQs.length === 0) {
+                alert('Você não cometeu erros no simulado atual!');
+                return;
+            }
+
+            currentQuestions = errorQs;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            document.getElementById('quiz-title-badge').innerText = `CADERNO DE ERROS (${currentQuestions.length} Qs)`;
+            document.getElementById('quiz-title-badge').style.color = '#ef4444';
+
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+        }
+
+        function exportNotesAndReport() {
+            let correct = 0;
+            let answered = 0;
+
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null) {
+                    answered++;
+                    if (userAnswers[idx] === q.correct) correct++;
+                }
+            });
+
+            const overallPercent = answered > 0 ? Math.round((correct / currentQuestions.length) * 100) : 0;
+
+            let text = `==================================================\n`;
+            text += `   RELATÓRIO E ANOTAÇÕES - MICOLOGIA TFCS\n`;
+            text += `==================================================\n\n`;
+            text += `Edição: Prova TFCs\n`;
+            text += `Modo de Execução: ${gameMode === 'estudo' ? 'Modo Estudo' : 'Simulado Realista'}\n`;
+            text += `Aproveitamento Geral: ${overallPercent}%\n`;
+            text += `Questões Respondidas: ${answered} de ${currentQuestions.length}\n`;
+            text += `Pontuação Total: ${score} PTS\n\n`;
+            text += `--------------------------------------------------\n`;
+            text += ` DETALHAMENTO DAS QUESTÕES E ANOTAÇÕES DA SESSÃO\n`;
+            text += `--------------------------------------------------\n\n`;
+
+            currentQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                let status = 'Não Respondida';
+                if (userAns !== null) {
+                    status = userAns === q.correct ? 'ACERTOU (🟢)' : 'ERROU (🔴)';
+                }
+                const flag = flaggedQuestions[idx] ? ' [SINALIZADA COM DÚVIDA 🚩]' : '';
+                const conf = userConfidence[idx] ? ` [Confiança: ${userConfidence[idx].toUpperCase()}]` : '';
+                const timeSpent = questionTimes[idx] ? ` [Tempo: ${questionTimes[idx]}s]` : '';
+                const note = questionNotes[idx] ? questionNotes[idx] : '(Sem anotações)';
+
+                text += `Questão ${q.num || (idx + 1)}${flag}${conf}${timeSpent} - Tema: ${q.category}\n`;
+                text += `Status: ${status}\n`;
+                text += `Sua Anotação: ${note}\n`;
+                text += `--------------------------------------------------\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_Micologia_TFCs_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function restartGame() {
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+            saveState();
+        }
+
+        function saveState() {
+            const state = {
+                activeEdition,
+                userAnswers,
+                userConfidence,
+                questionTimes,
+                totalElapsedSeconds,
+                strikethroughState,
+                questionNotes,
+                flaggedQuestions,
+                score,
+                streak,
+                gameMode,
+                isFinished,
+                currentTheme,
+                isForceMobile
+            };
+            localStorage.setItem('simulado_tfcs_state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('simulado_tfcs_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.currentTheme) {
+                        applyTheme(state.currentTheme);
+                    }
+                    if (state.isForceMobile !== undefined) {
+                        isForceMobile = state.isForceMobile;
+                        applyLayoutMode();
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos', e);
+                }
+            }
+
+            const srsSaved = localStorage.getItem('simulado_tfcs_srs');
+            if (srsSaved) {
+                try { srsData = JSON.parse(srsSaved); } catch(e){}
+            }
+        }
+    </script>
+</body>
+</html>
