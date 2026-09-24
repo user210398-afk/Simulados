@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulados das Provas 2026</title>
+  <style>
+    :root {
+      --bg-canvas: #f3f4f6;          
+      --card-bg: #ffffff;            
+      --purple-primary: #6d28d9;    
+      --purple-light: #f3e8ff;      
+      --green-primary: #059669;     
+      --green-light: #d1fae5;       
+      --text-main: #111827;         
+      --text-muted: #6b7280;        
+      --border-color: #e5e7eb;      
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark-mode {
+      --bg-canvas: #0f172a;
+      --card-bg: #1e293b;
+      --purple-primary: #a855f7;
+      --purple-light: #3b0764;
+      --green-primary: #10b981;
+      --green-light: #064e3b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-viewport {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      width: 100%;
+      flex: 1;
+    }
+
+    header {
+      margin-bottom: 30px;
+    }
+
+    .header-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background-color: var(--purple-light);
+      color: var(--purple-primary);
+    }
+
+    .btn-action {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      border-color: var(--purple-primary);
+      color: var(--purple-primary);
+    }
+
+    .brand-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 8px 0 0 0;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .btn-back {
+      display: none;
+    }
+
+    /* Barra de Busca */
+    .search-box {
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input:focus {
+      border-color: var(--purple-primary);
+    }
+
+    .section-header {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: var(--purple-primary);
+      border-radius: 2px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-bimestres {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-container { grid-template-columns: repeat(2, 1fr); }
+      .grid-bimestres { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .grid-container { grid-template-columns: 1fr; }
+      .grid-bimestres { grid-template-columns: 1fr; }
+      .brand-title { font-size: 1.75rem; }
+    }
+
+    .subject-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 170px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--purple-primary);
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .subject-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subject-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin: 6px 0 0 0;
+      line-height: 1.4;
+    }
+
+    .subject-card .card-footer {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--purple-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .count-badge {
+      font-size: 0.72rem;
+      background-color: var(--purple-light);
+      color: var(--purple-primary);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .done-badge {
+      font-size: 0.72rem;
+      background-color: var(--green-light);
+      color: var(--green-primary);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .materia-tag-search {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background-color: var(--purple-light);
+      color: var(--purple-primary);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .bimestre-card {
+      border-top: 4px solid var(--purple-primary);
+      text-align: center;
+    }
+
+    .simulado-card {
+      border-left: 4px solid var(--green-primary);
+    }
+
+    .simulado-card:hover { border-color: var(--green-primary); }
+    .simulado-card .card-footer { color: var(--green-primary); }
+
+    /* Modal de Ajuda */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border-radius: 8px;
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-box h2 {
+      margin-top: 0;
+      color: var(--purple-primary);
+      font-size: 1.3rem;
+    }
+
+    .mini-instrucoes {
+      background-color: var(--purple-light);
+      border-left: 4px solid var(--purple-primary);
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    .mini-instrucoes ol {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .mini-instrucoes li {
+      margin-bottom: 4px;
+    }
+
+    .modal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 0.85rem;
+    }
+
+    .modal-table th, .modal-table td {
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .modal-table th {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .btn-modal-close {
+      background-color: var(--purple-primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      float: right;
+      margin-top: 10px;
+    }
+
+    /* MODO PROVA & SPINNER DE CARREGAMENTO */
+    .exam-view {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      background-color: #ffffff;
+    }
+
+    .spinner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-canvas);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border-color);
+      border-top-color: var(--purple-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-close-exam {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      z-index: 100000;
+      background: #111827;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-close-exam:hover { background: var(--purple-primary); }
+    iframe { width: 100%; height: 100%; border: none; position: relative; z-index: 2; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport" id="hub-view">
+    <header>
+      <div class="header-navigation">
+        <span class="badge-tag" id="badge-top">Simulados Med 2026</span>
+        <div class="header-actions">
+          <button class="btn-action" onclick="toggleDarkMode()">🌙 Dark</button>
+          <button class="btn-action" onclick="abrirModalAjuda()">❓ Ajuda</button>
+          <button id="btn-back" class="btn-action btn-back" onclick="voltar()">← Voltar</button>
+        </div>
+      </div>
+      <h1 class="brand-title" id="main-title">Simulados das Provas 2026</h1>
+      <p class="brand-subtitle" id="main-subtitle">Selecione uma matéria para visualizar e responder às questões.</p>
+      
+      <!-- Barra de Busca -->
+      <div class="search-box" id="search-container">
+        <input type="text" class="search-input" id="search-input" placeholder="🔍 Pesquisar simulado por nome..." oninput="filtrarSimuladosPorBusca()" />
+      </div>
+    </header>
+
+    <!-- TELA 1: Seleção de Matérias -->
+    <main id="tela-materias">
+      <div class="section-header">Matérias Disponíveis</div>
+      <div class="grid-container" id="grid-materias">
+        
+        <div class="subject-card" onclick="selecionarMateria('fisiologia', 'Fisiologia')">
+          <div>
+            <h3>🫀 Fisiologia</h3>
+            <p>Sistemas corporais, homeostase e mecânica orgânica.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-fisiologia">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('micro', 'Microbiologia')">
+          <div>
+            <h3>🧫 Microbiologia</h3>
+            <p>Bactérias, virologia, micologia e patogenia.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-micro">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('parasito', 'Parasitologia')">
+          <div>
+            <h3>🦠 Parasitologia</h3>
+            <p>Protozoários, helmintos, vetores e diagnósticos.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-parasito">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('patologia', 'Patologia')">
+          <div>
+            <h3>🔬 Patologia</h3>
+            <p>Processos patológicos gerais e lesões celulares.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-patologia">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('imuno', 'Imunologia')">
+          <div>
+            <h3>🛡️ Imunologia</h3>
+            <p>Resposta imune inata, adaptativa e imunopatologia.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-imuno">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('vigilancia', 'Vigilância em Saúde')">
+          <div>
+            <h3>🏥 Vigilância em Saúde</h3>
+            <p>Epidemiologia, saúde coletiva e indicadores.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-vigilancia">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('farmaco', 'Farmacologia')">
+          <div>
+            <h3>💊 Farmacologia</h3>
+            <p>Farmacocinética, farmacodinâmica e terapêutica.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-farmaco">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('propedeu', 'Propedêutica')">
+          <div>
+            <h3>🩺 Propedêutica</h3>
+            <p>Anamnese, exame físico e raciocínio clínico.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-propedeu">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card" onclick="selecionarMateria('psico', 'Psicomed')">
+          <div>
+            <h3>🧠 Psicomed</h3>
+            <p>Psicologia médica e relação médico-paciente.</p>
+          </div>
+          <div class="card-footer">
+            <span>Selecionar Bimestres →</span>
+            <span class="count-badge" id="count-psico">0 simulados</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- TELA 2: Seleção de Bimestres -->
+    <main id="tela-bimestres" class="hidden">
+      <div class="section-header">Selecione o Bimestre</div>
+      <div class="grid-bimestres">
+        <div class="subject-card bimestre-card" onclick="abrirBimestre(1)">
+          <div>
+            <h3>1° Bimestre</h3>
+            <p>Provas do primeiro período.</p>
+          </div>
+          <div class="card-footer">
+            <span>Ver Simulados →</span>
+            <span class="count-badge" id="count-b1">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card bimestre-card" onclick="abrirBimestre(2)">
+          <div>
+            <h3>2° Bimestre</h3>
+            <p>Provas do segundo período.</p>
+          </div>
+          <div class="card-footer">
+            <span>Ver Simulados →</span>
+            <span class="count-badge" id="count-b2">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card bimestre-card" onclick="abrirBimestre(3)">
+          <div>
+            <h3>3° Bimestre</h3>
+            <p>Provas do terceiro período.</p>
+          </div>
+          <div class="card-footer">
+            <span>Ver Simulados →</span>
+            <span class="count-badge" id="count-b3">0 simulados</span>
+          </div>
+        </div>
+
+        <div class="subject-card bimestre-card" onclick="abrirBimestre(4)">
+          <div>
+            <h3>4° Bimestre</h3>
+            <p>Provas do quarto período.</p>
+          </div>
+          <div class="card-footer">
+            <span>Ver Simulados →</span>
+            <span class="count-badge" id="count-b4">0 simulados</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TELA 3: Lista de Simulados do Bimestre ou Busca -->
+    <main id="tela-simulados" class="hidden">
+      <div class="section-header" id="titulo-secao-simulados">Simulados Encontrados</div>
+      <div class="grid-container" id="grid-simulados"></div>
+    </main>
+  </div>
+
+  <!-- MODAL DE AJUDA -->
+  <div id="modal-ajuda" class="modal-overlay">
+    <div class="modal-box">
+      <h2>Instruções de Adição e Nomeação</h2>
+      
+      <div class="mini-instrucoes">
+        <strong>Como vincular ao Bimestre e Matéria:</strong>
+        <ol>
+          <li>Crie o arquivo HTML do novo simulado.</li>
+          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a marcação do bimestre (ex: <code>-b1</code>, <code>-b2</code>, <code>-b3</code> ou <code>-b4</code>). Se não informar o bimestre, o sistema alocará no <strong>3º Bimestre</strong> por padrão.</li>
+          <li>Suba no GitHub! O site sincronizará automaticamente.</li>
+        </ol>
+      </div>
+      
+      <table class="modal-table">
+        <thead>
+          <tr>
+            <th>Matéria</th>
+            <th>Palavra-Chave</th>
+            <th>Exemplo 1º Bimestre</th>
+            <th>Exemplo 4º Bimestre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Fisiologia</td><td><code>fisiologia</code>/<code>fisio</code></td><td>fisio-b1.html</td><td>fisio-b4.html</td></tr>
+          <tr><td>Microbiologia</td><td><code>micro</code></td><td>micro-b1.html</td><td>micro-b4.html</td></tr>
+          <tr><td>Parasitologia</td><td><code>parasito</code></td><td>parasito-b1.html</td><td>parasito-b4 Simulado 2025.html</td></tr>
+          <tr><td>Patologia</td><td><code>patologia</code></td><td>patologia-b1.html</td><td>patologia-b4.html</td></tr>
+          <tr><td>Imunologia</td><td><code>imuno</code></td><td>imuno-b1.html</td><td>imuno-b4.html</td></tr>
+          <tr><td>Vigilância em Saúde</td><td><code>vigilancia</code></td><td>vigilancia-b1.html</td><td>vigilancia-b4.html</td></tr>
+          <tr><td>Farmacologia</td><td><code>farmaco</code></td><td>farmaco-b1.html</td><td>farmaco-b4 Simulado 2025.html</td></tr>
+          <tr><td>Propedêutica</td><td><code>propedeu</code></td><td>propedeu-b1.html</td><td>propedeu-b4.html</td></tr>
+          <tr><td>Psicomed</td><td><code>psico</code></td><td>psico-b1.html</td><td>psico-b4.html</td></tr>
+        </tbody>
+      </table>
+
+      <button class="btn-modal-close" onclick="fecharModalAjuda()">Entendi</button>
+    </div>
+  </div>
+
+  <!-- MODO PROVA -->
+  <div id="tela-prova" class="exam-view">
+    <div class="spinner-overlay" id="spinner-loader">
+      <div class="spinner"></div>
+      <p style="margin-top: 12px; font-weight: 600; color: var(--text-muted);">Carregando prova...</p>
+    </div>
+    <button class="btn-close-exam" onclick="fecharProva()">← Voltar ao Hub</button>
+    <iframe id="iframe-simulado" src="" onload="esconderSpinner()"></iframe>
+  </div>
+
+  <script>
+    const GITHUB_USER = 'user210398-afk'; 
+    const GITHUB_REPO = 'Simulado'; 
+
+    let listaDeArquivos = [];
+
+    // Mapeamento oficial de matérias e seus apelidos/aliases de arquivo
+    const mapaMaterias = {
+      'fisiologia': {
+        nomeOficial: 'Fisiologia',
+        aliases: ['fisiologia', 'fisio']
+      },
+      'micro': {
+        nomeOficial: 'Microbiologia',
+        aliases: ['microbiologia', 'micro']
+      },
+      'parasito': {
+        nomeOficial: 'Parasitologia',
+        aliases: ['parasitologia', 'parasito']
+      },
+      'patologia': {
+        nomeOficial: 'Patologia',
+        aliases: ['patologia', 'pato']
+      },
+      'imuno': {
+        nomeOficial: 'Imunologia',
+        aliases: ['imunologia', 'imuno']
+      },
+      'vigilancia': {
+        nomeOficial: 'Vigilância em Saúde',
+        aliases: ['vigilancia', 'vigilância', 'saude', 'saúde', 'vigi']
+      },
+      'farmaco': {
+        nomeOficial: 'Farmacologia',
+        aliases: ['farmacologia', 'farmaco']
+      },
+      'propedeu': {
+        nomeOficial: 'Propedêutica',
+        aliases: ['propedeutica', 'propedêutica', 'propedeu', 'prope']
+      },
+      'psico': {
+        nomeOficial: 'Psicomed',
+        aliases: ['psicomed', 'psico', 'psicologia']
+      }
+    };
+
+    let estadoAtual = 'materias';
+    let materiaAtualChave = '';
+    let materiaAtualNome = '';
+    let bimestreAtual = null;
+
+    let concluidos = JSON.parse(localStorage.getItem('simulados_concluidos') || '[]');
+
+    function arquivoPertenceAMateria(nomeArquivo, chaveMateria) {
+      const nomeLower = nomeArquivo.toLowerCase();
+      const materia = mapaMaterias[chaveMateria];
+      if (!materia) return false;
+      return materia.aliases.some(alias => nomeLower.includes(alias));
+    }
+
+    function identificarMateriaDoArquivo(arquivo) {
+      const nomeLower = arquivo.toLowerCase();
+      for (const [chave, info] of Object.entries(mapaMaterias)) {
+        if (info.aliases.some(alias => nomeLower.includes(alias))) {
+          return { chave, nomeOficial: info.nomeOficial };
+        }
+      }
+      return { chave: '', nomeOficial: 'Geral' };
+    }
+
+    function extrairBimestreDoArquivo(arquivo) {
+      const nomeLower = arquivo.toLowerCase();
+      
+      // 1. Padrões b1-b4 ou 1b-4b (ex: fisio-b1, fisio_b1, fisio b1, 1b-fisio)
+      let match = nomeLower.match(/(?:^|[-_\s]|\b)b([1-4])(?=$|[-_\s.]|\b)/i) ||
+                  nomeLower.match(/(?:^|[-_\s]|\b)([1-4])b(?=$|[-_\s.]|\b)/i);
+      if (match) return parseInt(match[1]);
+
+      // 2. Padrões de palavra: bimestre1-4 ou 1-4 bimestre
+      match = nomeLower.match(/bimestre[_\s-]*([1-4])/i) ||
+              nomeLower.match(/([1-4])[º°oªa]?[_\s-]*bimestre/i);
+      if (match) return parseInt(match[1]);
+
+      // 3. Número isolado 1-4 (ex: fisio-1.html)
+      match = nomeLower.match(/(?:^|[-_\s])([1-4])(?:$|[-_\s.])/);
+      if (match) return parseInt(match[1]);
+
+      // Padrão caso não especificado (aloca no 3º Bimestre)
+      return 3;
+    }
+
+    async function carregarArquivosDoGithub() {
+      try {
+        const timestamp = Date.now();
+        // Tenta obter lista via API contents (desativando cache HTTP)
+        let response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/?t=${timestamp}`, {
+          cache: 'no-store'
+        });
+
+        if (response.ok) {
+          const dados = await response.json();
+          if (Array.isArray(dados)) {
+            listaDeArquivos = dados
+              .filter(item => (item.type === 'file' || item.name) && item.name.toLowerCase().endsWith('.html') && item.name.toLowerCase() !== 'index.html')
+              .map(item => item.name);
+          }
+        }
+
+        // Se a API contents não retornar nada ou se os arquivos estiverem em subpastas, tenta a API git/trees
+        if (listaDeArquivos.length === 0) {
+          const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/git/trees/HEAD?recursive=1&t=${timestamp}`, {
+            cache: 'no-store'
+          });
+          if (treeRes.ok) {
+            const treeData = await treeRes.json();
+            if (treeData && Array.isArray(treeData.tree)) {
+              listaDeArquivos = treeData.tree
+                .filter(item => item.type === 'blob' && item.path.toLowerCase().endsWith('.html') && !item.path.toLowerCase().endsWith('index.html'))
+                .map(item => item.path);
+            }
+          }
+        }
+
+        atualizarContadores();
+
+        if (estadoAtual === 'bimestres') {
+          atualizarContadoresBimestres();
+        } else if (estadoAtual === 'simulados' && bimestreAtual) {
+          abrirBimestre(bimestreAtual);
+        } else if (estadoAtual === 'simulados_busca') {
+          filtrarSimuladosPorBusca();
+        }
+      } catch (erro) {
+        console.warn('Não foi possível atualizar do GitHub no momento:', erro);
+      }
+    }
+
+    function atualizarContadores() {
+      Object.keys(mapaMaterias).forEach(chave => {
+        const count = listaDeArquivos.filter(a => arquivoPertenceAMateria(a, chave)).length;
+        const el = document.getElementById(`count-${chave}`);
+        if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
+      });
+    }
+
+    function atualizarContadoresBimestres() {
+      [1, 2, 3, 4].forEach(b => {
+        const count = listaDeArquivos.filter(arquivo => {
+          const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
+          if (!pertenceMateria) return false;
+          return extrairBimestreDoArquivo(arquivo) === b;
+        }).length;
+
+        const el = document.getElementById(`count-b${b}`);
+        if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
+      });
+    }
+
+    function selecionarMateria(prefixoChave, nomeMateria) {
+      materiaAtualChave = prefixoChave;
+      materiaAtualNome = nomeMateria;
+      estadoAtual = 'bimestres';
+
+      document.getElementById('main-title').innerText = nomeMateria;
+      document.getElementById('main-subtitle').innerText = `Selecione o bimestre desejado para acessar os simulados de ${nomeMateria}.`;
+      document.getElementById('badge-top').innerText = 'Seleção de Bimestre';
+      document.getElementById('btn-back').style.display = 'block';
+
+      atualizarContadoresBimestres();
+
+      document.getElementById('tela-materias').classList.add('hidden');
+      document.getElementById('tela-bimestres').classList.remove('hidden');
+      document.getElementById('tela-simulados').classList.add('hidden');
+    }
+
+    function abrirBimestre(numeroBimestre) {
+      estadoAtual = 'simulados';
+      bimestreAtual = numeroBimestre;
+
+      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${numeroBimestre}° Bimestre`;
+      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para o ${numeroBimestre}° Bimestre.`;
+      document.getElementById('badge-top').innerText = 'Lista de Provas';
+
+      document.getElementById('tela-bimestres').classList.add('hidden');
+      document.getElementById('tela-simulados').classList.remove('hidden');
+
+      const gridSimulados = document.getElementById('grid-simulados');
+      gridSimulados.innerHTML = '';
+
+      const simuladosEncontrados = listaDeArquivos.filter(arquivo => {
+        const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
+        if (!pertenceMateria) return false;
+        return extrairBimestreDoArquivo(arquivo) === numeroBimestre;
+      });
+
+      renderizarCardsSimulados(simuladosEncontrados, gridSimulados, false);
+    }
+
+    function formatarTituloSimulado(arquivo, chaveMateria) {
+      let nome = arquivo.split('/').pop();
+      nome = nome.replace(/\.html?$/i, '');
+
+      if (chaveMateria && mapaMaterias[chaveMateria]) {
+        mapaMaterias[chaveMateria].aliases.forEach(alias => {
+          const reg = new RegExp(`(?:^|[-_\\s])${alias}(?=$|[-_\\s])`, 'gi');
+          nome = nome.replace(reg, ' ');
+        });
+      }
+
+      nome = nome.replace(/(?:^|[-_\s])b[1-4](?=$|[-_\s])/gi, ' ');
+      nome = nome.replace(/(?:^|[-_\s])[1-4]b(?=$|[-_\s])/gi, ' ');
+      nome = nome.replace(/bimestre[_\s-]*[1-4]/gi, ' ');
+      nome = nome.replace(/[1-4][º°oªa]?[_\s-]*bimestre/gi, ' ');
+
+      nome = nome.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+      return nome.length > 0 ? nome : arquivo.replace(/\.html?$/i, '');
+    }
+
+    function renderizarCardsSimulados(lista, container, ehModoBusca = false) {
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; background: var(--card-bg); padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+            <h3 style="margin: 0 0 8px 0; color: var(--text-main);">Nenhum simulado encontrado</h3>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Não há simulados correspondentes nesta seção.</p>
+          </div>
+        `;
+        return;
+      }
+
+      lista.forEach(arquivo => {
+        const infoMateria = identificarMateriaDoArquivo(arquivo);
+        const chaveMateria = infoMateria.chave || materiaAtualChave;
+        const tituloFinal = formatarTituloSimulado(arquivo, chaveMateria);
+        const foiConcluido = concluidos.includes(arquivo);
+
+        const badgeMateriaBusca = ehModoBusca 
+          ? `<div style="margin-bottom: 6px;"><span class="materia-tag-search">${infoMateria.nomeOficial}</span></div>` 
+          : '';
+
+        const card = document.createElement('div');
+        card.className = 'subject-card simulado-card';
+        card.innerHTML = `
+          <div>
+            ${badgeMateriaBusca}
+            <div class="card-header-row">
+              <h3>${tituloFinal}</h3>
+              ${foiConcluido ? '<span class="done-badge">✔ Concluído</span>' : ''}
+            </div>
+            <p>Clique abaixo para abrir e responder à avaliação.</p>
+          </div>
+          <div class="card-footer">Iniciar Prova →</div>
+        `;
+        card.onclick = () => carregarSimulado(encodeURI(arquivo), arquivo);
+        container.appendChild(card);
+      });
+    }
+
+    function filtrarSimuladosPorBusca() {
+      const termo = document.getElementById('search-input').value.toLowerCase().trim();
+
+      if (termo === '') {
+        if (estadoAtual === 'simulados_busca') voltar();
+        return;
+      }
+
+      estadoAtual = 'simulados_busca';
+      document.getElementById('tela-materias').classList.add('hidden');
+      document.getElementById('tela-bimestres').classList.add('hidden');
+      document.getElementById('tela-simulados').classList.remove('hidden');
+      document.getElementById('btn-back').style.display = 'block';
+
+      document.getElementById('main-title').innerText = 'Busca de Simulados';
+      document.getElementById('main-subtitle').innerText = `Resultados para "${termo}"`;
+
+      const filtrados = listaDeArquivos.filter(a => a.toLowerCase().includes(termo));
+      const gridSimulados = document.getElementById('grid-simulados');
+      gridSimulados.innerHTML = '';
+      
+      renderizarCardsSimulados(filtrados, gridSimulados, true);
+    }
+
+    function carregarSimulado(arquivoEncoded, arquivoOriginal) {
+      if (!concluidos.includes(arquivoOriginal)) {
+        concluidos.push(arquivoOriginal);
+        localStorage.setItem('simulados_concluidos', JSON.stringify(concluidos));
+      }
+
+      const telaProva = document.getElementById('tela-prova');
+      const iframe = document.getElementById('iframe-simulado');
+      
+      document.getElementById('spinner-loader').style.display = 'flex';
+      iframe.src = arquivoEncoded;
+      telaProva.style.display = 'block';
+    }
+
+    function esconderSpinner() {
+      document.getElementById('spinner-loader').style.display = 'none';
+    }
+
+    function fecharProva() {
+      const telaProva = document.getElementById('tela-prova');
+      const iframe = document.getElementById('iframe-simulado');
+      
+      telaProva.style.display = 'none';
+      iframe.src = '';
+
+      if (estadoAtual === 'simulados' && bimestreAtual) {
+        abrirBimestre(bimestreAtual);
+      }
+    }
+
+    function voltar() {
+      document.getElementById('search-input').value = '';
+
+      if (estadoAtual === 'simulados') {
+        document.getElementById('tela-simulados').classList.add('hidden');
+        document.getElementById('tela-bimestres').classList.remove('hidden');
+        document.getElementById('main-title').innerText = materiaAtualNome;
+        document.getElementById('main-subtitle').innerText = `Selecione o bimestre desejado para acessar os simulados de ${materiaAtualNome}.`;
+        document.getElementById('badge-top').innerText = 'Seleção de Bimestre';
+        estadoAtual = 'bimestres';
+      } else if (estadoAtual === 'bimestres' || estadoAtual === 'simulados_busca') {
+        document.getElementById('tela-simulados').classList.add('hidden');
+        document.getElementById('tela-bimestres').classList.add('hidden');
+        document.getElementById('tela-materias').classList.remove('hidden');
+        document.getElementById('btn-back').style.display = 'none';
+        document.getElementById('badge-top').innerText = 'Simulados Med 2026';
+        document.getElementById('main-title').innerText = 'Simulados das Provas 2026';
+        document.getElementById('main-subtitle').innerText = 'Selecione uma matéria para visualizar e responder às questões.';
+        estadoAtual = 'materias';
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function abrirModalAjuda() {
+      document.getElementById('modal-ajuda').style.display = 'flex';
+    }
+
+    function fecharModalAjuda() {
+      document.getElementById('modal-ajuda').style.display = 'none';
+    }
+
+    carregarArquivosDoGithub();
+  </script>
+</body>
+</html>
