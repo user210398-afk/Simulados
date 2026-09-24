@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulados das Provas 2026</title>
+  <style>
+    :root {
+      --bg-canvas: #f3f4f6;          /* Fundo cinza claro clean */
+      --card-bg: #ffffff;            /* Fundo branco puro para os cards */
+      --purple-primary: #6d28d9;    /* Roxo principal */
+      --purple-light: #f3e8ff;      /* Roxo claro para tags */
+      --green-primary: #059669;     /* Verde para destaques */
+      --green-light: #d1fae5;       /* Verde claro para tags */
+      --text-main: #111827;         /* Texto principal bem legível */
+      --text-muted: #6b7280;        /* Texto secundário */
+      --border-color: #e5e7eb;      /* Borda suave */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Container Principal Centralizado */
+    .app-viewport {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Topo com Título em Destaque e Barra de Navegação */
+    header {
+      margin-bottom: 35px;
+    }
+
+    .header-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background-color: var(--purple-light);
+      color: var(--purple-primary);
+    }
+
+    .brand-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 8px 0 0 0;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Botão Voltar Clean */
+    .btn-back {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: none;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-back:hover {
+      background-color: var(--purple-primary);
+      color: #ffffff;
+      border-color: var(--purple-primary);
+    }
+
+    /* Seção de Título dos Grids */
+    .section-header {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: var(--purple-primary);
+      border-radius: 2px;
+    }
+
+    /* Grid com Botões das Matérias do MESMO TAMANHO */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 colunas exatamente iguais */
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-container { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .grid-container { grid-template-columns: 1fr; }
+      .brand-title { font-size: 1.75rem; }
+    }
+
+    /* Card Minimalista Inspirado na Foto */
+    .subject-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 160px; /* Garante tamanho idêntico a todos */
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--purple-primary);
+    }
+
+    .subject-card .card-category {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--purple-primary);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .subject-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      color: var(--text-main);
+    }
+
+    .subject-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .subject-card .card-footer {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--purple-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Estilo para Cards de Simulado (Destacados em Verde) */
+    .simulado-card {
+      border-left: 4px solid var(--green-primary);
+    }
+
+    .simulado-card .card-category {
+      color: var(--green-primary);
+    }
+
+    .simulado-card:hover {
+      border-color: var(--green-primary);
+    }
+
+    .simulado-card .card-footer {
+      color: var(--green-primary);
+    }
+
+    /* MODO PROVA COMPLETA (Sem barras laterais ou visual sobreposto) */
+    .exam-view {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      background-color: #ffffff;
+    }
+
+    .btn-close-exam {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      z-index: 100000;
+      background: #111827;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-close-exam:hover {
+      background: var(--purple-primary);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport" id="hub-view">
+    
+    <!-- CABEÇALHO DA PÁGINA -->
+    <header>
+      <div class="header-navigation">
+        <span class="badge-tag" id="badge-top">Simulados Med 2026</span>
+        <button id="btn-back" class="btn-back" onclick="voltar()">← Voltar às Matérias</button>
+      </div>
+      <h1 class="brand-title" id="main-title">Simulados das Provas 2026</h1>
+      <p class="brand-subtitle" id="main-subtitle">Selecione uma matéria para visualizar e responder às questões.</p>
+    </header>
+
+    <!-- PAINEL 1: Lista de Matérias (Cards de Tamanho Igual) -->
+    <main id="tela-materias">
+      <div class="section-header">Matérias Disponíveis</div>
+      <div class="grid-container">
+        
+        <div class="subject-card" onclick="abrirMateria('Fisiologia')">
+          <div>
+            <div class="card-category">Módulo I</div>
+            <h3>Fisiologia</h3>
+            <p>Sistemas corporais, homeostase e mecânica orgânica.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Microbiologia')">
+          <div>
+            <div class="card-category">Módulo I</div>
+            <h3>Microbiologia</h3>
+            <p>Bactérias, virologia, micologia e patogenia.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Parasitologia')">
+          <div>
+            <div class="card-category">Módulo I</div>
+            <h3>Parasitologia</h3>
+            <p>Protozoários, helmintos, vetores e diagnósticos.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Patologia')">
+          <div>
+            <div class="card-category">Módulo II</div>
+            <h3>Patologia</h3>
+            <p>Processos patológicos gerais e lesões celulares.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Imunologia')">
+          <div>
+            <div class="card-category">Módulo II</div>
+            <h3>Imunologia</h3>
+            <p>Resposta imune inata, adaptativa e imunopatologia.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Vigilância em Saúde')">
+          <div>
+            <div class="card-category">Módulo II</div>
+            <h3>Vigilância em Saúde</h3>
+            <p>Epidemiologia, saúde coletiva e indicadores.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Farmacologia')">
+          <div>
+            <div class="card-category">Módulo III</div>
+            <h3>Farmacologia</h3>
+            <p>Farmacocinética, farmacodinâmica e terapêutica.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Propedêutica')">
+          <div>
+            <div class="card-category">Módulo III</div>
+            <h3>Propedêutica</h3>
+            <p>Anamnese, exame físico e raciocínio clínico.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+        <div class="subject-card" onclick="abrirMateria('Psicomed')">
+          <div>
+            <div class="card-category">Módulo III</div>
+            <h3>Psicomed</h3>
+            <p>Psicologia médica e relação médico-paciente.</p>
+          </div>
+          <div class="card-footer">Acessar Simulados →</div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- PAINEL 2: Lista dos Simulados da Matéria Escolhida -->
+    <main id="tela-simulados" class="hidden">
+      <div class="section-header" id="simulados-section-title">Simulados Encontrados</div>
+      <div class="grid-container" id="grid-simulados"></div>
+    </main>
+
+  </div>
+
+  <!-- MODO PROVA COMPLETA (Carrega o simulado exatamente como um site próprio) -->
+  <div id="tela-prova" class="exam-view">
+    <button class="btn-close-exam" onclick="fecharProva()">← Voltar ao Hub</button>
+    <iframe id="iframe-simulado" src=""></iframe>
+  </div>
+
+  <script>
+    // Configuração dos arquivos HTML de cada matéria
+    const dadosSimulados = {
+      "Parasitologia": [
+        { nome: "Simulado 5", arquivo: "parasito 5.html", desc: "Questões gerais e casos clínicos para revisão." }
+      ],
+      "Microbiologia": [
+        { nome: "Simulado TFCS", arquivo: "microtfcs.html", desc: "Avaliação abrangente de conteúdos de microbiologia." },
+        { nome: "Simulado 2025", arquivo: "micro2025.html", desc: "Provas recentes acumuladas de Microbiologia." },
+        { nome: "Simulado 2023", arquivo: "micro2023.html", desc: "Banco de questões anteriores de Microbiologia." }
+      ],
+      "Fisiologia": [],
+      "Patologia": [],
+      "Imunologia": [],
+      "Vigilância em Saúde": [],
+      "Farmacologia": [],
+      "Propedêutica": [],
+      "Psicomed": []
+    };
+
+    let estadoAtual = 'materias';
+
+    function abrirMateria(materia) {
+      estadoAtual = 'simulados';
+      
+      document.getElementById('main-title').innerText = materia;
+      document.getElementById('main-subtitle').innerText = `Provas e simulados cadastrados para a disciplina de ${materia}.`;
+      document.getElementById('btn-back').style.display = 'block';
+      document.getElementById('badge-top').innerText = 'Seleção de Prova';
+      document.getElementById('tela-materias').classList.add('hidden');
+      
+      const gridSimulados = document.getElementById('grid-simulados');
+      gridSimulados.innerHTML = '';
+      document.getElementById('tela-simulados').classList.remove('hidden');
+
+      const simuladosMateria = dadosSimulados[materia] || [];
+
+      if (simuladosMateria.length === 0) {
+        gridSimulados.innerHTML = `
+          <div style="grid-column: 1/-1; background: #ffffff; padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+            <h3 style="margin: 0 0 8px 0; color: var(--text-main);">Nenhum simulado disponível</h3>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Não há arquivos cadastrados para a matéria de ${materia} no momento.</p>
+          </div>
+        `;
+        return;
+      }
+
+      simuladosMateria.forEach(simulado => {
+        const card = document.createElement('div');
+        card.className = 'subject-card simulado-card';
+        card.innerHTML = `
+          <div>
+            <div class="card-category">Simulado Disponível</div>
+            <h3>${simulado.nome}</h3>
+            <p>${simulado.desc}</p>
+          </div>
+          <div class="card-footer">Iniciar Prova →</div>
+        `;
+        card.onclick = () => carregarSimulado(encodeURIComponent(simulado.arquivo));
+        gridSimulados.appendChild(card);
+      });
+    }
+
+    function carregarSimulado(arquivoHtml) {
+      const telaProva = document.getElementById('tela-prova');
+      const iframe = document.getElementById('iframe-simulado');
+      
+      iframe.src = arquivoHtml;
+      telaProva.style.display = 'block';
+    }
+
+    function fecharProva() {
+      const telaProva = document.getElementById('tela-prova');
+      const iframe = document.getElementById('iframe-simulado');
+      
+      telaProva.style.display = 'none';
+      iframe.src = '';
+    }
+
+    function voltar() {
+      if (estadoAtual === 'simulados') {
+        document.getElementById('tela-simulados').classList.add('hidden');
+        document.getElementById('tela-materias').classList.remove('hidden');
+        document.getElementById('btn-back').style.display = 'none';
+        document.getElementById('badge-top').innerText = 'Simulados Med 2026';
+        document.getElementById('main-title').innerText = 'Simulados das Provas 2026';
+        document.getElementById('main-subtitle').innerText = 'Selecione uma matéria para visualizar e responder às questões.';
+        estadoAtual = 'materias';
+      }
+    }
+  </script>
+</body>
+</html>
