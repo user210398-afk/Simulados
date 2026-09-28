@@ -459,7 +459,7 @@
             <p>Sistemas corporais, homeostase e mecânica orgânica.</p>
           </div>
           <div class="card-footer">
-            <span>Selecionar Bimestres →</span>
+            <span>Selecionar Módulos →</span>
             <span class="count-badge" id="count-fisiologia">0 simulados</span>
           </div>
         </div>
@@ -525,7 +525,7 @@
             <p>Farmacocinética, farmacodinâmica e terapêutica.</p>
           </div>
           <div class="card-footer">
-            <span>Selecionar Bimestres →</span>
+            <span>Selecionar Provas →</span>
             <span class="count-badge" id="count-farmaco">0 simulados</span>
           </div>
         </div>
@@ -536,7 +536,7 @@
             <p>Anamnese, exame físico e raciocínio clínico.</p>
           </div>
           <div class="card-footer">
-            <span>Selecionar Bimestres →</span>
+            <span>Selecionar Provas →</span>
             <span class="count-badge" id="count-propedeu">0 simulados</span>
           </div>
         </div>
@@ -555,57 +555,13 @@
       </div>
     </main>
 
-    <!-- TELA 2: Seleção de Bimestres -->
+    <!-- TELA 2: Seleção de Divisões (Bimestres, Módulos ou Provas) -->
     <main id="tela-bimestres" class="hidden">
-      <div class="section-header">Selecione o Bimestre</div>
-      <div class="grid-bimestres">
-        <div class="subject-card bimestre-card" onclick="abrirBimestre(1)">
-          <div>
-            <h3>1° Bimestre</h3>
-            <p>Provas do primeiro período.</p>
-          </div>
-          <div class="card-footer">
-            <span>Ver Simulados →</span>
-            <span class="count-badge" id="count-b1">0 simulados</span>
-          </div>
-        </div>
-
-        <div class="subject-card bimestre-card" onclick="abrirBimestre(2)">
-          <div>
-            <h3>2° Bimestre</h3>
-            <p>Provas do segundo período.</p>
-          </div>
-          <div class="card-footer">
-            <span>Ver Simulados →</span>
-            <span class="count-badge" id="count-b2">0 simulados</span>
-          </div>
-        </div>
-
-        <div class="subject-card bimestre-card" onclick="abrirBimestre(3)">
-          <div>
-            <h3>3° Bimestre</h3>
-            <p>Provas do terceiro período.</p>
-          </div>
-          <div class="card-footer">
-            <span>Ver Simulados →</span>
-            <span class="count-badge" id="count-b3">0 simulados</span>
-          </div>
-        </div>
-
-        <div class="subject-card bimestre-card" onclick="abrirBimestre(4)">
-          <div>
-            <h3>4° Bimestre</h3>
-            <p>Provas do quarto período.</p>
-          </div>
-          <div class="card-footer">
-            <span>Ver Simulados →</span>
-            <span class="count-badge" id="count-b4">0 simulados</span>
-          </div>
-        </div>
-      </div>
+      <div class="section-header" id="titulo-secao-divisoes">Selecione</div>
+      <div class="grid-bimestres" id="container-divisoes"></div>
     </main>
 
-    <!-- TELA 3: Lista de Simulados do Bimestre ou Busca -->
+    <!-- TELA 3: Lista de Simulados da Divisão ou Busca -->
     <main id="tela-simulados" class="hidden">
       <div class="section-header" id="titulo-secao-simulados">Simulados Encontrados</div>
       <div class="grid-container" id="grid-simulados"></div>
@@ -618,10 +574,10 @@
       <h2>Instruções de Adição e Nomeação</h2>
       
       <div class="mini-instrucoes">
-        <strong>Como vincular ao Bimestre e Matéria:</strong>
+        <strong>Como vincular à Matéria e sua respectiva Divisão:</strong>
         <ol>
           <li>Crie o arquivo HTML do novo simulado.</li>
-          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a marcação do bimestre (ex: <code>-b1</code>, <code>-b2</code>, <code>-b3</code> ou <code>-b4</code>). Se não informar o bimestre, o sistema alocará no <strong>3º Bimestre</strong> por padrão.</li>
+          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a identificação da divisão (ex: <code>-m1</code> ou <code>-modulo1</code> para Fisiologia; <code>-p1</code> ou <code>-prova1</code> para Farmaco e Propedêutica; <code>-b1</code> ou <code>-b2</code> para as demais).</li>
           <li>Suba no GitHub! O site sincronizará automaticamente.</li>
         </ol>
       </div>
@@ -630,21 +586,21 @@
         <thead>
           <tr>
             <th>Matéria</th>
-            <th>Palavra-Chave</th>
-            <th>Exemplo 1º Bimestre</th>
-            <th>Exemplo 4º Bimestre</th>
+            <th>Divisão</th>
+            <th>Exemplo Inicial</th>
+            <th>Exemplo Final</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Fisiologia</td><td><code>fisiologia</code>/<code>fisio</code></td><td>fisio-b1.html</td><td>fisio-b4.html</td></tr>
-          <tr><td>Microbiologia</td><td><code>micro</code></td><td>micro-b1.html</td><td>micro-b4.html</td></tr>
-          <tr><td>Parasitologia</td><td><code>parasito</code></td><td>parasito-b1.html</td><td>parasito-b4 Simulado 2025.html</td></tr>
-          <tr><td>Patologia</td><td><code>patologia</code></td><td>patologia-b1.html</td><td>patologia-b4.html</td></tr>
-          <tr><td>Imunologia</td><td><code>imuno</code></td><td>imuno-b1.html</td><td>imuno-b4.html</td></tr>
-          <tr><td>Vigilância em Saúde</td><td><code>vigilancia</code></td><td>vigilancia-b1.html</td><td>vigilancia-b4.html</td></tr>
-          <tr><td>Farmacologia</td><td><code>farmaco</code></td><td>farmaco-b1.html</td><td>farmaco-b4 Simulado 2025.html</td></tr>
-          <tr><td>Propedêutica</td><td><code>propedeu</code></td><td>propedeu-b1.html</td><td>propedeu-b4.html</td></tr>
-          <tr><td>Psicomed</td><td><code>psico</code></td><td>psico-b1.html</td><td>psico-b4.html</td></tr>
+          <tr><td>Fisiologia</td><td>5 Módulos</td><td>fisio-modulo1.html</td><td>fisio-modulo5.html</td></tr>
+          <tr><td>Microbiologia</td><td>4 Bimestres</td><td>micro-b1.html</td><td>micro-b4.html</td></tr>
+          <tr><td>Parasitologia</td><td>4 Bimestres</td><td>parasito-b1.html</td><td>parasito-b4.html</td></tr>
+          <tr><td>Patologia</td><td>4 Bimestres</td><td>patologia-b1.html</td><td>patologia-b4.html</td></tr>
+          <tr><td>Imunologia</td><td>4 Bimestres</td><td>imuno-b1.html</td><td>imuno-b4.html</td></tr>
+          <tr><td>Vigilância em Saúde</td><td>4 Bimestres</td><td>vigilancia-b1.html</td><td>vigilancia-b4.html</td></tr>
+          <tr><td>Farmacologia</td><td>3 Provas</td><td>farmaco-prova1.html</td><td>farmaco-prova3.html</td></tr>
+          <tr><td>Propedêutica</td><td>2 Provas</td><td>propedeu-prova1.html</td><td>propedeu-prova2.html</td></tr>
+          <tr><td>Psicomed</td><td>4 Bimestres</td><td>psico-b1.html</td><td>psico-b4.html</td></tr>
         </tbody>
       </table>
 
@@ -666,18 +622,12 @@
     // -------------------------------------------------------------
     // LISTA MANUAL DE FICHEIROS (GARANTIA DE FUNCIONAMENTO)
     // -------------------------------------------------------------
-    // Adicione os nomes dos ficheiros HTML aqui para garantir que
-    // aparecem sempre na interface sem depender da API do GitHub:
     const MEUS_ARQUIVOS_MANUAIS = [
-      'farmaco-b4-Simulado-2025.html',
-      'farmaco-b4-Simulado-2024.html',
-      'farmaco-b4-Simulado-2023.html',
+      'farmaco-prova3-Simulado-2025.html',
+      'farmaco-prova3-Simulado-2024.html',
+      'farmaco-prova3-Simulado-2023.html',
       'imunologia-b4-Simulado-2025.html',
-      'imunologia-b4-Simulado-2024.html',
-      'patologia-b4-Simulado-2025.html',
-      'fisiologia-b4-Endocrino em Grupo.html',
-      'fisiologia-b1-Aula 1 - Introdução e Hipófise.html',
-      'micro-b4-Simulado 2025.html'
+      'imunologia-b4-Simulado-2024.html'
     ];
 
     const GITHUB_USER = 'user210398-afk'; 
@@ -688,39 +638,75 @@
     const mapaMaterias = {
       'fisiologia': {
         nomeOficial: 'Fisiologia',
-        aliases: ['fisiologia', 'fisio']
+        aliases: ['fisiologia', 'fisio'],
+        divisaoTipo: 'Módulo',
+        divisaoPlural: 'Módulos',
+        qtdDivisoes: 5,
+        divisaoRegex: /(?:modulo|módulo|m)[_\s-]*([1-5])/i
       },
       'micro': {
         nomeOficial: 'Microbiologia',
-        aliases: ['microbiologia', 'micro']
+        aliases: ['microbiologia', 'micro'],
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'parasito': {
         nomeOficial: 'Parasitologia',
-        aliases: ['parasitologia', 'parasito']
+        aliases: ['parasitologia', 'parasito'],
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'patologia': {
         nomeOficial: 'Patologia',
-        aliases: ['patologia', 'pato']
+        aliases: ['patologia', 'pato'],
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'imuno': {
         nomeOficial: 'Imunologia',
-        aliases: ['imunologia', 'imuno']
+        aliases: ['imunologia', 'imuno'],
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'vigilancia': {
         nomeOficial: 'Vigilância em Saúde',
-        aliases: ['vigilancia', 'vigilância', 'saude', 'saúde', 'vigi']
+        aliases: ['vigilancia', 'vigilância', 'saude', 'saúde', 'vigi'],
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'farmaco': {
         nomeOficial: 'Farmacologia',
-        aliases: ['farmacologia', 'farmaco']
+        aliases: ['farmacologia', 'farmaco'],
+        divisaoTipo: 'Prova',
+        divisaoPlural: 'Provas',
+        qtdDivisoes: 3,
+        divisaoRegex: /(?:prova|p|bimestre|b)[_\s-]*([1-3])/i
       },
       'propedeu': {
         nomeOficial: 'Propedêutica',
-        aliases: ['propedeutica', 'propedêutica', 'propedeu', 'prope']
+        aliases: ['propedeutica', 'propedêutica', 'propedeu', 'prope'],
+        divisaoTipo: 'Prova',
+        divisaoPlural: 'Provas',
+        qtdDivisoes: 2,
+        divisaoRegex: /(?:prova|p|bimestre|b)[_\s-]*([1-2])/i
       },
       'psico': {
         nomeOficial: 'Psicomed',
-        aliases: ['psicomed', 'psico', 'psicologia']
+        aliases: ['psicomed', 'psico', 'psicologia'],
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       }
     };
 
@@ -748,21 +734,26 @@
       return { chave: '', nomeOficial: 'Geral' };
     }
 
-    function extrairBimestreDoArquivo(arquivo) {
+    function extrairBimestreDoArquivo(arquivo, chaveMateria) {
       const nomeLower = arquivo.toLowerCase();
-      
-      let match = nomeLower.match(/(?:^|[-_\s]|\b)b([1-4])(?=$|[-_\s.]|\b)/i) ||
-                  nomeLower.match(/(?:^|[-_\s]|\b)([1-4])b(?=$|[-_\s.]|\b)/i);
-      if (match) return parseInt(match[1]);
+      const mat = mapaMaterias[chaveMateria];
+      const maxDiv = mat ? mat.qtdDivisoes : 4;
 
-      match = nomeLower.match(/bimestre[_\s-]*([1-4])/i) ||
-              nomeLower.match(/([1-4])[º°oªa]?[_\s-]*bimestre/i);
-      if (match) return parseInt(match[1]);
+      // Se a matéria possui regex específico (ex: prova, modulo, m, p, b)
+      if (mat && mat.divisaoRegex) {
+        const mCustom = nomeLower.match(mat.divisaoRegex);
+        if (mCustom) return Math.min(parseInt(mCustom[1]), maxDiv);
+      }
 
-      match = nomeLower.match(/(?:^|[-_\s])([1-4])(?:$|[-_\s.])/);
-      if (match) return parseInt(match[1]);
+      // Procura padrões de divisão genéricos (ex: b1, p1, m1, modulo1, prova1, etc.)
+      let match = nomeLower.match(/(?:modulo|módulo|m|prova|p|bimestre|b)[_\s-]*([1-5])/i) ||
+                  nomeLower.match(/([1-5])[º°oªa]?[_\s-]*(?:modulo|módulo|m|prova|p|bimestre|b)/i);
+      if (match) return Math.min(parseInt(match[1]), maxDiv);
 
-      return 3;
+      match = nomeLower.match(/(?:^|[-_\s])([1-5])(?:$|[-_\s.])/);
+      if (match) return Math.min(parseInt(match[1]), maxDiv);
+
+      return Math.min(1, maxDiv);
     }
 
     async function carregarArquivosDoGithub() {
@@ -809,16 +800,19 @@
     }
 
     function atualizarContadoresBimestres() {
-      [1, 2, 3, 4].forEach(b => {
+      const mat = mapaMaterias[materiaAtualChave];
+      if (!mat) return;
+
+      for (let b = 1; b <= mat.qtdDivisoes; b++) {
         const count = listaDeArquivos.filter(arquivo => {
           const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
           if (!pertenceMateria) return false;
-          return extrairBimestreDoArquivo(arquivo) === b;
+          return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === b;
         }).length;
 
         const el = document.getElementById(`count-b${b}`);
         if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
-      });
+      }
     }
 
     function selecionarMateria(prefixoChave, nomeMateria) {
@@ -826,10 +820,37 @@
       materiaAtualNome = nomeMateria;
       estadoAtual = 'bimestres';
 
+      const mat = mapaMaterias[prefixoChave];
+      const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
+      const numDivisoes = mat ? mat.qtdDivisoes : 4;
+
       document.getElementById('main-title').innerText = nomeMateria;
-      document.getElementById('main-subtitle').innerText = `Selecione o bimestre desejado para aceder aos simulados de ${nomeMateria}.`;
-      document.getElementById('badge-top').innerText = 'Seleção de Bimestre';
+      document.getElementById('main-subtitle').innerText = `Selecione a opção desejada para aceder aos simulados de ${nomeMateria}.`;
+      document.getElementById('badge-top').innerText = `Seleção de ${tipoDivisao}`;
       document.getElementById('btn-back').style.display = 'block';
+
+      document.getElementById('titulo-secao-divisoes').innerText = `Selecione (${tipoDivisao})`;
+
+      const container = document.getElementById('container-divisoes');
+      container.style.gridTemplateColumns = `repeat(${Math.min(numDivisoes, 5)}, 1fr)`;
+      container.innerHTML = '';
+
+      for (let i = 1; i <= numDivisoes; i++) {
+        const divCard = document.createElement('div');
+        divCard.className = 'subject-card bimestre-card';
+        divCard.onclick = () => abrirBimestre(i);
+        divCard.innerHTML = `
+          <div>
+            <h3>${i}° ${tipoDivisao}</h3>
+            <p>Provas referentes a esta etapa.</p>
+          </div>
+          <div class="card-footer">
+            <span>Ver Simulados →</span>
+            <span class="count-badge" id="count-b${i}">0 simulados</span>
+          </div>
+        `;
+        container.appendChild(divCard);
+      }
 
       atualizarContadoresBimestres();
 
@@ -842,8 +863,11 @@
       estadoAtual = 'simulados';
       bimestreAtual = numeroBimestre;
 
-      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${numeroBimestre}° Bimestre`;
-      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para o ${numeroBimestre}° Bimestre.`;
+      const mat = mapaMaterias[materiaAtualChave];
+      const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
+
+      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${numeroBimestre}° ${tipoDivisao}`;
+      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para o ${numeroBimestre}° ${tipoDivisao}.`;
       document.getElementById('badge-top').innerText = 'Lista de Provas';
 
       document.getElementById('tela-bimestres').classList.add('hidden');
@@ -855,7 +879,7 @@
       const simuladosEncontrados = listaDeArquivos.filter(arquivo => {
         const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
         if (!pertenceMateria) return false;
-        return extrairBimestreDoArquivo(arquivo) === numeroBimestre;
+        return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === numeroBimestre;
       });
 
       renderizarCardsSimulados(simuladosEncontrados, gridSimulados, false);
@@ -872,10 +896,8 @@
         });
       }
 
-      nome = nome.replace(/(?:^|[-_\s])b[1-4](?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/(?:^|[-_\s])[1-4]b(?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/bimestre[_\s-]*[1-4]/gi, ' ');
-      nome = nome.replace(/[1-4][º°oªa]?[_\s-]*bimestre/gi, ' ');
+      nome = nome.replace(/(?:modulo|módulo|m|prova|p|bimestre|b)[_\s-]*[1-5]/gi, ' ');
+      nome = nome.replace(/[1-5][º°oªa]?[_\s-]*(?:modulo|módulo|m|prova|p|bimestre|b)/gi, ' ');
 
       nome = nome.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -983,9 +1005,13 @@
       if (estadoAtual === 'simulados') {
         document.getElementById('tela-simulados').classList.add('hidden');
         document.getElementById('tela-bimestres').classList.remove('hidden');
+        
+        const mat = mapaMaterias[materiaAtualChave];
+        const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
+        
         document.getElementById('main-title').innerText = materiaAtualNome;
-        document.getElementById('main-subtitle').innerText = `Selecione o bimestre desejado para aceder aos simulados de ${materiaAtualNome}.`;
-        document.getElementById('badge-top').innerText = 'Seleção de Bimestre';
+        document.getElementById('main-subtitle').innerText = `Selecione a opção desejada para aceder aos simulados de ${materiaAtualNome}.`;
+        document.getElementById('badge-top').innerText = `Seleção de ${tipoDivisao}`;
         estadoAtual = 'bimestres';
       } else if (estadoAtual === 'bimestres' || estadoAtual === 'simulados_busca') {
         document.getElementById('tela-simulados').classList.add('hidden');
