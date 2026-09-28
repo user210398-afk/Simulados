@@ -3,61 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Provas e Simulados</title>
+  <title>Simulados das Provas 2026</title>
   <style>
     :root {
-      --bg-canvas: #f0f4f8;          
-      --bg-gradient: radial-gradient(circle at 15% 15%, #eef2ff 0%, #f3e8ff 40%, #e0e7ff 100%);
-      --card-bg: rgba(255, 255, 255, 0.65);            
-      --card-border: rgba(255, 255, 255, 0.8);
-      --purple-primary: #7c3aed;    
-      --purple-light: rgba(124, 58, 237, 0.12);      
-      --purple-glow: rgba(124, 58, 237, 0.25);
-      --green-primary: #10b981;     
-      --green-light: rgba(16, 185, 129, 0.12);       
-      --green-glow: rgba(16, 185, 129, 0.25);
-      --accent-exam-bg: rgba(245, 158, 11, 0.22);
-      --accent-exam-text: #b45309;
-      --accent-exam-border: rgba(245, 158, 11, 0.5);
-      --text-main: #0f172a;         
-      --text-muted: #64748b;        
-      --border-color: rgba(203, 213, 225, 0.9);      
-      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      --shadow-hover: 0 20px 25px -5px rgba(124, 58, 237, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --glass-blur: blur(16px);
+      --bg-canvas: #f3f4f6;          
+      --card-bg: #ffffff;            
+      --purple-primary: #6d28d9;    
+      --purple-light: #f3e8ff;      
+      --green-primary: #059669;     
+      --green-light: #d1fae5;       
+      --text-main: #111827;         
+      --text-muted: #6b7280;        
+      --border-color: #e5e7eb;      
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
     }
 
     body.dark-mode {
-      --bg-canvas: #090d16;
-      --bg-gradient: radial-gradient(circle at 15% 15%, #0f172a 0%, #1e1b4b 50%, #090d16 100%);
-      --card-bg: rgba(30, 41, 59, 0.55);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --bg-canvas: #0f172a;
+      --card-bg: #1e293b;
       --purple-primary: #a855f7;
-      --purple-light: rgba(168, 85, 247, 0.18);
-      --purple-glow: rgba(168, 85, 247, 0.35);
-      --green-primary: #34d399;
-      --green-light: rgba(52, 211, 153, 0.18);
-      --green-glow: rgba(52, 211, 153, 0.35);
-      --accent-exam-bg: rgba(251, 191, 36, 0.22);
-      --accent-exam-text: #fbbf24;
-      --accent-exam-border: rgba(251, 191, 36, 0.5);
+      --purple-light: #3b0764;
+      --green-primary: #10b981;
+      --green-light: #064e3b;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --border-color: rgba(71, 85, 105, 0.8);
-      --shadow-hover: 0 20px 25px -5px rgba(168, 85, 247, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+      --border-color: #334155;
     }
 
     * {
       box-sizing: border-box;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
-      background: var(--bg-canvas);
-      background-image: var(--bg-gradient);
-      background-attachment: fixed;
+      background-color: var(--bg-canvas);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -73,14 +55,7 @@
     }
 
     header {
-      margin-bottom: 35px;
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 24px 28px;
-      box-shadow: var(--shadow-sm);
+      margin-bottom: 30px;
     }
 
     .header-navigation {
@@ -89,37 +64,32 @@
       justify-content: space-between;
       gap: 15px;
       margin-bottom: 12px;
-      flex-wrap: wrap;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
     }
 
     .badge-tag {
       display: inline-block;
-      padding: 6px 14px;
-      border-radius: 20px;
+      padding: 4px 12px;
+      border-radius: 4px;
       font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
-      background: var(--purple-light);
+      letter-spacing: 0.5px;
+      background-color: var(--purple-light);
       color: var(--purple-primary);
-      border: 1px solid var(--purple-glow);
     }
 
     .btn-action {
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 9px 16px;
-      border-radius: 10px;
+      padding: 8px 14px;
+      border-radius: 6px;
       font-weight: 600;
       font-size: 0.85rem;
       cursor: pointer;
@@ -132,19 +102,14 @@
     .btn-action:hover {
       border-color: var(--purple-primary);
       color: var(--purple-primary);
-      box-shadow: 0 0 12px var(--purple-glow);
-      transform: translateY(-1px);
     }
 
     .brand-title {
-      font-size: 2.3rem;
+      font-size: 2.2rem;
       font-weight: 800;
       color: var(--text-main);
-      margin: 10px 0 0 0;
+      margin: 8px 0 0 0;
       letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--text-main) 30%, var(--purple-primary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .brand-subtitle {
@@ -165,12 +130,10 @@
 
     .search-input {
       width: 100%;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
       color: var(--text-main);
       font-size: 0.95rem;
       outline: none;
@@ -179,88 +142,68 @@
 
     .search-input:focus {
       border-color: var(--purple-primary);
-      box-shadow: 0 0 15px var(--purple-glow);
     }
 
     .section-header {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .section-header::before {
       content: '';
       display: inline-block;
-      width: 10px;
-      height: 20px;
-      background: var(--purple-primary);
-      border-radius: 4px;
-      box-shadow: 0 0 10px var(--purple-glow);
+      width: 12px;
+      height: 12px;
+      background-color: var(--purple-primary);
+      border-radius: 2px;
     }
 
     .grid-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      gap: 20px;
     }
 
     .grid-bimestres {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 22px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
 
     @media (max-width: 900px) {
       .grid-container { grid-template-columns: repeat(2, 1fr); }
+      .grid-bimestres { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 600px) {
       .grid-container { grid-template-columns: 1fr; }
       .grid-bimestres { grid-template-columns: 1fr; }
-      .brand-title { font-size: 1.8rem; }
+      .brand-title { font-size: 1.75rem; }
     }
 
     .subject-card {
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
       padding: 24px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 180px;
+      min-height: 170px;
       box-shadow: var(--shadow-sm);
       position: relative;
-      overflow: hidden;
-    }
-
-    .subject-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--purple-primary), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
     }
 
     .subject-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
       border-color: var(--purple-primary);
-    }
-
-    .subject-card:hover::before {
-      opacity: 1;
     }
 
     .card-header-row {
@@ -271,7 +214,7 @@
     }
 
     .subject-card h3 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       margin: 0;
       color: var(--text-main);
@@ -281,44 +224,38 @@
     }
 
     .subject-card p {
-      font-size: 0.88rem;
+      font-size: 0.875rem;
       color: var(--text-muted);
-      margin: 8px 0 0 0;
-      line-height: 1.5;
-      word-wrap: break-word;
+      margin: 6px 0 0 0;
+      line-height: 1.4;
     }
 
     .subject-card .card-footer {
-      margin-top: 18px;
-      font-size: 0.82rem;
+      margin-top: 16px;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--purple-primary);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
     .count-badge {
       font-size: 0.72rem;
-      background: var(--purple-light);
+      background-color: var(--purple-light);
       color: var(--purple-primary);
-      padding: 3px 10px;
+      padding: 2px 8px;
       border-radius: 12px;
       font-weight: 700;
-      white-space: nowrap;
-      border: 1px solid var(--purple-glow);
     }
 
     .done-badge {
       font-size: 0.72rem;
-      background: var(--green-light);
+      background-color: var(--green-light);
       color: var(--green-primary);
-      padding: 3px 10px;
+      padding: 2px 8px;
       border-radius: 12px;
       font-weight: 700;
-      border: 1px solid var(--green-glow);
     }
 
     .materia-tag-search {
@@ -327,17 +264,16 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      background: var(--purple-light);
+      background-color: var(--purple-light);
       color: var(--purple-primary);
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 3px 8px;
+      border-radius: 4px;
       margin-bottom: 8px;
-      border: 1px solid var(--purple-glow);
     }
 
     .bimestre-card {
       border-top: 4px solid var(--purple-primary);
-      text-align: left;
+      text-align: center;
     }
 
     .simulado-card {
@@ -347,7 +283,7 @@
     .simulado-card:hover { border-color: var(--green-primary); }
     .simulado-card .card-footer { color: var(--green-primary); }
 
-    /* Modais */
+    /* Modal de Ajuda */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -355,9 +291,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 99999;
       justify-content: center;
       align-items: center;
@@ -366,15 +300,12 @@
 
     .modal-box {
       background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--card-border);
       color: var(--text-main);
-      border-radius: 20px;
-      max-width: 620px;
+      border-radius: 8px;
+      max-width: 600px;
       width: 100%;
-      padding: 28px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -382,15 +313,15 @@
     .modal-box h2 {
       margin-top: 0;
       color: var(--purple-primary);
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     }
 
     .mini-instrucoes {
-      background: var(--purple-light);
+      background-color: var(--purple-light);
       border-left: 4px solid var(--purple-primary);
-      padding: 14px 18px;
-      border-radius: 10px;
-      margin-bottom: 22px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
       font-size: 0.88rem;
       line-height: 1.5;
       color: var(--text-main);
@@ -408,225 +339,32 @@
     .modal-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 18px 0;
+      margin: 15px 0;
       font-size: 0.85rem;
     }
 
     .modal-table th, .modal-table td {
       border: 1px solid var(--border-color);
-      padding: 10px 14px;
+      padding: 8px 12px;
       text-align: left;
     }
 
     .modal-table th {
-      background: var(--purple-light);
-      color: var(--purple-primary);
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
       font-weight: 700;
     }
 
     .btn-modal-close {
-      background: var(--purple-primary);
+      background-color: var(--purple-primary);
       color: #ffffff;
       border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
+      padding: 8px 16px;
+      border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
       float: right;
-      margin-top: 12px;
-      box-shadow: 0 4px 12px var(--purple-glow);
-    }
-
-    .btn-modal-close:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px var(--purple-glow);
-    }
-
-    /* CALENDÁRIO INTERATIVO COM TAMANHO FIXO PADRONIZADO */
-    .calendar-container {
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      margin-top: 20px;
-    }
-
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .calendar-header h2 {
-      margin: 0;
-      font-size: 1.4rem;
-      color: var(--purple-primary);
-    }
-
-    .calendar-legend {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      margin-bottom: 15px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.3);
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-    }
-
-    body.dark-mode .calendar-legend {
-      background: rgba(30, 41, 59, 0.3);
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .legend-color {
-      width: 14px;
-      height: 14px;
-      border-radius: 4px;
-    }
-
-    .legend-aula {
-      background: var(--purple-light);
-      border: 1px solid var(--purple-glow);
-    }
-
-    .legend-prova {
-      background: var(--accent-exam-bg);
-      border: 1px solid var(--accent-exam-border);
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
-    }
-
-    .calendar-dow {
-      text-align: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      padding: 10px 4px;
-      background: rgba(255, 255, 255, 0.3);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-    }
-
-    body.dark-mode .calendar-dow {
-      background: rgba(30, 41, 59, 0.4);
-    }
-
-    .calendar-day {
-      background: rgba(255, 255, 255, 0.5);
-      border: 1.5px solid var(--border-color);
-      border-radius: 10px;
-      height: 110px;
-      max-height: 110px;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      cursor: pointer;
-      font-size: 0.75rem;
-      overflow: hidden;
-    }
-
-    body.dark-mode .calendar-day {
-      background: rgba(30, 41, 59, 0.5);
-    }
-
-    .calendar-day:hover {
-      border-color: var(--purple-primary);
-      background: var(--purple-light);
-    }
-
-    .calendar-day.inactive {
-      opacity: 0.25;
-      cursor: default;
-      pointer-events: none;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1.5px solid var(--border-color);
-      height: 110px;
-      max-height: 110px;
-    }
-
-    .calendar-day.has-events {
-      border-left: 4px solid var(--purple-primary);
-    }
-
-    .day-number {
-      font-weight: 700;
-      margin-bottom: 3px;
-      color: var(--text-main);
-      font-size: 0.8rem;
-    }
-
-    .day-preview-item {
-      font-size: 0.65rem;
-      background: var(--purple-light);
-      color: var(--purple-primary);
-      padding: 2px 4px;
-      border-radius: 4px;
-      margin-bottom: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border: 1px solid var(--purple-glow);
-    }
-
-    .day-preview-item.exam-tag {
-      background: var(--accent-exam-bg);
-      color: var(--accent-exam-text);
-      border: 1px solid var(--accent-exam-border);
-      font-weight: 700;
-    }
-
-    @media (max-width: 768px) {
-      .calendar-grid { grid-template-columns: repeat(7, 1fr); gap: 4px; }
-      .calendar-day, .calendar-day.inactive { height: 95px; max-height: 95px; padding: 4px; font-size: 0.65rem; }
-      .calendar-dow { font-size: 0.7rem; padding: 6px 2px; }
-    }
-
-    /* Lista de Configurações de Matérias */
-    .filter-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 18px 0;
-    }
-
-    .filter-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .filter-item:hover {
-      background: var(--purple-light);
-    }
-
-    .filter-item input {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      accent-color: var(--purple-primary);
+      margin-top: 10px;
     }
 
     /* MODO PROVA & SPINNER DE CARREGAMENTO */
@@ -656,8 +394,8 @@
     }
 
     .spinner {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border: 4px solid var(--border-color);
       border-top-color: var(--purple-primary);
       border-radius: 50%;
@@ -675,13 +413,13 @@
       z-index: 100000;
       background: #111827;
       color: #ffffff;
-      border: 1px solid var(--card-border);
+      border: none;
       padding: 10px 18px;
-      border-radius: 10px;
+      border-radius: 6px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .btn-close-exam:hover { background: var(--purple-primary); }
@@ -694,16 +432,14 @@
   <div class="app-viewport" id="hub-view">
     <header>
       <div class="header-navigation">
-        <span class="badge-tag" id="badge-top">Integração das Matérias FMJ</span>
+        <span class="badge-tag" id="badge-top">Simulados Med 2026</span>
         <div class="header-actions">
-          <button class="btn-action" onclick="abrirCalendarioInterativo()">📅 Calendário (29/09 a 28/11)</button>
-          <button class="btn-action" id="btn-theme" onclick="toggleDarkMode()">🌙 Dark</button>
-          <button class="btn-action" onclick="abrirModalFiltro()">⚙️ Filtro</button>
+          <button class="btn-action" onclick="toggleDarkMode()">🌙 Dark</button>
           <button class="btn-action" onclick="abrirModalAjuda()">❓ Ajuda</button>
           <button id="btn-back" class="btn-action btn-back" onclick="voltar()">← Voltar</button>
         </div>
       </div>
-      <h1 class="brand-title" id="main-title">Provas e Simulados</h1>
+      <h1 class="brand-title" id="main-title">Simulados das Provas 2026</h1>
       <p class="brand-subtitle" id="main-subtitle">Selecione uma matéria para visualizar e responder às questões.</p>
       
       <!-- Barra de Pesquisa -->
@@ -717,10 +453,10 @@
       <div class="section-header">Matérias Disponíveis</div>
       <div class="grid-container" id="grid-materias">
         
-        <div class="subject-card" data-materia="fisiologia" onclick="selecionarMateria('fisiologia', 'Fisiologia')">
+        <div class="subject-card" onclick="selecionarMateria('fisiologia', 'Fisiologia')">
           <div>
             <h3>🫀 Fisiologia</h3>
-            <p>Dividido em 5 módulos de estudo.</p>
+            <p>Sistemas corporais, homeostase e mecânica orgânica.</p>
           </div>
           <div class="card-footer">
             <span>Selecionar Módulos →</span>
@@ -728,7 +464,7 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="micro" onclick="selecionarMateria('micro', 'Microbiologia')">
+        <div class="subject-card" onclick="selecionarMateria('micro', 'Microbiologia')">
           <div>
             <h3>🧫 Microbiologia</h3>
             <p>Bactérias, virologia, micologia e patogenia.</p>
@@ -739,7 +475,7 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="parasito" onclick="selecionarMateria('parasito', 'Parasitologia')">
+        <div class="subject-card" onclick="selecionarMateria('parasito', 'Parasitologia')">
           <div>
             <h3>🦠 Parasitologia</h3>
             <p>Protozoários, helmintos, vetores e diagnósticos.</p>
@@ -750,7 +486,7 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="patologia" onclick="selecionarMateria('patologia', 'Patologia')">
+        <div class="subject-card" onclick="selecionarMateria('patologia', 'Patologia')">
           <div>
             <h3>🔬 Patologia</h3>
             <p>Processos patológicos gerais e lesões celulares.</p>
@@ -761,7 +497,7 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="imuno" onclick="selecionarMateria('imuno', 'Imunologia')">
+        <div class="subject-card" onclick="selecionarMateria('imuno', 'Imunologia')">
           <div>
             <h3>🛡️ Imunologia</h3>
             <p>Resposta imune inata, adaptativa e imunopatologia.</p>
@@ -772,7 +508,7 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="vigilancia" onclick="selecionarMateria('vigilancia', 'Vigilância em Saúde')">
+        <div class="subject-card" onclick="selecionarMateria('vigilancia', 'Vigilância em Saúde')">
           <div>
             <h3>🏥 Vigilância em Saúde</h3>
             <p>Epidemiologia, saúde coletiva e indicadores.</p>
@@ -783,10 +519,10 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="farmaco" onclick="selecionarMateria('farmaco', 'Farmacologia')">
+        <div class="subject-card" onclick="selecionarMateria('farmaco', 'Farmacologia')">
           <div>
             <h3>💊 Farmacologia</h3>
-            <p>Matéria Semestral (3 provas).</p>
+            <p>Farmacocinética, farmacodinâmica e terapêutica.</p>
           </div>
           <div class="card-footer">
             <span>Selecionar Provas →</span>
@@ -794,10 +530,10 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="propedeu" onclick="selecionarMateria('propedeu', 'Propedêutica')">
+        <div class="subject-card" onclick="selecionarMateria('propedeu', 'Propedêutica')">
           <div>
             <h3>🩺 Propedêutica</h3>
-            <p>Anamnese, exame físico e raciocínio clínico (2 provas).</p>
+            <p>Anamnese, exame físico e raciocínio clínico.</p>
           </div>
           <div class="card-footer">
             <span>Selecionar Provas →</span>
@@ -805,7 +541,7 @@
           </div>
         </div>
 
-        <div class="subject-card" data-materia="psico" onclick="selecionarMateria('psico', 'Psicomed')">
+        <div class="subject-card" onclick="selecionarMateria('psico', 'Psicomed')">
           <div>
             <h3>🧠 Psicomed</h3>
             <p>Psicologia médica e relação médico-paciente.</p>
@@ -819,72 +555,17 @@
       </div>
     </main>
 
-    <!-- TELA 2: Seleção de Bimestres / Módulos / Provas -->
+    <!-- TELA 2: Seleção de Divisões (Bimestres, Módulos ou Provas) -->
     <main id="tela-bimestres" class="hidden">
-      <div class="section-header" id="titulo-secao-divisao">Selecione a Divisão</div>
-      <div class="grid-bimestres" id="grid-divisoes"></div>
+      <div class="section-header" id="titulo-secao-divisoes">Selecione</div>
+      <div class="grid-bimestres" id="container-divisoes"></div>
     </main>
 
-    <!-- TELA 3: Lista de Simulados ou Busca -->
+    <!-- TELA 3: Lista de Simulados da Divisão ou Busca -->
     <main id="tela-simulados" class="hidden">
       <div class="section-header" id="titulo-secao-simulados">Simulados Encontrados</div>
       <div class="grid-container" id="grid-simulados"></div>
     </main>
-
-    <!-- TELA 4: Calendário Interativo -->
-    <main id="tela-calendario" class="hidden">
-      <div class="calendar-container">
-        <div class="calendar-header">
-          <button class="btn-action" onclick="mudarMesCalendario(-1)">← Mês Anterior</button>
-          <h2 id="calendar-month-title">Setembro / Outubro 2026</h2>
-          <button class="btn-action" onclick="mudarMesCalendario(1)">Próximo Mês →</button>
-        </div>
-        
-        <!-- Legenda do Calendário -->
-        <div class="calendar-legend">
-          <div class="legend-item">
-            <div class="legend-color legend-aula"></div>
-            <span>Aula / Atividade Regular</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color legend-prova"></div>
-            <span>Atividade Avaliativa ou Prova</span>
-          </div>
-        </div>
-
-        <div class="calendar-grid">
-          <div class="calendar-dow">Dom</div>
-          <div class="calendar-dow">Seg</div>
-          <div class="calendar-dow">Ter</div>
-          <div class="calendar-dow">Qua</div>
-          <div class="calendar-dow">Qui</div>
-          <div class="calendar-dow">Sex</div>
-          <div class="calendar-dow">Sáb</div>
-        </div>
-        <div class="calendar-grid" id="calendar-days-grid" style="margin-top: 8px;"></div>
-      </div>
-    </main>
-  </div>
-
-  <!-- MODAL DE DETALHES DO DIA DO CALENDÁRIO -->
-  <div id="modal-dia" class="modal-overlay">
-    <div class="modal-box">
-      <h2 id="modal-dia-titulo">Detalhes do Dia</h2>
-      <div id="modal-dia-conteudo" style="margin: 15px 0; font-size: 0.92rem; line-height: 1.6;"></div>
-      <button class="btn-modal-close" onclick="fecharModalDia()">Fechar</button>
-    </div>
-  </div>
-
-  <!-- MODAL DE CONFIGURAÇÃO / FILTRO DE MATÉRIAS -->
-  <div id="modal-filtro" class="modal-overlay">
-    <div class="modal-box">
-      <h2>Ocultar Matérias no Hub</h2>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px;">Marque as matérias que deseja exibir e desmarque as que prefere ocultar:</p>
-      
-      <div class="filter-list" id="lista-filtros"></div>
-
-      <button class="btn-modal-close" onclick="fecharModalFiltro()">Salvar e Fechar</button>
-    </div>
   </div>
 
   <!-- MODAL DE AJUDA -->
@@ -893,12 +574,10 @@
       <h2>Instruções de Adição e Nomeação</h2>
       
       <div class="mini-instrucoes">
-        <strong>Como vincular às Provas/Módulos/Bimestres e Matéria:</strong>
+        <strong>Como vincular à Matéria e sua respectiva Divisão:</strong>
         <ol>
           <li>Crie o arquivo HTML do novo simulado.</li>
-          <li>Para matérias bimestrais, use a palavra-chave + o bimestre (ex: <code>-b1</code>, <code>-b2</code>, <code>-b3</code>, <code>-b4</code>).</li>
-          <li>Para <strong>Fisiologia (5 módulos)</strong>, utilize: <code>-m1</code> até <code>-m5</code>.</li>
-          <li>Para <strong>Farmacologia (3 provas)</strong> e <strong>Propedêutica (2 provas)</strong>, utilize: <code>-p1</code>, <code>-p2</code> ou <code>-p3</code>.</li>
+          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a identificação da divisão (ex: <code>-m1</code> ou <code>-modulo1</code> para Fisiologia; <code>-p1</code> ou <code>-prova1</code> para Farmaco e Propedêutica; <code>-b1</code> ou <code>-b2</code> para as demais).</li>
           <li>Suba no GitHub! O site sincronizará automaticamente.</li>
         </ol>
       </div>
@@ -907,20 +586,20 @@
         <thead>
           <tr>
             <th>Matéria</th>
-            <th>Estrutura</th>
+            <th>Divisão</th>
             <th>Exemplo Inicial</th>
             <th>Exemplo Final</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Fisiologia</td><td>5 Módulos</td><td>fisio-m1.html</td><td>fisio-m5.html</td></tr>
+          <tr><td>Fisiologia</td><td>5 Módulos</td><td>fisio-modulo1.html</td><td>fisio-modulo5.html</td></tr>
           <tr><td>Microbiologia</td><td>4 Bimestres</td><td>micro-b1.html</td><td>micro-b4.html</td></tr>
           <tr><td>Parasitologia</td><td>4 Bimestres</td><td>parasito-b1.html</td><td>parasito-b4.html</td></tr>
           <tr><td>Patologia</td><td>4 Bimestres</td><td>patologia-b1.html</td><td>patologia-b4.html</td></tr>
           <tr><td>Imunologia</td><td>4 Bimestres</td><td>imuno-b1.html</td><td>imuno-b4.html</td></tr>
           <tr><td>Vigilância em Saúde</td><td>4 Bimestres</td><td>vigilancia-b1.html</td><td>vigilancia-b4.html</td></tr>
-          <tr><td>Farmacologia</td><td>3 Provas</td><td>farmaco-p1.html</td><td>farmaco-p3.html</td></tr>
-          <tr><td>Propedêutica</td><td>2 Provas</td><td>propedeu-p1.html</td><td>propedeu-p2.html</td></tr>
+          <tr><td>Farmacologia</td><td>3 Provas</td><td>farmaco-prova1.html</td><td>farmaco-prova3.html</td></tr>
+          <tr><td>Propedêutica</td><td>2 Provas</td><td>propedeu-prova1.html</td><td>propedeu-prova2.html</td></tr>
           <tr><td>Psicomed</td><td>4 Bimestres</td><td>psico-b1.html</td><td>psico-b4.html</td></tr>
         </tbody>
       </table>
@@ -940,13 +619,19 @@
   </div>
 
   <script>
+    // -------------------------------------------------------------
+    // LISTA MANUAL DE FICHEIROS (GARANTIA DE FUNCIONAMENTO)
+    // -------------------------------------------------------------
     const MEUS_ARQUIVOS_MANUAIS = [
-      'farmaco-p1-Simulado-2025.html',
+      'farmaco-p2-Simulado-2025.html',
       'farmaco-p2-Simulado-2024.html',
-      'farmaco-p3-Simulado-2023.html',
-      'fisio-m1-Simulado-2025.html',
-      'propedeu-p1-Simulado-2025.html',
-      'imunologia-b4-Simulado-2025.html'
+      'farmaco-p2-Simulado-2023.html',
+      'imunologia-b4-Simulado-2025.html',
+      'imunologia-b4-Simulado-2024.html',
+      'fisiologia-m1-Aula 1 - Introdução e Hipófise.html',
+      'fisiologia-m4-Endocrino em Grupo.html',
+      'micro-b4-Simulado 2025.html',
+      'patologia-b3-Simulado-2025.html'
     ];
 
     const GITHUB_USER = 'user210398-afk'; 
@@ -958,56 +643,74 @@
       'fisiologia': {
         nomeOficial: 'Fisiologia',
         aliases: ['fisiologia', 'fisio'],
-        tipo: 'modulos',
-        qtd: 5
+        divisaoTipo: 'Módulo',
+        divisaoPlural: 'Módulos',
+        qtdDivisoes: 5,
+        divisaoRegex: /(?:modulo|módulo|m)[_\s-]*([1-5])/i
       },
       'micro': {
         nomeOficial: 'Microbiologia',
         aliases: ['microbiologia', 'micro'],
-        tipo: 'bimestres',
-        qtd: 4
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'parasito': {
         nomeOficial: 'Parasitologia',
         aliases: ['parasitologia', 'parasito'],
-        tipo: 'bimestres',
-        qtd: 4
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'patologia': {
         nomeOficial: 'Patologia',
         aliases: ['patologia', 'pato'],
-        tipo: 'bimestres',
-        qtd: 4
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'imuno': {
         nomeOficial: 'Imunologia',
         aliases: ['imunologia', 'imuno'],
-        tipo: 'bimestres',
-        qtd: 4
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'vigilancia': {
         nomeOficial: 'Vigilância em Saúde',
         aliases: ['vigilancia', 'vigilância', 'saude', 'saúde', 'vigi'],
-        tipo: 'bimestres',
-        qtd: 4
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       },
       'farmaco': {
         nomeOficial: 'Farmacologia',
         aliases: ['farmacologia', 'farmaco'],
-        tipo: 'provas',
-        qtd: 3
+        divisaoTipo: 'Prova',
+        divisaoPlural: 'Provas',
+        qtdDivisoes: 3,
+        divisaoRegex: /(?:prova|p|bimestre|b)[_\s-]*([1-3])/i
       },
       'propedeu': {
         nomeOficial: 'Propedêutica',
         aliases: ['propedeutica', 'propedêutica', 'propedeu', 'prope'],
-        tipo: 'provas',
-        qtd: 2
+        divisaoTipo: 'Prova',
+        divisaoPlural: 'Provas',
+        qtdDivisoes: 2,
+        divisaoRegex: /(?:prova|p|bimestre|b)[_\s-]*([1-2])/i
       },
       'psico': {
         nomeOficial: 'Psicomed',
         aliases: ['psicomed', 'psico', 'psicologia'],
-        tipo: 'bimestres',
-        qtd: 4
+        divisaoTipo: 'Bimestre',
+        divisaoPlural: 'Bimestres',
+        qtdDivisoes: 4,
+        divisaoRegex: /(?:bimestre|b)[_\s-]*([1-4])/i
       }
     };
 
@@ -1017,325 +720,71 @@
     let bimestreAtual = null;
 
     let concluidos = JSON.parse(localStorage.getItem('simulados_concluidos') || '[]');
-    let materiasOcultas = JSON.parse(localStorage.getItem('materias_ocultas') || '[]');
 
-    // BANCO DE DADOS DO CALENDÁRIO COM MATÉRIAS E TURNOS DESCRITOS
-    const dadosCronograma = {
-      "2026-09-29": [
-        "Manhã (Fisiologia): Aula teórica presencial detalhando a fisiologia dos hormônios pancreáticos.",
-        "Tarde (Farmacologia Básica): Estudo sobre diuréticos e entrega/correção de casos clínicos (valendo 1,0 ponto para a Avaliação 02). Também haverá a apresentação do Seminário do grupo 04 e 1 hora de atividade de extensão para as Turmas A e B."
-      ],
-      "2026-09-30": [
-        "Manhã (Propedêutica Básica): Fisiopatologia e semiologia da dor com foco em dor torácica aguda, incluindo discussão de caso clínico no Chasim e atividade prática hospitalar no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Discussão sobre sexualidade e apresentação do seminário do grupo G7."
-      ],
-      "2026-10-01": [
-        "Manhã (Parasitologia): Aula teórica presencial (Aula 27) sobre Esquistossomose. A atividade contará com caso clínico, questionário via Google Forms e a organização da extensão 'Comunicação DTNs e emergentes por meio de Podcasts'.",
-        "Tarde (Microbiologia): Encontro presencial para correção comentada da P3, aula sobre Infecções respiratórias virais (Gênero Influenzavirus e Famílias Paramyxoviridae e Picornaviridae) e Avaliação TFC21."
-      ],
-      "2026-10-02": [
-        "Manhã (Imunologia): Estudo presencial da imunidade aos tumores (mecanismos, imunodiagnóstico e imunoterapia), e aplicação da avaliação TFC18.",
-        "Tarde (Patologia Geral): Aula presencial sobre características macroscópicas e microscópicas das neoplasias, com teste de fixação do Prof. Dr. Clóvis A. L. Pinto."
-      ],
-      "2026-10-05": [
-        "Manhã (Fisiologia): Aula teórica presencial abordando a fisiologia do hormônio de crescimento.",
-        "Tarde (Prática em Saúde Coletiva): Realização presencial do 3º dia de campo, compreendendo visita a outros serviços de saúde de Jundiaí."
-      ],
-      "2026-10-06": [
-        "Manhã (Fisiologia): Aula prática presencial avaliando o efeito de sobrecarga de glicose e diferentes grupos alimentares na curva glicêmica, coleta de dados para os panfletos do Projeto de Extensão, e devolutiva da Prova Bimestral 4.",
-        "Tarde (Farmacologia Básica): Apliação da Avaliação 02 de Farmacologia, englobando SNA simpático, parassimpático, anti-hipertensivos e diuréticos."
-      ],
-      "2026-10-07": [
-        "Manhã (Propedêutica Básica): Continuação da fisiopatologia e semiologia da dor (dor torácica aguda), com discussão de caso clínico no Chasim e atividade prática no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Abordagem do tema suicídio e apresentação do seminário do grupo G8."
-      ],
-      "2026-10-08": [
-        "Manhã (Parasitologia): Aula teórica presencial (Aula 28) abrangendo Ancilostomíase e larva migrans cutânea, com caso clínico, questionário via Google Forms e continuação do planejamento dos Podcasts da extensão.",
-        "Tarde (Microbiologia): Aula presencial sobre Família Herpesviridae e Viroses do sistema nervoso central (Raiva e Poliomielite), além da Avaliação TFC22."
-      ],
-      "2026-10-09": [
-        "Manhã (Imunologia): Aula presencial sobre a resposta imune aos aloantígenos (sistema HLA, mecanismos de rejeição a transplantes e imunoterapia) e a resposta imunológica na gestação (implantação, parto, infecções congênitas e influência materna), seguida da avaliação TFC19.",
-        "Tarde (Patologia Geral): Tema presencial englobando interação tumor-hospedeiro, vigilância imunológica, e graduação e estadiamento (histológico e clínico), com teste de fixação da Profa. Dra. Izilda Cardinalli."
-      ],
-      "2026-10-13": [
-        "Manhã (Fisiologia): Aula prática presencial sobre o efeito da atividade física na curva glicêmica após ingesta alimentar, e continuidade da coleta de dados para o Projeto de Extensão.",
-        "Tarde (Farmacologia Básica): Devolutiva da Avaliação 02 e aula sobre antiarrítmicos, hipolipêmicos e antiagregantes plaquetários. Estão programados a apresentação do Seminário do grupo 05 e 1 hora de atividade de extensão para as Turmas A e B."
-      ],
-      "2026-10-14": [
-        "Manhã (Propedêutica Básica): Fisiopatologia e semiologia da febre e da Hipertensão Arterial Sistêmica, com discussão de caso clínico no Chasim e atividade prática no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Estudo dos processos psíquicos de fim de vida, terminalidade e cuidados paliativos, com o seminário do grupo G9."
-      ],
-      "2026-10-15": [
-        "Manhã (Parasitologia): Aula prática presencial (Aula 29) sobre parasitos de penetração ativa, envolvendo simulações, observação, questionário via Google Forms e postagem da 2ª edição dos Podcasts da extensão.",
-        "Tarde (Microbiologia): Tema presencial englobando a Família Coronaviridae (COVID-19) e tópicos avançados em virologia, seguido da Avaliação TFC23."
-      ],
-      "2026-10-16": [
-        "Manhã (Imunologia): Atividade presencial de Seminário/Extensão 7 e 8 para aplicação prática/clínica de conceitos, com avaliação (Notas SEM7 e SEM8).",
-        "Tarde (Patologia Geral): Abordagem presencial da carcinogênese, epidemiologia, oncogenes, genes supressores de tumor e carcinógenos (ambientais e biológicos), finalizando com teste de fixação da Profa. Dra. Izilda Cardinalli."
-      ],
-      "2026-10-19": [
-        "Manhã (Fisiologia): Aula teórica presencial de fisiologia dos hormônios da tireoide e apresentação dos resultados obtidos na aula prática de controle da glicemia.",
-        "Tarde (Vigilância em Saúde): Estudo dos delineamentos epidemiológicos, acompanhado de estudo dirigido."
-      ],
-      "2026-10-20": [
-        "Manhã (Fisiologia): Aula teórica presencial estudando a fisiologia do Sistema Reprodutor Masculino.",
-        "Tarde (Farmacologia Básica): Aula abordando antianginosos e cardiotônicos, com apresentação do Seminário do grupo 06 e 1 hora de atividade de extensão para as Turmas A e B."
-      ],
-      "2026-10-21": [
-        "Manhã (Propedêutica Básica): Continuação da fisiopatologia e semiologia da febre e da Hipertensão Arterial Sistêmica, discussão de caso clínico no Chasim e atividade prática no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Aula sobre anamnese psiquiátrica acompanhada do seminário do grupo G10."
-      ],
-      "2026-10-22": [
-        "Manhã (Parasitologia): Aula teórica presencial (Aula 30) abordando Ectoparasitos (Parte I - miíases, pulgas, tungíase e escabiose). Terá caso clínico, questionário via Google Forms e 1ª edição do Podcast.",
-        "Tarde (Microbiologia): Aula presencial abordando Arboviroses e realização da Avaliação TFC24."
-      ],
-      "2026-10-23": [
-        "Manhã (Imunologia): Atividade presencial integrando Imunologia, Parasitologia e Microbiologia através do caso clínico CC7, gerando nota extra de participação.",
-        "Tarde (Patologia Geral): Estudo presencial dos métodos diagnósticos em neoplasias, acompanhado de teste de fixação do Prof. Dr. Clóvis A. L. Pinto."
-      ],
-      "2026-10-26": [
-        "Manhã (Fisiologia): Aula teórica presencial focada no Sistema Reprodutor Feminino.",
-        "Tarde (Prática em Saúde Coletiva): Sessão presencial designada para Apresentação de Seminário."
-      ],
-      "2026-10-27": [
-        "Manhã (Fisiologia): Aula teórica presencial envolvendo a fisiologia da gravidez, parto e lactação.",
-        "Tarde (Farmacologia Básica): Discussão sobre hipoglicemiantes orais e insulina, seguida da apresentação do Seminário do grupo 07 e 1 hora de atividade de extensão para as Turmas A e B."
-      ],
-      "2026-10-28": [
-        "Manhã (Propedêutica Básica): Temas de perda de peso involuntária e dispneia, acompanhados de discussão de caso clínico no Chasim e atividade prática no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Aula focada em exame psíquico."
-      ],
-      "2026-10-29": [
-        "Manhã (Parasitologia): Aula síncrona presencial (Aula 31) focada em Ectoparasitos (Parte II - pediculose, percevejo e carrapato), com questionário via Google Forms e acesso final aos Podcasts no Padlet.",
-        "Tarde (Microbiologia): Estudo presencial sobre Viroses oportunistas e diagnóstico de infecções virais, acompanhado da Avaliação TFC25."
-      ],
-      "2026-11-03": [
-        "Manhã (Fisiologia): Aula teórica presencial englobando a fisiologia dos hormônios reguladores da concentração de cálcio.",
-        "Tarde (Farmacologia Básica): Estudo da farmacologia do Sistema Gastrointestinal, com apresentação do Seminário do grupo 08 e 1 hora de atividade de extensão para as Turmas A e B."
-      ],
-      "2026-11-04": [
-        "Manhã (Propedêutica Básica): Continuação sobre perda de peso involuntária e dispneia, discussão de caso clínico no Chasim, atividade prática no Hospital São Vicente de Paulo, além da entrega das anamneses e da atividade extensionista.",
-        "Tarde (Saúde Mental - Psicologia Médica): Estudo das síndromes depressivas e síndromes ansiosas."
-      ],
-      "2026-11-05": [
-        "Manhã (Parasitologia): Aula prática presencial (Aula 32) sobre Ectoparasitos (Parte 6), com atividades lúdicas e observações práticas, questionário via Google Forms e postagem da 2ª edição dos Podcasts.",
-        "Tarde (Microbiologia): Atividade presencial de Extensão para entrega e avaliação dos materiais produzidos pelos grupos de alunos ao longo do ano."
-      ],
-      "2026-11-06": [
-        "Manhã (Imunologia): Aplicação presencial da Prova Teórica P4 para as duas turmas no período da manhã.",
-        "Tarde (Patologia Geral): Discussão presencial do modelo de melanoma no contexto das neoplasias, com teste de fixação do Prof. Dr. Clóvis A. L. Pinto."
-      ],
-      "2026-11-09": [
-        "Manhã (Fisiologia): Aula teórica presencial sobre a fisiologia dos hormônios adrenocorticóides.",
-        "Tarde (Vigilância em Saúde): Aula sobre medidas de associação/efeito dos estudos epidemiológicos e realização de estudo dirigido."
-      ],
-      "2026-11-10": [
-        "Manhã (Fisiologia): Aplicação presencial da Avaliação em Grupo VII (Fisiologia do Sistema Endócrino) referente aos temas de 28/09/2026 a 09/11/2026.",
-        "Tarde (Farmacologia Básica): Apliação da Avaliação 03 de Farmacologia e realização de 1 hora de atividade de extensão para as Turmas A e B."
-      ],
-      "2026-11-11": [
-        "Manhã (Propedêutica Básica): Abordagem de diagnósticos diferenciais para edema e dor abdominal, discussão de caso clínico no Chasim e atividade prática no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Estudo da síndrome psicótica e dependências."
-      ],
-      "2026-11-12": [
-        "Manhã (Parasitologia): Realização presencial da 4ª Avaliação teórico-prática (Aula 33) para as turmas A e B, com postagem dos Podcasts no Spotify como parte da extensão.",
-        "Tarde (Microbiologia): Aula à distância à tarde sobre AIDS, ministrada por professor convidado para as duas turmas."
-      ],
-      "2026-11-13": [
-        "Manhã (Imunologia): Atividade presencial combinando dinâmica lúdica baseada em casos clínicos (CC8) com aplicação dos conceitos anuais e a entrega dos folhetos de extensão elaborados, gerando notas de Extensão e participação.",
-        "Tarde (Patologia Geral): Aula prática presencial e virtual para as turmas A e B, com aplicação de questionário interativo e teste de fixação da Profa. Dra. Izilda Cardinalli."
-      ],
-      "2026-11-16": [
-        "Manhã (Fisiologia): Atividade presencial de devolutiva e discussão da Avaliação em Grupo VII.",
-        "Tarde (Prática em Saúde Coletiva / Vigilância em Saúde): Sessão presencial de Seminário e 2ª Avaliação Teórica."
-      ],
-      "2026-11-17": [
-        "Manhã (Fisiologia): Aplicação presencial da Prova Bimestral 5 abordando a Fisiologia do Sistema Endócrino.",
-        "Tarde (Farmacologia Básica): Pela manhã, realização da prova de Fisiologia para as Turmas A e B. À tarde, aula conjunta (Turmas A e B) de farmacologia do sistema endócrino abordando hormônios femininos e tireoidianos."
-      ],
-      "2026-11-18": [
-        "Manhã (Propedêutica Básica): Continuação dos diagnósticos diferenciais para edema e dor abdominal, com discussão de caso clínico no Chasim e atividade prática no Hospital São Vicente de Paulo.",
-        "Tarde (Saúde Mental - Psicologia Médica): Aplicação da Prova."
-      ],
-      "2026-11-19": [
-        "Manhã (Parasitologia): Realização presencial do Caso Clínico Integrado 4 (Aula 34) para as turmas A e B, contendo análise de exames, questionário via Google Forms e criação de capa para os Podcasts.",
-        "Tarde (Microbiologia): Realização presencial da Prova Teórica P4 no período da manhã para ambas as turmas."
-      ],
-      "2026-11-23": [
-        "Manhã (Fisiologia): Sessão presencial para entrega, apresentação e análise do material produzido para o projeto de extensão acerca da prática de exercício físico sobre o controle da glicemia.",
-        "Tarde (Prática em Saúde Coletiva / Vigilância em Saúde): Encontro para fechamento, prova substitutiva e apresentação de seminários."
-      ],
-      "2026-11-24": [
-        "Manhã (Fisiologia): Encontro presencial contemplando a devolutiva da Prova Bimestral 5 e a aplicação das Provas Substitutivas do segundo semestre.",
-        "Tarde (Farmacologia Básica): Apliação da Avaliação Substitutiva e devolutiva da Avaliação 03."
-      ],
-      "2026-11-25": [
-        "Manhã (Propedêutica Básica): Apliação da Avaliação Teórica e da Avaliação Teórico Prática, ambas na Unidade II.",
-        "Tarde (Saúde Mental - Psicologia Médica): Correção da prova e finalização do projeto de extensão."
-      ],
-      "2026-11-26": [
-        "Manhã (Parasitologia): Realização presencial da Avaliação Substitutiva (Aula 35) (prova escrita) para alunos com ausência justificada no 2º semestre.",
-        "Tarde (Microbiologia): Sessão presencial matutina para correção comentada da P4, aplicação da Prova Substitutiva e entrega de notas finais para as duas turmas."
-      ],
-      "2026-11-27": [
-        "Manhã (Imunologia): Encontro presencial à tarde para ambas as turmas, englobando a discussão da P4, entrega das notas finais e a realização da Prova Substitutiva.",
-        "Tarde (Patologia Geral): Realização da 4ª Prova Presencial (múltiplas escolhas e correção comentada) conduzida pela Profa. Dra. Izilda Cardinalli."
-      ],
-      "2026-11-28": [
-        "Manhã / Tarde: Fim do período do cronograma especificado (28/11/2026)."
-      ]
-    };
-
-    let anoCalendario = 2026;
-    let mesCalendario = 8; // 8 = Setembro (0-indexed)
-
-    function abrirCalendarioInterativo() {
-      estadoAtual = 'calendario';
-      document.getElementById('tela-materias').classList.add('hidden');
-      document.getElementById('tela-bimestres').classList.add('hidden');
-      document.getElementById('tela-simulados').classList.add('hidden');
-      document.getElementById('tela-calendario').classList.remove('hidden');
-      document.getElementById('btn-back').style.display = 'block';
-
-      document.getElementById('main-title').innerText = 'Calendário Interativo';
-      document.getElementById('main-subtitle').innerText = 'Atividades e aulas de 29/09/2026 a 28/11/2026.';
-      document.getElementById('badge-top').innerText = 'Cronograma';
-
-      renderizarCalendario();
+    function arquivoPertenceAMateria(nomeArquivo, chaveMateria) {
+      const nomeLower = nomeArquivo.toLowerCase();
+      const materia = mapaMaterias[chaveMateria];
+      if (!materia) return false;
+      return materia.aliases.some(alias => nomeLower.includes(alias));
     }
 
-    function renderizarCalendario() {
-      const grid = document.getElementById('calendar-days-grid');
-      const title = document.getElementById('calendar-month-title');
-      grid.innerHTML = '';
-
-      const nomesMeses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-      title.innerText = `${nomesMeses[mesCalendario]} ${anoCalendario}`;
-
-      // Alinhamento exato correspondente às imagens oficiais enviadas (Domingo = 0 a Sábado = 6)
-      const primeiroDiaSemana = new Date(anoCalendario, mesCalendario, 1).getDay();
-      const totalDiasMes = new Date(anoCalendario, mesCalendario + 1, 0).getDate();
-
-      // Células vazias iniciais para ajuste de offset correto das colunas de dias da semana
-      for (let i = 0; i < primeiroDiaSemana; i++) {
-        const div = document.createElement('div');
-        div.className = 'calendar-day inactive';
-        grid.appendChild(div);
-      }
-
-      // Dias reais do mês
-      for (let dia = 1; dia <= totalDiasMes; dia++) {
-        const mesStr = String(mesCalendario + 1).padStart(2, '0');
-        const diaStr = String(dia).padStart(2, '0');
-        const chaveData = `${anoCalendario}-${mesStr}-${diaStr}`;
-
-        const div = document.createElement('div');
-        div.className = 'calendar-day';
-
-        const eventosDoDia = dadosCronograma[chaveData] || [];
-        
-        // Verificar se está dentro do intervalo 29/09/2026 a 28/11/2026
-        const dataAtualObj = new Date(anoCalendario, mesCalendario, dia);
-        const dataInicio = new Date(2026, 8, 29); // 29 de Setembro de 2026
-        const dataFim = new Date(2026, 10, 28);    // 28 de Novembro de 2026
-
-        if (dataAtualObj < dataInicio || dataAtualObj > dataFim) {
-          div.classList.add('inactive');
-        } else {
-          if (eventosDoDia.length > 0) {
-            div.classList.add('has-events');
-          }
-          div.onclick = () => abrirDetalhesDia(chaveData, eventosDoDia);
+    function identificarMateriaDoArquivo(arquivo) {
+      const nomeLower = arquivo.toLowerCase();
+      for (const [chave, info] of Object.entries(mapaMaterias)) {
+        if (info.aliases.some(alias => nomeLower.includes(alias))) {
+          return { chave, nomeOficial: info.nomeOficial };
         }
-
-        let htmlConteudo = `<div class="day-number">${dia}</div>`;
-        eventosDoDia.forEach(ev => {
-          let textoCurto = ev.split(':')[0];
-          const txtLower = ev.toLowerCase();
-          
-          const ehAvaliacaoReal = (txtLower.includes('prova') || txtLower.includes('avaliação')) && 
-                                   !txtLower.includes('devolutiva') && 
-                                   !txtLower.includes('correção') && 
-                                   !txtLower.includes('feedback') && 
-                                   !txtLower.includes('tfc');
-
-          const classeTag = ehAvaliacaoReal ? 'day-preview-item exam-tag' : 'day-preview-item';
-          htmlConteudo += `<div class="${classeTag}" title="${ev}">${textoCurto}</div>`;
-        });
-
-        div.innerHTML = htmlConteudo;
-        grid.appendChild(div);
       }
+      return { chave: '', nomeOficial: 'Geral' };
     }
 
-    function mudarMesCalendario(direcao) {
-      mesCalendario += direcao;
-      if (mesCalendario > 10) { // Limitar até Novembro 2026
-        mesCalendario = 10;
-      } else if (mesCalendario < 8) { // Limitar a partir de Setembro 2026
-        mesCalendario = 8;
-      }
-      renderizarCalendario();
-    }
+    function extrairBimestreDoArquivo(arquivo, chaveMateria) {
+      const nomeLower = arquivo.toLowerCase();
+      const mat = mapaMaterias[chaveMateria];
+      const maxDiv = mat ? mat.qtdDivisoes : 4;
 
-    function abrirDetalhesDia(chaveData, eventos) {
-      const [ano, mes, dia] = chaveData.split('-');
-      document.getElementById('modal-dia-titulo').innerText = `Atividades em ${dia}/${mes}/${ano}`;
-      
-      const conteudoEl = document.getElementById('modal-dia-conteudo');
-      if (eventos.length === 0) {
-        conteudoEl.innerHTML = '<p>Nenhuma atividade registrada para este dia.</p>';
-      } else {
-        let html = '<ul style="padding-left: 20px; margin: 0;">';
-        eventos.forEach(ev => {
-          html += `<li style="margin-bottom: 8px;">${ev}</li>`;
-        });
-        html += '</ul>';
-        conteudoEl.innerHTML = html;
+      // Se a matéria possui regex específico (ex: prova, modulo, m, p, b)
+      if (mat && mat.divisaoRegex) {
+        const mCustom = nomeLower.match(mat.divisaoRegex);
+        if (mCustom) return Math.min(parseInt(mCustom[1]), maxDiv);
       }
 
-      document.getElementById('modal-dia').style.display = 'flex';
+      // Procura padrões de divisão genéricos (ex: b1, p1, m1, modulo1, prova1, etc.)
+      let match = nomeLower.match(/(?:modulo|módulo|m|prova|p|bimestre|b)[_\s-]*([1-5])/i) ||
+                  nomeLower.match(/([1-5])[º°oªa]?[_\s-]*(?:modulo|módulo|m|prova|p|bimestre|b)/i);
+      if (match) return Math.min(parseInt(match[1]), maxDiv);
+
+      match = nomeLower.match(/(?:^|[-_\s])([1-5])(?:$|[-_\s.])/);
+      if (match) return Math.min(parseInt(match[1]), maxDiv);
+
+      return Math.min(1, maxDiv);
     }
 
-    function fecharModalDia() {
-      document.getElementById('modal-dia').style.display = 'none';
-    }
-
-    function carregarArquivosDoGithub() {
+    async function carregarArquivosDoGithub() {
       let arquivosRemotos = [];
 
       try {
         const timestamp = Date.now();
-        fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/?t=${timestamp}`, {
+        let response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/?t=${timestamp}`, {
           cache: 'no-store'
-        }).then(response => {
-          if (response.ok) {
-            response.json().then(dados => {
-              if (Array.isArray(dados)) {
-                arquivosRemotos = dados
-                  .filter(item => (item.type === 'file' || item.name) && item.name.toLowerCase().endsWith('.html') && item.name.toLowerCase() !== 'index.html')
-                  .map(item => item.name);
-              }
-              finalizarCarregamentoArquivos(arquivosRemotos);
-            });
-          } else {
-            finalizarCarregamentoArquivos([]);
-          }
-        }).catch(erro => {
-          console.warn('Conexão remota indisponível.', erro);
-          finalizarCarregamentoArquivos([]);
         });
-      } catch (erro) {
-        finalizarCarregamentoArquivos([]);
-      }
-    }
 
-    function finalizarCarregamentoArquivos(arquivosRemotos) {
+        if (response.ok) {
+          const dados = await response.json();
+          if (Array.isArray(dados)) {
+            arquivosRemotos = dados
+              .filter(item => (item.type === 'file' || item.name) && item.name.toLowerCase().endsWith('.html') && item.name.toLowerCase() !== 'index.html')
+              .map(item => item.name);
+          }
+        }
+      } catch (erro) {
+        console.warn('Conexão remota indisponível. A carregar lista interna de segurança.', erro);
+      }
+
       const unificados = new Set([...arquivosRemotos, ...MEUS_ARQUIVOS_MANUAIS]);
       listaDeArquivos = Array.from(unificados);
 
       atualizarContadores();
-      aplicarVisibilidadeMaterias();
 
       if (estadoAtual === 'bimestres') {
         atualizarContadoresBimestres();
@@ -1344,19 +793,6 @@
       } else if (estadoAtual === 'simulados_busca') {
         filtrarSimuladosPorBusca();
       }
-    }
-
-    function aplicarVisibilidadeMaterias() {
-      Object.keys(mapaMaterias).forEach(chave => {
-        const card = document.querySelector(`.subject-card[data-materia="${chave}"]`);
-        if (card) {
-          if (materiasOcultas.includes(chave)) {
-            card.style.display = 'none';
-          } else {
-            card.style.display = 'flex';
-          }
-        }
-      });
     }
 
     function atualizarContadores() {
@@ -1368,17 +804,17 @@
     }
 
     function atualizarContadoresBimestres() {
-      const config = mapaMaterias[materiaAtualChave];
-      if (!config) return;
+      const mat = mapaMaterias[materiaAtualChave];
+      if (!mat) return;
 
-      for (let i = 1; i <= config.qtd; i++) {
+      for (let b = 1; b <= mat.qtdDivisoes; b++) {
         const count = listaDeArquivos.filter(arquivo => {
           const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
           if (!pertenceMateria) return false;
-          return extrairBimestreDoArquivo(arquivo, config.tipo) === i;
+          return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === b;
         }).length;
 
-        const el = document.getElementById(`count-b${i}`);
+        const el = document.getElementById(`count-b${b}`);
         if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
       }
     }
@@ -1388,117 +824,58 @@
       materiaAtualNome = nomeMateria;
       estadoAtual = 'bimestres';
 
-      const config = mapaMaterias[prefixoChave];
+      const mat = mapaMaterias[prefixoChave];
+      const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
+      const numDivisoes = mat ? mat.qtdDivisoes : 4;
 
       document.getElementById('main-title').innerText = nomeMateria;
-      
-      let subtitulo = `Selecione a opção desejada para aceder aos simulados de ${nomeMateria}.`;
-      let badge = 'Seleção';
-
-      if (config.tipo === 'modulos') {
-        subtitulo = `Selecione o módulo desejado para aceder aos simulados de ${nomeMateria}.`;
-        badge = 'Seleção de Módulo';
-      } else if (config.tipo === 'provas') {
-        subtitulo = `Selecione a prova desejada para aceder aos simulados de ${nomeMateria}.`;
-        badge = 'Seleção de Prova';
-      } else {
-        subtitulo = `Selecione o bimestre desejado para aceder aos simulados de ${nomeMateria}.`;
-        badge = 'Seleção de Bimestre';
-      }
-
-      document.getElementById('main-subtitle').innerText = subtitulo;
-      document.getElementById('badge-top').innerText = badge;
+      document.getElementById('main-subtitle').innerText = `Selecione a opção desejada para aceder aos simulados de ${nomeMateria}.`;
+      document.getElementById('badge-top').innerText = `Seleção de ${tipoDivisao}`;
       document.getElementById('btn-back').style.display = 'block';
 
-      renderizarGradeDivisoes(config);
+      document.getElementById('titulo-secao-divisoes').innerText = `Selecione (${tipoDivisao})`;
+
+      const container = document.getElementById('container-divisoes');
+      container.style.gridTemplateColumns = `repeat(${Math.min(numDivisoes, 5)}, 1fr)`;
+      container.innerHTML = '';
+
+      for (let i = 1; i <= numDivisoes; i++) {
+        const divCard = document.createElement('div');
+        divCard.className = 'subject-card bimestre-card';
+        divCard.onclick = () => abrirBimestre(i);
+        divCard.innerHTML = `
+          <div>
+            <h3>${i}° ${tipoDivisao}</h3>
+            <p>Provas referentes a esta etapa.</p>
+          </div>
+          <div class="card-footer">
+            <span>Ver Simulados →</span>
+            <span class="count-badge" id="count-b${i}">0 simulados</span>
+          </div>
+        `;
+        container.appendChild(divCard);
+      }
+
       atualizarContadoresBimestres();
 
       document.getElementById('tela-materias').classList.add('hidden');
       document.getElementById('tela-bimestres').classList.remove('hidden');
       document.getElementById('tela-simulados').classList.add('hidden');
-      document.getElementById('tela-calendario').classList.add('hidden');
     }
 
-    function renderizarGradeDivisoes(config) {
-      const container = document.getElementById('grid-divisoes');
-      const tituloSecao = document.getElementById('titulo-secao-divisao');
-      container.innerHTML = '';
-
-      let HTMLCards = '';
-
-      if (config.tipo === 'modulos') {
-        tituloSecao.innerText = 'Selecione o Módulo';
-        for (let i = 1; i <= config.qtd; i++) {
-          HTMLCards += `
-            <div class="subject-card bimestre-card" onclick="abrirBimestre(${i})">
-              <div>
-                <h3>${i}° Módulo</h3>
-                <p>Conteúdos do ${i}° Módulo.</p>
-              </div>
-              <div class="card-footer">
-                <span>Ver Simulados →</span>
-                <span class="count-badge" id="count-b${i}">0 simulados</span>
-              </div>
-            </div>
-          `;
-        }
-      } else if (config.tipo === 'provas') {
-        tituloSecao.innerText = 'Selecione a Prova';
-        for (let i = 1; i <= config.qtd; i++) {
-          HTMLCards += `
-            <div class="subject-card bimestre-card" onclick="abrirBimestre(${i})">
-              <div>
-                <h3>${i}ª Prova</h3>
-                <p>Conteúdos para a ${i}ª Prova.</p>
-              </div>
-              <div class="card-footer">
-                <span>Ver Simulados →</span>
-                <span class="count-badge" id="count-b${i}">0 simulados</span>
-              </div>
-            </div>
-          `;
-        }
-      } else {
-        tituloSecao.innerText = 'Selecione o Bimestre';
-        for (let i = 1; i <= config.qtd; i++) {
-          HTMLCards += `
-            <div class="subject-card bimestre-card" onclick="abrirBimestre(${i})">
-              <div>
-                <h3>${i}° Bimestre</h3>
-                <p>Provas do ${i}° período.</p>
-              </div>
-              <div class="card-footer">
-                <span>Ver Simulados →</span>
-                <span class="count-badge" id="count-b${i}">0 simulados</span>
-              </div>
-            </div>
-          `;
-        }
-      }
-
-      container.innerHTML = HTMLCards;
-    }
-
-    function abrirBimestre(numeroDivisao) {
+    function abrirBimestre(numeroBimestre) {
       estadoAtual = 'simulados';
-      bimestreAtual = numeroDivisao;
+      bimestreAtual = numeroBimestre;
 
-      const config = mapaMaterias[materiaAtualChave];
-      let rotuloDivisao = `${numeroDivisao}° Bimestre`;
+      const mat = mapaMaterias[materiaAtualChave];
+      const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
 
-      if (config.tipo === 'modulos') {
-        rotuloDivisao = `${numeroDivisao}° Módulo`;
-      } else if (config.tipo === 'provas') {
-        rotuloDivisao = `${numeroDivisao}ª Prova`;
-      }
-
-      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${rotuloDivisao}`;
-      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para: ${rotuloDivisao}.`;
+      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${numeroBimestre}° ${tipoDivisao}`;
+      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para o ${numeroBimestre}° ${tipoDivisao}.`;
       document.getElementById('badge-top').innerText = 'Lista de Provas';
 
       document.getElementById('tela-bimestres').classList.add('hidden');
       document.getElementById('tela-simulados').classList.remove('hidden');
-      document.getElementById('tela-calendario').classList.add('hidden');
 
       const gridSimulados = document.getElementById('grid-simulados');
       gridSimulados.innerHTML = '';
@@ -1506,7 +883,7 @@
       const simuladosEncontrados = listaDeArquivos.filter(arquivo => {
         const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
         if (!pertenceMateria) return false;
-        return extrairBimestreDoArquivo(arquivo, config.tipo) === numeroDivisao;
+        return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === numeroBimestre;
       });
 
       renderizarCardsSimulados(simuladosEncontrados, gridSimulados, false);
@@ -1523,17 +900,8 @@
         });
       }
 
-      nome = nome.replace(/(?:^|[-_\s])b[1-4](?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/(?:^|[-_\s])[1-4]b(?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/(?:^|[-_\s])m[1-5](?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/(?:^|[-_\s])[1-5]m(?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/(?:^|[-_\s])p[1-3](?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/(?:^|[-_\s])[1-3]p(?=$|[-_\s])/gi, ' ');
-      nome = nome.replace(/bimestre[_\s-]*[1-4]/gi, ' ');
-      nome = nome.replace(/[1-4][º°oªa]?[_\s-]*bimestre/gi, ' ');
-      nome = nome.replace(/modulo[_\s-]*[1-5]/gi, ' ');
-      nome = nome.replace(/módulo[_\s-]*[1-5]/gi, ' ');
-      nome = nome.replace(/prova[_\s-]*[1-3]/gi, ' ');
+      nome = nome.replace(/(?:modulo|módulo|m|prova|p|bimestre|b)[_\s-]*[1-5]/gi, ' ');
+      nome = nome.replace(/[1-5][º°oªa]?[_\s-]*(?:modulo|módulo|m|prova|p|bimestre|b)/gi, ' ');
 
       nome = nome.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -1543,7 +911,7 @@
     function renderizarCardsSimulados(lista, container, ehModoBusca = false) {
       if (lista.length === 0) {
         container.innerHTML = `
-          <div style="grid-column: 1/-1; background: var(--card-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); padding: 40px; border-radius: 16px; border: 1px solid var(--card-border); text-align: center;">
+          <div style="grid-column: 1/-1; background: var(--card-bg); padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
             <h3 style="margin: 0 0 8px 0; color: var(--text-main);">Nenhum simulado encontrado</h3>
             <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Não há simulados correspondentes nesta secção.</p>
           </div>
@@ -1579,57 +947,6 @@
       });
     }
 
-    function arquivoPertenceAMateria(nomeArquivo, chaveMateria) {
-      const nomeLower = nomeArquivo.toLowerCase();
-      const materia = mapaMaterias[chaveMateria];
-      if (!materia) return false;
-      return materia.aliases.some(alias => nomeLower.includes(alias));
-    }
-
-    function identificarMateriaDoArquivo(arquivo) {
-      const nomeLower = arquivo.toLowerCase();
-      for (const [chave, info] of Object.entries(mapaMaterias)) {
-        if (info.aliases.some(alias => nomeLower.includes(alias))) {
-          return { chave, nomeOficial: info.nomeOficial };
-        }
-      }
-      return { chave: '', nomeOficial: 'Geral' };
-    }
-
-    function extrairBimestreDoArquivo(arquivo, tipoDivisao) {
-      const nomeLower = arquivo.toLowerCase();
-
-      if (tipoDivisao === 'modulos') {
-        let matchM = nomeLower.match(/(?:^|[-_\s]|\b)m([1-5])(?=$|[-_\s.]|\b)/i) ||
-                     nomeLower.match(/(?:^|[-_\s]|\b)([1-5])m(?=$|[-_\s.]|\b)/i) ||
-                     nomeLower.match(/modulo[_\s-]*([1-5])/i) ||
-                     nomeLower.match(/módulo[_\s-]*([1-5])/i);
-        if (matchM) return parseInt(matchM[1]);
-        return 1;
-      }
-
-      if (tipoDivisao === 'provas') {
-        let matchP = nomeLower.match(/(?:^|[-_\s]|\b)p([1-3])(?=$|[-_\s.]|\b)/i) ||
-                     nomeLower.match(/(?:^|[-_\s]|\b)([1-3])p(?=$|[-_\s.]|\b)/i) ||
-                     nomeLower.match(/prova[_\s-]*([1-3])/i);
-        if (matchP) return parseInt(matchP[1]);
-        return 1;
-      }
-      
-      let match = nomeLower.match(/(?:^|[-_\s]|\b)b([1-4])(?=$|[-_\s.]|\b)/i) ||
-                  nomeLower.match(/(?:^|[-_\s]|\b)([1-4])b(?=$|[-_\s.]|\b)/i);
-      if (match) return parseInt(match[1]);
-
-      match = nomeLower.match(/bimestre[_\s-]*[1-4]/i) ||
-              nomeLower.match(/([1-4])[º°oªa]?[_\s-]*bimestre/i);
-      if (match) return parseInt(match[1]);
-
-      match = nomeLower.match(/(?:^|[-_\s])([1-4])(?:$|[-_\s.])/);
-      if (match) return parseInt(match[1]);
-
-      return 3;
-    }
-
     function filtrarSimuladosPorBusca() {
       const termo = document.getElementById('search-input').value.toLowerCase().trim();
 
@@ -1642,7 +959,6 @@
       document.getElementById('tela-materias').classList.add('hidden');
       document.getElementById('tela-bimestres').classList.add('hidden');
       document.getElementById('tela-simulados').classList.remove('hidden');
-      document.getElementById('tela-calendario').classList.add('hidden');
       document.getElementById('btn-back').style.display = 'block';
 
       document.getElementById('main-title').innerText = 'Busca de Simulados';
@@ -1691,77 +1007,30 @@
       document.getElementById('search-input').value = '';
 
       if (estadoAtual === 'simulados') {
-        const config = mapaMaterias[materiaAtualChave];
         document.getElementById('tela-simulados').classList.add('hidden');
         document.getElementById('tela-bimestres').classList.remove('hidden');
-        document.getElementById('main-title').innerText = materiaAtualNome;
         
-        let subtitulo = `Selecione o bimestre desejado para aceder aos simulados de ${materiaAtualNome}.`;
-        let badge = 'Seleção de Bimestre';
-
-        if (config?.tipo === 'modulos') {
-          subtitulo = `Selecione o módulo desejado para aceder aos simulados de ${materiaAtualNome}.`;
-          badge = 'Seleção de Módulo';
-        } else if (config?.tipo === 'provas') {
-          subtitulo = `Selecione a prova desejada para aceder aos simulados de ${materiaAtualNome}.`;
-          badge = 'Seleção de Prova';
-        }
-
-        document.getElementById('main-subtitle').innerText = subtitulo;
-        document.getElementById('badge-top').innerText = badge;
+        const mat = mapaMaterias[materiaAtualChave];
+        const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
+        
+        document.getElementById('main-title').innerText = materiaAtualNome;
+        document.getElementById('main-subtitle').innerText = `Selecione a opção desejada para aceder aos simulados de ${materiaAtualNome}.`;
+        document.getElementById('badge-top').innerText = `Seleção de ${tipoDivisao}`;
         estadoAtual = 'bimestres';
-      } else if (estadoAtual === 'bimestres' || estadoAtual === 'simulados_busca' || estadoAtual === 'calendario') {
+      } else if (estadoAtual === 'bimestres' || estadoAtual === 'simulados_busca') {
         document.getElementById('tela-simulados').classList.add('hidden');
         document.getElementById('tela-bimestres').classList.add('hidden');
-        document.getElementById('tela-calendario').classList.add('hidden');
         document.getElementById('tela-materias').classList.remove('hidden');
         document.getElementById('btn-back').style.display = 'none';
-        document.getElementById('badge-top').innerText = 'Integração das Matérias FMJ';
-        document.getElementById('main-title').innerText = 'Provas e Simulados';
+        document.getElementById('badge-top').innerText = 'Simulados Med 2026';
+        document.getElementById('main-title').innerText = 'Simulados das Provas 2026';
         document.getElementById('main-subtitle').innerText = 'Selecione uma matéria para visualizar e responder às questões.';
         estadoAtual = 'materias';
       }
     }
 
     function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      const btnTheme = document.getElementById('btn-theme');
-      if (btnTheme) {
-        btnTheme.innerText = isDark ? '☀️ Claro' : '🌙 Dark';
-      }
-    }
-
-    /* Modal de Filtros / Ocultar Matérias */
-    function abrirModalFiltro() {
-      const lista = document.getElementById('lista-filtros');
-      lista.innerHTML = '';
-
-      Object.entries(mapaMaterias).forEach(([chave, info]) => {
-        const estaOculta = materiasOcultas.includes(chave);
-        const label = document.createElement('label');
-        label.className = 'filter-item';
-        label.innerHTML = `
-          <input type="checkbox" value="${chave}" ${!estaOculta ? 'checked' : ''} onchange="alternarMateriaOculta('${chave}', !this.checked)">
-          <span>${info.nomeOficial}</span>
-        `;
-        lista.appendChild(label);
-      });
-
-      document.getElementById('modal-filtro').style.display = 'flex';
-    }
-
-    function fecharModalFiltro() {
-      document.getElementById('modal-filtro').style.display = 'none';
-    }
-
-    function alternarMateriaOculta(chave, ocultar) {
-      if (ocultar) {
-        if (!materiasOcultas.includes(chave)) materiasOcultas.push(chave);
-      } else {
-        materiasOcultas = materiasOcultas.filter(m => m !== chave);
-      }
-      localStorage.setItem('materias_ocultas', JSON.stringify(materiasOcultas));
-      aplicarVisibilidadeMaterias();
+      document.body.classList.toggle('dark-mode');
     }
 
     function abrirModalAjuda() {
