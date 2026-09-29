@@ -179,8 +179,9 @@
 
     .grid-bimestres {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      padding: 4px;
     }
 
     @media (max-width: 900px) {
@@ -246,6 +247,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .count-badge {
@@ -255,6 +258,7 @@
       padding: 2px 8px;
       border-radius: 12px;
       font-weight: 700;
+      white-space: nowrap;
     }
 
     .done-badge {
@@ -282,6 +286,17 @@
     .bimestre-card {
       border-top: 4px solid var(--purple-primary);
       text-align: center;
+      padding: 18px 14px;
+      min-height: 160px;
+    }
+
+    .bimestre-card h3 {
+      font-size: 1.05rem;
+      justify-content: center;
+    }
+
+    .bimestre-card p {
+      font-size: 0.8rem;
     }
 
     .simulado-card {
@@ -585,7 +600,7 @@
         <span class="badge-tag" id="badge-top">Simulados Med 2026</span>
         <div class="header-actions">
           <button class="btn-action" onclick="abrirCalendarioInterativo()">📅 Calendário (29/09 a 28/11)</button>
-          <button class="btn-action" onclick="toggleDarkMode()">🌙 Dark</button>
+          <button class="btn-action" id="btn-theme" onclick="toggleDarkMode()">🌙 Dark</button>
           <button class="btn-action" onclick="abrirModalAjuda()">❓ Ajuda</button>
           <button id="btn-back" class="btn-action btn-back" onclick="voltar()">← Voltar</button>
         </div>
@@ -1172,7 +1187,7 @@
 
     function abrirDetalhesDia(chaveData, eventos) {
       const [ano, mes, dia] = chaveData.split('-');
-      document.getElementById('modal-dia-titulo').innerText = `Atividades em ${dia}/${mes}/${ano}`;
+      document.getElementById('modal-dia-titulo').innerText = `Detalhes do Dia ${dia}/${mes}/${ano}`;
       
       const conteudoEl = document.getElementById('modal-dia-conteudo');
       if (eventos.length === 0) {
@@ -1504,7 +1519,11 @@
     }
 
     function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.toggle('dark-mode');
+      const btnTheme = event.currentTarget || document.querySelector('button[onclick="toggleDarkMode()"]');
+      if (btnTheme) {
+        btnTheme.innerText = isDark ? '☀️ Claro' : '🌙 Dark';
+      }
     }
 
     function abrirModalAjuda() {
