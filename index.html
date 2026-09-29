@@ -179,7 +179,7 @@
 
     .grid-bimestres {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 16px;
       padding: 4px;
     }
@@ -786,7 +786,7 @@
         <strong>Como vincular à Matéria e sua respectiva Divisão:</strong>
         <ol>
           <li>Crie o arquivo HTML do novo simulado.</li>
-          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a identificação da divisão (ex: <code>-m1</code> ou <code>-modulo1</code> para Fisiologia; <code>-p1</code> ou <code>-prova1</code> para Farmaco e Propedêutica; <code>-b1</code> ou <code>-b2</code> para as demais).</li>
+          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a identificação da divisão (ex: <code>-m1</code> ou <code>-modulo1</code> para Fisiologia; <code>-p1</code> ou <code>-prova1</code> para Farmaco e Propedêutica; <code>-b1</code> ou <code>-b2</code> para as demais). Para aulas específicas, inclua a palavra <code>aula</code> junto de <code>m4</code> ou <code>m5</code>.</li>
           <li>Suba no GitHub! O site sincronizará automaticamente.</li>
         </ol>
       </div>
@@ -801,7 +801,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Fisiologia</td><td>5 Módulos</td><td>fisio-modulo1.html</td><td>fisio-modulo5.html</td></tr>
+          <tr><td>Fisiologia</td><td>5 Módulos + Aulas</td><td>fisio-modulo1.html</td><td>fisio-aula-m4-hipofise.html</td></tr>
           <tr><td>Microbiologia</td><td>4 Bimestres</td><td>micro-b1.html</td><td>micro-b4.html</td></tr>
           <tr><td>Parasitologia</td><td>4 Bimestres</td><td>parasito-b1.html</td><td>parasito-b4.html</td></tr>
           <tr><td>Patologia</td><td>4 Bimestres</td><td>patologia-b1.html</td><td>patologia-b4.html</td></tr>
@@ -856,7 +856,11 @@
         divisaoTipo: 'Módulo',
         divisaoPlural: 'Módulos',
         qtdDivisoes: 5,
-        divisaoRegex: /(?:modulo|módulo|m)[_\s-]*([1-5])/i
+        divisaoRegex: /(?:modulo|módulo|m)[_\s-]*([1-5])/i,
+        blocosExtras: [
+          { id: 'aulas_m4', titulo: 'Aulas do Módulo 4', desc: 'Material e aulas específicas do Módulo 4.' },
+          { id: 'aulas_m5', titulo: 'Aulas do Módulo 5', desc: 'Material e aulas específicas do Módulo 5.' }
+        ]
       },
       'micro': {
         nomeOficial: 'Microbiologia',
@@ -928,8 +932,23 @@
     let materiaAtualChave = '';
     let materiaAtualNome = '';
     let bimestreAtual = null;
+    let arquivoAbertoAtual = null;
 
     let concluidos = JSON.parse(localStorage.getItem('simulados_concluidos') || '[]');
+
+    // Escuta evento de conclusão vindo do iframe da prova
+    window.addEventListener('message', function(event) {
+      if (event.data === 'simulados_concluido' || (event.data && event.data.type === 'simulados_concluido')) {
+        const arquivo = (event.data && event.data.arquivo) ? event.data.arquivo : arquivoAbertoAtual;
+        if (arquivo && !concluidos.includes(arquivo)) {
+          concluidos.push(arquivo);
+          localStorage.setItem('simulados_concluidos', JSON.stringify(concluidos));
+          if (estadoAtual === 'simulados' && bimestreAtual) {
+            abrirBimestre(bimestreAtual);
+          }
+        }
+      }
+    });
 
     // BANCO DE DADOS DO CALENDÁRIO COM MATÉRIAS E TURNOS DESCRITOS
     const dadosCronograma = {
@@ -1231,6 +1250,16 @@
       const mat = mapaMaterias[chaveMateria];
       const maxDiv = mat ? mat.qtdDivisoes : 4;
 
+      // Se for Fisiologia e contiver a palavra 'aula'/'aulas' associada a m4 ou m5, direciona diretamente para os blocos novos
+      if (chaveMateria === 'fisiologia') {
+        if (nomeLower.includes('aula') && nomeLower.includes('m4')) {
+          return 'aulas_m4';
+        }
+        if (nomeLower.includes('aula') && nomeLower.includes('m5')) {
+          return 'aulas_m5';
+        }
+      }
+
       if (mat && mat.divisaoRegex) {
         const mCustom = nomeLower.match(mat.divisaoRegex);
         if (mCustom) return Math.min(parseInt(mCustom[1]), maxDiv);
@@ -1303,6 +1332,18 @@
         const el = document.getElementById(`count-b${b}`);
         if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
       }
+
+      if (mat.blocosExtras) {
+        mat.blocosExtras.forEach(bloco => {
+          const count = listaDeArquivos.filter(arquivo => {
+            const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
+            if (!pertenceMateria) return false;
+            return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === bloco.id;
+          }).length;
+          const el = document.getElementById(`count-extra-${bloco.id}`);
+          if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
+        });
+      }
     }
 
     function selecionarMateria(prefixoChave, nomeMateria) {
@@ -1322,7 +1363,6 @@
       document.getElementById('titulo-secao-divisoes').innerText = `Selecione (${tipoDivisao})`;
 
       const container = document.getElementById('container-divisoes');
-      container.style.gridTemplateColumns = `repeat(${Math.min(numDivisoes, 5)}, 1fr)`;
       container.innerHTML = '';
 
       for (let i = 1; i <= numDivisoes; i++) {
@@ -1342,6 +1382,25 @@
         container.appendChild(divCard);
       }
 
+      if (mat && mat.blocosExtras) {
+        mat.blocosExtras.forEach(bloco => {
+          const divCard = document.createElement('div');
+          divCard.className = 'subject-card bimestre-card';
+          divCard.onclick = () => abrirBimestre(bloco.id, bloco.titulo);
+          divCard.innerHTML = `
+            <div>
+              <h3>📚 ${bloco.titulo}</h3>
+              <p>${bloco.desc}</p>
+            </div>
+            <div class="card-footer">
+              <span>Ver Simulados →</span>
+              <span class="count-badge" id="count-extra-${bloco.id}">0 simulados</span>
+            </div>
+          `;
+          container.appendChild(divCard);
+        });
+      }
+
       atualizarContadoresBimestres();
 
       document.getElementById('tela-materias').classList.add('hidden');
@@ -1350,15 +1409,16 @@
       document.getElementById('tela-calendario').classList.add('hidden');
     }
 
-    function abrirBimestre(numeroBimestre) {
+    function abrirBimestre(numeroBimestre, tituloCustom = null) {
       estadoAtual = 'simulados';
       bimestreAtual = numeroBimestre;
 
       const mat = mapaMaterias[materiaAtualChave];
       const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
+      const rotuloDivisao = tituloCustom ? tituloCustom : `${numeroBimestre}° ${tipoDivisao}`;
 
-      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${numeroBimestre}° ${tipoDivisao}`;
-      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para o ${numeroBimestre}° ${tipoDivisao}.`;
+      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${rotuloDivisao}`;
+      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para ${rotuloDivisao}.`;
       document.getElementById('badge-top').innerText = 'Lista de Provas';
 
       document.getElementById('tela-bimestres').classList.add('hidden');
@@ -1388,6 +1448,7 @@
         });
       }
 
+      nome = nome.replace(/(?:aulas-m4|aulas-m5|aula-m4|aula-m5|aulas|aula)/gi, ' ');
       nome = nome.replace(/(?:modulo|módulo|m|prova|p|bimestre|b)[_\s-]*[1-5]/gi, ' ');
       nome = nome.replace(/[1-5][º°oªa]?[_\s-]*(?:modulo|módulo|m|prova|p|bimestre|b)/gi, ' ');
 
@@ -1461,10 +1522,7 @@
     }
 
     function carregarSimulado(arquivoEncoded, arquivoOriginal) {
-      if (!concluidos.includes(arquivoOriginal)) {
-        concluidos.push(arquivoOriginal);
-        localStorage.setItem('simulados_concluidos', JSON.stringify(concluidos));
-      }
+      arquivoAbertoAtual = arquivoOriginal;
 
       const telaProva = document.getElementById('tela-prova');
       const iframe = document.getElementById('iframe-simulado');
@@ -1486,6 +1544,7 @@
       
       telaProva.style.display = 'none';
       iframe.src = '';
+      arquivoAbertoAtual = null;
 
       if (estadoAtual === 'simulados' && bimestreAtual) {
         abrirBimestre(bimestreAtual);
