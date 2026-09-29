@@ -1,0 +1,3010 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Avaliação - Microbiologia e Virologia (Prova 2023)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: #f4f6fb;
+            --card-bg: #ffffff;
+            --border-glow: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --correct-green: #10b981;
+            --correct-bg: #ecfdf5;
+            --incorrect-red: #ef4444;
+            --incorrect-bg: #fef2f2;
+            --accent-yellow: #d97706;
+            --input-bg: #f8fafc;
+            --opt-hover: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+            --hl-bg: #fef08a;
+            --hl-text: #0f172a;
+        }
+
+        /* TEMA ESCURO (DARK MODE) */
+        body.dark-mode {
+            --bg-gradient: #0f172a;
+            --card-bg: #1e293b;
+            --border-glow: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-light: #1e3a8a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct-green: #10b981;
+            --correct-bg: #064e3b;
+            --incorrect-red: #f87171;
+            --incorrect-bg: #7f1d1d;
+            --accent-yellow: #f59e0b;
+            --input-bg: #0f172a;
+            --opt-hover: #334155;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            --hl-bg: #854d0e;
+            --hl-text: #fef08a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* TELA HUB (HOME) */
+        .hub-screen {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto 36px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .mode-selector-box select:hover, .topic-dropdown-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .hub-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 32px 28px;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hub-card-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-objetivo { background: var(--primary-light); color: var(--primary); border: 1px solid #bfdbfe; }
+
+        .hub-card h2 { 
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; 
+            margin-bottom: 12px; 
+            color: var(--text-main); 
+        }
+        .hub-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+        /* INTERFACE DO QUIZ UNIFICADO */
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 32px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--input-bg);
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .combo-badge {
+            background: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: white;
+            display: none;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 28px;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .q-category-tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-glow);
+        }
+
+        .q-statement {
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            white-space: pre-line;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        /* GRIFO E BORRACHA */
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 4px;
+            padding: 2px 3px;
+        }
+
+        .hl-word.marked {
+            background-color: var(--hl-bg);
+            color: var(--hl-text);
+            font-weight: 600;
+        }
+
+        .q-statement.pen-active {
+            cursor: crosshair;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .q-statement.eraser-active {
+            cursor: cell;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-glow);
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: var(--primary) !important;
+            background: var(--primary-light) !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.4;
+            background: var(--input-bg);
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: #10b981 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: #f87171 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .btn-confirm {
+            display: none;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
+        }
+
+        .btn-confirm:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .explanation-panel {
+            display: none;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .exp-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 8px;
+        }
+
+        .exp-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card, .notes-card, .grid-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-card { text-align: center; }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .notes-textarea:focus {
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+
+        .chart-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+        .nav-grid::-webkit-scrollbar-thumb {
+            background: var(--border-glow);
+            border-radius: 4px;
+        }
+
+        .q-nav-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .q-nav-btn.active-q {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .q-nav-btn.answered-realista-q {
+            border-color: #93c5fd !important;
+            background: #dbeafe !important;
+            color: #1e40af !important;
+        }
+
+        body.dark-mode .q-nav-btn.answered-realista-q {
+            border-color: #1e40af !important;
+            background: #1e3a8a !important;
+            color: #bfdbfe !important;
+        }
+
+        .q-nav-btn.correct-q {
+            background: var(--correct-green) !important;
+            color: white !important;
+            border-color: var(--correct-green) !important;
+        }
+
+        .q-nav-btn.incorrect-q {
+            background: var(--incorrect-red) !important;
+            color: white !important;
+            border-color: var(--incorrect-red) !important;
+        }
+
+        .nav-btns-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .side-controls-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .action-btn-secondary {
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+        }
+
+        .action-btn-secondary:hover {
+            background: var(--opt-hover);
+        }
+
+        .action-btn-danger {
+            background: var(--incorrect-bg);
+            border: 1px solid var(--incorrect-red);
+            color: var(--incorrect-red);
+        }
+        .action-btn-danger:hover {
+            opacity: 0.9;
+        }
+
+        /* BOTÃO FLUTUANTE MOVÍVEL E MENU SUSPENSO */
+        .floating-widget-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: flex-end;
+            touch-action: none;
+        }
+
+        .floating-main-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: background 0.2s, transform 0.1s;
+            user-select: none;
+        }
+
+        .floating-main-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .floating-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            width: 210px;
+        }
+
+        .floating-menu.open {
+            display: flex;
+        }
+
+        .floating-menu button {
+            width: 100%;
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .font-btn-row {
+            display: flex;
+            gap: 6px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .font-btn-row button {
+            flex: 1;
+            text-align: center;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        /* RELATÓRIO FINAL */
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .report-score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-glow);
+        }
+
+        .report-table th, .report-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-glow);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .report-table th {
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .bar-bg {
+            background: var(--border-glow);
+            height: 8px;
+            border-radius: 4px;
+            width: 120px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .diagnostic-card {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #92400e;
+        }
+        body.dark-mode .diagnostic-card {
+            background: #451a03;
+            border-color: #78350f;
+            color: #fef3c7;
+        }
+
+        /* CONFIANÇA & MODAL */
+        .conf-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glow);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .conf-btn.active-certain {
+            background: var(--correct-bg);
+            border-color: var(--correct-green);
+            color: var(--correct-green);
+        }
+
+        .conf-btn.active-guess {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+        body.dark-mode .conf-btn.active-guess {
+            background: #451a03;
+            color: #fde047;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .setting-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .setting-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .toggle-checkbox {
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: var(--border-glow);
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked {
+            background: var(--primary);
+        }
+
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            background: white;
+            transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked::before {
+            transform: translateX(20px);
+        }
+
+        .history-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: left;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-glow);
+            font-size: 0.9rem;
+        }
+
+        /* REGRAS DE IMPRESSÃO / PDF OTIMIZADO */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+
+            .hub-header-bar, .mode-selector-box, .side-controls-bar, .nav-btns-inline, .side-panel,
+            .btn-confirm, .conf-btn-group, .btn-layout-toggle-class, .floating-widget-container,
+            .hud-header, .modal-overlay,
+            button, .btn-hub-action {
+                display: none !important;
+            }
+
+            .main-container, .hub-screen, .game-hud, .report-screen, .q-card {
+                box-shadow: none !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .q-statement {
+                color: black !important;
+                font-size: 11pt !important;
+            }
+
+            .opt-btn {
+                border: 1px solid #ccc !important;
+                color: black !important;
+                background: transparent !important;
+                margin-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+
+            .explanation-panel {
+                display: block !important;
+                border-left: 3px solid #000 !important;
+                background: #f8f8f8 !important;
+                color: black !important;
+            }
+
+            .report-table th, .report-table td {
+                color: black !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .game-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .hub-screen { padding: 28px 16px; border-radius: 18px; }
+            .hub-title { font-size: 2rem; }
+            .hub-subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+            .mode-selector-box { flex-direction: column; align-items: stretch; gap: 12px; padding: 16px; }
+            .mode-selector-box select, .topic-dropdown-btn { width: 100%; text-align: center; }
+            .game-hud { padding: 18px; border-radius: 18px; }
+            .hud-header { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px; }
+            .hud-stat { justify-content: space-between; width: 100%; }
+            .q-card { padding: 18px; }
+            .q-statement { font-size: 1rem; margin-bottom: 20px; }
+            .opt-btn { padding: 14px 16px; font-size: 0.92rem; }
+            .nav-btns-inline { gap: 8px; }
+            .side-controls-bar { flex-direction: column; gap: 10px; }
+            .side-controls-bar > button, .nav-btns-inline > button { width: 100%; text-align: center; padding: 14px; }
+            .report-screen { padding: 20px 16px; }
+            .report-score-big { font-size: 3rem; }
+            .report-table { font-size: 0.85rem; }
+            .report-table th, .report-table td { padding: 10px; }
+            .bar-bg { width: 60px; }
+        }
+
+        body.force-mobile-mode { padding: 8px !important; }
+        body.force-mobile-mode .main-container { max-width: 100% !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .report-screen { padding: 15px !important; border-radius: 14px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.8rem !important; }
+        body.force-mobile-mode .game-layout { grid-template-columns: 1fr !important; }
+        body.force-mobile-mode .nav-btns-inline { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .side-controls-bar { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- TELA HOME / HUB CENTRAL -->
+        <div class="hub-screen" id="hub-screen">
+            <div class="hub-header-bar">
+                <button class="action-btn action-btn-secondary" id="theme-toggle-btn" onclick="toggleTheme()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    🌙 Dark
+                </button>
+                <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    ⚙️ Configurações
+                </button>
+                <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    📱 Modo Celular: AUTO
+                </button>
+            </div>
+
+            <div class="hub-title">Microbiologia & Virologia Clínica - FMJ 2023</div>
+            <div class="hub-subtitle">
+                Plataforma interativa para avaliação em Microbiologia e Virologia Médica. Pratique com as 30 questões da prova oficial de 2023 (FMJ), monitore seu tempo por questão e acompanhe seu rendimento por temas.
+            </div>
+
+            <!-- SELETOR DE MODO DE JOGO E FILTRO MULTI-TEMA -->
+            <div class="mode-selector-box">
+                <div style="display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center;" id="mode-select-container">
+                    <label for="game-mode-select" style="font-weight: 700; color: var(--text-main);">🎯 Modo do Simulado:</label>
+                    <select id="game-mode-select">
+                        <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                        <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                    </select>
+                </div>
+
+                <!-- DROPDOWN DE SELEÇÃO MÚLTIPLA DE TEMAS -->
+                <div style="display: flex; gap: 8px; align-items: center; position: relative; width: 100%; justify-content: center;">
+                    <label style="font-weight: 700; color: var(--text-main);">🏷️ Filtrar por Tema(s):</label>
+                    <div id="topic-dropdown-wrapper" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+                        <button type="button" class="topic-dropdown-btn" id="topic-dropdown-btn" onclick="toggleTopicDropdown()" style="width: 100%;">
+                            Todos os Temas ▾
+                        </button>
+                        <div id="topic-checkbox-list" style="display: none; position: absolute; top: 110%; left: 0; background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 14px; padding: 14px; max-height: 250px; overflow-y: auto; z-index: 100; box-shadow: var(--shadow-lg); width: 100%; text-align: left;">
+                            <!-- Gerado via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD DE INÍCIO -->
+            <div class="hub-cards-grid">
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-objetivo">🔘 Prova Objetiva</span>
+                        <h2>Simulado Oficial 2023 (30 Itens)</h2>
+                        <p>Simulado completo baseado na prova da FMJ cobrindo Hepatites A, B, C, D e E, HPV e Oncogênese, Dengue e ADE, Febre Amarela, Chikungunya, EBV, Sarampo, HHV-8 / Kaposi, COVID-19, Poliomielite e Vacinas, Rinovírus, Gripe e Zoonoses (Raiva, Nipah, Influenza Aviária).</p>
+                    </div>
+                    <button class="btn-hub-action btn-primary" onclick="startModule('objective')">
+                        🚀 Iniciar Simulado 2023
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARD DE HISTÓRICO DE TENTATIVAS -->
+            <div class="history-card" id="history-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: var(--text-main); font-size: 1.1rem; font-weight: 700;">📜 Histórico de Desempenho & Evolução</h3>
+                    <button class="action-btn action-btn-secondary" onclick="clearHistory()" style="padding: 4px 10px; font-size: 0.75rem;">Limpar Histórico</button>
+                </div>
+                <div id="history-list-content">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERFACE DO QUIZ UNIFICADO -->
+        <div class="game-hud" id="game-hud">
+            <div class="hud-header">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button class="action-btn action-btn-secondary" onclick="goToHub()" style="padding: 6px 12px; font-size: 0.85rem;">🏠 Menu Principal</button>
+                        <span id="quiz-title-badge" style="font-weight: 800; color: var(--primary);">SIMULADO</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="action-btn action-btn-secondary hud-theme-btn" onclick="toggleTheme()" style="padding: 4px 10px; font-size: 0.8rem;">
+                            🌙 Dark
+                        </button>
+                        <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">
+                            📱 Modo Celular: AUTO
+                        </button>
+                    </div>
+                </div>
+                <div class="hud-stat">
+                    <span>Questão:</span>
+                    <span class="hud-stat-val" id="hud-q-num">1 / 30</span>
+                </div>
+                <div class="hud-stat" id="hud-timer-stat">
+                    <span>⏱️ Tempo:</span>
+                    <span class="hud-stat-val" id="hud-timer">00:00</span>
+                </div>
+                <div class="hud-stat" id="hud-avgtime-stat">
+                    <span>⏱️ Média/Q:</span>
+                    <span class="hud-stat-val" id="hud-avgtime">0s</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Pontuação:</span>
+                    <span class="hud-stat-val" id="hud-score" style="color: var(--correct-green);">0 PTS</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Aproveitamento:</span>
+                    <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                </div>
+                <div class="combo-badge" id="combo-badge">🔥 COMBO x2!</div>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div class="q-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                            <span class="q-category-tag" id="q-category" style="margin-bottom: 0;">CATEGORIA</span>
+                        </div>
+                        <div class="q-statement" id="q-statement">Carregando questão...</div>
+
+                        <!-- CONTAINER DE QUESTÕES OBJETIVAS -->
+                        <div class="options-group" id="options-group"></div>
+
+                        <!-- SELETOR DE NÍVEL DE CONFIANÇA -->
+                        <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança nesta resposta:</div>
+                            <div class="conf-btn-group">
+                                <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                            ✅ Confirmar Resposta
+                        </button>
+
+                        <div class="nav-btns-inline">
+                            <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()" style="flex: 1;">← Anterior</button>
+                            <button class="action-btn" id="btn-next" onclick="nextQuestion()" style="flex: 1;">Próxima →</button>
+                        </div>
+
+                        <div class="explanation-panel" id="explanation-panel">
+                            <div class="exp-header">
+                                💡 Contextualização Teórica e Justificativa
+                            </div>
+                            <div class="exp-body" id="exp-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="chart-card" id="chart-card-box">
+                        <div class="chart-title">Desempenho em Tempo Real</div>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                            <div class="chart-center-text" id="chart-center">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 0.85rem;">
+                            <span style="color: #10b981;">🟢 Acertos: <b id="lbl-correct">0</b></span>
+                            <span style="color: #f87171;">🔴 Erros: <b id="lbl-incorrect">0</b></span>
+                        </div>
+                    </div>
+
+                    <!-- BLOCO DE NOTAS DA QUESTÃO -->
+                    <div class="notes-card" id="notes-card-box">
+                        <div class="chart-title">📝 Bloco de Notas</div>
+                        <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho ou anotações para esta questão..." oninput="saveNote(this.value)"></textarea>
+                    </div>
+
+                    <div class="grid-card" id="grid-card-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="chart-title" style="margin-bottom: 0;">Grade</div>
+                            <div style="display: flex; gap: 4px;">
+                                <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">🚩 Dúvidas</button>
+                            </div>
+                        </div>
+                        <div class="nav-grid" id="nav-grid"></div>
+                    </div>
+
+                    <div class="side-controls-bar">
+                        <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar Módulo</button>
+                        <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: #10b981;">📊 Relatório Final</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDGET FLUTUANTE DE FERRAMENTAS DA QUESTÃO -->
+        <div class="floating-widget-container" id="floating-widget">
+            <div class="floating-menu" id="floating-menu">
+                <div class="font-btn-row">
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(-1)">A-</button>
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(1)">A+</button>
+                </div>
+                <button class="action-btn action-btn-secondary" id="btn-flag" onclick="toggleFlag()">🚩 Dúvida</button>
+                <button class="action-btn action-btn-secondary" id="btn-highlight" onclick="toggleHighlight()">🖍️ Marca-texto</button>
+                <button class="action-btn action-btn-secondary" id="btn-eraser" onclick="toggleEraser()">🧽 Borracha</button>
+            </div>
+            <button class="floating-main-btn" id="floating-main-btn" title="Ferramentas">🛠️</button>
+        </div>
+
+        <!-- TELA DE RELATÓRIO FINAL -->
+        <div class="report-screen" id="report-screen">
+            <div class="report-header-title" id="rep-edition-title">📊 DIAGNÓSTICO FINAL DE DESEMPENHO</div>
+            <div class="report-score-big" id="rep-score-big">0%</div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 1rem;" id="rep-status-msg"></p>
+
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 15px 0;">
+                <div style="background: var(--input-bg); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border-glow); text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Total</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);" id="rep-total-time">00:00</div>
+                </div>
+                <div style="background: var(--input-bg); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border-glow); text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Médio / Questão</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #6366f1;" id="rep-avg-time">0s</div>
+                </div>
+                <div style="background: var(--input-bg); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border-glow); text-align: center;" id="rep-conf-box-summary">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Acertos com Certeza / Chutes</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--correct-green);" id="rep-conf-ratio">0 / 0</div>
+                </div>
+            </div>
+
+            <div class="diagnostic-card" id="rep-diagnostic-box">
+                <strong>💡 Recomendação de Estudos:</strong>
+                <div id="rep-diagnostic-text" style="margin-top: 5px;"></div>
+            </div>
+
+            <h3 style="color: var(--text-main); margin-top: 25px; font-size: 1.2rem; font-weight: 700;">Análise Detalhada por Tema de Microbiologia:</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Tema / Categoria</th>
+                            <th>Total</th>
+                            <th>Acertos</th>
+                            <th>Aproveitamento</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rep-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar</button>
+                <button class="action-btn" onclick="restartGame()">🔄 Refazer</button>
+                <button class="action-btn" id="btn-caderno-erros" onclick="startCadernoErros()" style="background: #dc2626;">❌ Caderno de Erros</button>
+                <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;">📥 Exportar (.txt)</button>
+                <button class="action-btn" onclick="printReport()" style="background: #8b5cf6;">📄 Exportar (PDF / Impressão)</button>
+                <button class="action-btn action-btn-secondary" onclick="hideReport()">🔍 Revisar Respostas</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span>⚙️ Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()">✖</span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🌙 Modo Escuro (Dark)</div>
+                    <div class="setting-sub">Alterna as cores para leitura noturna confortável.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-darkmode" onchange="toggleTheme()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Métrica de Tempo Médio / Questão</div>
+                    <div class="setting-sub">Calcula os segundos gastos em cada questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-avgtime" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🎯 Nível de Confiança ao Responder</div>
+                    <div class="setting-sub">Permite indicar se a resposta foi por certeza ou chute nas objetivas.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-confidence" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📜 Exibir Histórico no Hub</div>
+                    <div class="setting-sub">Exibe o histórico de tentativas salvas na página inicial.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-history" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📝 Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📈 Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🛠️ Barra de Ferramentas Flutuante</div>
+                    <div class="setting-sub">Mostra o botão suspenso com marca-texto, borracha, dúvida e fonte.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-toolbar" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🚩 Grade de Navegação</div>
+                    <div class="setting-sub">Exibe o mapa de questões na barra lateral.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-grid" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. BANCO DE DADOS - MICROBIOLOGIA FMJ 2023 (TRANSCRIÇÃO EXATA DAS FOTOS)
+           ========================================================================== */
+        const objectiveQuestions = [
+            {
+                num: 1,
+                type: "objective",
+                category: "Hepatites Virais & Transmissão",
+                statement: "Questão 1 - Vicente, 19 anos, procura um pronto-socorro relatando que há uma semana notou que sua urina está escura e que sua pele adquiriu um tom amarelado. Ele também se queixa de enjoos, alguns episódios de vômito, dores abdominais e fraqueza. Ele relata que esses sintomas apareceram após duas semanas de chegar de uma viagem ao interior do Nordeste do Brasil, onde havia permanecido em um acampamento sem condições sanitárias. Tendo como uma das hipóteses de diagnóstico uma hepatite aguda de causa viral, o médico solicita exame com o qual é detectado o RNA de um vírus causador de hepatite. Tendo em vista a descrição acima, assinale a alternativa que descreve o POSSÍVEL agente causador do quadro.",
+                options: [
+                    "A. Vírus da Hepatite B (HBV).",
+                    "B. Vírus da Hepatite C (HCV).",
+                    "C. Vírus da Hepatite A (HAV).",
+                    "D. Vírus da Hepatite D (HDV).",
+                    "E. Não é possível determinar o agente causador somente com as informações dadas."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A Hepatite A (HAV) é um Picornavirus de RNA de fita simples, transmitido pela via fecal-oral[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span). Apresenta período de incubação médio de 2 a 4 semanas e está fortemente associada a condições sanitárias precárias (água e alimentos contaminados)[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span). O HBV é vírus de DNA, enquanto HCV/HDV têm transmissão parenteral/sexual[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span).<br><br><b>Justificativa da alternativa correta (C):</b> O histórico de viagem recente a local sem saneamento básico, o período de incubação de 2 semanas, o quadro agudo e a detecção de um vírus de **RNA** confirmam o diagnóstico de Hepatite A[span_7](start_span)[span_7](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A está errada:</b> O HBV tem genoma de DNA[span_8](start_span)[span_8](end_span).<br>• <b>B e D estão erradas:</b> HCV e HDV têm transmissão parenteral/sanguínea/sexual e não por falta de saneamento em acampamentos[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span).<br>• <b>E está errada:</b> Os dados clínicos, epidemiológicos e virológicos apontam para o HAV[span_11](start_span)[span_11](end_span)."
+            },
+            {
+                num: 2,
+                type: "objective",
+                category: "HPV & Oncogênese",
+                statement: "Questão 2 - Existem mais de 200 tipos de vírus HPV capazes de infectar os seres humanos, mas somente alguns estão frequentemente associados ao desenvolvimento de tumores. Dentre os tipos associados a tumores estão:",
+                options: [
+                    "A. Tipo 16 e tipo 22.",
+                    "B. Tipo 16 e tipo 18.",
+                    "C. Tipo 18 e tipo 22.",
+                    "D. Tipo 12 e tipo 16.",
+                    "E. Tipo 10 e tipo 18."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Os genótipos de HPV de alto risco oncogênico são os principais causadores do câncer de colo uterino, anogenital e orofaringe, sendo os tipos 16 e 18 responsáveis por cerca de 70% de todos os casos de câncer cervical no mundo[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span).<br><br><b>Justificativa da alternativa correta (B):</b> Os tipos 16 e 18 são os clássicos genótipos oncogênicos de alto risco do HPV[span_14](start_span)[span_14](end_span)[span_15](start_span)[span_15](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>Os tipos 10, 12 e 22 não pertencem ao grupo clássico de alto risco anogenital[span_16](start_span)[span_16](end_span)."
+            },
+            {
+                num: 3,
+                type: "objective",
+                category: "Sorologia da Hepatite B",
+                statement: "Questão 3 - Analise a seguir os resultados obtidos na sorologia de um paciente acompanhado para hepatite B:\nHBsAg = positivo; HBeAg = positivo; Anti-HBs = negativo; Anti-HBe = negativo; Anti-HBc-IgM = negativo; Anti-HBc-total = positivo. Tendo em vista os resultados é POSSÍVEL AFIRMAR QUE:",
+                options: [
+                    "A. Trata-se de um caso de hepatite B em fase crônica.",
+                    "B. Trata-se de um indivíduo imunizado por meio de infecção natural pelo vírus da hepatite B.",
+                    "C. Trata-se de um caso de hepatite B em fase aguda.",
+                    "D. Trata-se de um caso de hepatite B em fase aguda, com indícios de resolução (bom prognóstico).",
+                    "E. Trata-se de um caso de indivíduo imunizado por meio da vacina contra Hepatite B."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A Hepatite B Crônica é caracterizada pela persistência do HBsAg positivo por mais de 6 meses[span_17](start_span)[span_17](end_span). A presença de Anti-HBc Total positivo com Anti-HBc IgM negativo afasta infecção aguda recente[span_18](start_span)[span_18](end_span). O HBeAg positivo indica alta replicação viral e infectividade na fase crônica[span_19](start_span)[span_19](end_span).<br><br><b>Justificativa da alternativa correta (A):</b> HBsAg(+) e Anti-HBc Total(+) com Anti-HBc IgM(-) definem Hepatite B crônica[span_20](start_span)[span_20](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>B e E estão erradas:</b> A imunidade (vacinal ou por cura) exige HBsAg negativo e Anti-HBs positivo[span_21](start_span)[span_21](end_span).<br>• <b>C e D estão erradas:</b> A fase aguda cursa com Anti-HBc IgM positivo[span_22](start_span)[span_22](end_span)."
+            },
+            {
+                num: 4,
+                type: "objective",
+                category: "Dengue & Fenômeno de ADE",
+                statement: "Questão 4 - O fenômeno de “Aumento de Infecção Dependente de Anticorpos” pode ser observado em algumas infecções virais, particularmente na Dengue. Sobre esse fenômeno é CORRETO afirmar que:",
+                options: [
+                    "A. Ocorre devido ao fenômeno de mimetismo molecular, onde na primeira infecção com o vírus são produzidos anticorpos que reconhecem antígenos próprios expressos pelas nossas células.",
+                    "B. Pode ocorrer por até 4 vezes em um mesmo indivíduo, uma vez que existem 4 sorotipos de vírus da dengue, a cada infecção com um vírus diferente ocorre maior produção de anticorpos.",
+                    "C. É observado na segunda infecção com o vírus de Vírus igual ao causador da primeira infecção, pois a presença de anticorpos neutralizantes facilita a infecção das células.",
+                    "D. É observado na segunda infecção com um sorotipo de Vírus diferente daquele causador da primeira infecção, pois a presença de anticorpos subneutralizantes facilita a infecção das células.",
+                    "E. Pode ocorrer em qualquer indivíduo infectado pela segunda vez com o vírus da dengue, independentemente do sorotipo."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> O Aumento Dependente de Anticorpos (ADE) ocorre quando uma pessoa previamente infectada por um sorotipo de Dengue é infectada secundariamente por um sorotipo HETERÓLOGO (diferente)[span_23](start_span)[span_23](end_span). Os anticorpos da primeira infecção ligam-se ao novo vírus de forma subneutralizante, ligando-se a receptores Fcγ de macrófagos/monócitos e facilitando a entrada e replicação viral[span_24](start_span)[span_24](end_span).<br><br><b>Justificativa da alternativa correta (D):</b> O ADE requer infecção secundária por sorotipo heterólogo com anticorpos subneutralizantes facilitando a penetração em células imunes[span_25](start_span)[span_25](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A está errada:</b> O ADE não é mimetismo molecular contra antígenos próprios[span_26](start_span)[span_26](end_span).<br>• <b>C e E estão erradas:</b> Infecção homóloga (mesmo sorotipo) é neutralizada eficazmente pela imunidade homóloga duradoura[span_27](start_span)[span_27](end_span)."
+            },
+            {
+                num: 5,
+                type: "objective",
+                category: "Hepatites Virais (Associação)",
+                statement: "Questão 5 - As hepatites virais podem ser causadas por diferentes tipos de agentes. Dentre os vírus mais importantes destacam-se os vírus da Hepatite A, Hepatite B, Hepatite C, Hepatite D e Hepatite E. Associa abaixo as colunas 1 (tipo de vírus) e 2 (características dos vírus). Assinale abaixo a alternativa que contém A ORDEM CORRETA DE ASSOCIAÇÃO DAS COLUNAS:\n\n1 - Tipo de Vírus:\nA) HAV | B) HBV | C) HCV | D) HDV | E) HEV\n\n2 - Características do vírus:\n( ) Comum em usuários de drogas e submetidos a transfusão de sangue, maior parte evolui para infecção crônica.\n( ) Associado a baixas condições sanitárias, causa somente infecção aguda.\n( ) Transmitido somente em casos onde ocorre infecção simultânea ou superinfecção pelo vírus da hepatite B.\n( ) Transmissão sexual, ou parenteral. Maioria infecção aguda, pode evoluir para infecção crônica em alguns casos.\n( ) Transmissão oral-fecal, associado a infecções graves durante a gestação.",
+                options: [
+                    "A. B, C, E, D, A.",
+                    "B. E, B, A, C, D.",
+                    "C. A, C, D, E, B.",
+                    "D. E, C, A, B, D.",
+                    "E. C, A, D, B, E."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b>\n• **HCV (C)**: Transmissão parenteral/sanguínea; >80% cronificam[span_28](start_span)[span_28](end_span).\n• **HAV (A)**: Fecal-oral, saneamento precário, exclusivamente agudo[span_29](start_span)[span_29](end_span)[span_30](start_span)[span_30](end_span).\n• **HDV (D)**: Vírus defectivo dependente do HBsAg do HBV (co-infecção ou superinfecção)[span_31](start_span)[span_31](end_span).\n• **HBV (B)**: Transmissão sexual/parenteral/vertical, maior parte aguda em adultos, mas pode cronificar[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span).\n• **HEV (E)**: Fecal-oral, alta mortalidade/gravidade em gestantes[span_34](start_span)[span_34](end_span).<br><br><b>Justificativa da alternativa correta (E):</b> A ordem correta das lacunas na Coluna 2 é: C, A, D, B, E[span_35](start_span)[span_35](end_span)."
+            },
+            {
+                num: 6,
+                type: "objective",
+                category: "HPV & Oncoproteínas Virais",
+                statement: "Questão 6 - Alguns tipos de tumor (de colo de útero, de ânus e de pênis, p. ex.) apresentam associação direta com a infecção por alguns tipos de vírus HPV (papilomavírus humano). A transformação neoplásica das células infectadas por esses vírus ocorre devido:",
+                options: [
+                    "A. A infecção leva à ativação macrófagos no epitélio, responsáveis pela produção de fatores de crescimento e angiogênicos e pela proliferação das células epiteliais.",
+                    "B. A produção de proteínas, codificadas pelo vírus, que interferem com proteínas presentes nas células hospedeiras responsáveis pela regulação do ciclo celular.",
+                    "C. O vírus HPV codifica em seu genoma proteínas que atuam como fatores de crescimento, induzindo a proliferação descontrolada das células infectadas.",
+                    "D. A inserção aleatória do DNA viral no DNA mitocondrial das células hospedeiras causando a disfunção de genes supressores de tumor.",
+                    "E. As células infectadas pelo HPV produzem proteínas com ação anti-apoptótica em grandes quantidades, levando à perda do controle do ciclo celular."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O HPV de alto risco expressa as oncoproteínas E6 e E7[span_36](start_span)[span_36](end_span). A proteína E6 liga-se à p53 e promove sua degradação proteassômica, enquanto a E7 liga-se à pRb (proteína do retinoblastoma) e a inativa, desregulando o ponto de checagem do ciclo celular[span_37](start_span)[span_37](end_span).<br><br><b>Justificativa da alternativa correta (B):</b> A oncogênese do HPV ocorre pela produção de proteínas virais (E6/E7) que interferem nas proteínas reguladoras do ciclo celular humano (p53 e pRb)[span_38](start_span)[span_38](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A e C estão erradas:</b> O vírus não atua por secreção de fatores de crescimento solúveis[span_39](start_span)[span_39](end_span).<br>• <b>D está errada:</b> O DNA do HPV integra-se no DNA nuclear/genômico e não no DNA mitocondrial[span_40](start_span)[span_40](end_span)."
+            },
+            {
+                num: 7,
+                type: "objective",
+                category: "Febre Amarela & Fisiopatologia",
+                statement: "Questão 7 - A febre amarela é caracterizada por diferentes fases e manifestações clínicas, que muitas vezes podem levar ao óbito do paciente. Em relação a essa Arbovirose é INCORRETO afirmar que:",
+                options: [
+                    "A. A fase de intoxicação é caracterizada pelos sintomas mais graves da doença, com retorno de febre, disfunção hepática e icterícia e hemorragias. Apresentando alta taxa de mortalidade (30-70%).",
+                    "B. A fase infecção é caracterizada pela viremia e manifesta-se com febre alta, cefaleia, fotofobia, náuseas e vômitos. Porém sem apresentação de icterícia.",
+                    "C. A fase de remissão ocorre após a fase infecção e é caracterizada pela diminuição dos sintomas, podendo evoluir para resolução (infecção abortiva) ou para a fase de intoxicação.",
+                    "D. A fase de intoxicação é caracterizada pela ocorrência de sintomas similares aqueles observados em intoxicações alimentares (por isso recebe esse nome), como náusea, vômito e diarreia aquosa intensa.",
+                    "E. Alguns indivíduos infectados pelo vírus da febre amarela podem apresentar infecção assintomática."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A Febre Amarela recebe o termo 'fase de intoxicação' não devido a quadro gastrointestinal alimentar, mas pelo estado de toxicidade sistêmica grave com insuficiência hepatorrenal, icterícia e diátese hemorrágica decorrente da destruição parenquimatosa promovida pelo vírus[span_41](start_span)[span_41](end_span).<br><br><b>Justificativa da alternativa incorreta (D):</b> É incorreta porque a fase de intoxicação refere-se ao comprometimento hepático-renal severo e coagulopatias, e não a um quadro de intoxicação alimentar bacteriana[span_42](start_span)[span_42](end_span).<br><br><b>Por que as outras estão corretas?</b><br>A, B, C e E descrevem com precisão a evolução bifásica (infecção, remissão e intoxicação) da febre amarela[span_43](start_span)[span_43](end_span)."
+            },
+            {
+                num: 8,
+                type: "objective",
+                category: "Chikungunya & Quadro Clínico",
+                statement: "Questão 8 - A infecção causada pelo vírus Chikungunya (CHKV) é caraterizada pelas seguintes manifestações clínicas, EXCETO:",
+                options: [
+                    "A. Artrite e Artralgia (principal sintoma).",
+                    "B. Febre de início abrupto.",
+                    "C. Hepatite aguda e Icterícia.",
+                    "D. Cefaleia e dores oculares.",
+                    "E. Mialgia."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O vírus Chikungunya (Alphavirus) é marcado por febre alta súbita e poliartralgia/artrite intensa, simétrica e incapacitante, acompanhada de mialgia e cefaleia[span_44](start_span)[span_44](end_span). Não cursa primariamente com hepatite aguda icterícia como achado característico[span_45](start_span)[span_45](end_span).<br><br><b>Justificativa da alternativa incorreta (C):</b> Hepatite aguda com icterícia é achado marcador de vírus hepatotrópicos e da febre amarela, não sendo sintoma característico de Chikungunya[span_46](start_span)[span_46](end_span).<br><br><b>Por que as outras estão corretas?</b><br>A, B, D e E representam o quadro clínico clássico e frequente da infecção pelo vírus Chikungunya[span_47](start_span)[span_47](end_span)."
+            },
+            {
+                num: 9,
+                type: "objective",
+                category: "Mononucleose Infecciosa & EBV",
+                statement: "Questão 9 - Analise o caso a seguir: Uma garota de 17 anos é atendida em um pronto-socorro com história de febre, dor de garganta, rouquidão, cansaço e dores musculares generalizadas. Ao ser examinada apresentava febre (39,1ºC), faringite com exsudato e aumento de linfonodos submandibular e cervicais. Ao ser realizado um hemograma, foi detectado linfocitose, com a presença de linfócitos atípicos. Tendo em vista os sintomas apresentados, e o resultado do hemograma. A doença apresentada pela garota é causada por:",
+                options: [
+                    "A. Infecção pelo vírus Epstein-Barr (EBV)",
+                    "B. Infecção pelo Citomegalovírus (CMV)",
+                    "C. Infecção pelo vírus KSHV ou HHV-8",
+                    "D. Infecção pelo vírus da Zika (ZKV)",
+                    "E. Infecção por vírus do Sarampo (MeV)"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A Mononucleose Infecciosa clássica é causada pelo Vírus Epstein-Barr (EBV / HHV-4) e caracteriza-se por febre, faringite exsudativa, adenomegalia cervical e linfocitose atípica (linfócitos T ativados/células de Downey)[span_48](start_span)[span_48](end_span).<br><br><b>Justificativa da alternativa correta (A):</b> O conjunto de faringite exsudativa, adenopatia cervical e linfócitos atípicos em jovem confirma o EBV[span_49](start_span)[span_49](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>B está errada:</b> O CMV causa síndrome mononucleóide frequentemente sem faringite exsudativa proeminente[span_50](start_span)[span_50](end_span).<br>• <b>C está errada:</b> O HHV-8 causa o Sarcoma de Kaposi[span_51](start_span)[span_51](end_span).<br>• <b>D e E estão erradas:</b> Zika e Sarampo apresentam exantema característico e fisiopatologias distintas[span_52](start_span)[span_52](end_span)."
+            },
+            {
+                num: 10,
+                type: "objective",
+                category: "Sarampo & Cobertura Vacinal",
+                statement: "Questão 10 - O Sarampo é uma doença exantemática que nos últimos anos tem causado surtos epidêmicos em algumas regiões do Brasil. Em relação a esses surtos avalie as afirmações a seguir:\nI - Os surtos recentes de Sarampo foram associados ao surgimento de variantes do vírus, contra as quais a vacina atual apresenta eficácia reduzida.\nII - Os surtos epidêmicos de Sarampo podem ocorrer em populações nas quais a cobertura vacinal é menor do que 85-90%, uma vez que esse vírus apresenta uma transmissibilidade muito elevada, com R0 que varia de 9-18.\nIII - Os surtos recentes de Sarampo podem ser associados à baixa eficácia da vacina disponível atualmente. Essa vacina, composta por vírus inativados, apresenta eficácia na ordem de 70%.\nIV - Os casos recentes de Sarampo registrados no Brasil são decorrentes da aplicação da própria vacina disponível. Uma vez que se trata de vacina composta de vírus atenuado capaz de reverter para seu estado selvagem.\nApós avaliar as afirmações é POSSÍVEL AFIRMAR QUE:",
+                options: [
+                    "A. Todas as afirmações SÃO INCORRETAS.",
+                    "B. Somente a afirmação III é CORRETA.",
+                    "C. Somente a afirmação IV é CORRETA.",
+                    "D. Somente a afirmação I é CORRETA.",
+                    "E. Somente a afirmação II é CORRETA."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O vírus do Sarampo é monotípico e altamente contagioso ($R_0$ entre 12 e 18)[span_53](start_span)[span_53](end_span). Quedas na cobertura vacinal para níveis abaixo de 90-95% abrem brechas populacionais para surtos epidêmicos[span_54](start_span)[span_54](end_span). A vacina é de vírus vivo atenuado (não inativado) e não reverte para vírus selvagem[span_55](start_span)[span_55](end_span).<br><br><b>Justificativa da alternativa correta (E):</b> Apenas a afirmativa II está correta[span_56](start_span)[span_56](end_span).<br><br><b>Por que as outras afirmativas estão erradas?</b><br>• <b>I e III estão erradas:</b> O vírus é estável e a vacina (vírus vivo atenuado) possui eficácia altíssima (>95%)[span_57](start_span)[span_57](end_span).<br>• <b>IV está errada:</b> A cepa vacinal do sarampo não sofre reversão para forma selvagem[span_58](start_span)[span_58](end_span)."
+            },
+            {
+                num: 11,
+                type: "objective",
+                category: "Dengue Neonatal & Transmissão Placentária",
+                statement: "Questão 11 - Crianças recém-nascidas de gestantes infectadas com o vírus da dengue apresentam maior risco de desenvolver DENGUE GRAVE caso também sejam infectadas, isto é decorrente de:",
+                options: [
+                    "A. Transferência de anticorpos da classe IgM para o feto via transplacentária, que se ligam às células infectadas da criança, causando ativação de complemento.",
+                    "B. Passagem transplacentária de proteínas virais (NS1) que induzem destruição de plaquetas.",
+                    "C. Fenômeno de Infecção Aumentada Dependente de Anticorpos, causada pela transmissão de anticorpos da classe IgG materna via placenta durante a gestação.",
+                    "D. Fenômeno do “pecado original antigênico”.",
+                    "E. Infecção congênita pelo vírus transmitido pela placenta, que apresenta capacidade teratogênica."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Anticorpos IgG maternos contra a Dengue cruzam a placenta para o feto[span_59](start_span)[span_59](end_span). Se a mãe possui anticorpos heterólogos e o RN é infectado por Dengue, esses anticorpos IgG maternos circulantes provocam o fenômeno de ADE no recém-nascido, aumentando o risco de dengue grave/choque[span_60](start_span)[span_60](end_span).<br><br><b>Justificativa da alternativa correta (C):</b> A transferência transplacentária de IgG materna subneutralizante desencadeia o fenômeno de ADE no lactente[span_61](start_span)[span_61](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A está errada:</b> IgM não atravessa a barreira placentária[span_62](start_span)[span_62](end_span).<br>• <b>E está errada:</b> O vírus da dengue não é um teratógeno clássico causador de malformações congênitas diretas[span_63](start_span)[span_63](end_span)."
+            },
+            {
+                num: 12,
+                type: "objective",
+                category: "HHV-8 & Sarcoma de Kaposi",
+                statement: "Questão 12 - A infecção pelo KSHV ou HHV8 pode ser associada com o desenvolvimento de Sarcoma de Kaposi em pacientes com imunodeficiência, particularmente aqueles com HIV/AIDS. Em relação aos tumores associados com esse vírus, assinale abaixo a alternativa INCORRETA:",
+                options: [
+                    "A. O Sarcoma de Kaposi afeta inicialmente a pele causando lesões indolores, geralmente elipsoides hiperpigmentadas, mas posteriormente pode afetar os pulmões e trato gastro-intestinal.",
+                    "B. A infecção pelo KSHV ou HHV8, e consequentemente o desenvolvimento dos tumores, pode ser evitada pelo uso de uma vacina composta pelos genótipos 16 e 18 do vírus. Os dois genótipos que apresentam características de oncovírus.",
+                    "C. O KSHV ou HHV8 além de estar associado ao desenvolvimento do Sarcoma de Kaposi em indivíduos com HIV/AIDS, também pode acometer imunocompetentes, particularmente idosos (forma esporádica/clássica) em regiões da europa.",
+                    "D. Nos pacientes com HIV/AIDS a infecção com o KSHV ou HHV8 pode estar associado ao desenvolvimento do Sarcoma de Kaposi.",
+                    "E. O diagnóstico do Sarcoma de Kaposi é inicialmente clínico (características das lesões) e pode ser confirmado por análise histopatológica com a detecção de antígenos do vírus nas células tumorais."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O Herpesvírus Humano 8 (HHV-8 / KSHV) é o agente etiológico do Sarcoma de Kaposi[span_64](start_span)[span_64](end_span). Não existe vacina comercializada contra o HHV-8 (os genótipos 16 e 18 mencionados pertencem ao HPV)[span_65](start_span)[span_65](end_span).<br><br><b>Justificativa da alternativa incorreta (B):</b> É incorreta pois não há vacina contra o HHV-8, e os tipos 16 e 18 referem-se ao Papilomavírus Humano (HPV)[span_66](start_span)[span_66](end_span).<br><br><b>Por que as outras estão corretas?</b><br>A, C, D e E descrevem adequadamente o sarcoma de Kaposi (lesões cutâneas e viscerais, forma clássica em idosos mediterrâneos e diagnóstico histopatológico)[span_67](start_span)[span_67](end_span)."
+            },
+            {
+                num: 13,
+                type: "objective",
+                category: "Fases da COVID-19",
+                statement: "Questão 13 - Analise as afirmações abaixo relacionadas às fases de evolução da Covid-19 e assinale a ALTERNATIVA INCORRETA:",
+                options: [
+                    "A. A fase I (infecção / fase de resposta viral) pode ser assintomática ou apresentar sintomas como febre, dor de garganta e tosse seca.",
+                    "B. A fase II (fase pulmonar) é decorrente do aumento da atividade inflamatória no pulmão, e caracterizda pelo início dos sintomas como falta de ar e hipóxia.",
+                    "C. A fase III (hiper inflamatória) da Covid-19 é caracterizada pela diminuição da carga viral e aumento da resposta inflamatória no indivíduo infectado.",
+                    "D. A disseminação do vírus (replicação extrapulmonar) é responsável pela ativação sistêmica do endotélio vascular e, consequentemente, pelas alterações de coagulação observada na fase III (hiper inflamatória).",
+                    "E. A fase I da Covid-19 pode ser tratada com o uso de medicamentos como o Paxlovid (Nirmatrelvir+ritonavir) que diminuem a replicação viral e consequentemente o processo inflamatório."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Na COVID-19 grave, a disfunção endotelial e a coagulopatia/trombose sistêmica da Fase III (hiperinflamatória) são desencadeadas pela tempestade de citocinas inflamatórias circulantes e imunotrombose, e não primariamente por replicação viral direta extrapulmonar maciça[span_68](start_span)[span_68](end_span).<br><br><b>Justificativa da alternativa incorreta (D):</b> A alteração vascular e de coagulação na fase severa decorre da resposta imune desregulada e tempestade de citocinas (imunotrombose), e não da disseminação viral direta extrapulmonar[span_69](start_span)[span_69](end_span).<br><br><b>Por que as outras estão corretas?</b><br>A, B, C e E descrevem a fase viral inicial (com indicação do antiviral Paxlovid), a fase pulmonar e a dissociação entre diminuição da carga viral e aumento da inflamação na fase III[span_70](start_span)[span_70](end_span)."
+            },
+            {
+                num: 14,
+                type: "objective",
+                category: "COVID-19 & Coagulopatia",
+                statement: "Questão 14 - Em relação ao estado pró-trombótico observado em muitos casos de Covid-19, assinale abaixo o ALTERNATIVA INCORRETA:",
+                options: [
+                    "A. A formação de micro trombos na circulação pode ser decorrente tanto da ativação extrínseca quanto da ativação intrínseca da cascata de coagulação.",
+                    "B. A formação de micro trombos pode ser decorrente da diminuição da capacidade fibrinolítica, em virtude do aumento da produção do fator inibidor do ativador de plasminogênio 1 (PAI1).",
+                    "C. A formação de micro trombos na circulação pode ser decorrente do aumento da expressão de fator tecidual ativo por monócitos ativados na circulação pelo reconhecimento de PAMPs virais.",
+                    "D. A formação de micro trombos é decorrente do aumento da destruição de células endoteliais infectadas pelo vírus e consequente exposição de Proteína C Ativada presente nas membranas basais dos vasos.",
+                    "E. A formação de trombos pode ser decorrente do aumento da produção de bradicinina e ativação do sistema calicreína-cinina, que leva à vasodilatação e aumento de permeabilidade vascular, promovendo extravasamento de plasma e diminuição dos componentes do sistema de coagulação na circulação."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A Proteína C Ativada é um anticoagulante fisiológico[span_71](start_span)[span_71](end_span). A lesão e ativação endotelial na COVID-19 expõem o fator tecidual e colágeno subendotelial pró-coagulantes, ao mesmo tempo em que **reduzem** os mecanismos anticoagulantes (como a Proteína C)[span_72](start_span)[span_72](end_span).<br><br><b>Justificativa da alternativa incorreta (D):</b> A afirmação de que a exposição de Proteína C Ativada causa microtrombos é incorreta, pois a Proteína C atua como fator anticoagulante e não pró-trombótico[span_73](start_span)[span_73](end_span).<br><br><b>Por que as outras estão corretas?</b><br>A, B, C e E explicam os mecanismos de imunotrombose (fator tecidual, inibição de fibrinólise por PAI-1 e ativação da coagulação)[span_74](start_span)[span_74](end_span)."
+            },
+            {
+                num: 15,
+                type: "objective",
+                category: "Diagnóstico de Infecções Virais",
+                statement: "Questão 15 - Analise a seguir as afirmações sobre os parâmetros que podem ser utilizados para o diagnóstico de infecções virais (e causadas por outros agentes). I - Infecções agudas podem ser caracterizadas pela presença de IgM e IgG de baixa avidez. II - Infecções agudas podem ser caracterizadas pelo aumento significativo dos títulos de IgG em duas amostras obtidas com intervalo de tempo de duas semanas. III - Infecções agudas podem ser caracterizadas pela detecção de antígenos virais na circulação ou fluidos biológicos de pacientes. IV – Infecções crônicas/passadas podem ser caracterizadas pela ausência de IgM e presença de IgG de alta avidez. Após analisar as afirmações é POSSÍVEL AFIRMAR QUE:",
+                options: [
+                    "A. Todas as afirmações são CORRETAS.",
+                    "B. Somente as afirmações II e IV são CORRETAS.",
+                    "C. Somente as afirmações I, II e III são CORRETAS.",
+                    "D. Somente as afirmações I, II e IV são CORRETAS.",
+                    "E. Somente as afirmações I e III são CORRETAS."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b>\n• IgM e IgG de baixa avidez indicam infecção recente/aguda[span_75](start_span)[span_75](end_span).\n• Soroconversão ou aumento de $\\ge 4$ vezes no título de IgG em amostras pareadas (14 dias) confirma infecção aguda[span_76](start_span)[span_76](end_span).\n• Pesquisa direta de antígenos/viremia confirma fase aguda[span_77](start_span)[span_77](end_span).\n• IgG de alta avidez na ausência de IgM indica infecção remota/passada[span_78](start_span)[span_78](end_span).<br><br><b>Justificativa da alternativa correta (A):</b> Todas as quatro afirmativas (I, II, III e IV) estão corretas[span_79](start_span)[span_79](end_span)."
+            },
+            {
+                num: 16,
+                type: "objective",
+                category: "Erradicação da Poliomielite",
+                statement: "Questão 16 - A Organização Mundial da Saúde tem um planejamento para erradicar a poliomielite antes de 2030. Para isso, campanhas de imunização no mundo todo (especialmente em países subdesenvolvidos) estão sendo implementadas ou apoiadas pela OMS. Um dos principais motivos pelos quais existe a possibilidade de erradicação da poliomielite via imunização em massa é que:",
+                options: [
+                    "A. Como a transmissão é via inalação, pretende-se que uma vacina via “aspersores” seja disseminada em locais de grande fluxo possibilitando uma rápida imunização em massa.",
+                    "B. O vírus tem baixa taxa de infectividade; se conseguirmos sabotar minimamente a cadeia de transmissão, há grande chance de, após alguns anos, não haver mais fluxo de vírus entre as pessoas.",
+                    "C. O homem é o único hospedeiro do vírus.",
+                    "D. O vírus da poliomielite é extremamente sensível no ambiente, não permanecendo em materiais biológicos senão durante alguns minutos.",
+                    "E. Nenhuma alternativa desta questão está correta."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Um pré-requisito biológico indispensável para a erradicação global de um vírus (como ocorreu com a Varíola) é que o ser humano seja seu único hospedeiro/reservatório natural, sem reservatórios animais silvestres[span_80](start_span)[span_80](end_span).<br><br><b>Justificativa da alternativa correta (C):</b> O fato do homem ser o único reservatório e hospedeiro do Poliovírus viabiliza sua erradicação mundial por vacinação[span_81](start_span)[span_81](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A está errada:</b> A transmissão é fecal-oral e oral-oral[span_82](start_span)[span_82](end_span).<br>• <b>B e D estão erradas:</b> O vírus é altamente contagioso e pode persistir na água e esgoto por períodos prolongados[span_83](start_span)[span_83](end_span)."
+            },
+            {
+                num: 17,
+                type: "objective",
+                category: "Poliomielite & Vacinas (Salk vs Sabin)",
+                statement: "Questão 17 - Temos duas vacinas famosas contra a poliomielite: a SALK e a SABIN. A vacina Sabin é dada tradicionalmente por via oral. A Salk, por outro lado, é injetada (intramuscular ou subcutânea). O que aconteceria se usássemos a vacina Salk por via oral para imunizar crianças pequenas?",
+                options: [
+                    "A. Haveria grande chance de reversão de virulência, expondo as crianças a um risco desnecessário.",
+                    "B. Haveria uma estimulação superior de imunidade, mas, em compensação, um risco aumentado de reversão de virulência.",
+                    "C. Elas seriam imunizadas de forma quase equivalente à sua forma injetável.",
+                    "D. Nada. Os antígenos contidos na vacina iriam passar pelo TGI sem suscitar resposta imunológica importante. Não teríamos imunidade protetora contra a poliomielite.",
+                    "E. Nenhuma alternativa desta questão está correta."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A vacina Salk (VIP) consiste em vírus inativados (mortos)[span_84](start_span)[span_84](end_span). Se administrados por via oral, as proteínas virais inativadas seriam degradadas pelas enzimas digestivas e pelo pH do trato gastrointestinal (TGI), sem replicar e sem gerar imunidade[span_85](start_span)[span_85](end_span).<br><br><b>Justificativa da alternativa correta (D):</b> Os vírus inativados da vacina Salk seriam destruídos na digestão gastrointestinal se administrados via oral, não induzindo resposta imune[span_86](start_span)[span_86](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A e B estão erradas:</b> A Salk contém vírus inativados, logo é completamente incapaz de sofrer reversão de virulência[span_87](start_span)[span_87](end_span)."
+            },
+            {
+                num: 18,
+                type: "objective",
+                category: "Rinovírus & Quadro Clínico",
+                statement: "Questão 18 - Os resfriados comuns são infecções virais do trato respiratório superior, e os rinovírus são os patógenos virais mais comuns associados a essas infecções. Analise as seguintes afirmações e indique a alternativa que contempla todas as corretas:\nI - No caso do resfriado comum por rinovírus, é imprescindível o diagnóstico.\nII – Embora os rinovírus sejam bastante benignos, casos mais graves de pneumonia podem ocorrer em pacientes imunocomprometidos.\nIII – Sua associação com exacerbação da asma e quadros alérgicos está associada com a redução da expressão das caderinas ocasionada por ele. Isso permitiria uma passagem facilitada de alérgenos pelo epitélio respiratório.",
+                options: [
+                    "A. Nenhuma afirmativa está correta.",
+                    "B. II e III",
+                    "C. I, II e III",
+                    "D. III",
+                    "E. II"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O resfriado comum é autolimitado e benigno, tornando desnecessário o diagnóstico etiológico laboratorial de rotina (I é falsa)[span_88](start_span)[span_88](end_span). Em imunodeprimidos, o rinovírus pode acometer as vias inferiores[span_89](start_span)[span_89](end_span). A redução de caderinas quebra a barreira epitelial e facilita a penetração de alérgenos desencadeando asma (II e III são verdadeiras)[span_90](start_span)[span_90](end_span).<br><br><b>Justificativa da alternativa correta (B):</b> As afirmativas II e III estão corretas[span_91](start_span)[span_91](end_span).<br><br><b>Por que a I está errada?</b><br>Não é imprescindível realizar diagnóstico etiológico laboratorial para resfriado comum[span_92](start_span)[span_92](end_span)."
+            },
+            {
+                num: 19,
+                type: "objective",
+                category: "Rinovírus & Virologia",
+                statement: "Questão 19 - Quais das seguintes afirmações sobre os rinovírus, agentes causadores de resfriados, é verdadeira?",
+                options: [
+                    "A. O tratamento específico para infecções por rinovírus envolve necessariamente o uso de antibióticos.",
+                    "B. A principal via de transmissão dos rinovírus é através da ingestão de alimentos contaminados.",
+                    "C. Os rinovírus pertencem à família Coronaviridae.",
+                    "D. A imunidade contra os rinovírus é duradoura, proporcionando proteção ao longo da vida.",
+                    "E. Os rinovírus são altamente contagiosos e apresentam uma extensa variedade de sorotipos diferentes."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> Os Rinovírus pertencem à família *Picornaviridae*[span_93](start_span)[span_93](end_span). Possuem mais de 100 sorotipos sorologicamente distintos e são altamente contagiosos via aerossóis e fômites[span_94](start_span)[span_94](end_span).<br><br><b>Justificativa da alternativa correta (E):</b> Os rinovírus destacam-se pela elevada transmissibilidade e pela existência de mais de uma centena de sorotipos[span_95](start_span)[span_95](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A está errada:</b> Antibióticos combatem bactérias e não vírus[span_96](start_span)[span_96](end_span).<br>• <b>B está errada:</b> A transmissão é por gotículas respiratórias e contato[span_97](start_span)[span_97](end_span).<br>• <b>C está errada:</b> Pertencem à família Picornaviridae[span_98](start_span)[span_98](end_span).<br>• <b>D está errada:</b> A diversidade de sorotipos previne imunidade cruzada duradoura vitalícia[span_99](start_span)[span_99](end_span)."
+            },
+            {
+                num: 20,
+                type: "objective",
+                category: "Diagnóstico da Gripe (Influenza)",
+                statement: "Questão 20 - O diagnóstico da GRIPE:",
+                options: [
+                    "A. O diagnóstico e feito rotineiramente por PCR, uma prova bem padronizada e barata.",
+                    "B. Usa como padrão ouro de identificação do agente sua estrutura morfológica e deve sempre ser pedido para que se faça a distinção dessa doença respiratória e uma plêiade de outras doenças causadas por outros agentes.",
+                    "C. É feito rotineiramente em larga escala nos hospitais brasileiros",
+                    "D. Por ser infecção genérica causada por muitos agentes diferentes, o uso da palavra \"gripe\" é indistinto, inclusive por autoridades do governo, não sendo possível responder essa questão de forma objetiva.",
+                    "E. Raramente se faz diagnóstico laboratorial; o médico em geral se apoia no diagnóstico clínico, pedindo exames laboratoriais apenas para fins epidemiológicos, grupos de risco ou se houver surto importante em curso."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O manejo da síndrome gripal na prática clínica diária é predominantemente baseado em critérios clínico-epidemiológicos[span_100](start_span)[span_100](end_span). O diagnóstico etiológico específico (RT-PCR) é reservado para síndromes respiratórias agudas graves (SRAG), pacientes de risco com indicação de antiviral (Oseltamivir) e vigilância epidemiológica[span_101](start_span)[span_101](end_span).<br><br><b>Justificativa da alternativa correta (E):</b> O diagnóstico é essencialmente clínico na rotina, indicando-se exames em situações de gravidade, surtos ou vigilância[span_102](start_span)[span_102](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>A, B e C estão erradas pois o diagnóstico virológico não é realizado em larga escala para todos os casos leves de gripe[span_103](start_span)[span_103](end_span)."
+            },
+            {
+                num: 21,
+                type: "objective",
+                category: "Herpesviridae & Propriedades Biolócias",
+                statement: "Questão 21 - Em relação aos herpesvírus (Família Herpesviridae), analise as afirmativas a seguir e assinale a alternativa que contempla todas as corretas:\nI – Catapora, mononucleose e Roséola são algumas de suas manifestações clínicas.\nII – É um grupo de vírus bastante complexo em termos de estrutura e replicação, podendo apresentar infecções líticas, persistentes, latentes ou imortalizantes.\nIII – Na latência viral dos herpesvírus, temos um fenômeno em que as células do hospedeiro detectam a invasão desses agentes e conseguem bloquear sua replicação até que o sistema imune esteja articulado e concentrado no local da infecção.",
+                options: [
+                    "A. II",
+                    "B. II e III",
+                    "C. I, II e III",
+                    "D. I e II",
+                    "E. III"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Os herpesvírus causam catapora (VZV), mononucleose (EBV) e roséola (HHV-6) (I é verdadeira)[span_104](start_span)[span_104](end_span). Apresentam ciclo biológico complexo com infecção lítica, latente e imunossupressora/oncológica (II é verdadeira)[span_105](start_span)[span_105](end_span). A latência é uma estratégia de evasão do próprio VÍRUS e não uma contenção celular defensiva bem-sucedida da célula (III é falsa)[span_106](start_span)[span_106](end_span).<br><br><b>Justificativa da alternativa correta (D):</b> Estão corretas apenas as afirmações I e II[span_107](start_span)[span_107](end_span).<br><br><b>Por que a III está errada?</b><br>A latência é um programa de expressão gênica reprimida ativamente codificado pelo vírus para se esconder do sistema imune[span_108](start_span)[span_108](end_span)."
+            },
+            {
+                num: 22,
+                type: "objective",
+                category: "Gripe Suína & Terapêutica Antiviral",
+                statement: "Questão 22 - Uma paciente grávida deu entrada no pronto socorro de um hospital com sintomas sugestivos de serem gripe (mal-estar, dor de cabeça, febre, calafrios, mialgia e tosse seca). Isso ocorreu no contexto de um novo surto de gripe suína na capital paulista. Em relação à terapêutica dessa paciente:",
+                options: [
+                    "A. Deve ser administrado apenas antibióticos de amplo espectro associado à RIBAVIRINA.",
+                    "B. Deve ser administrado apenas corticoides, pois a gravidade dos sintomas está relacionada à reação imunológica.",
+                    "C. Não existe tratamento disponível, porque há poucas drogas para lidar com esse grupo de agentes.",
+                    "D. Apenas deve ser feito tratamento sintomático",
+                    "E. Existe a possibilidade de se administrar drogas como o OSELTAMIVIR e a AMANTADINA"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O antiviral Oseltamivir (inibidor da neuraminidase) é o tratamento de escolha indicado para gestantes e grupos de risco com síndrome gripal por Influenza A/H1N1 (gripe suína)[span_109](start_span)[span_109](end_span). A amantadina é um inibidor histórico da proteína M2[span_110](start_span)[span_110](end_span).<br><br><b>Justificativa da alternativa correta (E):</b> O Oseltamivir (Tamiflu) e a Amantadina constituem antivirais indicados contra o vírus Influenza[span_111](start_span)[span_111](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>A está errada:</b> Antibióticos não tratam infecção viral e Ribavirina é teratogênica[span_112](start_span)[span_112](end_span).<br>• <b>C e D estão erradas:</b> Existe indicação formal de antiviral específico em gestantes[span_113](start_span)[span_113](end_span)."
+            },
+            {
+                num: 23,
+                type: "objective",
+                category: "Família Rhabdoviridae & Raiva",
+                statement: "Questão 23 - Em relação aos vírus da Família Rhabdoviridae, analise as seguintes afirmativas e assinale a alternativa correta.\nI - Nesta família temos o causador da ENCEFALITE DE SAINT LOUIS, um vírus envelopado e pleomórfico.\nII - São vírus altamente resistentes no meio ambiente, o que facilita sua disseminação.\nIII – Nessa família temos o vírus rábico, cujo diagnóstico é feito especialmente por imunofluorescência e, mais recentemente, por técnicas moleculares.\nIV - Após ser mordido por um animal suspeito de raiva, deve-se lavar a ferida com água e sabão e aguardar 10 dias. Caso não haja nenhum sinal clínico, a ida ao médico está descartada.",
+                options: [
+                    "A. Apenas as afirmativas I, II e IV estão corretas",
+                    "B. Apenas as afirmativas I e II estão corretas",
+                    "C. Apenas a afirmativa III está correta",
+                    "D. Apenas as afirmativas I, II e III estão corretas",
+                    "E. Apenas as afirmativas I, III e IV estão corretas"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O vírus da Raiva (*Lyssavirus*) pertence à família Rhabdoviridae e seu diagnóstico confirmatório é realizado por imunofluorescência direta e RT-PCR (III é verdadeira)[span_114](start_span)[span_114](end_span). A Encefalite de Saint Louis é causada por um Flavivirus (I é falsa)[span_115](start_span)[span_115](end_span). Rhabdovírus são sensíveis no ambiente (II é falsa)[span_116](start_span)[span_116](end_span). O atendimento médico pós-exposição é imediato (IV é falsa)[span_117](start_span)[span_117](end_span).<br><br><b>Justificativa da alternativa correta (C):</b> Apenas a afirmativa III é verdadeira[span_118](start_span)[span_118](end_span).<br><br><b>Por que as outras afirmativas estão erradas?</b><br>• <b>I:</b> O vírus da encefalite de St. Louis é Flaviviridae[span_119](start_span)[span_119](end_span).<br>• <b>II:</b> Vírus envelopados são lábeis no ambiente[span_120](start_span)[span_120](end_span).<br>• <b>IV:</b> A avaliação médica pós-exposição de risco deve ser imediata[span_121](start_span)[span_121](end_span)."
+            },
+            {
+                num: 24,
+                type: "objective",
+                category: "Profilaxia Antirrábica Humana",
+                statement: "Questão 24 - A notícia acima saiu este ano e representa um caso de preocupação que rompe uma série histórica de controle da doença na cidade de São Paulo [Notícia: 'Raiva canina: São Paulo registra primeiro caso da doença desde 1983']. Nesse caso, embora tenha sido um animal, o risco de haver acidentes com humanos é bastante grande. Isso ficou claro porque esse animal mordeu quatro pessoas de uma clínica. No caso de pessoas que tenham recebido mordedura profunda de um animal sabidamente raivoso, o procedimento deverá ser:",
+                options: [
+                    "A. Apenas vacina antirrábica",
+                    "B. Vacina antirrábica e soro antirrábico (imunoglobulinas) simultaneamente (o soro no local do trauma).",
+                    "C. Interleucina-2 e Interferon gama",
+                    "D. Anticorpos monoclonais humanizados",
+                    "E. Ribavirina e Amantadina"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Na exposição de alto risco a animal raivoso (acidente grave com ferimento profundo), o protocolo oficial do Ministério da Saúde exige a profilaxia pós-exposição completa: vacina antirrábica (imunização ativa) associada ao soro antirrábico/imunoglobulina (imunização passiva), infiltrada preferencialmente no local do trauma[span_122](start_span)[span_122](end_span).<br><br><b>Justificativa da alternativa correta (B):</b> Ferimentos graves por animais raivosos exigem soro/imunoglobulina infiltrados na lesão concomitante com a vacina[span_123](start_span)[span_123](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>Apenas a vacina (A) é insuficiente em acidentes graves por não fornecer anticorpos imediatos na ferida[span_124](start_span)[span_124](end_span)."
+            },
+            {
+                num: 25,
+                type: "objective",
+                category: "Herpesviridae & Latência Viral",
+                statement: "Questão 25 - Os membros da Família Herpesviridae apresentam o fenômeno da LATÊNCIA VIRAL. Esse fenômeno trata-se de:",
+                options: [
+                    "A. Período em que o vírus está dentro das células do hospedeiro sem se multiplicar, esperando que estímulos externos sinalizem que a imunidade do hospedeiro está baixa para que ele possa se multiplicar",
+                    "B. Fenômeno induzido pelo uso de drogas antivirais colinérgicas durante a fase de eclipse da multiplicação viral",
+                    "C. Um período em que o vírus permanece viável no ambiente, resistindo às mais severas condições ambientais",
+                    "D. Período em que o vírus fica encistado sob a pele, esperando o melhor momento para eclodir e parasitar o hospedeiro",
+                    "E. Espaço de tempo entre a adsorção e a translocação viral; pelo fato de ser muito mais longo do que o encontrado em outros vírus, acabou recebendo essa denominação, embora ela não seja, a rigor, tecnicamente correta"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A latência viral dos Herpesvírus é a manutenção do genoma viral no núcleo da célula hospedeira sem a produção de partículas virais infecciosas, podendo reativar-se perante episódios de imunossupressão ou estresse[span_125](start_span)[span_125](end_span).<br><br><b>Justificativa da alternativa correta (A):</b> Define latência como a permanência do genoma viral intracelular reprimido sem replicação ativa, aguardando oportunidade/reativação[span_126](start_span)[span_126](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>B, C, D e E contêm conceitos incorretos sobre latência intracelular[span_127](start_span)[span_127](end_span)."
+            },
+            {
+                num: 26,
+                type: "objective",
+                category: "Herpes-Zóster & Patogênese",
+                statement: "Questão 26 - Paciente de 67 anos viúvo há pouco mais de 3 meses chega ao seu consultório relatando dor cruciante na região das costas e refere aparecimento de “feridas” exatamente no local dessas dores (figura abaixo). Você desconfia de Herpes-Zóster e, nesse caso:",
+                options: [
+                    "A. É possível inferir que ele teve catapora (sintomática ou assintomática) na infância e permaneceu com o vírus todos esse período, até a reemergência da replicação desse mesmo vírus.",
+                    "B. Ele deve ser orientado sobre as formas de infecção dessa doença (transmissão sexual) para que possa prevenir uma futura infecção desse mesmo vírus, praticando sexo seguro.",
+                    "C. É fundamental o diagnóstico pois existe várias entidades clínicas que se apresentam exatamente da mesma forma.",
+                    "D. Embora os sinais clínicos sejam compatíveis, o contexto do indivíduo não é, pois Zóster é uma doença exantemática que afeta apenas crianças pequenas.",
+                    "E. Podemos inferir corretamente que ele e infectou em algum episódio recente de aglomeração, talvez durante o velório da esposa."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O Herpes-Zóster resulta da reativação endógena do Vírus Varicela-Zóster (VZV) latente nos gânglios sensitivos desde a infecção primária (catapora) ocorrida no passado, desencadeada por queda da imunidade celular (ex: estresse do luto ou idade avançada)[span_128](start_span)[span_128](end_span).<br><br><b>Justificativa da alternativa correta (A):</b> O Herpes-Zóster é o resultado da reativação do VZV latente em indivíduos que tiveram catapora pregressa[span_129](start_span)[span_129](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>B está errada:</b> Não é IST[span_130](start_span)[span_130](end_span).<br>• <b>D e E estão erradas:</b> Herpes-zóster é típico de idosos/imunocomprometidos e não decorre de reinfecção exógena recente em aglomerações[span_131](start_span)[span_131](end_span)."
+            },
+            {
+                num: 27,
+                type: "objective",
+                category: "Transmissão do SARS-CoV-2",
+                statement: "Questão 27 - Duas pessoas foram obrigadas a compartilhar um ambiente interno e uma delas estava com COVID-19. Essa pessoa teve um acesso de espirros e resolveu justamente retirar a máscara para que os espirros pudessem sair em toda a sua plenitude. A outra pessoa, percebendo o risco que corria, manteve-se o mais afastada possível (6 metros). Numa situação como essa, o segundo indivíduo, mesmo usando máscara, tem chance de se infectar:",
+                options: [
+                    "A. Inalando os aerossóis espalhados pelo infectado.",
+                    "B. Apenas se tocar em alguma superfície que o primeiro indivíduo tocou.",
+                    "C. Nenhuma alternativa desta questão está correta.",
+                    "D. Inalando as gotículas espalhadas pelo infectado.",
+                    "E. Se a nuvem de gotículas se depositar na sua conjuntiva ou mucosa respiratória."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O SARS-CoV-2 é transmitido por aerossóis (partículas $<5\,\mu\text{m}$) que permanecem suspensos no ar e viajam distâncias superiores a 2 metros em ambientes fechados mal ventilados[span_132](start_span)[span_132](end_span). As gotículas grandes caem rapidamente em até 1-2 metros[span_133](start_span)[span_133](end_span).<br><br><b>Justificativa da alternativa correta (A):</b> A uma distância de 6 metros em ambiente fechado, o contágio ocorre pela inalação de aerossóis virais suspensos no ar[span_134](start_span)[span_134](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>Gotículas pesadas (D e E) não alcançam 6 metros em suspensão[span_135](start_span)[span_135](end_span)."
+            },
+            {
+                num: 28,
+                type: "objective",
+                category: "Receptores do SARS-CoV-2 (ACE-2)",
+                statement: "Questão 28 - O principal receptor para o SARS-CoV-2 é o ACE-2, um receptor de angiotensina. Por conta disso, sabe-se hoje que o SARS-CoV-2 é encontrado em diversos tecidos, EXCETO:",
+                options: [
+                    "A. Fígado",
+                    "B. Pulmões",
+                    "C. Coração",
+                    "D. Nasofaringe",
+                    "E. Hemácias"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> A enzima conversora de angiotensina 2 (ACE-2) é expressa em células epiteliais e endoteliais do trato respiratório, coração, rins, fígado e vasos[span_136](start_span)[span_136](end_span). As hemácias (eritrócitos) são anucleadas e não expressam o receptor de membrana ACE-2[span_137](start_span)[span_137](end_span).<br><br><b>Justificativa da alternativa incorreta (E):</b> As hemácias não expressam ACE-2 e não são infectadas diretamente pelo SARS-CoV-2[span_138](start_span)[span_138](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>Fígado, pulmões, coração e nasofaringe expressam ACE-2 e são alvos do vírus[span_139](start_span)[span_139](end_span)."
+            },
+            {
+                num: 29,
+                type: "objective",
+                category: "Vírus Nipah & Zoonoses Emergentes",
+                statement: "Questão 29 - A notícia ao lado da BBC saiu em setembro deste ano [Notícia: 'Nipah: quais são as chances de vírus mortal chegar ao Brasil ou causar nova pandemia?']. Apesar do tom sensacionalista, não podemos esquecer que eram feitas especulações no passado sobre uma possível pandemia de coronavírus, e isso acabou acontecendo em 2019-2023. Nada impede que uma nova virose se torne uma nova pandemia. Os NIPAH vírus foram tratados em aula. É importante termos noções mínimas sobre ele para nos localizarmos se algum evento epidemiológico importante ocorrer no futuro. Esses vírus pertencem à família ____________ e assustam porque possuem uma taxa de letalidade da ordem de ____________. As principais formas de infecção conhecidas até aqui no ser humano são ____________.\n\nA alternativa que completa de forma correta e respectiva as lacunas acima é:",
+                options: [
+                    "A. Família Coronaviridae / 40 a 75% / Consumo de carne de morcego e contato com pessoas infectadas",
+                    "B. Família Paramyxoviridae / 40 a 75% / Consumo de carne de cavalo e proximidade com outras pessoas infectadas",
+                    "C. Família Picornaviridae / 40 a 100% / Consumo de carne de cavalo e proximidade com outras pessoas infectada",
+                    "D. Família Paramyxoviridae / 4 a 6% / Proximidade com outras pessoas infectadas",
+                    "E. Família Coronaviridae / 4 a 5% / Contato com pessoas infectadas e ingestão de carne de cavalo crua"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O vírus Nipah é um Henipavirus pertencente à família **Paramyxoviridae**[span_140](start_span)[span_140](end_span). É uma zoonose grave com alta taxa de letalidade (estimada em **40% a 75%**)[span_141](start_span)[span_141](end_span). A transmissão ocorre por contato com suínos/cavalos infectados, alimentos contaminados por excreta de morcegos e transmissão interhumana[span_142](start_span)[span_142](end_span).<br><br><b>Justificativa da alternativa correta (B):</b> Completa com precisão: Família Paramyxoviridae / 40 a 75% / Consumo de carne/alimentos contaminados (como derivados expostos a morcegos/cavalos) e transmissão interpessoal[span_143](start_span)[span_143](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>O Nipah não é Coronaviridae nem Picornaviridae[span_144](start_span)[span_144](end_span)."
+            },
+            {
+                num: 30,
+                type: "objective",
+                category: "Gripe Aviária (H5N1) & Potencial Pandêmico",
+                statement: "Questão 30 - O espectro de uma pandemia por linhagens de influenzavírus aviários (Gripe aviária) aterroriza o mundo dada a sua alta taxa de LETALIDADE (até 60%). No entanto, essa linhagem não conseguiu causar pandemias em tempos modernos porque:",
+                options: [
+                    "A. Nenhuma alternativa desta questão está correta.",
+                    "B. A distribuição rápida de drogas antivirais previne o surgimento de pandemias.",
+                    "C. Temos um programa mundial de vacinação contra a gripe muito eficiente, mesmo em países subdesenvolvidos.",
+                    "D. Nunca houve a passagem desse vírus para seres humanos.",
+                    "E. Embora o vírus da gripe aviária consiga, ocasionalmente, saltar das aves para os seres humanos, ele ainda não é capaz de fazer uma eficiente transmissão pessoa a pessoa."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O vírus da Influenza Aviária de alta patogenicidade (como H5N1) infecta humanos expostos a aves infectadas, porém não possui adaptação nos receptores de hemaglutinina para realizar sustentadamente a transmissão interhumana (pessoa a pessoa)[span_145](start_span)[span_145](end_span).<br><br><b>Justificativa da alternativa correta (E):</b> Falta ao vírus aviário a capacidade de transmissão direta e sustentada entre seres humanos[span_146](start_span)[span_146](end_span).<br><br><b>Por que as outras estão incorretas?</b><br>• <b>D está errada:</b> Ocorrem casos graves de transmissão de aves para humanos[span_147](start_span)[span_147](end_span)."
+            }
+        ];
+
+        /* ==========================================================================
+           2. ESTADO GLOBAL, CONFIGURAÇÕES E MOTOR DO SISTEMA
+           ========================================================================== */
+        let currentModuleType = 'objective'; 
+        let currentQuestions = [];
+        let currentQIndex = 0;
+        let userAnswers = []; 
+        let userConfidence = []; 
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let fontDelta = 0;
+        let gridFilter = 'ALL';
+        let isForceMobile = false;
+        let isDarkMode = false;
+
+        /* CRONÔMETRO */
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+
+        /* CONFIGURAÇÕES PADRÃO */
+        let appSettings = {
+            showTimer: true,
+            showAvgTime: true,
+            showConfidence: true,
+            showHistory: true,
+            showNotes: true,
+            showChart: true,
+            showToolbar: true,
+            showGrid: true
+        };
+
+        let isPenActive = false;
+        let isEraserActive = false;
+        let isDrawing = false;
+
+        window.onload = function() {
+            populateTopicFilter();
+            loadSettings();
+            loadState();
+            renderHistory();
+            initFloatingWidget();
+        };
+
+        /* MODO ESCURO (DARK MODE) */
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            
+            const btnTheme = document.getElementById('theme-toggle-btn');
+            const hudBtns = document.querySelectorAll('.hud-theme-btn');
+            const cfgDark = document.getElementById('cfg-darkmode');
+
+            if (btnTheme) btnTheme.innerText = isDarkMode ? '☀️ Light' : '🌙 Dark';
+            hudBtns.forEach(b => b.innerText = isDarkMode ? '☀️️ Light' : '🌙 Dark');
+            if (cfgDark) cfgDark.checked = isDarkMode;
+
+            saveState();
+        }
+
+        /* CONFIGURAÇÕES DO PAINEL */
+        function openSettingsModal() {
+            document.getElementById('cfg-darkmode').checked = isDarkMode;
+            document.getElementById('cfg-timer').checked = appSettings.showTimer;
+            document.getElementById('cfg-avgtime').checked = appSettings.showAvgTime;
+            document.getElementById('cfg-confidence').checked = appSettings.showConfidence;
+            document.getElementById('cfg-history').checked = appSettings.showHistory;
+            document.getElementById('cfg-notes').checked = appSettings.showNotes;
+            document.getElementById('cfg-chart').checked = appSettings.showChart;
+            document.getElementById('cfg-toolbar').checked = appSettings.showToolbar;
+            document.getElementById('cfg-grid').checked = appSettings.showGrid;
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            appSettings.showTimer = document.getElementById('cfg-timer').checked;
+            appSettings.showAvgTime = document.getElementById('cfg-avgtime').checked;
+            appSettings.showConfidence = document.getElementById('cfg-confidence').checked;
+            appSettings.showHistory = document.getElementById('cfg-history').checked;
+            appSettings.showNotes = document.getElementById('cfg-notes').checked;
+            appSettings.showChart = document.getElementById('cfg-chart').checked;
+            appSettings.showToolbar = document.getElementById('cfg-toolbar').checked;
+            appSettings.showGrid = document.getElementById('cfg-grid').checked;
+
+            saveSettings();
+            applySettings();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('simulado_micro2023_settings', JSON.stringify(appSettings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('simulado_micro2023_settings');
+            if (saved) {
+                try {
+                    appSettings = { ...appSettings, ...JSON.parse(saved) };
+                } catch(e) { console.error(e); }
+            }
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('hud-timer-stat').style.display = appSettings.showTimer ? 'flex' : 'none';
+            document.getElementById('hud-avgtime-stat').style.display = appSettings.showAvgTime ? 'flex' : 'none';
+            document.getElementById('history-section').style.display = appSettings.showHistory ? 'block' : 'none';
+            document.getElementById('notes-card-box').style.display = appSettings.showNotes ? 'block' : 'none';
+            document.getElementById('chart-card-box').style.display = appSettings.showChart ? 'block' : 'none';
+            
+            const widget = document.getElementById('floating-widget');
+            if (widget) {
+                const isGameHudVisible = document.getElementById('game-hud').style.display === 'flex';
+                widget.style.display = (appSettings.showToolbar && isGameHudVisible) ? 'flex' : 'none';
+            }
+            
+            document.getElementById('grid-card-box').style.display = appSettings.showGrid ? 'block' : 'none';
+        }
+
+        /* TIMER LOGIC */
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalElapsedSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').innerText = `${mins}:${secs}`;
+        }
+
+        /* ALTERNADOR DE MODO CELULAR MANUAL */
+        function toggleMobileLayout() {
+            isForceMobile = !isForceMobile;
+            applyLayoutMode();
+            saveState();
+        }
+
+        function applyLayoutMode() {
+            document.body.classList.toggle('force-mobile-mode', isForceMobile);
+            const btns = document.querySelectorAll('.btn-layout-toggle-class');
+            btns.forEach(btn => {
+                btn.innerText = isForceMobile ? '📱 Modo Celular: LIGADO' : '📱 Modo Celular: AUTO';
+                if (isForceMobile) {
+                    btn.style.background = 'var(--accent-yellow)';
+                    btn.style.color = '#fff';
+                } else {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            });
+        }
+
+        /* LÓGICA DE SELEÇÃO MULTI-TEMA */
+        function populateTopicFilter() {
+            const container = document.getElementById('topic-checkbox-list');
+            container.innerHTML = '';
+
+            const categories = [...new Set(objectiveQuestions.map(q => q.category))].sort();
+
+            let html = `
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; cursor: pointer; color: var(--text-main); font-weight: bold;">
+                    <input type="checkbox" value="ALL" id="cb-all-topics" checked onchange="toggleAllTopics(this)">
+                    [Selecionar Todos os Temas]
+                </label>
+                <hr style="border: 0; border-top: 1px solid var(--border-glow); margin: 8px 0;">
+            `;
+
+            categories.forEach((cat) => {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.88rem; cursor: pointer; color: var(--text-main);">
+                        <input type="checkbox" class="topic-cb" value="${cat}" checked onchange="updateTopicSelection()">
+                        ${cat}
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateTopicBtnLabel();
+        }
+
+        function toggleTopicDropdown() {
+            const list = document.getElementById('topic-checkbox-list');
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('#topic-dropdown-wrapper')) {
+                const list = document.getElementById('topic-checkbox-list');
+                if (list) list.style.display = 'none';
+            }
+        };
+
+        function toggleAllTopics(source) {
+            const cbs = document.querySelectorAll('.topic-cb');
+            cbs.forEach(cb => cb.checked = source.checked);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicSelection() {
+            const cbs = document.querySelectorAll('.topic-cb');
+            const allCb = document.getElementById('cb-all-topics');
+            const total = cbs.length;
+            const checkedCount = document.querySelectorAll('.topic-cb:checked').length;
+
+            allCb.checked = (checkedCount === total);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicBtnLabel() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            const total = document.querySelectorAll('.topic-cb').length;
+            const btn = document.getElementById('topic-dropdown-btn');
+
+            if (checked.length === 0) {
+                btn.innerText = 'Nenhum tema ▾';
+            } else if (checked.length === total) {
+                btn.innerText = 'Todos os Temas ▾';
+            } else if (checked.length === 1) {
+                btn.innerText = `${checked[0].value.substring(0, 16)}... ▾`;
+            } else {
+                btn.innerText = `${checked.length} Temas Selecionados ▾`;
+            }
+        }
+
+        function getSelectedTopics() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        /* INICIALIZAÇÃO DE MÓDULO */
+        function startModule(moduleType) {
+            currentModuleType = 'objective';
+            gameMode = document.getElementById('game-mode-select').value;
+            const selectedTopics = getSelectedTopics();
+
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema para iniciar.');
+                return;
+            }
+
+            let baseQuestions = objectiveQuestions.map(q => ({...q}));
+
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                baseQuestions = baseQuestions.filter(q => selectedTopics.includes(q.category));
+            }
+
+            if (baseQuestions.length === 0) {
+                alert('Não há questões correspondentes aos temas selecionados.');
+                return;
+            }
+
+            currentQuestions = baseQuestions;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            isPenActive = false;
+            isEraserActive = false;
+
+            const moduleTitle = `SIMULADO MICROBIOLOGIA FMJ 2023 (${gameMode.toUpperCase()})`;
+            
+            document.getElementById('quiz-title-badge').innerText = moduleTitle;
+            document.getElementById('quiz-title-badge').style.color = '#2563eb';
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+
+            resetTimer();
+            startTimer();
+
+            setupGrifoEvents();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+            saveState();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            renderHistory();
+        }
+
+        function changeFontSize(delta) {
+            fontDelta = Math.max(-2, Math.min(4, fontDelta + delta));
+            const stmt = document.getElementById('q-statement');
+            stmt.style.fontSize = (1.08 + fontDelta * 0.1) + 'rem';
+            document.querySelectorAll('.opt-btn').forEach(b => {
+                b.style.fontSize = (0.98 + fontDelta * 0.1) + 'rem';
+            });
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = '#f59e0b';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#d97706';
+                btn.innerText = '🚩 Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+                btn.innerText = '🚩 Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                btn.id = `nav-btn-${idx}`;
+                
+                let label = idx + 1;
+                if (isFlagged) label += ' 🚩';
+                btn.innerText = label;
+
+                if (isAnswered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        btn.classList.add('answered-realista-q');
+                    }
+                }
+
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => { loadQuestion(idx); };
+                grid.appendChild(btn);
+            });
+        }
+
+        /* CANETA GRIFO E BORRACHA */
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            const btnPen = document.getElementById('btn-highlight');
+            const btnEraser = document.getElementById('btn-eraser');
+
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            if (isPenActive) {
+                btnPen.style.background = 'var(--hl-bg)';
+                btnPen.style.color = 'var(--hl-text)';
+                btnPen.innerText = '🖍 Marca-texto';
+            } else {
+                btnPen.style.background = '';
+                btnPen.style.color = '';
+                btnPen.innerText = '🖍️ Marca-texto';
+            }
+
+            if (isEraserActive) {
+                btnEraser.style.background = '#fee2e2';
+                btnEraser.style.color = '#991b1b';
+                btnEraser.innerText = '🧽 Borracha';
+            } else {
+                btnEraser.style.background = '';
+                btnEraser.style.color = '';
+                btnEraser.innerText = '🧽 Borracha';
+            }
+        }
+
+        /* LÓGICA DO BOTÃO FLUTUANTE MOVÍVEL */
+        function initFloatingWidget() {
+            const container = document.getElementById('floating-widget');
+            const mainBtn = document.getElementById('floating-main-btn');
+            const menu = document.getElementById('floating-menu');
+
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+            let hasDragged = false;
+
+            mainBtn.addEventListener('click', (e) => {
+                if (!hasDragged) {
+                    menu.classList.toggle('open');
+                }
+            });
+
+            function onPointerDown(e) {
+                isDragging = true;
+                hasDragged = false;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                startX = clientX;
+                startY = clientY;
+
+                const rect = container.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                document.addEventListener('mousemove', onPointerMove);
+                document.addEventListener('mouseup', onPointerUp);
+                document.addEventListener('touchmove', onPointerMove, { passive: false });
+                document.addEventListener('touchend', onPointerUp);
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const deltaX = clientX - startX;
+                const deltaY = clientY - startY;
+
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    hasDragged = true;
+                }
+
+                let newLeft = initialLeft + deltaX;
+                let newTop = initialTop + deltaY;
+
+                const maxLeft = window.innerWidth - container.offsetWidth;
+                const maxTop = window.innerHeight - container.offsetHeight;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                container.style.left = newLeft + 'px';
+                container.style.top = newTop + 'px';
+                container.style.right = 'auto';
+                container.style.bottom = 'auto';
+
+                if (e.cancelable) e.preventDefault();
+            }
+
+            function onPointerUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onPointerMove);
+                document.removeEventListener('mouseup', onPointerUp);
+                document.removeEventListener('touchmove', onPointerMove);
+                document.removeEventListener('touchend', onPointerUp);
+            }
+
+            mainBtn.addEventListener('mousedown', onPointerDown);
+            mainBtn.addEventListener('touchstart', onPointerDown, { passive: true });
+        }
+
+        function renderStatementWithWords(text) {
+            const container = document.getElementById('q-statement');
+            container.innerHTML = '';
+
+            const lines = text.split('\n');
+            lines.forEach((line, lIdx) => {
+                const chunks = line.split(/(\s+)/);
+                chunks.forEach(chunk => {
+                    if (chunk.trim().length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'hl-word';
+                        span.innerText = chunk;
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(chunk));
+                    }
+                });
+                if (lIdx < lines.length - 1) {
+                    container.appendChild(document.createElement('br'));
+                }
+            });
+        }
+
+        function setupGrifoEvents() {
+            const qStmt = document.getElementById('q-statement');
+
+            function markWordAtEvent(e) {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                let target = e.target;
+                if (e.touches && e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    target = document.elementFromPoint(touch.clientX, touch.clientY);
+                }
+                if (target && target.classList && target.classList.contains('hl-word')) {
+                    if (isPenActive) {
+                        target.classList.add('marked');
+                    } else if (isEraserActive) {
+                        target.classList.remove('marked');
+                    }
+                }
+            }
+
+            qStmt.addEventListener('mousedown', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            });
+
+            qStmt.addEventListener('mousemove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                markWordAtEvent(e);
+            });
+
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            qStmt.addEventListener('touchstart', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            }, { passive: true });
+
+            qStmt.addEventListener('touchmove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                if (e.cancelable) e.preventDefault();
+                markWordAtEvent(e);
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        }
+
+        /* NAVEGAÇÃO E SELEÇÃO DE QUESTÕES */
+        function loadQuestion(idx) {
+            if (currentQIndex !== null) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            isPenActive = false;
+            isEraserActive = false;
+            updatePenEraserUI();
+            updateFlagUI();
+
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            
+            const categoryTag = document.getElementById('q-category');
+            categoryTag.innerText = q.category.toUpperCase();
+
+            renderStatementWithWords(q.statement);
+            changeFontSize(0);
+
+            const optsContainer = document.getElementById('options-group');
+            const expPanel = document.getElementById('explanation-panel');
+            const confBox = document.getElementById('confidence-box');
+            const btnConfirm = document.getElementById('btn-confirm');
+
+            optsContainer.style.display = 'flex';
+            optsContainer.innerHTML = '';
+            btnConfirm.style.display = 'none';
+
+            const answered = userAnswers[idx] !== null;
+
+            if (appSettings.showConfidence && !answered) {
+                confBox.style.display = 'block';
+            } else {
+                confBox.style.display = 'none';
+            }
+
+            updateConfidenceUI();
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.id = `opt-btn-${optIdx}`;
+                btn.innerText = optText;
+
+                if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                    btn.classList.add('strikethrough');
+                }
+
+                if (answered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        btn.classList.add('disabled');
+                        if (optIdx === q.correct) {
+                            btn.classList.add('correct-choice');
+                        }
+                        if (userAnswers[idx] === optIdx && optIdx !== q.correct) {
+                            btn.classList.add('incorrect-choice');
+                        }
+                    } else {
+                        if (userAnswers[idx] === optIdx) {
+                            btn.classList.add('selected-choice');
+                        }
+                        btn.onclick = () => selectOption(optIdx);
+                        btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                    btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                }
+
+                optsContainer.appendChild(btn);
+            });
+
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                expPanel.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = q.context;
+            } else {
+                expPanel.style.display = 'none';
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+
+            const btnNext = document.getElementById('btn-next');
+            if (idx === currentQuestions.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.disabled = false;
+            } else {
+                btnNext.innerText = "Próxima →";
+                btnNext.disabled = false;
+            }
+        }
+
+        /* FUNÇÕES DAS QUESTÕES OBJETIVAS */
+        function setConfidence(level) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            const btnCert = document.getElementById('conf-btn-certeza');
+            const btnChute = document.getElementById('conf-btn-chute');
+
+            btnCert.classList.toggle('active-certain', selectedConfidence === 'certeza');
+            btnChute.classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            if (strikethroughState[currentQIndex] && strikethroughState[currentQIndex][optIdx]) return;
+
+            selectedOptionIndex = optIdx;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function toggleStrikethrough(optIdx, e) {
+            if (e) e.preventDefault();
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+
+            if (!strikethroughState[currentQIndex]) {
+                strikethroughState[currentQIndex] = [false, false, false, false, false];
+            }
+
+            strikethroughState[currentQIndex][optIdx] = !strikethroughState[currentQIndex][optIdx];
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+            if (btn) {
+                btn.classList.toggle('strikethrough', strikethroughState[currentQIndex][optIdx]);
+            }
+
+            if (strikethroughState[currentQIndex][optIdx] && selectedOptionIndex === optIdx) {
+                selectedOptionIndex = null;
+                if (btn) btn.classList.remove('selected-choice');
+                document.getElementById('btn-confirm').style.display = 'none';
+            }
+            saveState();
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+
+            const optIdx = selectedOptionIndex;
+            userAnswers[currentQIndex] = optIdx;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+            const q = currentQuestions[currentQIndex];
+            const isCorrect = optIdx === q.correct;
+
+            if (isCorrect) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+                if (streak >= 2 && gameMode === 'estudo') {
+                    const badge = document.getElementById('combo-badge');
+                    badge.style.display = 'inline-block';
+                    badge.innerText = `🔥 COMBO x${streak}!`;
+                }
+            } else {
+                streak = 0;
+                document.getElementById('combo-badge').style.display = 'none';
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+            saveState();
+        }
+
+        function saveNote(text) {
+            questionNotes[currentQIndex] = text;
+            saveState();
+        }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            let totalSecondsSpent = 0;
+
+            currentQuestions.forEach((q, i) => {
+                totalSecondsSpent += (questionTimes[i] || 0);
+
+                if (userAnswers[i] !== null) {
+                    answered++;
+                    if (userAnswers[i] === q.correct) correct++;
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            const avgTime = answered > 0 ? Math.round(totalSecondsSpent / answered) : 0;
+
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+            document.getElementById('hud-avgtime').innerText = `${avgTime}s`;
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) {
+                showReport();
+            } else if (currentQIndex < currentQuestions.length - 1) {
+                loadQuestion(currentQIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                loadQuestion(currentQIndex - 1);
+            }
+        }
+
+        function resetQuiz() {
+            if (confirm(`Tem certeza de que deseja recomeçar este módulo?`)) {
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                userConfidence = new Array(currentQuestions.length).fill(null);
+                questionTimes = new Array(currentQuestions.length).fill(0);
+                strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+                questionNotes = new Array(currentQuestions.length).fill('');
+                flaggedQuestions = new Array(currentQuestions.length).fill(false);
+                score = 0;
+                streak = 0;
+                isFinished = false;
+                selectedOptionIndex = null;
+                selectedConfidence = null;
+
+                resetTimer();
+                startTimer();
+
+                document.getElementById('combo-badge').style.display = 'none';
+                updateHUD();
+                drawChart();
+                if (document.getElementById('report-screen').style.display === 'block') {
+                    hideReport();
+                }
+                loadQuestion(0);
+                saveState();
+            }
+        }
+
+        /* GRÁFICO REAL-TIME EM CANVAS */
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 160;
+            canvas.height = 160;
+
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            currentQuestions.forEach((q, i) => {
+                const ans = userAnswers[i];
+                if (ans === null) unanswered++;
+                else if (ans === q.correct) correct++;
+                else incorrect++;
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const total = currentQuestions.length;
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 65;
+            const innerRadius = 46;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#f87171' },
+                { val: unanswered, color: isDarkMode ? '#334155' : '#e2e8f0' }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                startAngle += sliceAngle;
+            });
+        }
+
+        /* RELATÓRIO FINAL + HISTÓRICO + MÉTRICAS DE TEMPO */
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0;
+            let answered = 0;
+            let totalSecs = 0;
+            let certainCorrect = 0;
+            let guessCorrect = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) {
+                    catStats[cat] = { total: 0, correct: 0 };
+                }
+                catStats[cat].total++;
+
+                totalSecs += (questionTimes[idx] || 0);
+
+                const ans = userAnswers[idx];
+                if (ans !== null) {
+                    answered++;
+                    if (ans === q.correct) {
+                        correct++;
+                        catStats[cat].correct++;
+                        if (userConfidence[idx] === 'chute') guessCorrect++;
+                        else certainCorrect++;
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            const avgTimeSecs = answered > 0 ? Math.round(totalSecs / answered) : 0;
+
+            const minsStr = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secsStr = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('rep-total-time').innerText = `${minsStr}:${secsStr}`;
+            document.getElementById('rep-avg-time').innerText = `${avgTimeSecs}s / questão`;
+            
+            const confBoxSum = document.getElementById('rep-conf-box-summary');
+            confBoxSum.style.display = 'block';
+            document.getElementById('rep-conf-ratio').innerText = `${certainCorrect} / ${guessCorrect}`;
+
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            const editionName = 'SIMULADO MICROBIOLOGIA FMJ 2023';
+            document.getElementById('rep-edition-title').innerText = `📊 DIAGNÓSTICO DE DESEMPENHO (${editionName})`;
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            document.getElementById('rep-status-msg').innerText = `Você respondeu ${answered} de ${currentQuestions.length} questões com ${score} pontos totais.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            let weakCategories = [];
+
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                if (pct < 70) weakCategories.push(catName);
+
+                const tr = document.createElement('tr');
+                const badgeClass = pct >= 70 ? 'color: #10b981;' : 'color: #f59e0b;';
+                const badgeText = pct >= 70 ? '🟢 Excelente' : '🟡 Revisar';
+
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td>${stats.total}</td>
+                    <td>${stats.correct}</td>
+                    <td>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: ${pct}%; background: ${pct < 60 ? '#f87171' : pct < 80 ? '#f59e0b' : '#10b981'};"></div>
+                        </div>
+                        <b>${pct}%</b>
+                    </td>
+                    <td style="${badgeClass}"><b>${badgeText}</b></td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const diagBox = document.getElementById('rep-diagnostic-text');
+            if (weakCategories.length > 0) {
+                diagBox.innerHTML = `Com base no seu aproveitamento, sugerimos focar a revisão nos temas:<br>👉 <b style="color: #f59e0b;">${weakCategories.join(', ')}</b>.`;
+            } else {
+                diagBox.innerHTML = `🎉 Desempenho fantástico! Seu aproveitamento superou 70% em todas as categorias da prova de Microbiologia 2023.`;
+            }
+
+            saveAttemptToHistory(editionName, overallPercent, score, `${minsStr}:${secsStr}`);
+            saveState();
+        }
+
+        function saveAttemptToHistory(edition, pct, pts, timeStr) {
+            let history = JSON.parse(localStorage.getItem('simulado_micro2023_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                edition,
+                pct,
+                pts,
+                timeStr
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('simulado_micro2023_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-content');
+            let history = JSON.parse(localStorage.getItem('simulado_micro2023_history') || '[]');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>';
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const color = item.pct >= 70 ? '#10b981' : (item.pct >= 50 ? '#f59e0b' : '#f87171');
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <b>${item.edition}</b> <span style="color: var(--text-muted); font-size: 0.8rem;">(${item.date})</span><br>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Tempo: ${item.timeStr} | ${item.pts} PTS</span>
+                        </div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: ${color};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (confirm('Deseja realmente apagar o histórico de desempenho?')) {
+                localStorage.removeItem('simulado_micro2023_history');
+                renderHistory();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function hideReport() {
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+            startTimer();
+            loadQuestion(currentQIndex);
+        }
+
+        function startCadernoErros() {
+            const errorQs = [];
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null && userAnswers[idx] !== q.correct) errorQs.push(q);
+            });
+
+            if (errorQs.length === 0) {
+                alert('Você não cometeu erros neste simulado!');
+                return;
+            }
+
+            currentQuestions = errorQs;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            document.getElementById('quiz-title-badge').innerText = `CADERNO DE ERROS (${currentQuestions.length} Qs)`;
+            document.getElementById('quiz-title-badge').style.color = '#dc2626';
+
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+        }
+
+        function exportNotesAndReport() {
+            let correct = 0;
+            let answered = 0;
+
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null) {
+                    answered++;
+                    if (userAnswers[idx] === q.correct) correct++;
+                }
+            });
+
+            const overallPercent = answered > 0 ? Math.round((correct / currentQuestions.length) * 100) : 0;
+            const editionName = 'SIMULADO MICROBIOLOGIA FMJ 2023';
+
+            let text = `==================================================\n`;
+            text += `   RELATÓRIO E ANOTAÇÕES - MICROBIOLOGIA FMJ 2023\n`;
+            text += `==================================================\n\n`;
+            text += `Módulo: ${editionName}\n`;
+            text += `Aproveitamento Geral: ${overallPercent}%\n`;
+            text += `Questões Respondidas: ${answered} de ${currentQuestions.length}\n`;
+            text += `Pontuação Total: ${score} PTS\n\n`;
+            text += `--------------------------------------------------\n`;
+            text += ` DETALHAMENTO DAS QUESTÕES E ANOTAÇÕES DA SESSÃO\n`;
+            text += `--------------------------------------------------\n\n`;
+
+            currentQuestions.forEach((q, idx) => {
+                let status = 'Não Respondida';
+                let userContent = '';
+
+                const userAns = userAnswers[idx];
+                if (userAns !== null) {
+                    status = userAns === q.correct ? 'ACERTOU (🟢)' : 'ERROU (🔴)';
+                    userContent = `Opção Escolhida: ${q.options[userAns]}`;
+                }
+
+                const flag = flaggedQuestions[idx] ? ' [SINALIZADA COM DÚVIDA 🚩]' : '';
+                const timeSpent = questionTimes[idx] ? ` [Tempo: ${questionTimes[idx]}s]` : '';
+                const note = questionNotes[idx] ? questionNotes[idx] : '(Sem anotações)';
+
+                text += `Questão ${idx + 1} - Tema: ${q.category}${flag}${timeSpent}\n`;
+                text += `Status: ${status}\n`;
+                if (userContent) text += `${userContent}\n`;
+                text += `Sua Anotação: ${note}\n`;
+                text += `--------------------------------------------------\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_Microbiologia_FMJ_2023_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function restartGame() {
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+            saveState();
+        }
+
+        /* PERSISTÊNCIA AUTOMÁTICA EM LOCALSTORAGE */
+        function saveState() {
+            const state = {
+                currentModuleType,
+                userAnswers,
+                userConfidence,
+                questionTimes,
+                totalElapsedSeconds,
+                strikethroughState,
+                questionNotes,
+                flaggedQuestions,
+                score,
+                streak,
+                gameMode,
+                isFinished,
+                isForceMobile,
+                isDarkMode
+            };
+            localStorage.setItem('simulado_micro2023_state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('simulado_micro2023_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.isForceMobile !== undefined) {
+                        isForceMobile = state.isForceMobile;
+                        applyLayoutMode();
+                    }
+                    if (state.isDarkMode !== undefined && state.isDarkMode !== isDarkMode) {
+                        toggleTheme();
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos', e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
