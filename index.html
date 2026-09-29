@@ -179,7 +179,7 @@
 
     .grid-bimestres {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 16px;
       padding: 4px;
     }
@@ -786,7 +786,7 @@
         <strong>Como vincular à Matéria e sua respectiva Divisão:</strong>
         <ol>
           <li>Crie o arquivo HTML do novo simulado.</li>
-          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a identificação da divisão (ex: <code>-m1</code> ou <code>-modulo1</code> para Fisiologia; <code>-am4</code> ou <code>-aulas-m4</code> para Aulas do Módulo 4; <code>-am5</code> para Aulas do Módulo 5; <code>-p1</code> ou <code>-prova1</code> para Farmaco e Propedêutica; <code>-b1</code> ou <code>-b2</code> para as demais).</li>
+          <li>Nomeie com a <strong>palavra-chave da matéria</strong> + a identificação da divisão (ex: <code>-m1</code> ou <code>-modulo1</code> para Fisiologia; <code>-p1</code> ou <code>-prova1</code> para Farmaco e Propedêutica; <code>-b1</code> ou <code>-b2</code> para as demais).</li>
           <li>Suba no GitHub! O site sincronizará automaticamente.</li>
         </ol>
       </div>
@@ -801,7 +801,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Fisiologia</td><td>5 Módulos / Aulas M4 e M5</td><td>fisio-modulo1.html / fisio-am4.html</td><td>fisio-modulo5.html / fisio-am5.html</td></tr>
+          <tr><td>Fisiologia</td><td>5 Módulos</td><td>fisio-modulo1.html</td><td>fisio-modulo5.html</td></tr>
           <tr><td>Microbiologia</td><td>4 Bimestres</td><td>micro-b1.html</td><td>micro-b4.html</td></tr>
           <tr><td>Parasitologia</td><td>4 Bimestres</td><td>parasito-b1.html</td><td>parasito-b4.html</td></tr>
           <tr><td>Patologia</td><td>4 Bimestres</td><td>patologia-b1.html</td><td>patologia-b4.html</td></tr>
@@ -837,11 +837,11 @@
       'farmaco-p2-Simulado-2023.html',
       'imunologia-b4-Simulado-2025.html',
       'imunologia-b4-Simulado-2024.html',
-      'fisiologia-am4-Aula 1 - Introdução e Hipófise.html',
+      'fisiologia-m1-Aula 1 - Introdução e Hipófise.html',
       'fisiologia-m4-Endocrino em Grupo.html',
       'micro-b4-Simulado 2025.html',
       'patologia-b3-Simulado-2025.html',
-      'fisiologia-am4-Aula 2 - Hormônios Pancreáticos.html'
+      'fisiologia-m1-Aula 2 - Hormônios Pancreáticos.html'
     ];
 
     const GITHUB_USER = 'user210398-afk'; 
@@ -856,10 +856,6 @@
         divisaoTipo: 'Módulo',
         divisaoPlural: 'Módulos',
         qtdDivisoes: 5,
-        divisoesExtras: [
-          { id: 'am4', nome: 'Aulas do Módulo 4', desc: 'Conteúdos e aulas do Módulo 4.' },
-          { id: 'am5', nome: 'Aulas do Módulo 5', desc: 'Conteúdos e aulas do Módulo 5.' }
-        ],
         divisaoRegex: /(?:modulo|módulo|m)[_\s-]*([1-5])/i
       },
       'micro': {
@@ -932,26 +928,8 @@
     let materiaAtualChave = '';
     let materiaAtualNome = '';
     let bimestreAtual = null;
-    let simuladoAbertoAtual = null;
 
     let concluidos = JSON.parse(localStorage.getItem('simulados_concluidos') || '[]');
-
-    // Ouvinte de mensagens enviadas de dentro do iframe para confirmar a conclusão do simulado
-    window.addEventListener('message', function(event) {
-      if (event.data && (event.data === 'simulado_concluido' || event.data.type === 'simulado_concluido')) {
-        const arquivo = event.data.arquivo || simuladoAbertoAtual;
-        if (arquivo) {
-          marcarComoConcluido(arquivo);
-        }
-      }
-    });
-
-    function marcarComoConcluido(arquivoOriginal) {
-      if (arquivoOriginal && !concluidos.includes(arquivoOriginal)) {
-        concluidos.push(arquivoOriginal);
-        localStorage.setItem('simulados_concluidos', JSON.stringify(concluidos));
-      }
-    }
 
     // BANCO DE DADOS DO CALENDÁRIO COM MATÉRIAS E TURNOS DESCRITOS
     const dadosCronograma = {
@@ -1253,16 +1231,6 @@
       const mat = mapaMaterias[chaveMateria];
       const maxDiv = mat ? mat.qtdDivisoes : 4;
 
-      // Verificação especial de Aulas do Módulo 4 e 5 (ex: -am4, -aulas-m4, -am5)
-      if (chaveMateria === 'fisiologia') {
-        if (/(?:^|[-_\s])aulas?[_\s-]*m(?:odulo|ódulo)?4(?=$\vert{}[-_\s.])/i.test(nomeLower) \vert{}\vert{} /(?:^\vert{}[-_\s])am4(?=$|[-_\s.])/i.test(nomeLower)) {
-          return 'am4';
-        }
-        if (/(?:^|[-_\s])aulas?[_\s-]*m(?:odulo|ódulo)?5(?=$\vert{}[-_\s.])/i.test(nomeLower) \vert{}\vert{} /(?:^\vert{}[-_\s])am5(?=$|[-_\s.])/i.test(nomeLower)) {
-          return 'am5';
-        }
-      }
-
       if (mat && mat.divisaoRegex) {
         const mCustom = nomeLower.match(mat.divisaoRegex);
         if (mCustom) return Math.min(parseInt(mCustom[1]), maxDiv);
@@ -1306,7 +1274,7 @@
 
       if (estadoAtual === 'bimestres') {
         atualizarContadoresBimestres();
-      } else if (estadoAtual === 'simulados' && bimestreAtual !== null) {
+      } else if (estadoAtual === 'simulados' && bimestreAtual) {
         abrirBimestre(bimestreAtual);
       } else if (estadoAtual === 'simulados_busca') {
         filtrarSimuladosPorBusca();
@@ -1335,19 +1303,6 @@
         const el = document.getElementById(`count-b${b}`);
         if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
       }
-
-      if (mat.divisoesExtras) {
-        mat.divisoesExtras.forEach(ext => {
-          const count = listaDeArquivos.filter(arquivo => {
-            const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
-            if (!pertenceMateria) return false;
-            return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === ext.id;
-          }).length;
-
-          const el = document.getElementById(`count-b-${ext.id}`);
-          if (el) el.innerText = `${count} simulado${count !== 1 ? 's' : ''}`;
-        });
-      }
     }
 
     function selecionarMateria(prefixoChave, nomeMateria) {
@@ -1367,6 +1322,7 @@
       document.getElementById('titulo-secao-divisoes').innerText = `Selecione (${tipoDivisao})`;
 
       const container = document.getElementById('container-divisoes');
+      container.style.gridTemplateColumns = `repeat(${Math.min(numDivisoes, 5)}, 1fr)`;
       container.innerHTML = '';
 
       for (let i = 1; i <= numDivisoes; i++) {
@@ -1386,25 +1342,6 @@
         container.appendChild(divCard);
       }
 
-      if (mat && mat.divisoesExtras) {
-        mat.divisoesExtras.forEach(ext => {
-          const divCard = document.createElement('div');
-          divCard.className = 'subject-card bimestre-card';
-          divCard.onclick = () => abrirBimestre(ext.id, ext.nome);
-          divCard.innerHTML = `
-            <div>
-              <h3>📚 ${ext.nome}</h3>
-              <p>${ext.desc}</p>
-            </div>
-            <div class="card-footer">
-              <span>Ver Simulados →</span>
-              <span class="count-badge" id="count-b-${ext.id}">0 simulados</span>
-            </div>
-          `;
-          container.appendChild(divCard);
-        });
-      }
-
       atualizarContadoresBimestres();
 
       document.getElementById('tela-materias').classList.add('hidden');
@@ -1413,17 +1350,15 @@
       document.getElementById('tela-calendario').classList.add('hidden');
     }
 
-    function abrirBimestre(identificadorDivisao, nomeCustomizado = null) {
+    function abrirBimestre(numeroBimestre) {
       estadoAtual = 'simulados';
-      bimestreAtual = identificadorDivisao;
+      bimestreAtual = numeroBimestre;
 
       const mat = mapaMaterias[materiaAtualChave];
       const tipoDivisao = mat ? mat.divisaoTipo : 'Bimestre';
 
-      let tituloExibicao = nomeCustomizado || `${identificadorDivisao}° ${tipoDivisao}`;
-
-      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${tituloExibicao}`;
-      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para ${tituloExibicao}.`;
+      document.getElementById('main-title').innerText = `${materiaAtualNome} — ${numeroBimestre}° ${tipoDivisao}`;
+      document.getElementById('main-subtitle').innerText = `Simulados disponíveis para o ${numeroBimestre}° ${tipoDivisao}.`;
       document.getElementById('badge-top').innerText = 'Lista de Provas';
 
       document.getElementById('tela-bimestres').classList.add('hidden');
@@ -1436,7 +1371,7 @@
       const simuladosEncontrados = listaDeArquivos.filter(arquivo => {
         const pertenceMateria = arquivoPertenceAMateria(arquivo, materiaAtualChave);
         if (!pertenceMateria) return false;
-        return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === identificadorDivisao;
+        return extrairBimestreDoArquivo(arquivo, materiaAtualChave) === numeroBimestre;
       });
 
       renderizarCardsSimulados(simuladosEncontrados, gridSimulados, false);
@@ -1453,7 +1388,6 @@
         });
       }
 
-      nome = nome.replace(/(?:aulas?|am)[_\s-]*[4-5]/gi, ' ');
       nome = nome.replace(/(?:modulo|módulo|m|prova|p|bimestre|b)[_\s-]*[1-5]/gi, ' ');
       nome = nome.replace(/[1-5][º°oªa]?[_\s-]*(?:modulo|módulo|m|prova|p|bimestre|b)/gi, ' ');
 
@@ -1527,7 +1461,10 @@
     }
 
     function carregarSimulado(arquivoEncoded, arquivoOriginal) {
-      simuladoAbertoAtual = arquivoOriginal;
+      if (!concluidos.includes(arquivoOriginal)) {
+        concluidos.push(arquivoOriginal);
+        localStorage.setItem('simulados_concluidos', JSON.stringify(concluidos));
+      }
 
       const telaProva = document.getElementById('tela-prova');
       const iframe = document.getElementById('iframe-simulado');
@@ -1549,9 +1486,8 @@
       
       telaProva.style.display = 'none';
       iframe.src = '';
-      simuladoAbertoAtual = null;
 
-      if (estadoAtual === 'simulados' && bimestreAtual !== null) {
+      if (estadoAtual === 'simulados' && bimestreAtual) {
         abrirBimestre(bimestreAtual);
       }
     }
