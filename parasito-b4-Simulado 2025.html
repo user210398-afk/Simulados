@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Avaliação - Parasitologia e Microbiologia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: #f4f6fb;
+            --card-bg: #ffffff;
+            --border-glow: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --correct-green: #10b981;
+            --correct-bg: #ecfdf5;
+            --incorrect-red: #ef4444;
+            --incorrect-bg: #fef2f2;
+            --accent-yellow: #d97706;
+            --input-bg: #f8fafc;
+            --opt-hover: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+            --hl-bg: #fef08a;
+            --hl-text: #0f172a;
+        }
+
+        body.dark-mode {
+            --bg-gradient: #0f172a;
+            --card-bg: #1e293b;
+            --border-glow: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-light: #1e3a8a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct-green: #10b981;
+            --correct-bg: #064e3b;
+            --incorrect-red: #f87171;
+            --incorrect-bg: #7f1d1d;
+            --accent-yellow: #f59e0b;
+            --input-bg: #0f172a;
+            --opt-hover: #334155;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            --hl-bg: #854d0e;
+            --hl-text: #fef08a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .hub-screen {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto 36px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .hub-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 32px 28px;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hub-card-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-objetivo { background: var(--primary-light); color: var(--primary); border: 1px solid #bfdbfe; }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-primary:hover { background: var(--primary-hover); }
+
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 32px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--input-bg);
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .combo-badge {
+            background: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: white;
+            display: none;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 28px;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .q-category-tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-glow);
+        }
+
+        .q-statement {
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            white-space: pre-line;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 4px;
+            padding: 2px 3px;
+        }
+
+        .hl-word.marked {
+            background-color: var(--hl-bg);
+            color: var(--hl-text);
+            font-weight: 600;
+        }
+
+        .q-statement.pen-active { cursor: crosshair; user-select: none; }
+        .q-statement.eraser-active { cursor: cell; user-select: none; }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-glow);
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: var(--primary) !important;
+            background: var(--primary-light) !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.4;
+            background: var(--input-bg);
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: #10b981 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: #f87171 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled { cursor: default; opacity: 0.9; }
+
+        .btn-confirm {
+            display: none;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .explanation-panel {
+            display: none;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .exp-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 8px;
+        }
+
+        .exp-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card, .notes-card, .grid-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-card { text-align: center; }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+        }
+
+        .chart-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+
+        canvas { width: 100% !important; height: 100% !important; }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .q-nav-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .q-nav-btn.active-q { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .q-nav-btn.answered-realista-q { border-color: #93c5fd !important; background: #dbeafe !important; color: #1e40af !important; }
+        .q-nav-btn.correct-q { background: var(--correct-green) !important; color: white !important; }
+        .q-nav-btn.incorrect-q { background: var(--incorrect-red) !important; color: white !important; }
+
+        .nav-btns-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .side-controls-bar { display: flex; flex-direction: column; gap: 10px; }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.92rem;
+        }
+
+        .action-btn-secondary {
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+        }
+
+        .action-btn-danger {
+            background: var(--incorrect-bg);
+            border: 1px solid var(--incorrect-red);
+            color: var(--incorrect-red);
+        }
+
+        .floating-widget-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .floating-main-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .floating-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            width: 210px;
+        }
+
+        .floating-menu.open { display: flex; }
+
+        .font-btn-row {
+            display: flex;
+            gap: 6px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .font-btn-row button {
+            flex: 1;
+            text-align: center;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .report-score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-glow);
+        }
+
+        .report-table th, .report-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-glow);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .report-table th { background: var(--input-bg); font-weight: 700; }
+
+        .diagnostic-card {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #92400e;
+        }
+
+        .conf-btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glow);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .conf-btn.active-certain { background: var(--correct-bg); border-color: var(--correct-green); color: var(--correct-green); }
+        .conf-btn.active-guess { background: #fffbeb; border-color: #f59e0b; color: #b45309; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .setting-label { font-weight: 600; font-size: 0.95rem; }
+        .setting-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+        .toggle-checkbox {
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: var(--border-glow);
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked { background: var(--primary); }
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            background: white;
+            transition: transform 0.3s;
+        }
+        .toggle-checkbox:checked::before { transform: translateX(20px); }
+
+        .history-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: left;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-glow);
+            font-size: 0.9rem;
+        }
+
+        body.force-mobile-mode { padding: 8px !important; }
+        body.force-mobile-mode .main-container { max-width: 100% !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .report-screen { padding: 15px !important; border-radius: 14px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.8rem !important; }
+        body.force-mobile-mode .game-layout { grid-template-columns: 1fr !important; }
+        body.force-mobile-mode .nav-btns-inline { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .side-controls-bar { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+
+        @media (max-width: 900px) { .game-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <div class="hub-screen" id="hub-screen">
+            <div class="hub-header-bar">
+                <button class="action-btn action-btn-secondary" class="theme-toggle-btn" onclick="toggleTheme()" style="padding: 8px 16px; font-size: 0.88rem;">🌙 Dark</button>
+                <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.88rem;">⚙️ Configurações</button>
+                <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.88rem;">📱 Modo Celular: AUTO</button>
+            </div>
+
+            <div class="hub-title">Parasitologia Médica & Dermatozoonoses</div>
+            <div class="hub-subtitle">
+                Plataforma de estudos baseada nas avaliações teóricas e práticas. Pratique com as questões de Protozoários, Helmintos, Vetores e Dermatozoonoses.
+            </div>
+
+            <div class="mode-selector-box">
+                <div style="display: flex; gap: 8px; align-items: center; justify-content: center;" id="mode-select-container">
+                    <label for="game-mode-select" style="font-weight: 700;">🎯 Modo do Simulado:</label>
+                    <select id="game-mode-select">
+                        <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                        <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="hub-cards-grid">
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-objetivo">🔘 Banco de Questões Completo</span>
+                        <h2>Simulado de Parasitologia 2025</h2>
+                        <p>Questões cobrindo a prova de 2025</p>
+                    </div>
+                    <button class="btn-hub-action btn-primary" onclick="startModule()">
+                        🚀 Iniciar Simulado Integrado
+                    </button>
+                </div>
+            </div>
+
+            <div class="history-card" id="history-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="font-size: 1.1rem; font-weight: 700;">📜 Histórico de Desempenho</h3>
+                    <button class="action-btn action-btn-secondary" onclick="clearHistory()" style="padding: 4px 10px; font-size: 0.75rem;">Limpar Histórico</button>
+                </div>
+                <div id="history-list-content">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-hud" id="game-hud">
+            <div class="hud-header">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button class="action-btn action-btn-secondary" onclick="goToHub()" style="padding: 6px 12px; font-size: 0.85rem;">🏠 Menu Principal</button>
+                        <span id="quiz-title-badge" style="font-weight: 800; color: var(--primary);">SIMULADO</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="action-btn action-btn-secondary theme-toggle-btn" onclick="toggleTheme()" style="padding: 4px 10px; font-size: 0.8rem;">🌙 Dark</button>
+                        <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">📱 Modo Celular: AUTO</button>
+                    </div>
+                </div>
+                <div class="hud-stat">
+                    <span>Questão:</span>
+                    <span class="hud-stat-val" id="hud-q-num">1 / 0</span>
+                </div>
+                <div class="hud-stat" id="hud-timer-stat">
+                    <span>⏱️ Tempo:</span>
+                    <span class="hud-stat-val" id="hud-timer">00:00</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Pontuação:</span>
+                    <span class="hud-stat-val" id="hud-score" style="color: var(--correct-green);">0 PTS</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Aproveitamento:</span>
+                    <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                </div>
+                <div class="combo-badge" id="combo-badge">🔥 COMBO x2!</div>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div class="q-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span class="q-category-tag" id="q-category">CATEGORIA</span>
+                        </div>
+                        <div class="q-statement" id="q-statement">Carregando questão...</div>
+
+                        <div class="options-group" id="options-group"></div>
+
+                        <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança:</div>
+                            <div class="conf-btn-group">
+                                <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                            ✅ Confirmar Resposta
+                        </button>
+
+                        <div class="nav-btns-inline">
+                            <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()" style="flex: 1;">← Anterior</button>
+                            <button class="action-btn" id="btn-next" onclick="nextQuestion()" style="flex: 1;">Próxima →</button>
+                        </div>
+
+                        <div class="explanation-panel" id="explanation-panel">
+                            <div class="exp-header">💡 Contextualização Teórica e Justificativa</div>
+                            <div class="exp-body" id="exp-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="chart-card" id="chart-card-box">
+                        <div class="chart-title">Desempenho em Tempo Real</div>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                            <div class="chart-center-text" id="chart-center">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 0.85rem;">
+                            <span style="color: #10b981;">🟢 Acertos: <b id="lbl-correct">0</b></span>
+                            <span style="color: #f87171;">🔴 Erros: <b id="lbl-incorrect">0</b></span>
+                        </div>
+                    </div>
+
+                    <div class="notes-card" id="notes-card-box">
+                        <div class="chart-title">📝 Bloco de Notas</div>
+                        <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho para esta questão..." oninput="saveNote(this.value)"></textarea>
+                    </div>
+
+                    <div class="grid-card" id="grid-card-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="chart-title" style="margin-bottom: 0;">Navegação</div>
+                            <div style="display: flex; gap: 4px;">
+                                <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">🚩 Dúvidas</button>
+                            </div>
+                        </div>
+                        <div class="nav-grid" id="nav-grid"></div>
+                    </div>
+
+                    <div class="side-controls-bar">
+                        <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar</button>
+                        <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: #10b981;">📊 Relatório Final</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-widget-container" id="floating-widget">
+            <div class="floating-menu" id="floating-menu">
+                <div class="font-btn-row">
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(-1)">A-</button>
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(1)">A+</button>
+                </div>
+                <button class="action-btn action-btn-secondary" id="btn-flag" onclick="toggleFlag()">🚩 Dúvida</button>
+                <button class="action-btn action-btn-secondary" id="btn-highlight" onclick="toggleHighlight()">🖍️ Marca-texto</button>
+                <button class="action-btn action-btn-secondary" id="btn-eraser" onclick="toggleEraser()">🧽 Borracha</button>
+            </div>
+            <button class="floating-main-btn" id="floating-main-btn">🛠️</button>
+        </div>
+
+        <div class="report-screen" id="report-screen">
+            <div class="report-header-title" id="rep-edition-title">📊 DIAGNÓSTICO FINAL DE DESEMPENHO</div>
+            <div class="report-score-big" id="rep-score-big">0%</div>
+            <p style="text-align: center; color: var(--text-muted);" id="rep-status-msg"></p>
+
+            <div class="diagnostic-card" id="rep-diagnostic-box">
+                <strong>💡 Recomendação de Estudos:</strong>
+                <div id="rep-diagnostic-text" style="margin-top: 5px;"></div>
+            </div>
+
+            <h3 style="margin-top: 25px; font-size: 1.2rem; font-weight: 700;">Análise Detalhada por Tema:</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Tema / Categoria</th>
+                            <th>Total</th>
+                            <th>Acertos</th>
+                            <th>Aproveitamento</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rep-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                <button class="action-btn" onclick="restartGame()">🔄 Refazer</button>
+                <button class="action-btn" id="btn-caderno-erros" onclick="startCadernoErros()" style="background: #dc2626;">❌ Caderno de Erros</button>
+                <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;">📥 Exportar (.txt)</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span>⚙️ Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()">✖</span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🌙 Modo Escuro (Dark)</div>
+                    <div class="setting-sub">Alterna as cores para leitura noturna confortável.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-darkmode" onchange="toggleTheme()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" checked onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📝 Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" checked onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📈 Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" checked onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* BANCO DE DADOS INTEGRADO (PARASITOLOGIA) */
+        const objectiveQuestions = [
+            {
+                num: 6,
+                type: "objective",
+                category: "Coccídios Entéricos",
+                statement: "Questão 6 - Geraldo, 45 anos, apresenta diarreia severa e fétida, relata fortes dores abdominais, febre ocasional aferida em 37,8 ºC, náuseas e um episódio de vômito. Ao exame clínico, o paciente se apresentava desidratado (+++/+++++) e em estado geral regular. Foi solicitada a internação para a administração endovenosa de soro e exames laboratoriais, que incluíram hemograma completo, coprocultura, exame parasitológico de fezes (EPF) com pesquisa de coccídios e sangue oculto nas fezes. Em relação aos parâmetros hematológicos, o paciente apresentou eosinofilia em 3200 (VR 50-500/mm³) e os demais parâmetros próximos à normalidade, positivo para sangue oculto nas fezes no EPF, negativo para ovos e cistos de enteroparasitas e positivo para oocistos de Cryptosporidium parvum. Por se tratar de uma coccidiose, qual doença de base deve ser investigada nesse paciente?",
+                options: [
+                    "a) Doença celíaca",
+                    "b) Doença de Crohn",
+                    "c) AIDS",
+                    "d) Neoplasias",
+                    "e) Doença autoimune"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A criptosporidíase grave, crônica e profunda em adultos é uma clássica infecção oportunista associada à imunodeficiência celular grave, especialmente na infecção pelo HIV/AIDS (contagem de T-CD4 < 100/mm³).<br><br><b>Justificativa da alternativa correta (c):</b> A presença de infecção grave e sintomática por <i>Cryptosporidium</i> em adulto exige investigação de AIDS como condição imunossupressora de base."
+            },
+            {
+                num: 7,
+                type: "objective",
+                category: "Toxoplasmose na Gestação",
+                statement: "Questão 7 - Gestante de 25 anos, com 2 partos prévios, moradora de zona rural, apresenta sorologia para toxoplasmose com IgG positivo e IgM negativo. Está na décima semana de gestação. Identifique a conduta a ser adotada neste caso:",
+                options: [
+                    "a) Tratamento imediato com espiramicina até o parto.",
+                    "b) Pesquisa de avidez IgG.",
+                    "c) Não é necessário tratamento.",
+                    "d) Cordocentese ou PCR de líquido amniótico.",
+                    "e) Tratamento com pirimetamina + sulfadiazina + ácido folínico a partir do parto."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> IgG positivo acompanhado de IgM negativo em gestante no primeiro trimestre demonstra imunidade remota (infecção pregressa adquirida antes da gestação). Não há risco de transmissão congênita em imunocompetentes, dispensando tratamento.<br><br><b>Justificativa da alternativa correta (c):</b> Paciente imune prévia à gestação; sem indicação de intervenção terapêutica ou propedêutica invasiva."
+            },
+            {
+                num: 8,
+                type: "objective",
+                category: "Esquistossomose & Epidemiologia",
+                statement: "Questão 8 - A esquistossomose é considerada, em relação à sua transmissão:",
+                options: [
+                    "a) Doença de veiculação hídrica.",
+                    "b) Doença de transmissão direta.",
+                    "c) Doença de veiculação vetorial.",
+                    "d) Doença de transmissão horizontal.",
+                    "e) Doença de transmissão vertical."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O <i>Schistosoma mansoni</i> necessita de água doce habitada por caramujos do gênero <i>Biomphalaria</i> onde ocorre a liberação das cercárias, caracterizando uma doença típica de veiculação hídrica.<br><br><b>Justificativa da alternativa correta (a):</b> A penetração ativa de cercárias na pele ocorre durante o contato com águas doces contaminadas."
+            },
+            {
+                num: 9,
+                type: "objective",
+                category: "Coccídios Entéricos",
+                statement: "Questão 9 - Vários funcionários de uma empresa apresentavam queixas de doença gastrointestinal que se apresentava como diarreia e cólicas abdominais. Funcionários entrevistados por profissionais de saúde pública relataram que os sintomas começaram cerca de uma semana após sua participação na festa de feriado do escritório. Alguns dos alimentos disponíveis incluíam uma salada mista de frutas e uma pasta de pesto de manjericão servido junto a torradas. Os funcionários receberam atendimento médico no posto de saúde do bairro, onde foram coletadas amostras de fezes para análise. Os resultados para todos os funcionários foram semelhantes. As lâminas obtidas a partir do esfregaço fecal apresentavam oocistos redondos, álcool-ácido resistentes. Qual é o agente etiológico e o tratamento indicado?",
+                options: [
+                    "a) Toxoplasma gondii; tratamento com metronidazol.",
+                    "b) Giardia sp.; tratamento com tiabendazol.",
+                    "c) Entamoeba sp.; tratamento com praziquantel.",
+                    "d) Entamoeba histolytica; tratamento com metronidazol.",
+                    "e) Cryptosporidium sp.; tratamento com nitazoxanida."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> Surto alimentar/hídrico associado a oocistos redondos álcool-ácido resistentes (coloração de Ziehl-Neelsen modificada) identifica o coccídio <i>Cryptosporidium</i>. O tratamento de escolha aprovado é a Nitazoxanida.<br><br><b>Justificativa da alternativa correta (e):</b> Oocistos álcool-ácido resistentes em fezes e quadro diarreico surto-relacionado definem <i>Cryptosporidium sp.</i> tratado com nitazoxanida."
+            },
+            {
+                num: 10,
+                type: "objective",
+                category: "Miíase / Dermatozoonoses",
+                statement: "Questão 10 - Uma trabalhadora rural de 55 anos de Alfenas/MG procurou atendimento médico em um centro de saúde local devido a um inchaço doloroso próximo ao pescoço. A protuberância não desapareceu com antibióticos e, quando a ferida foi drenada, foi removido um espécime de 3,5 mm de comprimento. Qual é o diagnóstico e o prognóstico do paciente?",
+                options: [
+                    "a) Este foi um caso de miíase do tipo \"bicheira\" e o prognóstico é ruim, caso não haja tratamento imediato.",
+                    "b) Este foi um caso de escabiose e o prognóstico é positivo, após o tratamento com antiparasitário específico.",
+                    "c) Este foi um caso de pediculose e o prognóstico é positivo, após a remoção manual do parasito.",
+                    "d) Este foi um caso de dermatobiose e o prognóstico é quase sempre positivo, com a rápida recuperação da paciente."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A dermatobiose (miíase primária furunculoide) é causada pela larva da mosca <i>Dermatobia hominis</i> (berne). Apresenta lesão nodular eritrematosa contendo orifício central com larva de espinhos escuros. O tratamento é a extração e o prognóstico é excelente.<br><br><b>Justificativa da alternativa correta (d):</b> Trata-se de dermatobiose por <i>D. hominis</i> com excelente prognóstico após remoção da larva."
+            },
+            {
+                num: 11,
+                type: "objective",
+                category: "Malária / Hipnozoítos",
+                statement: "Questão 11 - Em casos de uma recidiva de malária, ocorre o reapparecimento da parasitemia e de manifestações clínicas com re-invasão das hemácias pelos merozoítos provenientes de hipnozoítos dormentes no fígado do paciente. Assim, a falha no tratamento pode ser relacionada como uma das principais causas de recidiva, ou seja, a possível persistência de hipnozoítos voltando a corrente sanguínea. Uma das maneiras de um médico(a) contribuir melhorando a qualidade de vida do paciente e a atuação profissional frente a estes casos é:",
+                options: [
+                    "a) Conhecer o ciclo do Plasmodium, ter noção sobre possíveis recidivas, uma vez que a maioria dos pacientes não se lembra de citar migração a outras áreas (viagens a áreas endêmicas).",
+                    "b) Recomendar o uso do antimalárico indistintamente para todos os casos de febre de mais de 39 graus e de padrão intermitente.",
+                    "c) Encaminhar estes casos para serem cuidados apenas por especialistas.",
+                    "d) Relacionar a causa da febre com malária e prescrever uso de antitérmicos.",
+                    "e) Solicitar todos os exames que forem possíveis para só após obter os resultados, realizar um tratamento com efetividade e segurança."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> As espécies <i>Plasmodium vivax</i> e <i>Plasmodium ovale</i> produzem formas hepáticas dormentes (hipnozoítos) responsáveis por recidivas tardias se não tratadas com primaquina/tafenoquina. O histórico de deslocamento para áreas endêmicas é fundamental no raciocínio médico.<br><br><b>Justificativa da alternativa correta (a):</b> O conhecimento epidemiológico e do ciclo biológico com formas dormentes hepáticas previne o subdiagnóstico de recidivas."
+            },
+            {
+                num: 12,
+                type: "objective",
+                category: "Dermatozoonoses / Miíases",
+                statement: "Questão 12 - Sobre as infestações larvares causadas por dípteros, assinale a alternativa INCORRETA:",
+                options: [
+                    "a) Miíases são zoodermatoses caracterizadas pelo acometimento da pele ou orifícios por larvas de moscas.",
+                    "b) A gravidade da infestação depende da localização e do grau de destruição.",
+                    "c) A miíase primária caracteriza-se por lesão nodular que surge com o desenvolvimento da larva, apresentando orifício central de onde sai secreção serosa.",
+                    "d) A lesão provocada pela larva berneira é dolorosa e o paciente sente a sensação de \"ferroada\".",
+                    "e) Na miíase secundária, a ocorre disseminação dos parasitos via sistema linfático."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> A miíase secundária (bicheira) ocorre quando moscas cavitárias ou necrofágicas (como <i>Cochliomyia hominivorax</i>) depositam ovos em feridas pré-existentes ou ulcerações, onde as larvas se alimentam de tecido vivo/necrótico local, sem disseminação linfática sistêmica como regra infecciosa.<br><br><b>Justificativa da alternativa incorreta (e):</b> As larvas de miíases secundárias atuam por contiguidade tecidual direta nas feridas, não por invasão e disseminação pela via linfática."
+            },
+            {
+                num: 13,
+                type: "objective",
+                category: "Doença de Chagas / Trypanosoma",
+                statement: "Questão 13 - É uma antropozoonose de elevada prevalência e expressiva morbimortalidade. Apresenta curso clínico bifásico, composto por uma fase aguda (clinicamente aparente ou não) e uma fase crônica, que pode se manifestar nas formas indeterminada, cardíaca, digestiva ou cardiodigestiva. Tais distinções clínicas são importantes no exercício da prática clínica em medicina e se referem a qual das seguintes parasitoses?",
+                options: [
+                    "a) Esquistossomose.",
+                    "b) Doença de Chagas.",
+                    "c) Leishmaniose visceral.",
+                    "d) Ancilostomose.",
+                    "e) Toxoplasmose."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A Doença de Chagas (causada pelo <i>Trypanosoma cruzi</i> e transmitida por triatomíneos) é uma antropozoonose bifásica clássica com formas crônicas indeterminada, cardíaca e/ou digestiva (megaesôfago e megacólon).<br><br><b>Justificativa da alternativa correta (b):</b> A descrição clínica das formas agudas e crônicas (cardíaca/digestiva) é a definição exata da Doença de Chagas."
+            },
+            {
+                num: 14,
+                type: "objective",
+                category: "Miíases / Tratamento Cavitário",
+                statement: "Questão 14 - Ao atender um caso de miíase na região do palato (cavitária/secundária), conforme a imagem a seguir, o tratamento correto a ser realizado é:",
+                options: [
+                    "a) Retirada do parasito com auxílio de agulha desinfetada, devendo todo o parasito ser retirado. Em seguida, usa-se tintura de iodo ou outro antisséptico no local. Havendo infecção secundária, tratar com antibioticoterapia tópica ou sistêmica.",
+                    "b) Remoção mecânica das larvas com o auxílio de pinça após a aplicação de substâncias tópicas que cubram as lesões (asfixiantes para as larvas) e utilização sistêmica de ivermectina.",
+                    "c) Curetagem ou retirada manual com lâmina de bisturi, seguida de pincelagem com tinturas de iodo e antibioticoterapia.",
+                    "d) Uma ou poucas lesões: usa-se a pomada de tiabendazol a 5% três vezes ao dia, durante 10 dias.",
+                    "e) Permetrina a 5% em creme, uma aplicação à noite, por 6 noites."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Em miíases cavitárias/múltiplas (bicheira por <i>Cochliomyia</i>), o protocolo terapêutico consiste no uso de Ivermectina oral/sistêmica (para paralisar/matar as larvas), aplicação de substâncias oclusivas/asfixiantes e catagem/remoção mecânica cuidadosa das larvas com pinça.<br><br><b>Justificativa da alternativa correta (b):</b> Descreve a conduta ideal para miíase cavitária/destrutiva: Ivermectina sistêmica, asfixiantes locais e remoção mecânica com pinça."
+            },
+            {
+                num: 15,
+                type: "objective",
+                category: "Helmintos Entéricos / Diagnóstico",
+                statement: "Questão 15 - Um missionário viajou para vários estados brasileiros durante um ano. Ele visitou seu médico queixando-se de dor abdominal e diarreia ocasional, sintomas presentes desde que retornou. O paciente informou ainda que nadou em vários lagos e lagoas durante a viagem. O exame de fezes revelou objetos, medindo 135 mm (com espículo lateral pronunciado). Qual é o seu diagnóstico?",
+                options: [
+                    "a) Teníase.",
+                    "b) Ascaridíase.",
+                    "c) Esquistossomose.",
+                    "d) Ancilostomose.",
+                    "e) Larva Migrans Visceral."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O achado parasitológico de ovos grandes e ovais com **espículo lateral** proeminente nas fezes de paciente com histórico de banho em lagoas é patognomônico de <i>Schistosoma mansoni</i> (Esquistossomose).<br><br><b>Justificativa da alternativa correta (c):</b> A presença de espículo lateral no ovo identifica a infecção por <i>Schistosoma mansoni</i>."
+            },
+            {
+                num: 16,
+                type: "objective",
+                category: "Esquistossomose / Ciclo Biológico",
+                statement: "Questão 16 - Larvas de cauda bifurcada presentes em remansos de água doce onde se observam planorbídeos são denominadas ____(1)____. Estas penetram pela pele, adaptam-se às condições fisiológicas do meio interno do hospedeiro e migram já sem cauda, na forma de ____(2)____ pelo tecido subcutâneo. Assinale a alternativa que preenche corretamente as lacunas 1 e 2:",
+                options: [
+                    "a) 1: filarióides; 2: ovos.",
+                    "b) 1: rabditóides; 2: filarióides.",
+                    "c) 1: filarióides; 2: L3.",
+                    "d) 1: L3; 2: L4.",
+                    "e) 1: cercárias; 2: esquistossômulos."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> No ciclo do <i>Schistosoma mansoni</i>, as cercárias são larvas de cauda bifurcada que emergem dos caramujos planorbídeos e penetram ativamente a pele humana. Ao perderem a cauda durante a penetração cutânea, transformam-se em esquistossômulos.<br><br><b>Justificativa da alternativa correta (e):</b> Preenche perfeitamente: (1) cercárias e (2) esquistossômulos."
+            },
+            {
+                num: 17,
+                type: "objective",
+                category: "Esquistossomose / Imunopatologia",
+                statement: "Questão 17 - A imunopatogênese da esquistossomose crônica na fase hepatointestinal/hepatoesplênica decorre principalmente da formação de ____(1)____ em torno dos ____(2)____ retidos nos tecidos hepáticos, induzindo resposta inflamatória granulomatosa e fibrótica mediada por células Th2.",
+                options: [
+                    "a) 1: ancilostomose; 2: lesões pulmonares.",
+                    "b) 1: granulomas hepáticos; 2: ovos do parasito.",
+                    "c) 1: escabiose; 2: dermatite.",
+                    "d) 1: amebíase extra-intestinal; 2: abscesso.",
+                    "e) 1: larva migrans visceral; 2: trofozoítos."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A patogenia da esquistossomose crônica não é causada pelos vermes adultos em si, mas pela reação imunológica granulomatosa desencadeada pelos ovos do <i>S. mansoni</i> embolizados na vasculatura porta-hepática.<br><br><b>Justificativa da alternativa correta (b):</b> A formação de granulomas ao redor dos ovos retidos no fígado é a lesão tecidual central da doença."
+            },
+            {
+                num: 18,
+                type: "objective",
+                category: "Ectoparasitoses & Sinais Clínicos",
+                statement: "Questão 18 - Doenças ectoparasitárias, como a pediculose, a escabiose e a larva migrans cutânea (LMC), apresentam manifestações bastante incômodas. O sinal clínico marcador da Larva Migrans Cutânea (bicho-geográfico) e da Escabiose são, respectivamente:",
+                options: [
+                    "a) Erosões urogenitais e onicomicose.",
+                    "b) Febre intensa e manchas escuras.",
+                    "c) Lesão serpiginosa eritematosa com prurido intenso e pápulas/túneis pruriginosos interdigitais.",
+                    "d) Alopecia e coriza.",
+                    "e) Dor retroorbital e escoriações."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A Larva Migrans Cutânea (causada por <i>Ancylostoma braziliense/caninum</i>) forma túneis eritematosos e serpiginosos extremamente pruriginosos na pele. A Escabiose (<i>Sarcoptes scabiei</i>) produz túneis epidérmicos, pápulas e prurido noturno proeminente.<br><br><b>Justificativa da alternativa correta (c):</b> Caracteriza com precisão as lesões clínicas da LMC (trajeto serpiginoso) e da Escabiose."
+            },
+            {
+                num: 19,
+                type: "objective",
+                category: "Histopatologia da Esquistossomose",
+                statement: "Questão 19 - Em um corte histológico de biópsia hepática, observou-se a presença de um ovo de parasito de formato oval com espículo lateral nítido, cercado por intensa reação inflamatória granulomatosa com eusinófilos e macrófagos. Qual o diagnóstico e a reação tecidual observada?",
+                options: [
+                    "a) Taenia solium - cisticerco.",
+                    "b) Trichuris trichiura - reação anérgica.",
+                    "c) Entamoeba histolytica - fibrose.",
+                    "d) Schistosoma mansoni - reação granulomatosa ao redor do ovo.",
+                    "e) Ancylostoma duodenale - reação aguda."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Na biópsia de tecido hepático na esquistossomose, o achado patognomônico é o ovo de <i>Schistosoma mansoni</i> cercado pela reação granulomatosa inflamatória rica em eosinófilos e macrófagos ativados.<br><br><b>Justificativa da alternativa correta (d):</b> O achado confirma <i>Schistosoma mansoni</i> e reação granulomatosa periovular."
+            },
+            {
+                num: 20,
+                type: "objective",
+                category: "Saúde Única (One Health)",
+                statement: "Questão 20 - Define-se Saúde Única como uma abordagem global, integrada e unificadora que visa equilibrar a saúde de pessoas, animais e ecossistemas. Considerando as doenças parasitárias, é INCORRETO afirmar nesta temática que:",
+                options: [
+                    "a) A Saúde Única tem papel fundamental na prevenção de doenças infecciosas e parasitárias zoonóticas.",
+                    "b) A medicina veterinária tem papel importante na proteção da saúde humana ao controlar zoonoses animais.",
+                    "c) Na tomada de decisões em saúde pública, a saúde única integra setores administrativos e ambientais.",
+                    "d) Zoonoses e antropozoonoses nada têm a ver com doenças parasitárias e saúde única, dado que os ciclos parasitários são isolados.",
+                    "e) As doenças parasitárias transmitidas por vetores exigem ações integradas no ecossistema para seu controle."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> O conceito de Saúde Única (One Health) reconhece a íntima interconexão entre a saúde humana, animal e o meio ambiente. As zoonoses parasitárias (como leishmaniose, raiva, febre amarela e toxoplasmose) constituem o exemplo central da aplicação da Saúde Única.<br><br><b>Justificativa da alternativa incorreta (d):</b> Afirmar que zoonoses e parasitoses não têm relação com Saúde Única é falso, pois elas constituem o pilar do conceito."
+            },
+            {
+                num: 21,
+                type: "objective",
+                category: "Neurocisticercose vs Toxoplasmose",
+                statement: "Questão 21 - Um homem de 49 anos apresentou dores de cabeça frequentes e convulsões ocasionais. O exame de imagem tomográfico mostrou a presença de calcificações nodulares parenquimatosas cerebrais. Com base nessas informações, assinale a alternativa que apresenta agentes etiológicos compatíveis para o diagnóstico diferencial:",
+                options: [
+                    "a) Toxoplasma gondii e Taenia solium (Neurocisticercose).",
+                    "b) Cryptosporidium sp. e Taenia saginata.",
+                    "c) Entamoeba histolytica e Schistosoma mansoni.",
+                    "d) Enterobius vermicularis e Taenia solium.",
+                    "e) Schistosoma mansoni e Toxoplasma gondii."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> Calcificações parenquimatosas cerebrais em pacientes com crises convulsivas no Brasil têm como principais diagnósticos diferenciais a Neurocisticercose (formas calcificadas de cistos de <i>Taenia solium</i>) e a Toxoplasmose SNC (calcificações sequelares).<br><br><b>Justificativa da alternativa correta (a):</b> <i>T. gondii</i> e <i>T. solium</i> são as causas mais importantes de lesões calcificadas neurológicas."
+            },
+            {
+                num: 22,
+                type: "objective",
+                category: "Aedes aegypti & Arboviroses",
+                statement: "Questão 22 - O mosquito <i>Aedes aegypti</i> é o vetor urbano no Brasil de duas arboviroses humanas de grande impacto. Sobre a transmissão e conduta terapêutica destas doenças, é correto afirmar:",
+                options: [
+                    "a) As duas doenças (Dengue e Febre Amarela) são causadas por vírus transmitidos pela picada da fêmea do mosquito. O tratamento da dengue é sintomático com hidratação rigorosa, contraindicando-se salicilatos.",
+                    "b) A dengue é causada por toxinas do mosquito e a febre amarela por vírus.",
+                    "c) O macho do mosquito é o hematófago transmissor das arboviroses.",
+                    "d) Os tratamentos de ambas envolvem antibioticoterapia de amplo espectro.",
+                    "e) A febre amarela é tratada exclusivamente com vacinação após o surgimento dos sintomas."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O <i>Aedes aegypti</i> (fêmea hematófaga) transmite os vírus da Dengue e da Febre Amarela urbana. O manejo da dengue é baseado na reposição volêmica/hidratação e sintomáticos, com proibição de AAS/AINEs devido ao risco hemorrágico.<br><br><b>Justificativa da alternativa correta (a):</b> A transmissão ocorre pela fêmea e o tratamento é de suporte hidroeletrolítico."
+            },
+            {
+                num: 24,
+                type: "objective",
+                category: "Geohelmintíases / Ancilostomose",
+                statement: "Questão 24 - Sou um parasito cuja larva L3 penetra ativamente pela pele, alcança a circulação, passa pelos pulmões (ciclo de Loss), é deglutido e fixa-se na mucosa do intestino delgado, onde causa repasto sanguíneo com espoliação e anemia ferropriva severa no hospedeiro. Quem sou eu?",
+                options: [
+                    "a) Trichuris trichiura.",
+                    "b) Ancilostomídeo (Ancylostoma duodenale / Necator americanus).",
+                    "c) Toxocara canis.",
+                    "d) Tunga penetrans.",
+                    "e) Schistosoma mansoni."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Os ancilostomídeos (<i>Ancylostoma duodenale</i> e <i>Necator americanus</i>) realizam penetração cutânea, ciclo pulmonar (Loss) e fixação intestinal por ganchos/lâminas, provocando espoliação sanguínea crônica e anemia amarela/hipocRômica.<br><br><b>Justificativa da alternativa correta (b):</b> Descrição clássica da infecção por ancilostomídeos."
+            },
+            {
+                num: 25,
+                type: "objective",
+                category: "Ciclo de Loss / Imunologia",
+                statement: "Questão 25 - Parasitos que realizam ciclo pulmonar (como <i>Ascaris lumbricoides</i> e Ancilostomídeos) induzem a Síndrome de Löffler, caracterizada por tosse, infiltrado pulmonar e alterações hematológicas marcantes. As alterações imunológicas e o exame coproscópico adequado na fase pulmonar inicial são:",
+                options: [
+                    "a) Aumento de IgE e eosinofilia sanguínea elevada devido à resposta imune Th2; no início da fase pulmonar os exames de fezes ainda são negativos para ovos.",
+                    "b) Aumento de IgG e neutrofilia severa.",
+                    "c) Elevação de IgM e pesquisa positiva imediata de ovos nas fezes no 1º dia.",
+                    "d) Redução de eosinófilos e aumento de basófilos.",
+                    "e) Resposta imune puramente bacteriana."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A passagem de larvas pelos pulmões ativa imunidade do tipo Th2 (com elevação de IL-4, IL-5, IgE e intensa eosinofilia sanguínea). Como os vermes ainda são larvas jovens nos pulmões, o exame de fezes é negativo para ovos nesta fase inicial.<br><br><b>Justificativa da alternativa correta (a):</b> Resposta imune Th2 com IgE/eosinofilia alta e fezes negativas para ovos na fase pulmonar pré-patente."
+            },
+            {
+                num: 26,
+                type: "objective",
+                category: "Tungíase / Siphonaptera",
+                statement: "Questão 26 - Paciente relata prurido e dor no pé. Observa-se pápula amarelada com ponto negro central de cerca de 0,5 cm onde se localiza o espiráculo posterior da fêmea engurgitada do ectoparasito. O diagnóstico de certeza é:",
+                options: [
+                    "a) Pulex irritans.",
+                    "b) Cochliomyia hominivorax.",
+                    "c) Tunga penetrans (Tungíase / Bicho-do-pé).",
+                    "d) Sarcoptes scabiei.",
+                    "e) Ancylostoma braziliense."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A Tungíase (bicho-do-pé) é provocada pela fêmea fertilizada da pulga <i>Tunga penetrans</i>, que se introduz na epiderme (especialmente periungueal e plantar) e hipertrofia-se, formando lesão papulonodular amarelada com centro negro.<br><br><b>Justificativa da alternativa correta (c):</b> A lesão nodular com ponto negro central plantar identifica a infecção por <i>Tunga penetrans</i>."
+            },
+            {
+                num: 27,
+                type: "objective",
+                category: "Escabiose / Sarcoptes",
+                statement: "Questão 27 - O sintoma primário marcador da escabiose (sarna humana), que se intensifica caracteristicamente no período noturno devido ao aquecimento do corpo no leito e maior atividade do ácaro, é:",
+                options: [
+                    "a) Pediculose.",
+                    "b) Phthiríase.",
+                    "c) Prurido intenso predominantemente noturno.",
+                    "d) Miíase.",
+                    "e) Filariose."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A fêmea do ácaro <i>Sarcoptes scabiei var. hominis</i> escava túneis no estrato córneo da pele, liberando saliva e dejetos que causam reação de hipersensibilidade com prurido noturno intolerável.<br><br><b>Justificativa da alternativa correta (c):</b> Prurido noturno intenso é a queixa patognomônica da escabiose."
+            },
+            {
+                num: 28,
+                type: "objective",
+                category: "Geohelmintíases / Conceito",
+                statement: "Questão 28 - São considerados geohelmintos os parasitos cujos ovos ou larvas necessitam passar um período de maturação e desenvolvimento no solo antes de se tornarem infectantes para o ser humano. Assinale a alternativa que contém APENAS geohelmintos clássicos:",
+                options: [
+                    "a) Ascaris lumbricoides, Trichuris trichiura, Ancylostoma duodenale e Necator americanus.",
+                    "b) Enterobius vermicularis, Taenia saginata e Hymenolepis nana.",
+                    "c) Schistosoma mansoni e Fasciola hepatica.",
+                    "d) Wuchereria bancrofti e Brugia malayi.",
+                    "e) Toxocara canis e Echinococcus granulosus."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O grupo das geohelmintíases humanas compreende <i>Ascaris lumbricoides</i>, <i>Trichuris trichiura</i>, <i>Ancylostoma duodenale</i> e <i>Necator americanus</i>, cujos ovos/larvas desenvolvem-se na terra sob umidade e temperatura adequadas.<br><br><b>Justificativa da alternativa correta (a):</b> Contém os quatro geohelmintos humanos clássicos de transmissão fecal-solo."
+            },
+            {
+                num: 29,
+                type: "objective",
+                category: "Farmacologia Antiparasitária",
+                statement: "Questão 29 - Metronidazol, Chloroquina e Pirimetamina são antiparasitários empregados, respectivamente, na terapia de:",
+                options: [
+                    "a) Tricomoníase/Amebíase/Giardíase; Malária; Toxoplasmose.",
+                    "b) Amebíase; Giardíase; Tricomoníase.",
+                    "c) Giardíase; Leishmaniose; Chagas.",
+                    "d) Esquistossomose; Filariose; Teníase.",
+                    "e) Ascaridíase; Ancilostomose; Escabiose."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b>\n• **Metronidazol**: Nitroimidazólico ativo contra protozoários anaeróbios/microaerófilos (<i>Trichomonas</i>, <i>Entamoeba</i>, <i>Giardia</i>).\n• **Cloroquina**: Antimalárico esquizonticida sanguíneo.\n• **Pirimetamina**: Inibidor da di-hidrofolato redutase usado na Toxoplasmose.<br><br><b>Justificativa da alternativa correta (a):</b> Corresponde à indicação farmacológica exata da tríade de medicamentos."
+            },
+            {
+                num: 30,
+                type: "objective",
+                category: "Tungíase / Profilaxia",
+                statement: "Questão 30 - São medidas profiláticas e ambientais indicadas para a prevenção da tungíase (bicho-do-pé), EXCETO:",
+                options: [
+                    "a) Uso de calçados fechados em solos arejados/fétidos e áreas de criação de animais.",
+                    "b) Evitar andar descalço em currais e chiqueiros.",
+                    "c) Cimentação e regularização de pisos em habitações humanas.",
+                    "d) Saneamento e tratamento dos animais domésticos (pORcos e cães) infectados.",
+                    "e) Aplicação de inseticidas em larga escala no solo dos rios e praias de água doce."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> A aplicação indiscriminada de pesticidas químicos em corpos d'água fluviais e praias não é medida indicada nem viável para o controle da pulga da terra <i>Tunga penetrans</i>, além de causar desastre ecológico ambiental.<br><br><b>Justificativa da alternativa incorreta (e):</b> Trata-se de conduta ineficaz e ambientalmente incorreta para o controle da tungíase."
+            },
+            {
+                num: 35,
+                type: "objective",
+                category: "Pediculose / Phthiríase",
+                statement: "Questão 35 - Paciente apresenta prurido intenso na região pubiana e observação de pequenos ectoparasitos aderidos à base dos pelos pubianos e manchas azuladas (maculae ceruleae). O agente e o tratamento tópico de primeira escolha são:",
+                options: [
+                    "a) Phthirus pubis; tratamento com xampu ou loção de Permetrina a 1% e remoção manual.",
+                    "b) Pediculus humanus capitis; tratamento com DDT.",
+                    "c) Sarcoptes scabiei; tratamento com tiabendazol oral.",
+                    "d) Tunga penetrans; sabonete neutro.",
+                    "e) Dermatobia hominis; extração cirúrgica ampla."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O 'chato' (<i>Phthirus pubis</i>) infecta os pelos pubianos causando ftiríase. O tratamento de escolha é a Permetrina tópica a 1% associada à remoção manual de ninfas e lêndeas.<br><br><b>Justificativa da alternativa correta (a):</b> Define com exatidão o agente <i>Phthirus pubis</i> e a terapêutica com Permetrina."
+            },
+            {
+                num: 36,
+                type: "objective",
+                category: "Miíases / Vetores de Ovos",
+                statement: "Questão 36 - No Brasil, a espécie ____(1)____ é a causa de miíase primária furunculoide (berne), utilizando frequentemente outros insetos (como mosquitos e mutucas) para transportar seus ovos até o hospedeiro vertebrado. Já a espécie ____(2)____ causa miíase secundária por deposição de ovos em feridas abertas. Assinale a alternativa que preenche corretamente:",
+                options: [
+                    "a) 1: Dermatobia hominis; 2: Cochliomyia hominivorax.",
+                    "b) 1: Simulium spp.; 2: Glossina spp.",
+                    "c) 1: Sarcophaga spp.; 2: Musca domestica.",
+                    "d) 1: Pulex irritans; 2: Pediculus humanus.",
+                    "e) 1: Tunga penetrans; 2: Xenopsylla cheopis."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A <i>Dermatobia hominis</i> realiza a forésia (transporta seus ovos no abdômen de dípteros hematófagos). A <i>Cochliomyia hominivorax</i> deposita ovos em lesões/feridas da pele gerando miíases cavitárias/bicheiras.<br><br><b>Justificativa da alternativa correta (a):</b> Completa adequadamente: (1) <i>Dermatobia hominis</i> e (2) <i>Cochliomyia hominivorax</i>."
+            },
+            {
+                num: 38,
+                type: "objective",
+                category: "Dermatozoonoses / Mitos e Fatos",
+                statement: "Questão 38 - Sobre as dermatozoonoses parasitárias, assinale a alternativa INCORRETA:",
+                options: [
+                    "a) Na larva migrans cutânea, as larvas de ancilostomídeos de cães/gatos não conseguem ultrapassar a camada basal da epiderme humana.",
+                    "b) Na tungíase, a fêmea hipertrofiada da pulga Tunga penetrans permanece na pele excretando ovos pelo espiráculo.",
+                    "c) As lêndeas são os ovos de pediculídeos firmemente aderidos à haste dos pelos e cabelos.",
+                    "d) A escabiose é uma infecção exclusivamente transmitida por via sexual.",
+                    "e) A ftiríase acomete preferencialmente os pelos pubianos e da região perineal."
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A Escabiose é transmitida primariamente por contato direto pele com pele prolongado (no ambiente familiar, creches ou leitos) e por vestuário/fômites contaminados, não sendo uma infecção de transmissão exclusivamente sexual.<br><br><b>Justificativa da alternativa incorreta (d):</b> Afirmar que a escabiose é exclusivamente IST é incorreto."
+            },
+            {
+                num: 39,
+                type: "objective",
+                category: "Larva Migrans Cutânea",
+                statement: "Questão 39 - Menino de 6 anos é levado ao posto de saúde com queixa de lesão eritematosa, elevada, linear e serpiginosa no pé esquerdo, de caráter progressivo e com intenso prurido, surgida após brincar em caixa de areia da praia. Qual é o diagnóstico e o tratamento:",
+                options: [
+                    "a) Larva Migrans Cutânea (bicho-geográfico); tratamento com Albendazol ou Tiabendazol.",
+                    "b) Escabiose; tratamento com sabonete de enxofre.",
+                    "c) Miíase; tratamento com extração com agulha.",
+                    "d) Tungíase; tratamento com curetagem.",
+                    "e) Dermatite por contato; corticoide tópico apenas."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A Larva Migrans Cutânea apresenta trajeto túnel sinuoso/serpiginoso pruriginoso eritematoso na pele provocado por larvas de <i>Ancylostoma braziliense</i>. O tratamento é feito com anti-helmínticos como Albendazol oral ou Tiabendazol tópico.<br><br><b>Justificativa da alternativa correta (a):</b> Lesão serpiginosa pós-contato com areia define Larva Migrans Cutânea tratada com Albendazol/Tiabendazol."
+            },
+            {
+                num: 40,
+                type: "objective",
+                category: "Leishmanioses / Formas Clínicas",
+                statement: "Questão 40 - Classicamente, as ____(1)____ podem apresentar diferentes formas clínicas. A forma ____(2)____ caracteriza-se por lesões indolores na pele de bordas ulceradas e elevadas. A forma ____(3)____ por lesões destrutivas em mucosas da nasofaringe. A forma ____(4)____ é uma manifestação crônica visceral (Calazar) com hepatoesplenomegalia e febre irregular. Assinale a alternativa correta:",
+                options: [
+                    "a) 1: Miíases; 2: primária; 3: secundária; 4: invasiva.",
+                    "b) 1: Ancilostomoses; 2: cutânea; 3: respiratória; 4: cerebral.",
+                    "c) 1: Leishmanioses; 2: cutânea; 3: mucosa; 4: visceral.",
+                    "d) 1: Escabiose; 2: tegumentar; 3: linfática; 4: disseminada.",
+                    "e) 1: Larva migrans; 2: tegumentar; 3: mucosa; 4: visceral."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O complexo das Leishmanioses manifesta-se sob três formas principais: Leishmaniose Cutânea (úlcera indolor com bordas em moldura), Leishmaniose Mucosa (destrutiva nasofaríngea) e Leishmaniose Visceral (hepatoesplenomegalia e pancitopenia).<br><br><b>Justificativa da alternativa correta (c):</b> Preenche perfeitamente as formas da Leishmaniose: (1) Leishmanioses, (2) cutânea, (3) mucosa e (4) visceral."
+            },
+            {
+                num: 41,
+                type: "objective",
+                category: "Esquistossomose / V ou F",
+                statement: "Questão 41 - Com relação à esquistossomose mansônica, julgue os itens como Verdadeiro (V) ou Falso (F):\n( ) O diagnóstico laboratorial de certeza na fase crônica é feito pela pesquisa de ovos de S. mansoni nas fezes (métodos de Kato-Katz ou Lutz).\n( ) O praziquantel é o medicamento antiparasitário de escolha para o tratamento da esquistossomose no Brasil.\n( ) A fase crônica hepatoesplênica cursa com hipertensão portal, esplenomegalia e varizes esofágicas.\n( ) A infecção é adquirida pela ingestão de caramujos contaminados na água.\n\nAssinale a sequência correta:",
+                options: [
+                    "a) V, V, V, F",
+                    "b) V, V, F, V",
+                    "c) F, V, V, F",
+                    "d) V, F, V, F",
+                    "e) F, F, V, V"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b>\n1. Verdadeiro: Kato-Katz visualiza os ovos viáveis de <i>S. mansoni</i> nas fezes.\n2. Verdadeiro: Praziquantel é o tratamento de 1ª linha do MS.\n3. Verdadeiro: A fibrose de Symmers periportal causa hipertensão portal e esplenomegalia.\n4. Falso: A infecção ocorre por penetração ativa de cercárias pela pele, não por ingestão de caramujos.<br><br><b>Justificativa da alternativa correta (a):</b> A sequência correta é V, V, V, F."
+            },
+            {
+                num: 42,
+                type: "objective",
+                category: "Vetores & Rickettsia",
+                statement: "Questão 42 - Os carrapatos da família Ixodidae (carrapatos duros) são vetores de patógenos graves para o homem. Assinale a alternativa que apresenta a espécie vetor e o agente etiológico da Febre Maculosa Brasileira:",
+                options: [
+                    "a) Pulex irritans (Dipylidium caninum)",
+                    "b) Xenopsylla cheopis (Yersinia pestis)",
+                    "c) Amblyomma sculptum / cajennense (Rickettsia rickettsii)",
+                    "d) Pediculus humanus (Rickettsia prowazekii)",
+                    "e) Cimex lectularius (Rickettsia typhi)"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A Febre Maculosa Brasileira é causada pela bactéria intracelular obrigatória <i>Rickettsia rickettsii</i>, transmitida pela picada do carrapato-estrela (<i>Amblyomma sculptum / A. cajennense</i>).<br><br><b>Justificativa da alternativa correta (c):</b> Associa corretamente o carrapato <i>Amblyomma</i> e a bactéria <i>Rickettsia rickettsii</i>."
+            },
+            {
+                num: 43,
+                type: "objective",
+                category: "Febre Maculosa / Cadeia de Transmissão",
+                statement: "Questão 43 - Um caso de morte por Febre Maculosa em Piracicaba/SP resultou no isolamento preventivo de um parque público municipal. O agente etiológico e os elementos da cadeia de transmissão dessa zoonose são:",
+                options: [
+                    "a) Bactéria (Rickettsia rickettsii), capivara (hospedeiro amplifier) e carrapato Amblyomma.",
+                    "b) Vírus, capivara e mosquitos.",
+                    "c) Protozoário, cavalo e carrapato.",
+                    "d) Vírus, cão e mosca.",
+                    "e) Bactéria, rato e pulga."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A Febre Maculosa é uma zoonose bacteriana (<i>Rickettsia rickettsii</i>). As capivaras e cavalos atuam como hospedeiros amplificadores do vetor (carrapato-estrela do gênero <i>Amblyomma</i>).<br><br><b>Justificativa da alternativa correta (a):</b> Aponta com precisão a bactéria, a capivara como amplificador vertebrado e o carrapato como vetor."
+            },
+            {
+                num: 44,
+                type: "objective",
+                category: "Helmintos / Complicações Cirúrgicas",
+                statement: "Questão 44 - Obstrução intestinal maciça e Prolapso Retal são complicações parasitárias graves observadas em crianças com alta carga parasitária de, respectivamente:",
+                options: [
+                    "a) Ascaris lumbricoides e Trichuris trichiura.",
+                    "b) Trichuris trichiura e Enterobius vermicularis.",
+                    "c) Taenia solium e Ancylostoma duodenale.",
+                    "d) Necator americanus e Trichuris trichiura.",
+                    "e) Enterobius vermicularis e Ascaris lumbricoides."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b>\n• O enovelamento de centenas de vermes adultos de <i>Ascaris lumbricoides</i> na válvula íleo-cecal causa **obstrução intestinal mecânica** em crianças.\n• A hipermotilidade e o tenesmo crônico na tricocefalíase massiva (<i>Trichuris trichiura</i>) no cólon e reto levam ao **prolapso retal**.<br><br><b>Justificativa da alternativa correta (a):</b> <i>Ascaris</i> gera obstrução intestinal e <i>Trichuris</i> provoca prolapso retal."
+            },
+            {
+                num: 45,
+                type: "objective",
+                category: "Phthiríase Pubiana",
+                statement: "Questão 45 - Idosa de 72 anos moradora de zona rural procurou a UBS com queixa de prurido intenso na região genital. Ao exame sob microscopia óptica do ectoparasito removido dos pelos, observou-se inseto achatado dorsoventralmente com patas terminadas em garras fortes em forma de pinça aderidas aos pelos. Qual o agente etiológico?",
+                options: [
+                    "a) Phthirus pubis.",
+                    "b) Pediculus capitis.",
+                    "c) Pediculus humanus.",
+                    "d) Amblyomma cajennense.",
+                    "e) Pulex irritans."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O <i>Phthirus pubis</i> (piolho pubiano/chato) possui morfologia caranguejiforme achatada com garras delgadas adaptadas para agarrar o diâmetro dos pelos pubianos e perineais.<br><br><b>Justificativa da alternativa correta (a):</b> O ectoparasito genital morfológico é o <i>Phthirus pubis</i>."
+            },
+            {
+                num: 46,
+                type: "objective",
+                category: "Malária / Objetivos do Tratamento",
+                statement: "Questão 46 - O protocolo de tratamento da Malária indicado pelo Ministério da Saúde do Brasil tem como objetivos fundamentais:\nI. Interromper a espoliação sanguínea e curar o ataque agudo.\nII. Prevenir complicações e evitar óbitos.\nIII. Eliminar as formas dormentes (hipnozoítos) para evitar recidivas na malária por P. vivax.\nIV. Interromper a transmissão da doença eliminando os gametócitos circulantes.\n\nAssinale a alternativa correta:",
+                options: [
+                    "a) Todas as afirmativas (I, II, III e IV) estão corretas.",
+                    "b) Apenas I e II estão corretas.",
+                    "c) Apenas III e IV estão corretas.",
+                    "d) Apenas I, II e III estão corretas.",
+                    "e) Nenhuma afirmativa está correta."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O tratamento antimalárico busca eliminar as formas sanguíneas de esdrúxula replicação (cura clínica), eliminar gametócitos para bloquear a infecção do mosquito anofelino (bloqueio de transmissão) e erradicar hipnozoítos hepáticos (cura radical de <i>P. vivax</i>).<br><br><b>Justificativa da alternativa correta (a):</b> Todos os itens apresentados constituem metas oficiais do esquema antimalárico brasileiro."
+            },
+            {
+                num: 47,
+                type: "objective",
+                category: "Mudanças Climáticas & Vetores",
+                statement: "Questão 47 - Como as alterações climáticas globais e o aquecimento do planeta influenciam a disseminação das doenças parasitárias transmitidas por vetores (como malária, leishmaniose e arboviroses)?",
+                options: [
+                    "a) O aumento das temperaturas médias e da umidade acelera o ciclo reprodutivo e o período de incubação extrínseco dos parasitos nos insetos vetores, expandindo sua distribuição geográfica para novas altitudes e latitudes.",
+                    "b) O aumento da temperatura impede completamente a reprodução de mosquitos vetores.",
+                    "c) As mudanças climáticas dificultam o deslocamento de vetores restringindo as doenças.",
+                    "d) As alterações de temperatura fazem com que as doenças parasitárias fiquem restritas ao ambiente marinho.",
+                    "e) O clima não possui qualquer relação biológica com vetores invertebrados."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O aumento da temperatura global reduz a duração do ciclo esporogônico/desenvolvimento do parasito dentro do inseto e acelera a taxa de reprodução de vetores, expandindo geograficamente a transmissão de parasitoses.<br><br><b>Justificativa da alternativa correta (a):</b> Explica com exatidão o impacto ecológico do aquecimento na expansão territorial e eficiência dos vetores."
+            },
+            {
+                num: 48,
+                type: "objective",
+                category: "Vacinas Parasitárias / Desafios",
+                statement: "Questão 48 - Quais são as principais dificuldades biológicas para o desenvolvimento de vacinas altamente eficazes contra parasitos e helmintos em comparação com vírus e bactérias?",
+                options: [
+                    "a) Parasitos e helmintos possuem genomas e ciclos de vida complexos, com múltiplos estágios morfológicos e estratégias sofisticadas de evasão imune (como variação antigênica e mimetismo).",
+                    "b) Parasitos possuem estruturas biológicas simples demais que não estimulam o sistema imune humano.",
+                    "c) A imunidade humana natural contra helmintos é perfeita, tornando vacinas desnecessárias.",
+                    "d) Todos os parasitos são destruídos facilmente por anticorpos de IgM isolados.",
+                    "e) Não existem vacinas em estudo para parasitoses no mundo."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> Ao contrário de vírus de genoma reduzido, os protozoários e helmintos são organismos eucariontes complexos com milhares de genes, apresentando imunomodulação, variação de antígenos de superfície e troca de estágios no hospedeiro, o que dificulta o desenvolvimento vacinal.<br><br><b>Justificativa da alternativa correta (a):</b> A complexidade genômica, morfológica e a evasão imunológica são as barreiras primárias no desenvolvimento de vacinas antiparasitárias."
+            },
+            {
+                num: 49,
+                type: "objective",
+                category: "Esquistossomose / Biologia do Schistosoma",
+                statement: "Questão 49 - Com relação ao ciclo biológico do <i>Schistosoma mansoni</i> no homem e no caramujo, é correto afirmar:",
+                options: [
+                    "a) A pessoa infectada começa a eliminar ovos viáveis de S. mansoni nas fezes a partir de 5 a 7 semanas após a penetração das cercárias.",
+                    "b) Os caramujos infectados liberam miracídios diretamente na água para infectar o homem.",
+                    "c) O homem adquire a doença ao ingerir os ovos de Schistosoma eliminados na água.",
+                    "d) Os vermes adultos de S. mansoni vivem livres no estômago e intestino delgado.",
+                    "e) Não existem reservatórios mamíferos para o S. mansoni no Brasil."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O período pré-patente do <i>S. mansoni</i> (tempo entre a penetração da cercária e a postura/eliminação dos primeiros ovos nas fezes) é de cerca de 35 a 50 dias (5 a 7 semanas).<br><br><b>Justificativa da alternativa correta (a):</b> O período de 5 a 7 semanas é a duração exata da pré-patência da esquistossomose humana."
+            },
+            {
+                num: 50,
+                type: "objective",
+                category: "Escabiose / Aspectos Clínicos",
+                statement: "Questão 50 - Em relação à escabiose (sarna humana), assinale a alternativa INCORRETA:",
+                options: [
+                    "a) Em lactentes e bebês, é comum o aparecimento de pápulas e lesões nas palmas das mãos e plantas dos pés.",
+                    "b) A sarna crostosa (norueguesa) ocorre devido a uma hiperinfestação maciça de ácaros em pacientes com severa deficiência da imunidade celular.",
+                    "c) O sintoma primário marcador da doença é o prurido que se intensifica à noite.",
+                    "d) O tratamento com permetrina a 5% em creme deve ser aplicado do pescoço para baixo em todo o corpo e lavado após 8 a 14 horas.",
+                    "e) O agente etiológico Sarcoptes scabiei realiza ciclo biológico no solo e é transmitido ao homem pela ingestão de água contaminada."
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O <i>Sarcoptes scabiei</i> é um parásito humano obrigatório que habita exclusivamente a epiderme e não realiza ciclo no solo nem é transmitido por via hídrica.<br><br><b>Justificativa da alternativa incorreta (e):</b> Afirmar que o ácaro habita o solo e é transmitido por ingestão de água é completamente falso."
+            }
+        ];
+
+        /* ESTADO GLOBAL */
+        let currentQuestions = [];
+        let currentQIndex = 0;
+        let userAnswers = []; 
+        let userConfidence = []; 
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let isDarkMode = false;
+        let isMobileLayout = false;
+        let fontSizePx = 17;
+        let gridFilter = 'ALL';
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+        let isPenActive = false;
+        let isEraserActive = false;
+        let isDrawing = false;
+
+        window.onload = function() {
+            renderHistory();
+            initFloatingWidget();
+            setupGrifoEvents();
+        };
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+                btn.innerText = isDarkMode ? '☀ Light' : '🌙 Dark';
+            });
+            const cfgDark = document.getElementById('cfg-darkmode');
+            if (cfgDark) cfgDark.checked = isDarkMode;
+            drawChart();
+        }
+
+        function toggleMobileLayout() {
+            isMobileLayout = !isMobileLayout;
+            document.body.classList.toggle('force-mobile-mode', isMobileLayout);
+            document.querySelectorAll('.btn-layout-toggle-class').forEach(btn => {
+                btn.innerText = isMobileLayout ? '📱 Modo Celular: FORÇADO' : '📱 Modo Celular: AUTO';
+            });
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            const timerVisible = document.getElementById('cfg-timer').checked;
+            const notesVisible = document.getElementById('cfg-notes').checked;
+            const chartVisible = document.getElementById('cfg-chart').checked;
+
+            document.getElementById('hud-timer-stat').style.display = timerVisible ? 'flex' : 'none';
+            document.getElementById('notes-card-box').style.display = notesVisible ? 'block' : 'none';
+            document.getElementById('chart-card-box').style.display = chartVisible ? 'block' : 'none';
+        }
+
+        function changeFontSize(delta) {
+            fontSizePx = Math.max(12, Math.min(26, fontSizePx + delta));
+            document.getElementById('q-statement').style.fontSize = `${fontSizePx / 16}rem`;
+        }
+
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+                const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+                const timerEl = document.getElementById('hud-timer');
+                if (timerEl) timerEl.innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() { if (timerInterval) clearInterval(timerInterval); }
+        function resetTimer() { stopTimer(); totalElapsedSeconds = 0; const t = document.getElementById('hud-timer'); if (t) t.innerText = '00:00'; }
+
+        function startModule() {
+            gameMode = document.getElementById('game-mode-select').value;
+            currentQuestions = objectiveQuestions.map(q => ({...q}));
+
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            document.getElementById('floating-widget').style.display = 'flex';
+
+            resetTimer();
+            startTimer();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            renderHistory();
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = '#f59e0b';
+                btn.style.color = '#fff';
+                btn.innerText = '🚩 Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.innerText = '🚩 Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                let label = idx + 1;
+                if (isFlagged) label += ' 🚩';
+                btn.innerText = label;
+
+                if (isAnswered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        btn.classList.add('answered-realista-q');
+                    }
+                }
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => loadQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            document.getElementById('btn-highlight').style.background = isPenActive ? '#fef08a' : '';
+            document.getElementById('btn-highlight').style.color = isPenActive ? '#0f172a' : '';
+            document.getElementById('btn-eraser').style.background = isEraserActive ? '#cbd5e1' : '';
+        }
+
+        function initFloatingWidget() {
+            const mainBtn = document.getElementById('floating-main-btn');
+            const menu = document.getElementById('floating-menu');
+            if (mainBtn && menu) {
+                mainBtn.onclick = () => menu.classList.toggle('open');
+            }
+        }
+
+        function renderStatementWithWords(text) {
+            const container = document.getElementById('q-statement');
+            container.innerHTML = '';
+            const lines = text.split('\n');
+            lines.forEach((line, lIdx) => {
+                const chunks = line.split(/(\s+)/);
+                chunks.forEach(chunk => {
+                    if (chunk.trim().length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'hl-word';
+                        span.innerText = chunk;
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(chunk));
+                    }
+                });
+                if (lIdx < lines.length - 1) container.appendChild(document.createElement('br'));
+            });
+        }
+
+        function setupGrifoEvents() {
+            const qStmt = document.getElementById('q-statement');
+            if (!qStmt) return;
+            function markWordAtEvent(e) {
+                if (!isPenActive && !isEraserActive) return;
+                let target = e.target;
+                if (target && target.classList && target.classList.contains('hl-word')) {
+                    if (isPenActive) target.classList.add('marked');
+                    else if (isEraserActive) target.classList.remove('marked');
+                }
+            }
+            qStmt.addEventListener('mousedown', () => isDrawing = true);
+            qStmt.addEventListener('mousemove', (e) => { if (isDrawing) markWordAtEvent(e); });
+            window.addEventListener('mouseup', () => isDrawing = false);
+        }
+
+        function loadQuestion(idx) {
+            if (currentQIndex !== null && currentQIndex !== idx) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            updateFlagUI();
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            document.getElementById('q-category').innerText = q.category.toUpperCase();
+
+            renderStatementWithWords(q.statement);
+
+            const optsContainer = document.getElementById('options-group');
+            const expPanel = document.getElementById('explanation-panel');
+            const confBox = document.getElementById('confidence-box');
+            const btnConfirm = document.getElementById('btn-confirm');
+
+            optsContainer.innerHTML = '';
+            btnConfirm.style.display = 'none';
+
+            const answered = userAnswers[idx] !== null;
+            confBox.style.display = !answered ? 'block' : 'none';
+            updateConfidenceUI();
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.id = `opt-btn-${optIdx}`;
+                btn.innerText = optText;
+
+                if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                    btn.classList.add('strikethrough');
+                }
+
+                if (answered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        btn.classList.add('disabled');
+                        if (optIdx === q.correct) btn.classList.add('correct-choice');
+                        if (userAnswers[idx] === optIdx && optIdx !== q.correct) btn.classList.add('incorrect-choice');
+                    } else {
+                        if (userAnswers[idx] === optIdx) btn.classList.add('selected-choice');
+                        btn.onclick = () => selectOption(optIdx);
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                }
+                optsContainer.appendChild(btn);
+            });
+
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                expPanel.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = q.context;
+            } else {
+                expPanel.style.display = 'none';
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+            document.getElementById('btn-next').innerText = (idx === currentQuestions.length - 1) ? "Finalizar" : "Próxima →";
+        }
+
+        function setConfidence(level) {
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            document.getElementById('conf-btn-certeza').classList.toggle('active-certain', selectedConfidence === 'certeza');
+            document.getElementById('conf-btn-chute').classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedOptionIndex = optIdx;
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+            userAnswers[currentQIndex] = selectedOptionIndex;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+
+            const q = currentQuestions[currentQIndex];
+            if (selectedOptionIndex === q.correct) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+            } else {
+                streak = 0;
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+        }
+
+        function saveNote(text) { questionNotes[currentQIndex] = text; }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            currentQuestions.forEach((q, i) => {
+                if (userAnswers[i] !== null) {
+                    answered++;
+                    if (userAnswers[i] === q.correct) correct++;
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) showReport();
+            else loadQuestion(currentQIndex + 1);
+        }
+
+        function prevQuestion() { if (currentQIndex > 0) loadQuestion(currentQIndex - 1); }
+
+        function resetQuiz() {
+            if (confirm("Recomeçar módulo?")) startModule();
+        }
+
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = 160; canvas.height = 160;
+
+            let correct = 0, incorrect = 0, unanswered = 0;
+            currentQuestions.forEach((q, i) => {
+                const ans = userAnswers[i];
+                if (ans === null) unanswered++;
+                else if (ans === q.correct) correct++;
+                else incorrect++;
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const total = currentQuestions.length;
+            let startAngle = -Math.PI / 2;
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#f87171' },
+                { val: unanswered, color: isDarkMode ? '#334155' : '#e2e8f0' }
+            ];
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+                ctx.beginPath();
+                ctx.arc(80, 80, 65, startAngle, startAngle + sliceAngle);
+                ctx.arc(80, 80, 46, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+                startAngle += sliceAngle;
+            });
+        }
+
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0, answered = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) catStats[cat] = { total: 0, correct: 0 };
+                catStats[cat].total++;
+
+                const ans = userAnswers[idx];
+                if (ans !== null) {
+                    answered++;
+                    if (ans === q.correct) {
+                        correct++;
+                        catStats[cat].correct++;
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            document.getElementById('rep-status-msg').innerText = `Você respondeu ${answered} de ${currentQuestions.length} questões com ${score} pontos.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td>${stats.total}</td>
+                    <td>${stats.correct}</td>
+                    <td><b>${pct}%</b></td>
+                    <td style="color: ${pct >= 70 ? '#10b981' : '#f59e0b'};"><b>${pct >= 70 ? '🟢 Bom' : '🟡 Revisar'}</b></td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            saveAttemptToHistory("Parasitologia Integrada", overallPercent, score);
+        }
+
+        function saveAttemptToHistory(edition, pct, pts) {
+            let history = JSON.parse(localStorage.getItem('para_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR'),
+                edition, pct, pts
+            });
+            localStorage.setItem('para_history', JSON.stringify(history.slice(0, 10)));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-content');
+            let history = JSON.parse(localStorage.getItem('para_history') || '[]');
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa salva.</p>';
+                return;
+            }
+            let html = '';
+            history.forEach(item => {
+                html += `
+                    <div class="history-item">
+                        <div><b>${item.edition}</b> (${item.date}) - ${item.pts} PTS</div>
+                        <div style="font-weight: 800; color: ${item.pct >= 70 ? '#10b981' : '#f87171'};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('para_history');
+            renderHistory();
+        }
+
+        function startCadernoErros() {
+            const errorQs = currentQuestions.filter((q, idx) => userAnswers[idx] !== null && userAnswers[idx] !== q.correct);
+            if (errorQs.length === 0) { alert('Nenhum erro cometido!'); return; }
+            currentQuestions = errorQs;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            loadQuestion(0);
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+        }
+
+        function exportNotesAndReport() {
+            let text = "ANOTAÇÕES DE PARASITOLOGIA\n\n";
+            currentQuestions.forEach((q, idx) => {
+                text += `Questão ${idx + 1} (${q.category}):\nSua Anotação: ${questionNotes[idx] || 'Sem nota'}\n\n`;
+            });
+            const blob = new Blob([text], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'Anotacoes_Parasitologia.txt';
+            a.click();
+        }
+
+        function restartGame() { startModule(); }
+    </script>
+</body>
+</html>
