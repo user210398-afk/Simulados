@@ -1,0 +1,3167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Fisiologia - Hormônios Pancreáticos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: #f4f6fb;
+            --card-bg: #ffffff;
+            --border-glow: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --correct-green: #10b981;
+            --correct-bg: #ecfdf5;
+            --incorrect-red: #ef4444;
+            --incorrect-bg: #fef2f2;
+            --accent-yellow: #d97706;
+            --input-bg: #f8fafc;
+            --opt-hover: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.08);
+            --hl-bg: #fef08a;
+            --hl-text: #0f172a;
+        }
+
+        /* TEMA ESCURO (DARK MODE) */
+        body.dark-mode {
+            --bg-gradient: #0f172a;
+            --card-bg: #1e293b;
+            --border-glow: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-light: #1e3a8a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --correct-green: #10b981;
+            --correct-bg: #064e3b;
+            --incorrect-red: #f87171;
+            --incorrect-bg: #7f1d1d;
+            --accent-yellow: #f59e0b;
+            --input-bg: #0f172a;
+            --opt-hover: #334155;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            --hl-bg: #854d0e;
+            --hl-text: #fef08a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* TELA HUB (HOME) */
+        .hub-screen {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto 36px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .mode-selector-box select:hover, .topic-dropdown-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .hub-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 32px 28px;
+            text-align: left;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hub-card-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-dissertativo { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .badge-objetivo { background: var(--primary-light); color: var(--primary); border: 1px solid #bfdbfe; }
+
+        body.dark-mode .badge-dissertativo { background: #78350f; color: #fef3c7; border-color: #92400e; }
+
+        .hub-card h2 { 
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; 
+            margin-bottom: 12px; 
+            color: var(--text-main); 
+        }
+        .hub-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+        .btn-warning { background: #d97706; color: white; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25); }
+        .btn-warning:hover { background: #b45309; transform: translateY(-1px); }
+
+        /* INTERFACE DO QUIZ UNIFICADO */
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 32px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--input-bg);
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        .combo-badge {
+            background: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: white;
+            display: none;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 28px;
+        }
+
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .q-category-tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-glow);
+        }
+
+        .q-statement {
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            white-space: pre-line;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        /* CAIXA DE RESPOSTA DISSERTATIVAS */
+        .dissertative-textarea {
+            width: 100%;
+            min-height: 160px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            outline: none;
+            margin-bottom: 16px;
+            resize: vertical;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .dissertative-textarea:focus {
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+
+        /* GRIFO E BORRACHA */
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 4px;
+            padding: 2px 3px;
+        }
+
+        .hl-word.marked {
+            background-color: var(--hl-bg);
+            color: var(--hl-text);
+            font-weight: 600;
+        }
+
+        .q-statement.pen-active {
+            cursor: crosshair;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .q-statement.eraser-active {
+            cursor: cell;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-glow);
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: var(--primary) !important;
+            background: var(--primary-light) !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.4;
+            background: var(--input-bg);
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: #10b981 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: #f87171 !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .btn-confirm {
+            display: none;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
+        }
+
+        .btn-confirm:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* AUTOAVALIAÇÃO PARA DISSERTATIVAS */
+        .self-eval-box {
+            display: none;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .self-eval-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .self-eval-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-eval {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-eval-correct {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+        body.dark-mode .btn-eval-correct {
+            background: #064e3b;
+            color: #a7f3d0;
+            border-color: #047857;
+        }
+        .btn-eval-correct:hover, .btn-eval-correct.active {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-eval-review {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+        body.dark-mode .btn-eval-review {
+            background: #7f1d1d;
+            color: #fecaca;
+            border-color: #b91c1c;
+        }
+        .btn-eval-review:hover, .btn-eval-review.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .explanation-panel {
+            display: none;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .exp-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 8px;
+        }
+
+        .exp-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-main);
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card, .notes-card, .grid-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-card { text-align: center; }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .notes-textarea:focus {
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+
+        .chart-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+        .nav-grid::-webkit-scrollbar-thumb {
+            background: var(--border-glow);
+            border-radius: 4px;
+        }
+
+        .q-nav-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .q-nav-btn.active-q {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .q-nav-btn.answered-realista-q {
+            border-color: #93c5fd !important;
+            background: #dbeafe !important;
+            color: #1e40af !important;
+        }
+
+        body.dark-mode .q-nav-btn.answered-realista-q {
+            border-color: #1e40af !important;
+            background: #1e3a8a !important;
+            color: #bfdbfe !important;
+        }
+
+        .q-nav-btn.correct-q {
+            background: var(--correct-green) !important;
+            color: white !important;
+            border-color: var(--correct-green) !important;
+        }
+
+        .q-nav-btn.incorrect-q {
+            background: var(--incorrect-red) !important;
+            color: white !important;
+            border-color: var(--incorrect-red) !important;
+        }
+
+        .nav-btns-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .side-controls-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .action-btn-secondary {
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-glow);
+        }
+
+        .action-btn-secondary:hover {
+            background: var(--opt-hover);
+        }
+
+        .action-btn-danger {
+            background: var(--incorrect-bg);
+            border: 1px solid var(--incorrect-red);
+            color: var(--incorrect-red);
+        }
+        .action-btn-danger:hover {
+            opacity: 0.9;
+        }
+
+        /* BOTÃO FLUTUANTE MOVÍVEL E MENU SUSPENSO */
+        .floating-widget-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: flex-end;
+            touch-action: none;
+        }
+
+        .floating-main-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: background 0.2s, transform 0.1s;
+            user-select: none;
+        }
+
+        .floating-main-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .floating-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            width: 210px;
+        }
+
+        .floating-menu.open {
+            display: flex;
+        }
+
+        .floating-menu button {
+            width: 100%;
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .font-btn-row {
+            display: flex;
+            gap: 6px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .font-btn-row button {
+            flex: 1;
+            text-align: center;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        /* RELATÓRIO FINAL */
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .report-score-big {
+            font-size: 4rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-glow);
+        }
+
+        .report-table th, .report-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-glow);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .report-table th {
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .bar-bg {
+            background: var(--border-glow);
+            height: 8px;
+            border-radius: 4px;
+            width: 120px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .diagnostic-card {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #92400e;
+        }
+        body.dark-mode .diagnostic-card {
+            background: #451a03;
+            border-color: #78350f;
+            color: #fef3c7;
+        }
+
+        /* CONFIANÇA & MODAL */
+        .conf-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glow);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+
+        .conf-btn.active-certain {
+            background: var(--correct-bg);
+            border-color: var(--correct-green);
+            color: var(--correct-green);
+        }
+
+        .conf-btn.active-guess {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+        body.dark-mode .conf-btn.active-guess {
+            background: #451a03;
+            color: #fde047;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .setting-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .setting-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .toggle-checkbox {
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: var(--border-glow);
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked {
+            background: var(--primary);
+        }
+
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            background: white;
+            transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked::before {
+            transform: translateX(20px);
+        }
+
+        .history-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: left;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-glow);
+            font-size: 0.9rem;
+        }
+
+        /* REGRAS DE IMPRESSÃO / PDF OTIMIZADO */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+
+            .hub-header-bar, .mode-selector-box, .side-controls-bar, .nav-btns-inline, .side-panel,
+            .btn-confirm, .conf-btn-group, .btn-layout-toggle-class, .floating-widget-container,
+            .hud-header, .modal-overlay, .self-eval-box,
+            button, .btn-hub-action {
+                display: none !important;
+            }
+
+            .main-container, .hub-screen, .game-hud, .report-screen, .q-card {
+                box-shadow: none !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .q-statement {
+                color: black !important;
+                font-size: 11pt !important;
+            }
+
+            .opt-btn {
+                border: 1px solid #ccc !important;
+                color: black !important;
+                background: transparent !important;
+                margin-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+
+            .dissertative-textarea {
+                border: 1px solid #999 !important;
+                background: #fff !important;
+            }
+
+            .explanation-panel {
+                display: block !important;
+                border-left: 3px solid #000 !important;
+                background: #f8f8f8 !important;
+                color: black !important;
+            }
+
+            .report-table th, .report-table td {
+                color: black !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .game-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .hub-screen { padding: 28px 16px; border-radius: 18px; }
+            .hub-title { font-size: 2rem; }
+            .hub-subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+            .mode-selector-box { flex-direction: column; align-items: stretch; gap: 12px; padding: 16px; }
+            .mode-selector-box select, .topic-dropdown-btn { width: 100%; text-align: center; }
+            .game-hud { padding: 18px; border-radius: 18px; }
+            .hud-header { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px; }
+            .hud-stat { justify-content: space-between; width: 100%; }
+            .q-card { padding: 18px; }
+            .q-statement { font-size: 1rem; margin-bottom: 20px; }
+            .opt-btn { padding: 14px 16px; font-size: 0.92rem; }
+            .nav-btns-inline { gap: 8px; }
+            .side-controls-bar { flex-direction: column; gap: 10px; }
+            .side-controls-bar > button, .nav-btns-inline > button { width: 100%; text-align: center; padding: 14px; }
+            .report-screen { padding: 20px 16px; }
+            .report-score-big { font-size: 3rem; }
+            .report-table { font-size: 0.85rem; }
+            .report-table th, .report-table td { padding: 10px; }
+            .bar-bg { width: 60px; }
+        }
+
+        body.force-mobile-mode { padding: 8px !important; }
+        body.force-mobile-mode .main-container { max-width: 100% !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .report-screen { padding: 15px !important; border-radius: 14px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.8rem !important; }
+        body.force-mobile-mode .game-layout { grid-template-columns: 1fr !important; }
+        body.force-mobile-mode .nav-btns-inline { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .side-controls-bar { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- TELA HOME / HUB CENTRAL -->
+        <div class="hub-screen" id="hub-screen">
+            <div class="hub-header-bar">
+                <button class="action-btn action-btn-secondary" id="theme-toggle-btn" onclick="toggleTheme()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    🌙 Dark
+                </button>
+                <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    ⚙️ Configurações
+                </button>
+                <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.88rem;">
+                    📱 Modo Celular: AUTO
+                </button>
+            </div>
+
+            <div class="hub-title">Fisiologia dos Hormônios Pancreáticos</div>
+            <div class="hub-subtitle">
+                Plataforma integrada de avaliação em Fisiologia Médica. Escolha a modalidade de estudo abaixo: Estudo Dirigido com Redação e Autoavaliação ou Simulado Objetivos de Múltipla Escolha.
+            </div>
+
+            <!-- SELETOR DE MODO DE JOGO E FILTRO MULTI-TEMA -->
+            <div class="mode-selector-box">
+                <div style="display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center;" id="mode-select-container">
+                    <label for="game-mode-select" style="font-weight: 700; color: var(--text-main);">🎯 Modo do Simulado Objetivos:</label>
+                    <select id="game-mode-select">
+                        <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                        <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                    </select>
+                </div>
+
+                <!-- DROPDOWN DE SELEÇÃO MÚLTIPLA DE TEMAS -->
+                <div style="display: flex; gap: 8px; align-items: center; position: relative; width: 100%; justify-content: center;">
+                    <label style="font-weight: 700; color: var(--text-main);">🏷️ Filtrar por Tema(s):</label>
+                    <div id="topic-dropdown-wrapper" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+                        <button type="button" class="topic-dropdown-btn" id="topic-dropdown-btn" onclick="toggleTopicDropdown()" style="width: 100%;">
+                            Todos os Temas ▾
+                        </button>
+                        <div id="topic-checkbox-list" style="display: none; position: absolute; top: 110%; left: 0; background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 14px; padding: 14px; max-height: 250px; overflow-y: auto; z-index: 100; box-shadow: var(--shadow-lg); width: 100%; text-align: left;">
+                            <!-- Gerado via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARDS SEPARADOS: DISSERTATIVAS vs OBJETIVAS -->
+            <div class="hub-cards-grid">
+                <!-- CARD 1: DISSERTATIVAS -->
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-dissertativo">✍️ Estudo Dirigido</span>
+                        <h2>Questões Dissertativas (5 Itens)</h2>
+                        <p>Treine a construção teórica e redação das respostas com base no roteiro oficial. Inclui caixa de texto para rascunho, botão para revelar gabarito com resumo fisiológico e painel de autoavaliação (✅ Correta / ❌ Revisar).</p>
+                    </div>
+                    <button class="btn-hub-action btn-warning" onclick="startModule('dissertative')">
+                        ✍️ Iniciar Questões Dissertativas
+                    </button>
+                </div>
+
+                <!-- CARD 2: OBJETIVAS -->
+                <div class="hub-card">
+                    <div>
+                        <span class="hub-card-badge badge-objetivo">🔘 Prova Objetiva</span>
+                        <h2>Questões Objetivas (20 Itens)</h2>
+                        <p>Simulado de múltipla escolha com temporizador, indicador de nível de confiança (certeza x chute), eliminação de alternativas (duplo clique), combo de acertos e relatórios estatísticos detalhados.</p>
+                    </div>
+                    <button class="btn-hub-action btn-primary" onclick="startModule('objective')">
+                        🚀 Iniciar Simulado Objetivos
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARD DE HISTÓRICO DE TENTATIVAS -->
+            <div class="history-card" id="history-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="color: var(--text-main); font-size: 1.1rem; font-weight: 700;">📜 Histórico de Desempenho & Evolução</h3>
+                    <button class="action-btn action-btn-secondary" onclick="clearHistory()" style="padding: 4px 10px; font-size: 0.75rem;">Limpar Histórico</button>
+                </div>
+                <div id="history-list-content">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um módulo para ver sua evolução!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERFACE DO QUIZ UNIFICADO -->
+        <div class="game-hud" id="game-hud">
+            <div class="hud-header">
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button class="action-btn action-btn-secondary" onclick="goToHub()" style="padding: 6px 12px; font-size: 0.85rem;">🏠 Menu Principal</button>
+                        <span id="quiz-title-badge" style="font-weight: 800; color: var(--primary);">SIMULADO</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="action-btn action-btn-secondary hud-theme-btn" onclick="toggleTheme()" style="padding: 4px 10px; font-size: 0.8rem;">
+                            🌙 Dark
+                        </button>
+                        <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">
+                            📱 Modo Celular: AUTO
+                        </button>
+                    </div>
+                </div>
+                <div class="hud-stat">
+                    <span>Questão:</span>
+                    <span class="hud-stat-val" id="hud-q-num">1 / 5</span>
+                </div>
+                <div class="hud-stat" id="hud-timer-stat">
+                    <span>⏱️ Tempo:</span>
+                    <span class="hud-stat-val" id="hud-timer">00:00</span>
+                </div>
+                <div class="hud-stat" id="hud-avgtime-stat">
+                    <span>⏱️ Média/Q:</span>
+                    <span class="hud-stat-val" id="hud-avgtime">0s</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Pontuação:</span>
+                    <span class="hud-stat-val" id="hud-score" style="color: var(--correct-green);">0 PTS</span>
+                </div>
+                <div class="hud-stat">
+                    <span>Aproveitamento:</span>
+                    <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                </div>
+                <div class="combo-badge" id="combo-badge">🔥 COMBO x2!</div>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div class="q-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                            <span class="q-category-tag" id="q-category" style="margin-bottom: 0;">CATEGORIA</span>
+                        </div>
+                        <div class="q-statement" id="q-statement">Carregando questão...</div>
+
+                        <!-- CONTAINER DE QUESTÕES OBJETIVAS -->
+                        <div class="options-group" id="options-group"></div>
+
+                        <!-- CONTAINER DE QUESTÕES DISSERTATIVAS -->
+                        <div id="dissertative-group" style="display: none;">
+                            <label style="font-size: 0.88rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 6px;">Sua Resposta / Rascunho:</label>
+                            <textarea id="student-answer" class="dissertative-textarea" placeholder="Digite aqui sua resposta completa antes de consultar o gabarito..." oninput="saveStudentAnswer(this.value)"></textarea>
+                            
+                            <button class="action-btn" id="btn-toggle-gabarito" onclick="toggleGabarito()" style="width: 100%; margin-bottom: 16px; background: var(--primary);">
+                                💡 Revelar Gabarito e Justificativa
+                            </button>
+
+                            <!-- AUTOAVALIAÇÃO PARA DISSERTATIVAS -->
+                            <div class="self-eval-box" id="self-eval-box">
+                                <div class="self-eval-title">Como foi sua resposta em comparação ao gabarito oficial?</div>
+                                <div class="self-eval-btns">
+                                    <button class="btn-eval btn-eval-correct" id="btn-eval-ok" onclick="rateDissertativeAnswer(true)">✅ Resposta Completa / Correta</button>
+                                    <button class="btn-eval btn-eval-review" id="btn-eval-no" onclick="rateDissertativeAnswer(false)">❌ Incompleta / Preciso Revisar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SELETOR DE NÍVEL DE CONFIANÇA (APENAS OBJETIVAS) -->
+                        <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança nesta resposta:</div>
+                            <div class="conf-btn-group">
+                                <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                            </div>
+                        </div>
+
+                        <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                            ✅ Confirmar Resposta
+                        </button>
+
+                        <div class="nav-btns-inline">
+                            <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()" style="flex: 1;">← Anterior</button>
+                            <button class="action-btn" id="btn-next" onclick="nextQuestion()" style="flex: 1;">Próxima →</button>
+                        </div>
+
+                        <div class="explanation-panel" id="explanation-panel">
+                            <div class="exp-header">
+                                💡 Contextualização Teórica e Justificativa
+                            </div>
+                            <div class="exp-body" id="exp-body"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="chart-card" id="chart-card-box">
+                        <div class="chart-title">Desempenho em Tempo Real</div>
+                        <div class="chart-container">
+                            <canvas id="realtimeChart"></canvas>
+                            <div class="chart-center-text" id="chart-center">0%</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 0.85rem;">
+                            <span style="color: #10b981;">🟢 Acertos: <b id="lbl-correct">0</b></span>
+                            <span style="color: #f87171;">🔴 Erros: <b id="lbl-incorrect">0</b></span>
+                        </div>
+                    </div>
+
+                    <!-- BLOCO DE NOTAS DA QUESTÃO -->
+                    <div class="notes-card" id="notes-card-box">
+                        <div class="chart-title">📝 Bloco de Notas</div>
+                        <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho ou anotações para esta questão..." oninput="saveNote(this.value)"></textarea>
+                    </div>
+
+                    <div class="grid-card" id="grid-card-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="chart-title" style="margin-bottom: 0;">Grade</div>
+                            <div style="display: flex; gap: 4px;">
+                                <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">🚩 Dúvidas</button>
+                            </div>
+                        </div>
+                        <div class="nav-grid" id="nav-grid"></div>
+                    </div>
+
+                    <div class="side-controls-bar">
+                        <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar Módulo</button>
+                        <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: #10b981;">📊 Relatório Final</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDGET FLUTUANTE DE FERRAMENTAS DA QUESTÃO -->
+        <div class="floating-widget-container" id="floating-widget">
+            <div class="floating-menu" id="floating-menu">
+                <div class="font-btn-row">
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(-1)">A-</button>
+                    <button class="action-btn action-btn-secondary" onclick="changeFontSize(1)">A+</button>
+                </div>
+                <button class="action-btn action-btn-secondary" id="btn-flag" onclick="toggleFlag()">🚩 Dúvida</button>
+                <button class="action-btn action-btn-secondary" id="btn-highlight" onclick="toggleHighlight()">🖍️ Marca-texto</button>
+                <button class="action-btn action-btn-secondary" id="btn-eraser" onclick="toggleEraser()">🧽 Borracha</button>
+            </div>
+            <button class="floating-main-btn" id="floating-main-btn" title="Ferramentas">🛠️</button>
+        </div>
+
+        <!-- TELA DE RELATÓRIO FINAL -->
+        <div class="report-screen" id="report-screen">
+            <div class="report-header-title" id="rep-edition-title">📊 DIAGNÓSTICO FINAL DE DESEMPENHO</div>
+            <div class="report-score-big" id="rep-score-big">0%</div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 1rem;" id="rep-status-msg"></p>
+
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 15px 0;">
+                <div style="background: var(--input-bg); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border-glow); text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Total</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary);" id="rep-total-time">00:00</div>
+                </div>
+                <div style="background: var(--input-bg); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border-glow); text-align: center;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tempo Médio / Questão</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: #6366f1;" id="rep-avg-time">0s</div>
+                </div>
+                <div style="background: var(--input-bg); padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border-glow); text-align: center;" id="rep-conf-box-summary">
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Acertos com Certeza / Chutes</div>
+                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--correct-green);" id="rep-conf-ratio">0 / 0</div>
+                </div>
+            </div>
+
+            <div class="diagnostic-card" id="rep-diagnostic-box">
+                <strong>💡 Recomendação de Estudos:</strong>
+                <div id="rep-diagnostic-text" style="margin-top: 5px;"></div>
+            </div>
+
+            <h3 style="color: var(--text-main); margin-top: 25px; font-size: 1.2rem; font-weight: 700;">Análise Detalhada por Tema de Fisiologia:</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Tema / Categoria</th>
+                            <th>Total</th>
+                            <th>Acertos</th>
+                            <th>Aproveitamento</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rep-table-body"></tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="action-btn action-btn-secondary" onclick="goToHub()">🏠 Menu Principal</button>
+                <button class="action-btn action-btn-danger" onclick="resetQuiz()">🔄 Recomeçar</button>
+                <button class="action-btn" onclick="restartGame()">🔄 Refazer</button>
+                <button class="action-btn" id="btn-caderno-erros" onclick="startCadernoErros()" style="background: #dc2626;">❌ Caderno de Erros</button>
+                <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;">📥 Exportar (.txt)</button>
+                <button class="action-btn" onclick="printReport()" style="background: #8b5cf6;">📄 Exportar (PDF / Impressão)</button>
+                <button class="action-btn action-btn-secondary" onclick="hideReport()">🔍 Revisar Respostas</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span>⚙️ Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()">✖</span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🌙 Modo Escuro (Dark)</div>
+                    <div class="setting-sub">Alterna as cores para leitura noturna confortável.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-darkmode" onchange="toggleTheme()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">⏱️ Métrica de Tempo Médio / Questão</div>
+                    <div class="setting-sub">Calcula os segundos gastos em cada questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-avgtime" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🎯 Nível de Confiança ao Responder</div>
+                    <div class="setting-sub">Permite indicar se a resposta foi por certeza ou chute nas objetivas.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-confidence" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📜 Exibir Histórico no Hub</div>
+                    <div class="setting-sub">Exibe o histórico de tentativas salvas na página inicial.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-history" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📝 Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">📈 Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🛠️ Barra de Ferramentas Flutuante</div>
+                    <div class="setting-sub">Mostra o botão suspenso com marca-texto, borracha, dúvida e fonte.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-toolbar" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label">🚩 Grade de Navegação</div>
+                    <div class="setting-sub">Exibe o mapa de questões na barra lateral.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-grid" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. BANCO DE DADOS - HORMÔNIOS PANCREÁTICOS (5 DISSERTATIVAS + 20 OBJETIVAS)
+           ========================================================================== */
+        const dissertativeQuestions = [
+            {
+                num: 1,
+                type: "dissertative",
+                category: "Insulina e Ações Metabólicas",
+                statement: "1. A insulina é um importante hormônio com ações metabólicas, capaz de influenciar o metabolismo de carboidratos, lipídeos e proteínas. Descreva quais são as ações da insulina no metabolismo destes macronutrientes.",
+                gabarito: "<b>Gabarito Oficial & Resumo Teórico:</b><br>A insulina é um hormônio anabólico secretado pelas células beta das ilhotas de Langerhans no pâncreas. Suas ações incluem:<br>• <b>Carboidratos:</b> Estimula a captação de glicose nos tecidos periféricos (músculo e tecido adiposo) via recrutamento do GLUT-4; estimula a glicogenogênese hepática e muscular (ativa a glicogênio sintase); inibe a glicogenólise e a gliconeogênese.<br>• <b>Lipídeos:</b> Estimula a lipogênese e a síntese de triacilgliceróis; ativa a Lipoproteína Lipase (LPL) nos capilares adiposos; inibe a Lipase Hormônio-Sensível (LHS), bloqueando a lipólise.<br>• <b>Proteínas:</b> Estimula a captação de aminoácidos pelo músculo, promove a síntese proteica e inibe a proteólise."
+            },
+            {
+                num: 2,
+                type: "dissertative",
+                category: "Mecanismo de Secreção de Insulina",
+                statement: "2. O principal estímulo para secreção da insulina é o aumento da glicemia. Descreva quais são as etapas que ocorrem para termos a liberação da insulina, a partir de uma elevação da glicemia.",
+                gabarito: "<b>Gabarito Oficial & Resumo Teórico:</b><br>A secreção de insulina desencadeada por glicose segue os passos:<br>1. Entrada de glicose na célula beta pancreática via transportador GLUT-2.<br>2. Fosforilação pela glicoquinase e metabolismo via glicólise/respiração celular, gerando aumento da razão ATP/ADP.<br>3. O aumento de ATP fecha os canais de K+ sensíveis ao ATP.<br>4. O acúmulo de K+ causa a despolarização da membrana plasmática.<br>5. A despolarização abre os canais de Ca2+ dependentes de voltagem.<br>6. O influxo de Ca2+ estimula a exocitose dos grânulos contendo insulina e peptídeo C para a circulação."
+            },
+            {
+                num: 3,
+                type: "dissertative",
+                category: "Incretinas e GLP-1",
+                statement: "3. Além deste aumento da glicemia, outros fatores também induzem a liberação da insulina, como as incretinas. Uma destas incretinas é o GLP-1 (Peptídeo Semelhante ao Glucagon). Descreva, de maneira geral, quais são as ações do GLP-1.",
+                gabarito: "<b>Gabarito Oficial & Resumo Teórico:</b><br>O GLP-1 é um hormônio incretínico secretado pelas células L do intestino. Suas ações incluem:<br>• Estímulo à secreção e síntese de insulina pelas células beta de forma dependente de glicose.<br>• Inibição da secreção de glucagon pelas células alfa.<br>• Retardo do esvaziamento gástrico, prolongando a digestão.<br>• Atuação central no SNC promovendo saciedade e diminuição do apetite.<br>• Aumento da proliferação e redução da apoptose das células beta pancreáticas."
+            },
+            {
+                num: 4,
+                type: "dissertative",
+                category: "Ações do Glucagon",
+                statement: "4. O glucagon também apresenta efeitos metabólicos importantes no organismo. Descreva quais são as ações metabólicas do glucagon.",
+                gabarito: "<b>Gabarito Oficial & Resumo Teórico:</b><br>O glucagon é secretado pelas células alfa pancreáticas em resposta à hipoglicemia. Suas ações metabólicas predominantemente hepáticas e adiposas são:<br>• Estímulo à glicogenólise hepática (quebra do glicogênio em glicose).<br>• Estímulo à gliconeogênese (formação de glicose a partir de aminoácidos, glicerol e lactato).<br>• Estímulo à lipólise no tecido adiposo via ativação da Lipase Hormônio-Sensível (LHS).<br>• Estímulo à cetogênese no fígado, formando corpos cetônicos a partir de ácidos graxos."
+            },
+            {
+                num: 5,
+                type: "dissertative",
+                category: "Somatostatina Pancreática",
+                statement: "5. As células delta do pâncreas são responsáveis pela produção do hormônio somatostatina. Quais são as ações deste hormônio?",
+                gabarito: "<b>Gabarito Oficial & Resumo Teórico:</b><br>A somatostatina é um hormônio inibitório produzido pelas células delta das ilhotas pancreáticas. Suas ações incluem:<br>• Inibição parácrina local da secreção de insulina (células beta) e de glucagon (células alfa).<br>• Redução da motilidade do estômago, duodeno e vesícula biliar.<br>• Inibição da secreção do suco gástrico, gastrina e secretina.<br>• Diminuição da absorção intestinal de nutrientes, prolongando a assimilação alimentar e evitando picos glicêmicos."
+            }
+        ];
+
+        const objectiveQuestions = [
+            {
+                num: 1,
+                type: "objective",
+                category: "Histologia Pancreática",
+                statement: "Questão 1 (Objetiva) - Sobre a organização histológica e funcional do pâncreas endócrino, assinale a alternativa correta:",
+                options: [
+                    "A. As células beta (β) correspondem a cerca de 20% das ilhotas de Langerhans e secretam o hormônio glucagon.",
+                    "B. A somatostatina é secretada pelas células alfa (α) e representa aproximadamente 65% do tecido endócrino pancreático.",
+                    "C. As ilhotas de Langerhans abrigam células beta (β) (65%), células alfa (α) (20%) e células delta (δ) (10%).",
+                    "D. O pâncreas possui cerca de 10 a 20 mil ilhotas distribuídas exclusivamente na cabeça do órgão.",
+                    "E. O polipeptídeo pancreático é produzido e liberado pelas células delta (δ)."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O pâncreas endócrino é composto por cerca de 1 a 2 milhões de ilhotas de Langerhans. A distribuição das células inclui: beta (65%, insulina), alfa (20%, glucagon), delta (10%, somatostatina) e PP/F (polipeptídeo pancreático).<br><br><b>Justificativa da alternativa correta (C):</b> A proporção de 65% de células beta, 20% de células alfa e 10% de células delta reflete a composição histológica típica das ilhotas."
+            },
+            {
+                num: 2,
+                type: "objective",
+                category: "Síntese de Insulina",
+                statement: "Questão 2 (Objetiva) - A respeito da biossíntese e maturação da insulina, assinale a alternativa correta:",
+                options: [
+                    "A. A pré-pró-insulina é processada no retículo endoplásmico rugoso (RER) dando origem à pró-insulina.",
+                    "B. O Peptídeo C é uma impureza descartada antes do empacotamento da insulina nos grânulos de secreção, não chegando à circulação.",
+                    "C. A insulina madura é formada por três cadeias de aminoácidos unidas exclusivamente por ligações de hidrogênio.",
+                    "D. O tempo necessário para a conversão da pró-insulina em insulina nos grânulos imaturos é de aproximadamente 5 a 10 segundos.",
+                    "E. A liberação do Peptídeo C ocorre via secreção constitutiva, independente do influxo de cálcio."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A síntese inicia no RER como pré-pró-insulina, clivada para pró-insulina. No Golgi e grânulos, a pró-insulina gera a insulina madura (cadeias A e B unidas por pontes dissulfeto) e o Peptídeo C, co-secretados em proporção equimolar.<br><br><b>Justificativa da alternativa correta (A):</b> O RER é o local de clivagem da pré-pró-insulina em pró-insulina."
+            },
+            {
+                num: 3,
+                type: "objective",
+                category: "Mecanismo de Secreção de Insulina",
+                statement: "Questão 3 (Objetiva) - No mecanismo molecular da secreção de insulina pelas células beta, a elevação da glicemia desencadeia uma sequência de eventos. A ordem cronológica CORRETA desses eventos é:",
+                options: [
+                    "A. Entrada de glicose via GLUT-4 -> Bloqueio do canal de Ca2+ -> Abertura do canal de K+ -> Exocitose.",
+                    "B. Entrada de glicose via GLUT-2 -> Aumento de ATP -> Fechamento dos canais de K+ -> Despolarização -> Abertura dos canais de Ca2+ -> Exocitose.",
+                    "C. Abertura dos canais de K+ sensíveis ao ATP -> Entrada de glicose via GLUT-1 -> Hiperpolarização -> Entrada de cálcio.",
+                    "D. Influxo direto de Ca2+ pela membrana -> Glicólise -> Aumento de ADP -> Exocitose de insulina.",
+                    "E. Entrada de glicose via GLUT-5 -> Ativação do receptor Tyrosine Kinase -> Aumento de K+ citossólico."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A glicose entra na célula beta via GLUT-2, aumenta a razão ATP/ADP, fecha os canais de K+ sensíveis ao ATP, despolariza a membrana, abre os canais de Ca2+ voltagem-dependentes e desencadeia a exocitose.<br><br><b>Justificativa da alternativa correta (B):</b> Descreve exatamente a cascata iônica e metabólica de liberação da insulina."
+            },
+            {
+                num: 4,
+                type: "objective",
+                category: "Transportadores de Glicose",
+                statement: "Questão 4 (Objetiva) - Qual dos seguintes transportadores de glicose possui sua translocação para a membrana plasmática dependente da sinalização da insulina?",
+                options: [
+                    "A. GLUT-1",
+                    "B. GLUT-2",
+                    "C. GLUT-3",
+                    "D. GLUT-4",
+                    "E. GLUT-5"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> O GLUT-4 é o transportador insulina-dependente expresso no músculo estriado e tecido adiposo. GLUT-1 (hemácias, cérebro), GLUT-2 (fígado, pâncreas), GLUT-3 (neurônios) e GLUT-5 (intestino) são independentes de insulina.<br><br><b>Justificativa da alternativa correta (D):</b> A insulina estimula a translocação de vesículas de GLUT-4 para a membrana celular."
+            },
+            {
+                num: 5,
+                type: "objective",
+                category: "Metabolismo dos Lipídeos",
+                statement: "Questão 5 (Objetiva) - Sobre as ações da insulina no metabolismo dos lipídeos, é correto afirmar que ela:",
+                options: [
+                    "A. Estimula a Lipase Hormônio-Sensível (LHS) no tecido adiposo, aumentando a lipólise.",
+                    "B. Inibe a enzima Lipoproteína Lipase (LPL), reduzindo o armazenamento de gordura.",
+                    "C. Ativa a Lipoproteína Lipase (LPL) e inibe a Lipase Hormônio-Sensível (LHS), promovendo a lipogênese.",
+                    "D. Bloqueia a captação de glicose pelo tecido adiposo ao inibir o substrato alfa-glicerolfosfato.",
+                    "E. Reduz a conversão de ácidos graxos em triacilglicerol no interior do adipócito."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A insulina é lipogênica: ativa a LPL para captação de ácidos graxos circulantes e inibe a LHS, bloqueando a lipólise no adipócito.<br><br><b>Justificativa da alternativa correta (C):</b> A ativação da LPL favorece o armazenamento lipídico e a inibição da LHS impede a degradação dos triacilgliceróis."
+            },
+            {
+                num: 6,
+                type: "objective",
+                category: "Incretinas e GLP-1",
+                statement: "Questão 6 (Objetiva) - Em relação às incretinas, especificamente o GLP-1 (Peptídeo Semelhante ao Glucagon), assinale a alternativa correta:",
+                options: [
+                    "A. É secretado pelas células K do duodeno em resposta à ingestão de fibras.",
+                    "B. É responsável por inibir a secreção de insulina e acelerar o esvaziamento gástrico.",
+                    "C. É secretado pelas células L do intestino, aumenta a secreção de insulina, reduz o glucagon e retarda o esvaziamento gástrico.",
+                    "D. Tem sua meia-vida prolongada no sangue por ação da enzima Dipeptidil Peptidase IV (DPP-IV).",
+                    "E. Apresenta efeito antagônico ao GIP no que tange ao estímulo da célula beta pancreática."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O GLP-1 é secretado pelas células L intestinais. Aumenta a insulina dependente de glicose, suprime o glucagon, retarda o esvaziamento gástrico e promove saciedade.<br><br><b>Justificativa da alternativa correta (C):</b> Sintetiza a origem celular e os principais efeitos fisiológicos do GLP-1."
+            },
+            {
+                num: 7,
+                type: "objective",
+                category: "Farmacologia do Diabetes",
+                statement: "Questão 7 (Objetiva) - Analisando as estratégias farmacológicas no tratamento do Diabetes Mellitus tipo 2 baseadas no sistema das incretinas, é correto afirmar que:",
+                options: [
+                    "A. Os inibidores da DPP-IV bloqueiam a liberação de insulina ao destruírem os receptores de GLP-1.",
+                    "B. Agonistas do receptor de GLP-1 (como a Liraglutida e Semaglutida) são degradados instantaneamente pela enzima DPP-IV.",
+                    "C. Medicamentos inibidores da DPP-IV impedem a inativação do GLP-1 endógeno, mantendo suas ações biológicas por mais tempo.",
+                    "D. O hormônio GLP-1 natural possui tempo de ação circulante de 24 horas, dispensando análogos sintéticos.",
+                    "E. O monstro-de-gila foi utilizado para extrair a enzima DPP-IV humana em larga escala."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A DPP-IV degrada o GLP-1 em minutos. Os inibidores da DPP-IV preservam o GLP-1 nativo ativo, prolongando seu efeito insulinotrópico.<br><br><b>Justificativa da alternativa correta (C):</b> Ao inibir a DPP-IV, impede-se a quebra enzimática do GLP-1 endógeno."
+            },
+            {
+                num: 8,
+                type: "objective",
+                category: "Dinâmica da Secreção de Insulina",
+                statement: "Questão 8 (Objetiva) - A curva bimodal da secreção de insulina em resposta a um estímulo contínuo e mantido de glicose demonstra que:",
+                options: [
+                    "A. A primeira fase reflete a conversão imediata de aminoácidos em insulina no núcleo celular.",
+                    "B. A primeira fase é rápida e resulta do esvaziamento de grânulos pré-formados; a segunda fase é sustentada e envolve a síntese e liberação de novas vesículas.",
+                    "C. A secreção de insulina cai a zero após 10 minutos devido à exaustão definitiva das células beta.",
+                    "D. O glucagon é liberado simultaneamente na primeira fase para impedir a hipoglicemia.",
+                    "E. A segunda fase ocorre independentemente dos níveis de cálcio intracelular."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A secreção possui padrão bifásico: 1ª fase rápida (exocitose dos grânulos estocados e ancorados) e 2ª fase sustentada (nova síntese e recrutamento vesicular).<br><br><b>Justificativa da alternativa correta (B):</b> Explica as bases celulares das duas fases de secreção da insulina."
+            },
+            {
+                num: 9,
+                type: "objective",
+                category: "Ações do Glucagon",
+                statement: "Questão 9 (Objetiva) - Sobre as ações do glucagon no metabolismo intermediário, assinale a opção correta:",
+                options: [
+                    "A. Reduz a gliconeogênese ao inibir o fornecimento de aminoácidos ao fígado.",
+                    "B. Ativa a glicogênio sintase hepática, acelerando a glicogenogênese.",
+                    "C. Estimula a glicogenólise e a gliconeogênese no fígado via sinalização de AMPc.",
+                    "D. Estimula a captação maciça de glicose pelos tecidos adiposo e muscular.",
+                    "E. Inibe a formação de cetoácidos durante o jejum prolongado."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O glucagon ativa receptores acoplados à proteína G no fígado, elevando o AMPc e estimulando a glicogenólise e a gliconeogênese.<br><br><b>Justificativa da alternativa correta (C):</b> A via do AMPc é o mecanismo secundário central do glucagon para elevação da glicemia."
+            },
+            {
+                num: 10,
+                type: "objective",
+                category: "Somatostatina Pancreática",
+                statement: "Questão 10 (Objetiva) - Considerando o papel da somatostatina pancreática na regulação parácrina, pode-se afirmar que esse hormônio:",
+                options: [
+                    "A. Estimula seletivamente a liberação de glucagon pelas células alfa sem afetar a insulina.",
+                    "B. Inibe a secreção de insulina e de glucagon localmente nas ilhotas de Langerhans.",
+                    "C. Aumenta a motilidade do estômago e a taxa de absorção de nutrientes no intestino.",
+                    "D. É produzido em maior quantidade do que a insulina para manter o tônus glicêmico basal.",
+                    "E. Atua como um potente hormônio hiperglicemiante sistêmico de emergência."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Secretada pelas células delta, a somatostatina exerce um controle inibitório parácrino local sobre as células alfa (glucagon) e beta (insulina).<br><br><b>Justificativa da alternativa correta (B):</b> A inibição parácrina direta sobre as células vizinhas da ilhota é sua função clássica."
+            },
+            {
+                num: 11,
+                type: "objective",
+                category: "Diagnóstico de Glicemia",
+                statement: "Questão 11 (Objetiva) - De acordo com os critérios diagnósticos da glicemia de jejum apresentados no material, um indivíduo que apresenta uma taxa plasmática de 115 mg/dL em jejum é classificado como:",
+                options: [
+                    "A. Hipoglicêmico",
+                    "B. Normal (Normoglicêmico)",
+                    "C. Pré-diabético",
+                    "D. Diabético",
+                    "E. Diabético tipo 1 descompensado"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Faixas de glicemia de jejum: Hipoglicemia (<70 mg/dL), Normal (70 a 99 mg/dL), Pré-diabetes (100 a 125 mg/dL) e Diabetes (>= 126 mg/dL).<br><br><b>Justificativa da alternativa correta (C):</b> O valor de 115 mg/dL enquadra-se estritamente na faixa de pré-diabetes (100 a 125 mg/dL)."
+            },
+            {
+                num: 12,
+                type: "objective",
+                category: "Hormônios Contrarreguladores",
+                statement: "Questão 12 (Objetiva) - Qual dos seguintes hormônios atua de forma contrarreguladora à insulina, elevando a glicemia durante situações de hipoglicemia ou estresse?",
+                options: [
+                    "A. Somatostatina e Peptídeo C.",
+                    "B. Cortisol, Adrenalina e Glucagon.",
+                    "C. GIP, GLP-1 e Insulina.",
+                    "D. Betatrofina e Polipeptídeo Pancreático.",
+                    "E. Glicoquinase e Troponina."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Os hormônios contrarreguladores defendem o organismo da hipoglicemia: Glucagon, Adrenalina, Noradrenalina, Cortisol e GH.<br><br><b>Justificativa da alternativa correta (B):</b> Cortisol, adrenalina e glucagon promovem a elevação da glicose sanguínea em oposição à insulina."
+            },
+            {
+                num: 13,
+                type: "objective",
+                category: "Fisiopatologia do Diabetes",
+                statement: "Questão 13 (Objetiva) - A respeito da Fisiopatologia do Diabetes Mellitus Tipo 1 e Tipo 2, assinale a afirmativa correta:",
+                options: [
+                    "A. O Diabetes Tipo 1 decorre da destruição autoimune das células beta, resultando em deficiência absoluta de insulina.",
+                    "B. O Diabetes Tipo 2 é provocado exclusivamente pela secreção excessiva de glucagon por um tumor nas células alfa.",
+                    "C. No Diabetes Tipo 2, ocorre destruição viral imediata do tecido exócrino pancreático.",
+                    "D. Pacientes com Diabetes Tipo 1 mantêm produção normal de insulina, porém apresentam resistência nos receptores musculares.",
+                    "E. A resistência à insulina no tipo 2 reduz a glicemia de jejum devido ao esgotamento do glicogênio hepático."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O Diabetes Tipo 1 é autoimune (destruição das células beta com deficiência absoluta de insulina). O Tipo 2 envolve resistência periférica e disfunção progressiva da célula beta.<br><br><b>Justificativa da alternativa correta (A):</b> Reflete perfeitamente o mecanismo patogênico do Diabetes Tipo 1."
+            },
+            {
+                num: 14,
+                type: "objective",
+                category: "Cirurgia Metabólica e Incretinas",
+                statement: "Questão 14 (Objetiva) - Uma das cirurgias metabólicas utilizadas para o tratamento do Diabetes Tipo 2 envolve o reposicionamento do íleo. O principal mecanismo hormonal de melhora do diabetes associado a essa técnica é:",
+                options: [
+                    "A. A eliminação total da secreção de somatostatina pelo duodeno.",
+                    "B. O contato precoce do alimento com o íleo, estimulando a liberação maciça de GLP-1.",
+                    "C. A interrupção imediata do fluxo de bile, impedindo a absorção de glicose.",
+                    "D. O aumento da secreção de grelina por remoção do cólon.",
+                    "E. A destruição cirúrgica das células alfa do pâncreas."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O reposicionamento do íleo faz o alimento atingir as células L precocemente, aumentando drasticamente o GLP-1 pós-prandial e restaurando a secreção de insulina.<br><br><b>Justificativa da alternativa correta (B):</b> O aumento do estímulo incretínico (GLP-1) via íleo é a base do benefício metabólico."
+            },
+            {
+                num: 15,
+                type: "objective",
+                category: "Sinalização da Insulina",
+                statement: "Questão 15 (Objetiva) - Em relação ao receptor de insulina e sua via de sinalização intracelular, é correto afirmar que:",
+                options: [
+                    "A. Trata-se de um canal iônico dependente de voltagem diretamente acoplado à calmodulina.",
+                    "B. A ligação da insulina ao receptor induz a autofosforilação em resíduos de tirosina kinase na subunidade beta.",
+                    "C. O receptor de insulina é do tipo intracelular/nuclear, ligando-se diretamente ao DNA sem mediadores.",
+                    "D. A ativação do receptor bloqueia permanentemente a síntese proteica e os fatores de transcrição.",
+                    "E. O receptor atua degradando o PIP3 em ADP para inativar a enzima glicoquinase."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O receptor de insulina é um heterotetrâmero com atividade tirosina quinase. A ligação da insulina promove a autofosforilação das subunidades beta citoplasmáticas e ativa a cascata do IRS/PI3K.<br><br><b>Justificativa da alternativa correta (B):</b> A autofosforilação do resíduo de tirosina kinase é a etapa disparadora do sinal intracelular."
+            },
+            {
+                num: 16,
+                type: "objective",
+                category: "Metabolismo Proteico",
+                statement: "Questão 16 (Objetiva) - Como a insulina atua no metabolismo das proteínas nas células musculares esqueléticas?",
+                options: [
+                    "A. Estimulando a proteólise e a liberação de aminoácidos no sangue.",
+                    "B. Inibindo a captação de aminoácidos e bloqueando a tradução de mRNAs.",
+                    "C. Promovendo a captação de aminoácidos, aumentando a síntese proteica e inibindo o catabolismo proteico.",
+                    "D. Convertendo aminoácidos essenciais em glicose via gliconeogênese muscular.",
+                    "E. Inativando os fatores de elongação da tradução ribossômica."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A insulina é anabólica proteica: aumenta o transporte ativo de aminoácidos, ativa a tradução de proteínas e inibe as vias de degradação proteico-muscular.<br><br><b>Justificativa da alternativa correta (C):</b> O efeito líquido da insulina no músculo é o ganho e preservação de massa proteica."
+            },
+            {
+                num: 17,
+                type: "objective",
+                category: "Regulação do Glucagon",
+                statement: "Questão 17 (Objetiva) - Sobre a regulação fisiológica da secreção de glucagon pelas células alfa pancreáticas, qual dos seguintes fatores é um potente ESTIMULADOR da sua liberação?",
+                options: [
+                    "A. Hiperglicemia.",
+                    "B. Concentração elevada de insulina local.",
+                    "C. Queda na concentração de glicose sanguínea (Hipoglicemia).",
+                    "D. Aumento na concentração de somatostatina.",
+                    "E. Ingestão isolada e maciça de carboidratos de alto índice glicêmico."
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O glucagon é liberado durante a hipoglicemia para elevar a glicose sanguínea. Hiperglicemia, insulina e somatostatina inibem a célula alfa.<br><br><b>Justificativa da alternativa correta (C):</b> A hipoglicemia remove o freio inibitório e estimula diretamente a liberação do glucagon."
+            },
+            {
+                num: 18,
+                type: "objective",
+                category: "Pesquisa em Diabetes - Betatrofina",
+                statement: "Questão 18 (Objetiva) - A Betatrofina é um hormônio descoberto em estudos de resistência à insulina cuja principal função fisiológica demonstrada em roedores é:",
+                options: [
+                    "A. Destruir seletivamente o excesso de grânulos de glucagon nas células alfa.",
+                    "B. Promover a proliferação e o aumento da massa de células beta pancreáticas.",
+                    "C. Bloquear a ação dos transportadores GLUT-4 no músculo esquelético.",
+                    "D. Inibir a conversão de pró-insulina em insulina no complexo de Golgi.",
+                    "E. Induzir a apoptose acelerada de adipócitos brancos."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A betatrofina é secretada pelo fígado/adipócito em quadros de resistência à insulina para induzir a proliferação e expansão da massa de células beta pancreáticas.<br><br><b>Justificativa da alternativa correta (B):</b> O estudo demonstrou um aumento significativo na proliferação de células beta promovido pela betatrofina."
+            },
+            {
+                num: 19,
+                type: "objective",
+                category: "Metabolismo Hepático da Glicose",
+                statement: "Questão 19 (Objetiva) - No fígado, a ação da insulina favorece a retenção de glicose e a síntese de glicogênio. A enzima ativada pela insulina para converter a glicose captada em glicose-6-fosfato é a:",
+                options: [
+                    "A. Glicogênio fosforilase.",
+                    "B. Glicoquinase.",
+                    "C. Lipase Hormônio-Sensível.",
+                    "D. Fosfofructoquinase inibidora.",
+                    "E. Lactato desidrogenase tipo B."
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Ao entrar no hepatócito, a glicose é fosforilada pela glicoquinase para ser mantida no meio intracelular e direcionada à síntese de glicogênio via glicogênio sintase.<br><br><b>Justificativa da alternativa correta (B):</b> A glicoquinase é a enzima hepática responsável pela primeira etapa do aprisionamento intracelular da glicose."
+            },
+            {
+                num: 20,
+                type: "objective",
+                category: "Homeostase Pós-Prandial",
+                statement: "Questão 20 (Objetiva) - Considerando o controle global da homeostase glicêmica no estado pós-prandial (após uma refeição rica em carboidratos), qual o perfil hormonal esperado no sangue arterial?",
+                options: [
+                    "A. Insulina elevada, Glucagon reduzido, GLP-1 elevado.",
+                    "B. Insulina reduzida, Glucagon elevado, GIP reduzido.",
+                    "C. Insulina reduzida, Glucagon elevado, Adrenalina elevada.",
+                    "D. Somatostatina nula, Insulina reduzida, Glucagon elevado.",
+                    "E. Cortisol elevado, Glucagon elevado, Insulina ausente."
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> No estado alimentado/pós-prandial, a glicose e as incretinas (GLP-1 e GIP) sobem, estimulando forte secreção de insulina e suprimindo o glucagon.<br><br><b>Justificativa da alternativa correta (A):</b> Representa o perfil hormonal pós-prandial exato para armazenamento e captação de nutrientes."
+            }
+        ];
+
+        /* ==========================================================================
+           2. ESTADO GLOBAL, CONFIGURAÇÕES E MOTOR DO SISTEMA
+           ========================================================================== */
+        let currentModuleType = 'objective'; // 'dissertative' ou 'objective'
+        let currentQuestions = [];
+        let currentQIndex = 0;
+        let userAnswers = []; 
+        let userDissertativeRatings = []; 
+        let userConfidence = []; 
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let fontDelta = 0;
+        let gridFilter = 'ALL';
+        let isForceMobile = false;
+        let isDarkMode = false;
+
+        /* CRONÔMETRO */
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+
+        /* CONFIGURAÇÕES PADRÃO */
+        let appSettings = {
+            showTimer: true,
+            showAvgTime: true,
+            showConfidence: true,
+            showHistory: true,
+            showNotes: true,
+            showChart: true,
+            showToolbar: true,
+            showGrid: true
+        };
+
+        let isPenActive = false;
+        let isEraserActive = false;
+        let isDrawing = false;
+
+        window.onload = function() {
+            populateTopicFilter();
+            loadSettings();
+            loadState();
+            renderHistory();
+            initFloatingWidget();
+        };
+
+        /* MODO ESCURO (DARK MODE) */
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            
+            const btnTheme = document.getElementById('theme-toggle-btn');
+            const hudBtns = document.querySelectorAll('.hud-theme-btn');
+            const cfgDark = document.getElementById('cfg-darkmode');
+
+            if (btnTheme) btnTheme.innerText = isDarkMode ? '☀️ Light' : '🌙 Dark';
+            hudBtns.forEach(b => b.innerText = isDarkMode ? '☀️ Light' : '🌙 Dark');
+            if (cfgDark) cfgDark.checked = isDarkMode;
+
+            saveState();
+        }
+
+        /* CONFIGURAÇÕES DO PAINEL */
+        function openSettingsModal() {
+            document.getElementById('cfg-darkmode').checked = isDarkMode;
+            document.getElementById('cfg-timer').checked = appSettings.showTimer;
+            document.getElementById('cfg-avgtime').checked = appSettings.showAvgTime;
+            document.getElementById('cfg-confidence').checked = appSettings.showConfidence;
+            document.getElementById('cfg-history').checked = appSettings.showHistory;
+            document.getElementById('cfg-notes').checked = appSettings.showNotes;
+            document.getElementById('cfg-chart').checked = appSettings.showChart;
+            document.getElementById('cfg-toolbar').checked = appSettings.showToolbar;
+            document.getElementById('cfg-grid').checked = appSettings.showGrid;
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            appSettings.showTimer = document.getElementById('cfg-timer').checked;
+            appSettings.showAvgTime = document.getElementById('cfg-avgtime').checked;
+            appSettings.showConfidence = document.getElementById('cfg-confidence').checked;
+            appSettings.showHistory = document.getElementById('cfg-history').checked;
+            appSettings.showNotes = document.getElementById('cfg-notes').checked;
+            appSettings.showChart = document.getElementById('cfg-chart').checked;
+            appSettings.showToolbar = document.getElementById('cfg-toolbar').checked;
+            appSettings.showGrid = document.getElementById('cfg-grid').checked;
+
+            saveSettings();
+            applySettings();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('simulado_fisio_settings', JSON.stringify(appSettings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('simulado_fisio_settings');
+            if (saved) {
+                try {
+                    appSettings = { ...appSettings, ...JSON.parse(saved) };
+                } catch(e) { console.error(e); }
+            }
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('hud-timer-stat').style.display = appSettings.showTimer ? 'flex' : 'none';
+            document.getElementById('hud-avgtime-stat').style.display = appSettings.showAvgTime ? 'flex' : 'none';
+            document.getElementById('history-section').style.display = appSettings.showHistory ? 'block' : 'none';
+            document.getElementById('notes-card-box').style.display = appSettings.showNotes ? 'block' : 'none';
+            document.getElementById('chart-card-box').style.display = appSettings.showChart ? 'block' : 'none';
+            
+            const widget = document.getElementById('floating-widget');
+            if (widget) {
+                const isGameHudVisible = document.getElementById('game-hud').style.display === 'flex';
+                widget.style.display = (appSettings.showToolbar && isGameHudVisible) ? 'flex' : 'none';
+            }
+            
+            document.getElementById('grid-card-box').style.display = appSettings.showGrid ? 'block' : 'none';
+        }
+
+        /* TIMER LOGIC */
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalElapsedSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').innerText = `${mins}:${secs}`;
+        }
+
+        /* ALTERNADOR DE MODO CELULAR MANUAL */
+        function toggleMobileLayout() {
+            isForceMobile = !isForceMobile;
+            applyLayoutMode();
+            saveState();
+        }
+
+        function applyLayoutMode() {
+            document.body.classList.toggle('force-mobile-mode', isForceMobile);
+            const btns = document.querySelectorAll('.btn-layout-toggle-class');
+            btns.forEach(btn => {
+                btn.innerText = isForceMobile ? '📱 Modo Celular: LIGADO' : '📱 Modo Celular: AUTO';
+                if (isForceMobile) {
+                    btn.style.background = 'var(--accent-yellow)';
+                    btn.style.color = '#fff';
+                } else {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            });
+        }
+
+        /* LÓGICA DE SELEÇÃO MULTI-TEMA */
+        function populateTopicFilter() {
+            const container = document.getElementById('topic-checkbox-list');
+            container.innerHTML = '';
+
+            const allQs = [...dissertativeQuestions, ...objectiveQuestions];
+            const categories = [...new Set(allQs.map(q => q.category))].sort();
+
+            let html = `
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; cursor: pointer; color: var(--text-main); font-weight: bold;">
+                    <input type="checkbox" value="ALL" id="cb-all-topics" checked onchange="toggleAllTopics(this)">
+                    [Selecionar Todos os Temas]
+                </label>
+                <hr style="border: 0; border-top: 1px solid var(--border-glow); margin: 8px 0;">
+            `;
+
+            categories.forEach((cat) => {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.88rem; cursor: pointer; color: var(--text-main);">
+                        <input type="checkbox" class="topic-cb" value="${cat}" checked onchange="updateTopicSelection()">
+                        ${cat}
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateTopicBtnLabel();
+        }
+
+        function toggleTopicDropdown() {
+            const list = document.getElementById('topic-checkbox-list');
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('#topic-dropdown-wrapper')) {
+                const list = document.getElementById('topic-checkbox-list');
+                if (list) list.style.display = 'none';
+            }
+        };
+
+        function toggleAllTopics(source) {
+            const cbs = document.querySelectorAll('.topic-cb');
+            cbs.forEach(cb => cb.checked = source.checked);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicSelection() {
+            const cbs = document.querySelectorAll('.topic-cb');
+            const allCb = document.getElementById('cb-all-topics');
+            const total = cbs.length;
+            const checkedCount = document.querySelectorAll('.topic-cb:checked').length;
+
+            allCb.checked = (checkedCount === total);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicBtnLabel() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            const total = document.querySelectorAll('.topic-cb').length;
+            const btn = document.getElementById('topic-dropdown-btn');
+
+            if (checked.length === 0) {
+                btn.innerText = 'Nenhum tema ▾';
+            } else if (checked.length === total) {
+                btn.innerText = 'Todos os Temas ▾';
+            } else if (checked.length === 1) {
+                btn.innerText = `${checked[0].value.substring(0, 16)}... ▾`;
+            } else {
+                btn.innerText = `${checked.length} Temas Selecionados ▾`;
+            }
+        }
+
+        function getSelectedTopics() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        /* INICIALIZAÇÃO DE MÓDULO (DISSERTATIVO OU OBJETIVO) */
+        function startModule(moduleType) {
+            currentModuleType = moduleType;
+            gameMode = document.getElementById('game-mode-select').value;
+            const selectedTopics = getSelectedTopics();
+
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema para iniciar.');
+                return;
+            }
+
+            let baseQuestions = moduleType === 'dissertative' 
+                ? dissertativeQuestions.map(q => ({...q}))
+                : objectiveQuestions.map(q => ({...q}));
+
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                baseQuestions = baseQuestions.filter(q => selectedTopics.includes(q.category));
+            }
+
+            if (baseQuestions.length === 0) {
+                alert('Não há questões correspondentes aos temas selecionados no módulo escolhido.');
+                return;
+            }
+
+            currentQuestions = baseQuestions;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userDissertativeRatings = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            isPenActive = false;
+            isEraserActive = false;
+
+            const moduleTitle = moduleType === 'dissertative' ? 'ESTUDO DIRIGIDO (DISSERTATIVAS)' : `SIMULADO OBJETIVO (${gameMode.toUpperCase()})`;
+            
+            document.getElementById('quiz-title-badge').innerText = moduleTitle;
+            document.getElementById('quiz-title-badge').style.color = moduleType === 'dissertative' ? '#d97706' : '#2563eb';
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+
+            resetTimer();
+            startTimer();
+
+            setupGrifoEvents();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+            saveState();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            renderHistory();
+        }
+
+        function changeFontSize(delta) {
+            fontDelta = Math.max(-2, Math.min(4, fontDelta + delta));
+            const stmt = document.getElementById('q-statement');
+            stmt.style.fontSize = (1.08 + fontDelta * 0.1) + 'rem';
+            document.querySelectorAll('.opt-btn').forEach(b => {
+                b.style.fontSize = (0.98 + fontDelta * 0.1) + 'rem';
+            });
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = '#f59e0b';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#d97706';
+                btn.innerText = '🚩 Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+                btn.innerText = '🚩 Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = q.type === 'dissertative' ? userDissertativeRatings[idx] !== null : userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                btn.id = `nav-btn-${idx}`;
+                
+                let label = idx + 1;
+                if (isFlagged) label += ' 🚩';
+                btn.innerText = label;
+
+                if (isAnswered) {
+                    if (q.type === 'dissertative') {
+                        if (userDissertativeRatings[idx] === true) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        if (gameMode === 'estudo' || isFinished) {
+                            if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                            else btn.classList.add('incorrect-q');
+                        } else {
+                            btn.classList.add('answered-realista-q');
+                        }
+                    }
+                }
+
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => { loadQuestion(idx); };
+                grid.appendChild(btn);
+            });
+        }
+
+        /* CANETA GRIFO E BORRACHA */
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            const btnPen = document.getElementById('btn-highlight');
+            const btnEraser = document.getElementById('btn-eraser');
+
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            if (isPenActive) {
+                btnPen.style.background = 'var(--hl-bg)';
+                btnPen.style.color = 'var(--hl-text)';
+                btnPen.innerText = '🖍️ Marca-texto';
+            } else {
+                btnPen.style.background = '';
+                btnPen.style.color = '';
+                btnPen.innerText = '🖍️ Marca-texto';
+            }
+
+            if (isEraserActive) {
+                btnEraser.style.background = '#fee2e2';
+                btnEraser.style.color = '#991b1b';
+                btnEraser.innerText = '🧽 Borracha';
+            } else {
+                btnEraser.style.background = '';
+                btnEraser.style.color = '';
+                btnEraser.innerText = '🧽 Borracha';
+            }
+        }
+
+        /* LÓGICA DO BOTÃO FLUTUANTE MOVÍVEL */
+        function initFloatingWidget() {
+            const container = document.getElementById('floating-widget');
+            const mainBtn = document.getElementById('floating-main-btn');
+            const menu = document.getElementById('floating-menu');
+
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+            let hasDragged = false;
+
+            mainBtn.addEventListener('click', (e) => {
+                if (!hasDragged) {
+                    menu.classList.toggle('open');
+                }
+            });
+
+            function onPointerDown(e) {
+                isDragging = true;
+                hasDragged = false;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                startX = clientX;
+                startY = clientY;
+
+                const rect = container.getBoundingClientRect();
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                document.addEventListener('mousemove', onPointerMove);
+                document.addEventListener('mouseup', onPointerUp);
+                document.addEventListener('touchmove', onPointerMove, { passive: false });
+                document.addEventListener('touchend', onPointerUp);
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const deltaX = clientX - startX;
+                const deltaY = clientY - startY;
+
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    hasDragged = true;
+                }
+
+                let newLeft = initialLeft + deltaX;
+                let newTop = initialTop + deltaY;
+
+                const maxLeft = window.innerWidth - container.offsetWidth;
+                const maxTop = window.innerHeight - container.offsetHeight;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                container.style.left = newLeft + 'px';
+                container.style.top = newTop + 'px';
+                container.style.right = 'auto';
+                container.style.bottom = 'auto';
+
+                if (e.cancelable) e.preventDefault();
+            }
+
+            function onPointerUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onPointerMove);
+                document.removeEventListener('mouseup', onPointerUp);
+                document.removeEventListener('touchmove', onPointerMove);
+                document.removeEventListener('touchend', onPointerUp);
+            }
+
+            mainBtn.addEventListener('mousedown', onPointerDown);
+            mainBtn.addEventListener('touchstart', onPointerDown, { passive: true });
+        }
+
+        function renderStatementWithWords(text) {
+            const container = document.getElementById('q-statement');
+            container.innerHTML = '';
+
+            const lines = text.split('\n');
+            lines.forEach((line, lIdx) => {
+                const chunks = line.split(/(\s+)/);
+                chunks.forEach(chunk => {
+                    if (chunk.trim().length > 0) {
+                        const span = document.createElement('span');
+                        span.className = 'hl-word';
+                        span.innerText = chunk;
+                        container.appendChild(span);
+                    } else {
+                        container.appendChild(document.createTextNode(chunk));
+                    }
+                });
+                if (lIdx < lines.length - 1) {
+                    container.appendChild(document.createElement('br'));
+                }
+            });
+        }
+
+        function setupGrifoEvents() {
+            const qStmt = document.getElementById('q-statement');
+
+            function markWordAtEvent(e) {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                let target = e.target;
+                if (e.touches && e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    target = document.elementFromPoint(touch.clientX, touch.clientY);
+                }
+                if (target && target.classList && target.classList.contains('hl-word')) {
+                    if (isPenActive) {
+                        target.classList.add('marked');
+                    } else if (isEraserActive) {
+                        target.classList.remove('marked');
+                    }
+                }
+            }
+
+            qStmt.addEventListener('mousedown', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            });
+
+            qStmt.addEventListener('mousemove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                markWordAtEvent(e);
+            });
+
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            qStmt.addEventListener('touchstart', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                isDrawing = true;
+                markWordAtEvent(e);
+            }, { passive: true });
+
+            qStmt.addEventListener('touchmove', (e) => {
+                if ((!isPenActive && !isEraserActive) || !isDrawing) return;
+                if (e.cancelable) e.preventDefault();
+                markWordAtEvent(e);
+            }, { passive: false });
+
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        }
+
+        /* NAVEGAÇÃO E SELEÇÃO DE QUESTÕES */
+        function loadQuestion(idx) {
+            if (currentQIndex !== null) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            isPenActive = false;
+            isEraserActive = false;
+            updatePenEraserUI();
+            updateFlagUI();
+
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            
+            const categoryTag = document.getElementById('q-category');
+            categoryTag.innerText = q.category.toUpperCase();
+
+            renderStatementWithWords(q.statement);
+            changeFontSize(0);
+
+            const optsContainer = document.getElementById('options-group');
+            const dissertativeGroup = document.getElementById('dissertative-group');
+            const expPanel = document.getElementById('explanation-panel');
+            const confBox = document.getElementById('confidence-box');
+            const btnConfirm = document.getElementById('btn-confirm');
+
+            if (q.type === 'dissertative') {
+                // RENDERIZAR INTERFACE DISSERTATIVAS
+                optsContainer.style.display = 'none';
+                confBox.style.display = 'none';
+                btnConfirm.style.display = 'none';
+                dissertativeGroup.style.display = 'block';
+
+                document.getElementById('student-answer').value = userAnswers[idx] || '';
+
+                const evalBox = document.getElementById('self-eval-box');
+                if (userDissertativeRatings[idx] !== null || expPanel.style.display === 'block') {
+                    expPanel.style.display = 'block';
+                    evalBox.style.display = 'block';
+                    document.getElementById('exp-body').innerHTML = q.gabarito;
+                    updateEvalButtonsUI(userDissertativeRatings[idx]);
+                } else {
+                    expPanel.style.display = 'none';
+                    evalBox.style.display = 'none';
+                }
+
+            } else {
+                // RENDERIZAR INTERFACE OBJETIVAS
+                dissertativeGroup.style.display = 'none';
+                optsContainer.style.display = 'flex';
+                optsContainer.innerHTML = '';
+                btnConfirm.style.display = 'none';
+
+                const answered = userAnswers[idx] !== null;
+
+                if (appSettings.showConfidence && !answered) {
+                    confBox.style.display = 'block';
+                } else {
+                    confBox.style.display = 'none';
+                }
+
+                updateConfidenceUI();
+
+                q.options.forEach((optText, optIdx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'opt-btn';
+                    btn.id = `opt-btn-${optIdx}`;
+                    btn.innerText = optText;
+
+                    if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                        btn.classList.add('strikethrough');
+                    }
+
+                    if (answered) {
+                        if (gameMode === 'estudo' || isFinished) {
+                            btn.classList.add('disabled');
+                            if (optIdx === q.correct) {
+                                btn.classList.add('correct-choice');
+                            }
+                            if (userAnswers[idx] === optIdx && optIdx !== q.correct) {
+                                btn.classList.add('incorrect-choice');
+                            }
+                        } else {
+                            if (userAnswers[idx] === optIdx) {
+                                btn.classList.add('selected-choice');
+                            }
+                            btn.onclick = () => selectOption(optIdx);
+                            btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                        }
+                    } else {
+                        btn.onclick = () => selectOption(optIdx);
+                        btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                    }
+
+                    optsContainer.appendChild(btn);
+                });
+
+                if (answered && (gameMode === 'estudo' || isFinished)) {
+                    expPanel.style.display = 'block';
+                    document.getElementById('exp-body').innerHTML = q.context;
+                } else {
+                    expPanel.style.display = 'none';
+                }
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+
+            const btnNext = document.getElementById('btn-next');
+            if (idx === currentQuestions.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.disabled = false;
+            } else {
+                btnNext.innerText = "Próxima →";
+                btnNext.disabled = false;
+            }
+        }
+
+        /* FUNÇÕES DAS QUESTÕES DISSERTATIVAS */
+        function saveStudentAnswer(text) {
+            userAnswers[currentQIndex] = text;
+            saveState();
+        }
+
+        function toggleGabarito() {
+            const expPanel = document.getElementById('explanation-panel');
+            const evalBox = document.getElementById('self-eval-box');
+            const q = currentQuestions[currentQIndex];
+
+            if (expPanel.style.display === 'none' || expPanel.style.display === '') {
+                expPanel.style.display = 'block';
+                evalBox.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = q.gabarito;
+            } else {
+                expPanel.style.display = 'none';
+                evalBox.style.display = 'none';
+            }
+        }
+
+        function rateDissertativeAnswer(isOk) {
+            userDissertativeRatings[currentQIndex] = isOk;
+            updateEvalButtonsUI(isOk);
+            
+            if (isOk) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+            } else {
+                streak = 0;
+            }
+
+            updateHUD();
+            drawChart();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateEvalButtonsUI(isOk) {
+            const btnOk = document.getElementById('btn-eval-ok');
+            const btnNo = document.getElementById('btn-eval-no');
+
+            if (isOk === true) {
+                btnOk.classList.add('active');
+                btnNo.classList.remove('active');
+            } else if (isOk === false) {
+                btnNo.classList.add('active');
+                btnOk.classList.remove('active');
+            } else {
+                btnOk.classList.remove('active');
+                btnNo.classList.remove('active');
+            }
+        }
+
+        /* FUNÇÕES DAS QUESTÕES OBJETIVAS */
+        function setConfidence(level) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            const btnCert = document.getElementById('conf-btn-certeza');
+            const btnChute = document.getElementById('conf-btn-chute');
+
+            btnCert.classList.toggle('active-certain', selectedConfidence === 'certeza');
+            btnChute.classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            if (strikethroughState[currentQIndex] && strikethroughState[currentQIndex][optIdx]) return;
+
+            selectedOptionIndex = optIdx;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function toggleStrikethrough(optIdx, e) {
+            if (e) e.preventDefault();
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+
+            if (!strikethroughState[currentQIndex]) {
+                strikethroughState[currentQIndex] = [false, false, false, false, false];
+            }
+
+            strikethroughState[currentQIndex][optIdx] = !strikethroughState[currentQIndex][optIdx];
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+            if (btn) {
+                btn.classList.toggle('strikethrough', strikethroughState[currentQIndex][optIdx]);
+            }
+
+            if (strikethroughState[currentQIndex][optIdx] && selectedOptionIndex === optIdx) {
+                selectedOptionIndex = null;
+                if (btn) btn.classList.remove('selected-choice');
+                document.getElementById('btn-confirm').style.display = 'none';
+            }
+            saveState();
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+
+            const optIdx = selectedOptionIndex;
+            userAnswers[currentQIndex] = optIdx;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+            const q = currentQuestions[currentQIndex];
+            const isCorrect = optIdx === q.correct;
+
+            if (isCorrect) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+                if (streak >= 2 && gameMode === 'estudo') {
+                    const badge = document.getElementById('combo-badge');
+                    badge.style.display = 'inline-block';
+                    badge.innerText = `🔥 COMBO x${streak}!`;
+                }
+            } else {
+                streak = 0;
+                document.getElementById('combo-badge').style.display = 'none';
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+            saveState();
+        }
+
+        function saveNote(text) {
+            questionNotes[currentQIndex] = text;
+            saveState();
+        }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            let totalSecondsSpent = 0;
+
+            currentQuestions.forEach((q, i) => {
+                totalSecondsSpent += (questionTimes[i] || 0);
+
+                if (q.type === 'dissertative') {
+                    if (userDissertativeRatings[i] !== null) {
+                        answered++;
+                        if (userDissertativeRatings[i] === true) correct++;
+                    }
+                } else {
+                    if (userAnswers[i] !== null) {
+                        answered++;
+                        if (userAnswers[i] === q.correct) correct++;
+                    }
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            const avgTime = answered > 0 ? Math.round(totalSecondsSpent / answered) : 0;
+
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+            document.getElementById('hud-avgtime').innerText = `${avgTime}s`;
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) {
+                showReport();
+            } else if (currentQIndex < currentQuestions.length - 1) {
+                loadQuestion(currentQIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                loadQuestion(currentQIndex - 1);
+            }
+        }
+
+        function resetQuiz() {
+            if (confirm(`Tem certeza de que deseja recomeçar este módulo?`)) {
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                userDissertativeRatings = new Array(currentQuestions.length).fill(null);
+                userConfidence = new Array(currentQuestions.length).fill(null);
+                questionTimes = new Array(currentQuestions.length).fill(0);
+                strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+                questionNotes = new Array(currentQuestions.length).fill('');
+                flaggedQuestions = new Array(currentQuestions.length).fill(false);
+                score = 0;
+                streak = 0;
+                isFinished = false;
+                selectedOptionIndex = null;
+                selectedConfidence = null;
+
+                resetTimer();
+                startTimer();
+
+                document.getElementById('combo-badge').style.display = 'none';
+                updateHUD();
+                drawChart();
+                if (document.getElementById('report-screen').style.display === 'block') {
+                    hideReport();
+                }
+                loadQuestion(0);
+                saveState();
+            }
+        }
+
+        /* GRÁFICO REAL-TIME EM CANVAS */
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 160;
+            canvas.height = 160;
+
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            currentQuestions.forEach((q, i) => {
+                if (q.type === 'dissertative') {
+                    const rating = userDissertativeRatings[i];
+                    if (rating === null) unanswered++;
+                    else if (rating === true) correct++;
+                    else incorrect++;
+                } else {
+                    const ans = userAnswers[i];
+                    if (ans === null) unanswered++;
+                    else if (ans === q.correct) correct++;
+                    else incorrect++;
+                }
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const total = currentQuestions.length;
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 65;
+            const innerRadius = 46;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#f87171' },
+                { val: unanswered, color: isDarkMode ? '#334155' : '#e2e8f0' }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                startAngle += sliceAngle;
+            });
+        }
+
+        /* RELATÓRIO FINAL + HISTÓRICO + MÉTRICAS DE TEMPO */
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0;
+            let answered = 0;
+            let totalSecs = 0;
+            let certainCorrect = 0;
+            let guessCorrect = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) {
+                    catStats[cat] = { total: 0, correct: 0 };
+                }
+                catStats[cat].total++;
+
+                totalSecs += (questionTimes[idx] || 0);
+
+                if (q.type === 'dissertative') {
+                    const rating = userDissertativeRatings[idx];
+                    if (rating !== null) {
+                        answered++;
+                        if (rating === true) {
+                            correct++;
+                            catStats[cat].correct++;
+                        }
+                    }
+                } else {
+                    const ans = userAnswers[idx];
+                    if (ans !== null) {
+                        answered++;
+                        if (ans === q.correct) {
+                            correct++;
+                            catStats[cat].correct++;
+                            if (userConfidence[idx] === 'chute') guessCorrect++;
+                            else certainCorrect++;
+                        }
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            const avgTimeSecs = answered > 0 ? Math.round(totalSecs / answered) : 0;
+
+            const minsStr = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secsStr = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('rep-total-time').innerText = `${minsStr}:${secsStr}`;
+            document.getElementById('rep-avg-time').innerText = `${avgTimeSecs}s / questão`;
+            
+            const confBoxSum = document.getElementById('rep-conf-box-summary');
+            if (currentModuleType === 'dissertative') {
+                confBoxSum.style.display = 'none';
+            } else {
+                confBoxSum.style.display = 'block';
+                document.getElementById('rep-conf-ratio').innerText = `${certainCorrect} / ${guessCorrect}`;
+            }
+
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('floating-widget').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            const editionName = currentModuleType === 'dissertative' ? 'ESTUDO DISSERTATIVO' : 'SIMULADO OBJETIVO';
+            document.getElementById('rep-edition-title').innerText = `📊 DIAGNÓSTICO DE DESEMPENHO (${editionName})`;
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            document.getElementById('rep-status-msg').innerText = `Você respondeu/avaliou ${answered} de ${currentQuestions.length} questões com ${score} pontos totais.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            let weakCategories = [];
+
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                if (pct < 70) weakCategories.push(catName);
+
+                const tr = document.createElement('tr');
+                const badgeClass = pct >= 70 ? 'color: #10b981;' : 'color: #f59e0b;';
+                const badgeText = pct >= 70 ? '🟢 Excelente' : '🟡 Revisar';
+
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td>${stats.total}</td>
+                    <td>${stats.correct}</td>
+                    <td>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: ${pct}%; background: ${pct < 60 ? '#f87171' : pct < 80 ? '#f59e0b' : '#10b981'};"></div>
+                        </div>
+                        <b>${pct}%</b>
+                    </td>
+                    <td style="${badgeClass}"><b>${badgeText}</b></td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const diagBox = document.getElementById('rep-diagnostic-text');
+            if (weakCategories.length > 0) {
+                diagBox.innerHTML = `Com base no seu aproveitamento no ${editionName}, sugerimos focar a revisão nos temas:<br>👉 <b style="color: #f59e0b;">${weakCategories.join(', ')}</b>.`;
+            } else {
+                diagBox.innerHTML = `🎉 Desempenho fantástico! Seu aproveitamento superou 70% em todas as categorias do módulo.`;
+            }
+
+            saveAttemptToHistory(editionName, overallPercent, score, `${minsStr}:${secsStr}`);
+            saveState();
+        }
+
+        function saveAttemptToHistory(edition, pct, pts, timeStr) {
+            let history = JSON.parse(localStorage.getItem('simulado_fisio_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                edition,
+                pct,
+                pts,
+                timeStr
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('simulado_fisio_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-content');
+            let history = JSON.parse(localStorage.getItem('simulado_fisio_history') || '[]');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>';
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const color = item.pct >= 70 ? '#10b981' : (item.pct >= 50 ? '#f59e0b' : '#f87171');
+                html += `
+                    <div class="history-item">
+                        <div>
+                            <b>${item.edition}</b> <span style="color: var(--text-muted); font-size: 0.8rem;">(${item.date})</span><br>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Tempo: ${item.timeStr} | ${item.pts} PTS</span>
+                        </div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: ${color};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (confirm('Deseja realmente apagar o histórico de desempenho?')) {
+                localStorage.removeItem('simulado_fisio_history');
+                renderHistory();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function hideReport() {
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            if (appSettings.showToolbar) {
+                document.getElementById('floating-widget').style.display = 'flex';
+            }
+            startTimer();
+            loadQuestion(currentQIndex);
+        }
+
+        function startCadernoErros() {
+            const errorQs = [];
+            currentQuestions.forEach((q, idx) => {
+                if (q.type === 'dissertative') {
+                    if (userDissertativeRatings[idx] === false) errorQs.push(q);
+                } else {
+                    if (userAnswers[idx] !== null && userAnswers[idx] !== q.correct) errorQs.push(q);
+                }
+            });
+
+            if (errorQs.length === 0) {
+                alert('Você não cometeu erros/marcações de revisão neste módulo!');
+                return;
+            }
+
+            currentQuestions = errorQs;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userDissertativeRatings = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            document.getElementById('quiz-title-badge').innerText = `CADERNO DE ERROS (${currentQuestions.length} Qs)`;
+            document.getElementById('quiz-title-badge').style.color = '#dc2626';
+
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+        }
+
+        function exportNotesAndReport() {
+            let correct = 0;
+            let answered = 0;
+
+            currentQuestions.forEach((q, idx) => {
+                if (q.type === 'dissertative') {
+                    if (userDissertativeRatings[idx] !== null) {
+                        answered++;
+                        if (userDissertativeRatings[idx] === true) correct++;
+                    }
+                } else {
+                    if (userAnswers[idx] !== null) {
+                        answered++;
+                        if (userAnswers[idx] === q.correct) correct++;
+                    }
+                }
+            });
+
+            const overallPercent = answered > 0 ? Math.round((correct / currentQuestions.length) * 100) : 0;
+            const editionName = currentModuleType === 'dissertative' ? 'ESTUDO DISSERTATIVO' : 'SIMULADO OBJETIVO';
+
+            let text = `==================================================\n`;
+            text += `   RELATÓRIO E ANOTAÇÕES - HORMÔNIOS PANCREÁTICOS\n`;
+            text += `==================================================\n\n`;
+            text += `Módulo: ${editionName}\n`;
+            text += `Aproveitamento Geral: ${overallPercent}%\n`;
+            text += `Questões Respondidas: ${answered} de ${currentQuestions.length}\n`;
+            text += `Pontuação Total: ${score} PTS\n\n`;
+            text += `--------------------------------------------------\n`;
+            text += ` DETALHAMENTO DAS QUESTÕES E ANOTAÇÕES DA SESSÃO\n`;
+            text += `--------------------------------------------------\n\n`;
+
+            currentQuestions.forEach((q, idx) => {
+                let status = 'Não Respondida';
+                let userContent = '';
+
+                if (q.type === 'dissertative') {
+                    userContent = userAnswers[idx] || '(Sem resposta escrita)';
+                    if (userDissertativeRatings[idx] === true) status = 'VALIDADA / CORRETA (🟢)';
+                    else if (userDissertativeRatings[idx] === false) status = 'PRECISA REVISAR (🔴)';
+                } else {
+                    const userAns = userAnswers[idx];
+                    if (userAns !== null) {
+                        status = userAns === q.correct ? 'ACERTOU (🟢)' : 'ERROU (🔴)';
+                        userContent = `Opção Escolhida: ${q.options[userAns]}`;
+                    }
+                }
+
+                const flag = flaggedQuestions[idx] ? ' [SINALIZADA COM DÚVIDA 🚩]' : '';
+                const timeSpent = questionTimes[idx] ? ` [Tempo: ${questionTimes[idx]}s]` : '';
+                const note = questionNotes[idx] ? questionNotes[idx] : '(Sem anotações)';
+
+                text += `Questão ${idx + 1} (${q.type === 'dissertative' ? 'Dissertativa' : 'Objetiva'}) - Tema: ${q.category}${flag}${timeSpent}\n`;
+                text += `Status: ${status}\n`;
+                if (userContent) text += `${userContent}\n`;
+                text += `Sua Anotação: ${note}\n`;
+                text += `--------------------------------------------------\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_Hormonios_Pancreaticos_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function restartGame() {
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userDissertativeRatings = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+            saveState();
+        }
+
+        /* PERSISTÊNCIA AUTOMÁTICA EM LOCALSTORAGE */
+        function saveState() {
+            const state = {
+                currentModuleType,
+                userAnswers,
+                userDissertativeRatings,
+                userConfidence,
+                questionTimes,
+                totalElapsedSeconds,
+                strikethroughState,
+                questionNotes,
+                flaggedQuestions,
+                score,
+                streak,
+                gameMode,
+                isFinished,
+                isForceMobile,
+                isDarkMode
+            };
+            localStorage.setItem('simulado_fisio_state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('simulado_fisio_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.isForceMobile !== undefined) {
+                        isForceMobile = state.isForceMobile;
+                        applyLayoutMode();
+                    }
+                    if (state.isDarkMode !== undefined && state.isDarkMode !== isDarkMode) {
+                        toggleTheme();
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos', e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
