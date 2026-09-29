@@ -1,0 +1,57 @@
+name: Sincronizar Simulados no Index
+
+on:
+  push:
+    paths:
+      - '*.html' # Dispara sempre que qualquer arquivo HTML for adicionado, renomeado ou editado
+
+jobs:
+  atualizar-lista:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Dá permissão para a Action fazer commit no repositório
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Mapear arquivos HTML e atualizar MEUS_ARQUIVOS_MANUAIS
+        run: |
+          python -c "
+          import os, re, json
+
+          # 1. Mapeia todos os arquivos .html da raiz ignorando o index.html
+          arquivos = [
+              f for f in sorted(os.listdir('.')) 
+              if f.lower().endswith('.html') and f.lower() != 'index.html'
+          ]
+
+          # 2. Formata cada nome como uma string de array JS (com aspas e vírgula)
+          linhas_js = [f\"      '{arq}'\" for arq in arquivos]
+          bloco_novo = ',\n'.join(linhas_js)
+
+          # 3. Abre o index.html e substitui o conteúdo entre as marcações
+          with open('index.html', 'r', encoding='utf-8') as f:
+              conteudo = f.read()
+
+          padrao = r'/\* INICIO_LISTA \*/.*?/\* FIM_LISTA \*/'
+          substituicao = f'/* INICIO_LISTA */\n{bloco_novo}\n      /* FIM_LISTA */'
+
+          conteudo_atualizado = re.sub(padrao, substituicao, conteudo, flags=re.DOTALL)
+
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(conteudo_atualizado)
+          "
+
+      - name: Salvar alterações no repositório (Git Commit)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "auto: sincronização automática dos simulados [skip ci]" || echo "Sem alterações para salvar"
+          git push
