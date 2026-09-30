@@ -1,0 +1,3589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Avaliação - Farmacologia (MedHub)</title>
+    
+    <!-- Tipografia Moderna (Plus Jakarta Sans) e Ícones Phosphor Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            /* Estética Moderna MedHub (Glassmorphism & Paleta Harmonizada) */
+            --bg-canvas: #f8fafc;          
+            --card-bg: rgba(255, 255, 255, 0.88);            
+            --card-bg-solid: #ffffff;
+            
+            /* Cores Principais Coesas (Indigo & Cyan/Blue) */
+            --purple-primary: #3b82f6;    
+            --purple-light: rgba(59, 130, 246, 0.08);      
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-light: rgba(59, 130, 246, 0.08);
+
+            /* Cores de Destaque Harmonizadas */
+            --green-primary: #10b981;     
+            --green-light: rgba(16, 185, 129, 0.08);       
+            --accent-yellow: #d97706;
+            --accent-yellow-light: rgba(217, 119, 6, 0.08);
+
+            --text-main: #0f172a;         
+            --text-muted: #64748b;        
+            --border-color: rgba(226, 232, 240, 0.9);      
+            --border-glow: rgba(59, 130, 246, 0.15);
+            
+            --correct-green: #10b981;
+            --correct-bg: rgba(16, 185, 129, 0.08);
+            --incorrect-red: #ef4444;
+            --incorrect-bg: rgba(239, 68, 68, 0.06);
+
+            --input-bg: rgba(248, 250, 252, 0.9);
+            --opt-hover: rgba(59, 130, 246, 0.04);
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 10px 25px -5px rgba(59, 130, 246, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(59, 130, 246, 0.08);
+            --shadow-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.06);
+            --mesh-gradient: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.06) 0px, transparent 50%),
+                             radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+        }
+
+        body.dark-mode {
+            --bg-canvas: #090d16;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-bg-solid: #111827;
+            
+            --purple-primary: #60a5fa;
+            --purple-light: rgba(96, 165, 250, 0.12);
+            --primary: #60a5fa;
+            --primary-hover: #3b82f6;
+            --primary-light: rgba(96, 165, 250, 0.12);
+
+            --green-primary: #34d399;
+            --green-light: rgba(52, 211, 153, 0.12);
+            --accent-yellow: #fbbf24;
+            --accent-yellow-light: rgba(251, 191, 36, 0.12);
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(96, 165, 250, 0.2);
+
+            --correct-green: #34d399;
+            --correct-bg: rgba(52, 211, 153, 0.12);
+            --incorrect-red: #f87171;
+            --incorrect-bg: rgba(248, 113, 113, 0.12);
+
+            --input-bg: rgba(17, 24, 39, 0.7);
+            --opt-hover: rgba(96, 165, 250, 0.08);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            --mesh-gradient: radial-gradient(at 0% 0%, rgba(96, 165, 250, 0.08) 0px, transparent 50%),
+                             radial-gradient(at 100% 0%, rgba(52, 211, 153, 0.06) 0px, transparent 50%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            background-image: var(--mesh-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* LAYOUT GLOBAL COM SIDEBAR + MAIN CONTENT */
+        .app-layout {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            width: 76px;
+            min-width: 76px;
+            padding: 24px 10px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding: 0 4px;
+            width: 100%;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+            padding: 0;
+            margin-bottom: 24px;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--purple-primary);
+        }
+
+        .sidebar-logo .logo-icon {
+            font-size: 1.6rem;
+            background: var(--purple-light);
+            padding: 8px;
+            border-radius: 12px;
+            color: var(--purple-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-toggle-btn {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed .sidebar-logo {
+            display: none;
+        }
+
+        .sidebar.collapsed .sidebar-toggle-btn {
+            margin: 0 auto;
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar-toggle-btn:hover {
+            color: var(--purple-primary);
+            border-color: var(--purple-primary);
+            background: var(--purple-light);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            background: var(--purple-light);
+            color: var(--purple-primary);
+        }
+
+        .nav-item.active {
+            background: var(--purple-primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 20px 0;
+        }
+
+        .sidebar-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .tools-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding: 0 8px;
+            white-space: nowrap;
+        }
+
+        .tool-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: left;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tool-menu-btn i {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tool-menu-btn:hover {
+            background: var(--bg-canvas);
+            color: var(--purple-primary);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+        }
+
+        .user-badge-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            white-space: nowrap;
+        }
+
+        .user-badge-card i {
+            font-size: 1.6rem;
+            color: var(--purple-primary);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .user-role {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .sidebar.collapsed .logo-text,
+        .sidebar.collapsed .nav-item span,
+        .sidebar.collapsed .tools-title,
+        .sidebar.collapsed .tool-menu-btn span,
+        .sidebar.collapsed .user-info {
+            display: none !important;
+        }
+
+        .sidebar.collapsed .nav-item {
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .sidebar.collapsed .tool-menu-btn {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sidebar.collapsed .user-badge-card {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sidebar:not(.collapsed) ~ .main-content .hub-header-bar {
+            display: none !important;
+        }
+
+        .sidebar.collapsed ~ .main-content .hub-header-bar {
+            display: flex !important;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            max-width: 1240px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-container {
+            width: 100%;
+            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .glass-badge-fire {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--accent-yellow);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+            animation: badgePulse 2s infinite ease-in-out;
+            display: none;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        /* BENTO GRID */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .bento-card {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .bento-q-card { grid-column: span 8; grid-row: span 3; }
+        .bento-chart-card { grid-column: span 4; display: flex; flex-direction: column; justify-content: center; }
+        .bento-notes-card { grid-column: span 4; display: flex; flex-direction: column; justify-content: center; }
+        .bento-grid-card { grid-column: span 4; display: flex; flex-direction: column; justify-content: center; }
+
+        .hub-screen, .hub-card, .bento-card, .report-screen, .history-screen, .modal-box {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hub-screen::before, .hub-card::before, .bento-card::before, .report-screen::before, .history-screen::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(320px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(59, 130, 246, 0.04), transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .hub-screen:hover::before, .hub-card:hover::before, .bento-card:hover::before, .report-screen:hover::before, .history-screen:hover::before { 
+            opacity: 1; 
+        }
+
+        .hub-screen > *, .hub-card > *, .bento-card > *, .report-screen > *, .history-screen > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hub-screen {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 44px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hub-header-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hub-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .hub-subtitle {
+            font-size: 1.02rem;
+            color: var(--text-muted);
+            max-width: 740px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .mode-selector-box {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 22px 26px;
+            max-width: 780px;
+            margin: 0 auto 32px auto;
+            box-shadow: var(--shadow-sm);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mode-selector-box select, .topic-dropdown-btn {
+            background: var(--bg-canvas);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .mode-selector-box select:hover, .topic-dropdown-btn:hover {
+            border-color: var(--purple-primary);
+        }
+
+        .hub-cards-grid {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .hub-card {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            padding: 34px 30px;
+            text-align: left;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .hub-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--purple-light); 
+            color: var(--purple-primary); 
+            border: 1px solid rgba(59, 130, 246, 0.2); 
+        }
+
+        .hub-card h2 { 
+            font-size: 1.5rem; 
+            font-weight: 800;
+            margin-bottom: 12px; 
+            color: var(--text-main); 
+            letter-spacing: -0.5px;
+        }
+
+        .hub-card p { 
+            font-size: 0.95rem; 
+            color: var(--text-muted); 
+            line-height: 1.65; 
+            margin-bottom: 28px; 
+        }
+
+        .btn-hub-action {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+            background: var(--purple-primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-hub-action:hover {
+            opacity: 0.94;
+            transform: translateY(-1px);
+        }
+
+        .history-screen {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-card-item {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .history-card-item:hover {
+            transform: translateX(4px);
+            border-color: var(--purple-primary);
+        }
+
+        .game-hud {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            padding: 28px 32px;
+        }
+
+        .hud-header {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: var(--card-bg-solid);
+            padding: 20px 24px;
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hud-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .hud-chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hud-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .hud-chip-icon {
+            font-size: 1.05rem;
+            color: var(--purple-primary);
+        }
+
+        .hud-stat-val {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--purple-primary);
+        }
+
+        .hud-progress-container {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-canvas);
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-top: 2px;
+        }
+
+        .hud-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-primary), var(--green-primary));
+            border-radius: 999px;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .q-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .q-category-tag {
+            display: inline-block;
+            background: var(--purple-light);
+            color: var(--purple-primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .q-integrated-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 7px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .tool-btn:hover {
+            background: var(--purple-light);
+            border-color: var(--purple-primary);
+            color: var(--purple-primary);
+        }
+
+        .tool-btn:active, .action-btn:active, .btn-confirm:active, .q-nav-btn:active, .opt-btn:active {
+            transform: scale(0.98);
+        }
+
+        .q-statement {
+            font-size: 1.08rem;
+            line-height: 1.75;
+            margin-bottom: 28px;
+            white-space: pre-line;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: var(--card-bg-solid);
+            border: 1.5px solid var(--border-color);
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            font-weight: 500;
+            font-family: inherit;
+        }
+
+        .opt-btn:hover:not(.disabled) {
+            background: var(--opt-hover);
+            border-color: var(--purple-primary);
+            transform: translateX(3px);
+        }
+
+        .opt-btn.selected-choice {
+            border-color: var(--purple-primary) !important;
+            background: var(--purple-light) !important;
+            color: var(--purple-primary) !important;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--purple-primary);
+        }
+
+        .opt-btn.strikethrough {
+            text-decoration: line-through;
+            opacity: 0.4;
+            background: var(--input-bg);
+            cursor: not-allowed;
+        }
+
+        .opt-btn.correct-choice {
+            background: var(--correct-bg) !important;
+            border-color: var(--correct-green) !important;
+            color: var(--correct-green) !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.incorrect-choice {
+            background: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-red) !important;
+            color: var(--incorrect-red) !important;
+            font-weight: 700;
+        }
+
+        .opt-btn.disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .conf-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .conf-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg-solid);
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.88rem;
+            font-family: inherit;
+        }
+
+        .conf-btn.active-certain {
+            background: var(--correct-bg);
+            border-color: var(--correct-green);
+            color: var(--correct-green);
+        }
+
+        .conf-btn.active-guess {
+            background: var(--accent-yellow-light);
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        .hl-word {
+            display: inline;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            border-radius: 4px;
+            padding: 2px 3px;
+        }
+
+        .hl-word.marked {
+            background-color: #fef08a;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background: var(--purple-primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-confirm:hover { opacity: 0.92; transform: translateY(-1px); }
+
+        .explanation-panel {
+            display: none;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin-top: 24px;
+        }
+
+        .exp-subcard {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .exp-subcard-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exp-justification { border-left: 4px solid var(--correct-green); background: var(--correct-bg); }
+        .exp-justification .exp-subcard-title { color: var(--correct-green); }
+
+        .exp-summary { border-left: 4px solid var(--purple-primary); background: var(--purple-light); }
+        .exp-summary .exp-subcard-title { color: var(--purple-primary); }
+
+        .exp-subcard-content { font-size: 0.95rem; line-height: 1.65; color: var(--text-main); }
+
+        .chart-card { text-align: center; }
+
+        .chart-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+
+        .chart-center-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .chart-center-text { font-size: 1.4rem; font-weight: 800; color: var(--text-main); line-height: 1; }
+        .chart-center-sub { font-size: 0.62rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 3px; }
+
+        .chart-legend-grid { display: flex; justify-content: center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+        .chart-legend-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        .pill-correct { background: var(--correct-bg); border-color: rgba(16, 185, 129, 0.2); color: var(--correct-green); }
+        .pill-incorrect { background: var(--incorrect-bg); border-color: rgba(239, 68, 68, 0.2); color: var(--incorrect-red); }
+
+        .notes-textarea {
+            width: 100%;
+            height: 110px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .notes-textarea:focus { border-color: var(--purple-primary); background: var(--card-bg-solid); }
+
+        canvas { width: 100% !important; height: 100% !important; }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .nav-grid::-webkit-scrollbar { width: 5px; }
+        .nav-grid::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+        .q-nav-btn {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .q-nav-btn.active-q { border-color: var(--purple-primary); color: var(--purple-primary); background: var(--purple-light); }
+        .q-nav-btn.correct-q { background: var(--correct-green) !important; color: white !important; border-color: var(--correct-green) !important; }
+        .q-nav-btn.incorrect-q { background: var(--incorrect-red) !important; color: white !important; border-color: var(--incorrect-red) !important; }
+        
+        .q-nav-btn.answered-realista-q {
+            border-color: #93c5fd !important;
+            background: #dbeafe !important;
+            color: #1e40af !important;
+        }
+
+        body.dark-mode .q-nav-btn.answered-realista-q {
+            border-color: #1e40af !important;
+            background: #1e3a8a !important;
+            color: #bfdbfe !important;
+        }
+
+        .nav-btns-inline { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; }
+
+        .action-btn {
+            background: var(--purple-primary);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .action-btn-secondary { background: var(--card-bg-solid); color: var(--text-main); border: 1px solid var(--border-color); }
+        .action-btn-secondary:hover { background: var(--purple-light); border-color: var(--purple-primary); color: var(--purple-primary); }
+        .action-btn-danger { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--incorrect-red); }
+        .action-btn-danger:hover { background: rgba(239, 68, 68, 0.15); }
+
+        .report-screen {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .report-header-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .report-score-container { display: flex; justify-content: center; align-items: center; margin: 28px 0; }
+
+        .score-ring {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(var(--purple-primary) 0%, var(--border-color) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            box-shadow: var(--shadow-md);
+            transition: background 0.5s ease;
+        }
+
+        .score-ring-inner {
+            width: 100%; height: 100%;
+            background: var(--card-bg-solid);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .report-score-big { font-size: 2.8rem; font-weight: 800; color: var(--text-main); line-height: 1; }
+        .score-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+
+        .rep-stat-card {
+            background: var(--card-bg-solid);
+            padding: 16px 24px;
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .rep-stat-card .rep-stat-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .rep-stat-card .rep-stat-val { font-size: 1.35rem; font-weight: 800; }
+
+        .diagnostic-card {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent-yellow);
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin: 24px 0;
+            line-height: 1.65;
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .diagnostic-card-title { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.05rem; color: var(--accent-yellow); margin-bottom: 8px; }
+
+        .report-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin: 20px 0; }
+        .report-table th { padding: 12px 18px; color: var(--text-muted); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        .report-table td { padding: 16px 18px; background: var(--card-bg-solid); text-align: left; font-size: 0.95rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .report-table tr td:first-child { border-left: 1px solid var(--border-color); border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
+        .report-table tr td:last-child { border-right: 1px solid var(--border-color); border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
+
+        .rep-topic-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .rep-badge-success { background: var(--correct-bg); color: var(--correct-green); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .rep-badge-warning { background: var(--accent-yellow-light); color: var(--accent-yellow); border: 1px solid rgba(217, 119, 6, 0.2); }
+
+        .bar-bg { background: var(--bg-canvas); border: 1px solid var(--border-color); height: 10px; border-radius: 5px; width: 110px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 10px; }
+        .bar-fill { height: 100%; border-radius: 5px; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-box {
+            background: var(--card-bg-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title { font-size: 1.35rem; font-weight: 800; margin-bottom: 20px; color: var(--purple-primary); display: flex; justify-content: space-between; align-items: center; }
+
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+        .setting-label { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .setting-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+
+        .toggle-checkbox {
+            width: 44px; height: 24px;
+            appearance: none;
+            background: var(--border-color);
+            outline: none;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox:checked { background: var(--purple-primary); }
+
+        .toggle-checkbox::before {
+            content: ''; position: absolute; width: 18px; height: 18px;
+            border-radius: 50%; top: 3px; left: 3px; background: white; transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked::before { transform: translateX(20px); }
+
+        kbd {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--purple-primary);
+        }
+
+        @media print {
+            .sidebar, .sidebar-toggle-btn { display: none !important; }
+            .app-layout { display: block !important; }
+            .main-content { padding: 0 !important; max-width: 100% !important; }
+            body { background: white !important; color: black !important; padding: 0 !important; }
+
+            .hub-header-bar, .mode-selector-box, .nav-btns-inline,
+            .btn-confirm, .btn-layout-toggle-class, .q-integrated-toolbar,
+            .hud-header, .modal-overlay, .conf-btn-group,
+            button, .btn-hub-action { display: none !important; }
+
+            .main-container, .hub-screen, .game-hud, .report-screen, .history-screen, .bento-card {
+                box-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important;
+            }
+
+            .bento-grid { display: block !important; }
+            .q-statement { color: black !important; font-size: 11pt !important; }
+            .opt-btn {
+                border: 1px solid #ccc !important;
+                color: black !important;
+                background: transparent !important;
+                margin-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+            .explanation-panel { display: block !important; border-left: 3px solid #000 !important; background: #f8f8f8 !important; color: black !important; }
+            .report-table th, .report-table td { color: black !important; border-bottom: 1px solid #ddd !important; }
+        }
+
+        @media (max-width: 992px) {
+            .app-layout { flex-direction: column; }
+            .sidebar { 
+                width: 100% !important; min-width: 100% !important; height: auto !important; position: relative !important; top: 0 !important;
+                flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: center !important;
+                padding: 12px 16px !important; gap: 8px 12px !important; overflow-y: visible !important; border-right: none !important; border-bottom: 1px solid var(--border-color) !important;
+            }
+            .sidebar.collapsed { width: 100% !important; min-width: 100% !important; padding: 12px 16px !important; }
+            .sidebar-header { margin-bottom: 0 !important; width: auto !important; }
+            .sidebar-toggle-btn { display: none !important; }
+            .sidebar-nav { flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: center !important; gap: 6px !important; }
+            .sidebar-divider { display: none !important; }
+            .sidebar-tools { flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: center !important; gap: 6px !important; }
+            .tools-title { display: none !important; }
+            .sidebar-footer { margin-top: 0 !important; padding-top: 0 !important; width: auto !important; }
+            .nav-item, .tool-menu-btn { width: auto !important; padding: 8px 14px !important; font-size: 0.85rem !important; background: var(--bg-canvas) !important; border: 1px solid var(--border-color) !important; border-radius: 12px !important; }
+            .nav-item.active { background: var(--purple-primary) !important; color: white !important; border-color: var(--purple-primary) !important; }
+            .user-badge-card { padding: 6px 12px !important; border-radius: 12px !important; }
+            .user-name { font-size: 0.78rem !important; }
+            .user-role { font-size: 0.68rem !important; }
+            
+            .sidebar.collapsed .logo-text,
+            .sidebar.collapsed .nav-item span,
+            .sidebar.collapsed .tools-title,
+            .sidebar.collapsed .tool-menu-btn span,
+            .sidebar.collapsed .user-info { display: inline !important; }
+
+            .bento-q-card, .bento-chart-card, .bento-notes-card, .bento-grid-card { grid-column: span 12; }
+        }
+
+        @media (max-width: 768px) {
+            .main-content { padding: 12px; }
+            .hub-screen { padding: 28px 16px; border-radius: 18px; }
+            .hub-title { font-size: 2rem; }
+            .hub-subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+            .mode-selector-box { padding: 18px; }
+            .game-hud { padding: 18px; border-radius: 18px; }
+            .hud-header { padding: 16px; gap: 12px; }
+            .hud-chips-row { gap: 8px; }
+            .hud-chip { padding: 6px 12px; font-size: 0.82rem; }
+            .q-card-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .q-statement { font-size: 1rem; margin-bottom: 20px; }
+            .opt-btn { padding: 14px 16px; font-size: 0.92rem; }
+            .nav-btns-inline { gap: 8px; }
+            .report-screen, .history-screen { padding: 20px 16px; }
+            .report-score-big { font-size: 2.2rem; }
+            .score-ring { width: 140px; height: 140px; }
+            .report-table { font-size: 0.85rem; }
+            .report-table th, .report-table td { padding: 10px; }
+            .bar-bg { width: 60px; }
+            .tool-btn-text { display: none; }
+        }
+
+        body.force-mobile-mode .app-layout { flex-direction: column !important; }
+        body.force-mobile-mode .sidebar {
+            width: 100% !important; min-width: 100% !important; height: auto !important; position: relative !important; top: 0 !important;
+            flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: center !important;
+            padding: 12px 16px !important; gap: 8px 12px !important; overflow-y: visible !important; border-right: none !important; border-bottom: 1px solid var(--border-color) !important;
+        }
+        body.force-mobile-mode .sidebar-header { margin-bottom: 0 !important; width: auto !important; }
+        body.force-mobile-mode .sidebar-toggle-btn { display: none !important; }
+        body.force-mobile-mode .sidebar-nav { flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: center !important; gap: 6px !important; }
+        body.force-mobile-mode .sidebar-divider { display: none !important; }
+        body.force-mobile-mode .sidebar-tools { flex-direction: row !important; flex-wrap: wrap !important; align-items: center !important; justify-content: center !important; gap: 6px !important; }
+        body.force-mobile-mode .tools-title { display: none !important; }
+        body.force-mobile-mode .sidebar-footer { margin-top: 0 !important; padding-top: 0 !important; width: auto !important; }
+        body.force-mobile-mode .nav-item, body.force-mobile-mode .tool-menu-btn { width: auto !important; padding: 8px 14px !important; font-size: 0.85rem !important; background: var(--bg-canvas) !important; border: 1px solid var(--border-color) !important; border-radius: 12px !important; }
+        body.force-mobile-mode .nav-item.active { background: var(--purple-primary) !important; color: white !important; border-color: var(--purple-primary) !important; }
+        body.force-mobile-mode .user-badge-card { padding: 6px 12px !important; border-radius: 12px !important; }
+
+        body.force-mobile-mode .main-content { padding: 8px !important; }
+        body.force-mobile-mode .hub-screen,
+        body.force-mobile-mode .game-hud,
+        body.force-mobile-mode .report-screen,
+        body.force-mobile-mode .history-screen { padding: 15px !important; border-radius: 14px !important; }
+        body.force-mobile-mode .hub-title { font-size: 1.8rem !important; }
+        body.force-mobile-mode .bento-grid { display: flex; flex-direction: column; }
+        body.force-mobile-mode .nav-btns-inline { flex-direction: column !important; gap: 8px !important; }
+        body.force-mobile-mode .action-btn { width: 100% !important; text-align: center !important; padding: 12px !important; }
+        body.force-mobile-mode .tool-btn-text { display: none; }
+        body.force-mobile-mode .opt-btn { padding: 12px !important; font-size: 0.9rem !important; }
+    </style>
+</head>
+<body>
+
+    <div class="app-layout" id="app-layout">
+        
+        <!-- SIDEBAR RETRÁTIL E ADAPTÁVEL -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-icon"><i class="ph-bold ph-pill"></i></div>
+                    <span class="logo-text">MedHub</span>
+                </div>
+                <button class="sidebar-toggle-btn" id="btn-toggle-sidebar" onclick="toggleSidebar()" title="Recolher / Expandir Menu">
+                    <i class="ph-bold ph-sidebar-simple"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="javascript:void(0)" class="nav-item active" onclick="goToHub()" id="nav-hub">
+                    <i class="ph-bold ph-house"></i>
+                    <span>Menu Principal</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" onclick="openCadernoErrosSidebar()" id="nav-errors">
+                    <i class="ph-bold ph-x-circle"></i>
+                    <span>Caderno de Erros</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" onclick="goToHistoryScreen()" id="nav-history">
+                    <i class="ph-bold ph-chart-line-up"></i>
+                    <span>Histórico & Evolução</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-tools">
+                <div class="tools-title">Ferramentas</div>
+                <button class="tool-menu-btn" onclick="toggleDarkMode()">
+                    <i class="ph-bold ph-moon" id="theme-toggle-icon"></i>
+                    <span id="theme-toggle-text">Modo Escuro</span>
+                </button>
+                <button class="tool-menu-btn" onclick="openSettingsModal()">
+                    <i class="ph-bold ph-sliders-horizontal"></i>
+                    <span>Configurações</span>
+                </button>
+                <button class="tool-menu-btn btn-layout-toggle-class" onclick="toggleMobileLayout()">
+                    <i class="ph-bold ph-device-mobile"></i>
+                    <span>Modo Celular: AUTO</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-badge-card">
+                    <i class="ph-bold ph-user-circle"></i>
+                    <div class="user-info">
+                        <span class="user-name">Farmacologia</span>
+                        <span class="user-role">Simulado P2</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            <div class="main-container">
+
+                <!-- TELA HOME / HUB CENTRAL -->
+                <div class="hub-screen" id="hub-screen">
+                    <div class="hub-header-bar">
+                        <button class="action-btn action-btn-secondary" onclick="toggleDarkMode()" style="padding: 8px 16px; font-size: 0.88rem;">
+                            <i class="ph-bold ph-moon"></i> <span>Dark Mode</span>
+                        </button>
+                        <button class="action-btn action-btn-secondary" onclick="openSettingsModal()" style="padding: 8px 16px; font-size: 0.88rem;">
+                            <i class="ph-bold ph-sliders-horizontal"></i> <span>Configurações</span>
+                        </button>
+                        <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 8px 16px; font-size: 0.88rem;">
+                            <i class="ph-bold ph-device-mobile"></i> <span>Modo Celular: AUTO</span>
+                        </button>
+                    </div>
+
+                    <div class="hub-title">Simulado de Farmacologia</div>
+                    <div class="hub-subtitle">
+                        Plataforma acadêmica de avaliação em Farmacologia. Teste seus conhecimentos sobre farmacodinâmica, sistema autônomo, anti-hipertensivos, diuréticos, bloqueadores neuromusculares e farmacologia central com métricas detalhadas em tempo real[span_0](start_span)[span_0](end_span).
+                    </div>
+
+                    <!-- SELETOR DE MODO DE JOGO E FILTRO MULTI-TEMA -->
+                    <div class="mode-selector-box">
+                        <div style="display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center; flex-wrap: wrap;" id="mode-select-container">
+                            <label for="game-mode-select" style="font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                                <i class="ph-bold ph-target" style="color: var(--purple-primary);"></i> Modo do Simulado:
+                            </label>
+                            <select id="game-mode-select">
+                                <option value="estudo">📖 Modo Estudo (Gabarito Imediato)</option>
+                                <option value="realista">📝 Modo Simulado Realista (Gabarito no Final)</option>
+                            </select>
+                        </div>
+
+                        <!-- DROPDOWN DE SELEÇÃO MÚLTIPLA DE TEMAS -->
+                        <div style="display: flex; gap: 12px; align-items: center; position: relative; width: 100%; justify-content: center; flex-wrap: wrap;">
+                            <label style="font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                                <i class="ph-bold ph-funnel" style="color: var(--purple-primary);"></i> Filtrar por Tema(s):
+                            </label>
+                            <div id="topic-dropdown-wrapper" style="position: relative; display: inline-block; width: 100%; max-width: 380px;">
+                                <button type="button" class="topic-dropdown-btn" id="topic-dropdown-btn" onclick="toggleTopicDropdown()" style="width: 100%;">
+                                    Todos os Temas ▾
+                                </button>
+                                <div id="topic-checkbox-list" style="display: none; position: absolute; top: 110%; left: 0; background: var(--card-bg-solid); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px; max-height: 250px; overflow-y: auto; z-index: 100; box-shadow: var(--shadow-lg); width: 100%; text-align: left;">
+                                    <!-- Gerado via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD DE MODALIDADE -->
+                    <div class="hub-cards-grid">
+                        <div class="hub-card">
+                            <div>
+                                <span class="hub-card-badge">
+                                    <i class="ph-bold ph-check-square-offset"></i> Prova Objetiva
+                                </span>
+                                <h2>Banco de Questões 01 a 35</h2>
+                                <p>35 Questões transcritas integralmente da avaliação de Farmacologia Básica. Conteúdo abrangendo Anti-hipertensivos, Diuréticos, Sistema Nervoso Autônomo, Antiarrítmicos, Dislipidemias e Fármacos da Insuficiência Cardíaca[span_1](start_span)[span_1](end_span).</p>
+                            </div>
+                            <button class="btn-hub-action" onclick="startModule('objective')">
+                                <i class="ph-bold ph-rocket-launch"></i> Iniciar Simulado de Farmacologia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELA HISTÓRICO & EVOLUÇÃO -->
+                <div class="history-screen" id="history-screen">
+                    <div class="report-header-title" style="margin-bottom: 8px;">
+                        <i class="ph-bold ph-chart-line-up" style="color: var(--purple-primary);"></i> Histórico & Evolução de Desempenho
+                    </div>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 1rem; margin-bottom: 28px;">
+                        Acompanhe suas tentativas anteriores, pontuações e aproveitamento em Farmacologia.
+                    </p>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                        <h3 style="color: var(--text-main); font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <i class="ph-bold ph-clock-counter-clockwise" style="color: var(--purple-primary);"></i> Registro de Sessões
+                        </h3>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="action-btn action-btn-secondary" onclick="goToHub()"><i class="ph-bold ph-house"></i> Voltar ao Menu</button>
+                            <button class="action-btn action-btn-danger" onclick="clearHistory()"><i class="ph-bold ph-trash"></i> Limpar Histórico</button>
+                        </div>
+                    </div>
+
+                    <div id="dedicated-history-list">
+                        <!-- Gerado via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- INTERFACE DO QUIZ UNIFICADO EM BENTO GRID -->
+                <div class="game-hud" id="game-hud">
+                    <div class="hud-header">
+                        <div class="hud-top-bar">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <button class="action-btn action-btn-secondary" onclick="goToHub()" style="padding: 6px 12px; font-size: 0.85rem;"><i class="ph-bold ph-house"></i> Menu Principal</button>
+                                <span id="quiz-title-badge" style="font-weight: 800; color: var(--purple-primary);">SIMULADO FARMACOLOGIA</span>
+                            </div>
+                            <button class="action-btn action-btn-secondary btn-layout-toggle-class" onclick="toggleMobileLayout()" style="padding: 4px 10px; font-size: 0.8rem;">
+                                <i class="ph-bold ph-device-mobile"></i> <span>Modo Celular: AUTO</span>
+                            </button>
+                        </div>
+
+                        <div class="hud-chips-row">
+                            <div class="hud-chip">
+                                <i class="ph-bold ph-list-numbers hud-chip-icon"></i>
+                                <span>Questão:</span>
+                                <span class="hud-stat-val" id="hud-q-num">1 / 35</span>
+                            </div>
+                            <div class="hud-chip" id="hud-timer-stat">
+                                <i class="ph-bold ph-timer hud-chip-icon"></i>
+                                <span>Tempo:</span>
+                                <span class="hud-stat-val" id="hud-timer">00:00</span>
+                            </div>
+                            <div class="hud-chip" id="hud-avgtime-stat">
+                                <i class="ph-bold ph-clock hud-chip-icon"></i>
+                                <span>Média/Q:</span>
+                                <span class="hud-stat-val" id="hud-avgtime">0s</span>
+                            </div>
+                            <div class="hud-chip">
+                                <i class="ph-bold ph-trophy hud-chip-icon" style="color: var(--accent-yellow);"></i>
+                                <span>Pontuação:</span>
+                                <span class="hud-stat-val" id="hud-score" style="color: var(--correct-green);">0 PTS</span>
+                            </div>
+                            <div class="hud-chip">
+                                <i class="ph-bold ph-chart-pie-slice hud-chip-icon" style="color: var(--green-primary);"></i>
+                                <span>Aproveitamento:</span>
+                                <span class="hud-stat-val" id="hud-accuracy">0%</span>
+                            </div>
+                            <span class="glass-badge-fire" id="combo-badge"><i class="ph-bold ph-fire"></i> COMBO x2!</span>
+                        </div>
+
+                        <div class="hud-progress-container">
+                            <div class="hud-progress-bar" id="hud-progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- ESTRUTURA BENTO GRID COM ORDENAÇÃO CORRETA EM TELA CHEIA -->
+                    <div class="bento-grid">
+                        
+                        <!-- BENTO ITEM 1: ENUNCIADO E OPÇÕES OBJETIVAS (SPAN 8) -->
+                        <div class="bento-card bento-q-card">
+                            <div class="q-card-header">
+                                <span class="q-category-tag" id="q-category">CATEGORIA</span>
+                                <div class="q-integrated-toolbar" id="q-integrated-toolbar">
+                                    <button class="tool-btn" onclick="openKeyHelpModal()" title="Atalhos de Teclado">
+                                        <i class="ph-bold ph-keyboard"></i> <span class="tool-btn-text">Atalhos</span>
+                                    </button>
+                                    <button class="tool-btn" onclick="changeFontSize(-1)" title="Diminuir Fonte">
+                                        <i class="ph-bold ph-minus-circle"></i> <span class="tool-btn-text">Texto -</span>
+                                    </button>
+                                    <button class="tool-btn" onclick="changeFontSize(1)" title="Aumentar Fonte">
+                                        <i class="ph-bold ph-plus-circle"></i> <span class="tool-btn-text">Texto +</span>
+                                    </button>
+                                    <button class="tool-btn" id="btn-flag" onclick="toggleFlag()" title="Sinalizar Dúvida">
+                                        <i class="ph-bold ph-flag"></i> <span class="tool-btn-text">Dúvida</span>
+                                    </button>
+                                    <button class="tool-btn" id="btn-highlight" onclick="toggleHighlight()" title="Grifar Texto">
+                                        <i class="ph-bold ph-highlighter"></i> <span class="tool-btn-text">Grifar</span>
+                                    </button>
+                                    <button class="tool-btn" id="btn-eraser" onclick="toggleEraser()" title="Apagar Grifo">
+                                        <i class="ph-bold ph-eraser"></i> <span class="tool-btn-text">Borracha</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- ENUNCIADO DA PERGUNTA -->
+                            <div class="q-statement" id="q-statement">Carregando questão...</div>
+                            
+                            <!-- CONTAINER DE QUESTÕES OBJETIVAS -->
+                            <div class="options-group" id="options-group"></div>
+
+                            <!-- SELETOR DE NÍVEL DE CONFIANÇA -->
+                            <div id="confidence-box" style="margin-bottom: 15px; display: none;">
+                                <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nível de Confiança nesta resposta:</div>
+                                <div class="conf-btn-group">
+                                    <div class="conf-btn" id="conf-btn-certeza" onclick="setConfidence('certeza')">🎯 Tenho Certeza</div>
+                                    <div class="conf-btn" id="conf-btn-chute" onclick="setConfidence('chute')">🎲 Chute Consciente</div>
+                                </div>
+                            </div>
+
+                            <button class="btn-confirm" id="btn-confirm" onclick="confirmAnswer()">
+                                <i class="ph-bold ph-check-circle"></i> Confirmar Resposta
+                            </button>
+
+                            <div class="nav-btns-inline">
+                                <button class="action-btn action-btn-secondary" id="btn-prev" onclick="prevQuestion()" style="flex: 1;">← Anterior</button>
+                                <button class="action-btn" id="btn-next" onclick="nextQuestion()" style="flex: 1;">Próxima →</button>
+                            </div>
+
+                            <div class="explanation-panel" id="explanation-panel">
+                                <div id="exp-body"></div>
+                            </div>
+                        </div>
+
+                        <!-- BENTO ITEM 2: DESEMPENHO EM TEMPO REAL (SPAN 4 - 1º NA DIREITA) -->
+                        <div class="bento-card bento-chart-card" id="chart-card-box">
+                            <div class="chart-title">
+                                <i class="ph-bold ph-chart-pie-slice" style="color: var(--purple-primary); font-size: 1.1rem;"></i>
+                                <span>Desempenho em Tempo Real</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="realtimeChart"></canvas>
+                                <div class="chart-center-wrapper">
+                                    <span class="chart-center-text" id="chart-center">0%</span>
+                                    <span class="chart-center-sub">PRECISÃO</span>
+                                </div>
+                            </div>
+                            <div class="chart-legend-grid">
+                                <div class="chart-legend-pill pill-correct">
+                                    <i class="ph-bold ph-check-circle"></i>
+                                    <span>Acertos: <strong id="lbl-correct">0</strong></span>
+                                </div>
+                                <div class="chart-legend-pill pill-incorrect">
+                                    <i class="ph-bold ph-x-circle"></i>
+                                    <span>Erros: <strong id="lbl-incorrect">0</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BENTO ITEM 3: BLOCO DE NOTAS (SPAN 4 - 2º NA DIREITA) -->
+                        <div class="bento-card bento-notes-card" id="notes-card-box">
+                            <div class="chart-title"><i class="ph-bold ph-note-pencil"></i> Bloco de Notas</div>
+                            <textarea id="q-notes" class="notes-textarea" placeholder="Rascunho ou anotações para esta questão..." oninput="saveNote(this.value)"></textarea>
+                        </div>
+
+                        <!-- BENTO ITEM 4: GRADE DE NAVEGAÇÃO (SPAN 4 - 3º NA DIREITA) -->
+                        <div class="bento-card bento-grid-card" id="grid-card-box">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div class="chart-title" style="margin-bottom: 0;">Grade de Questões</div>
+                                <div style="display: flex; gap: 4px;">
+                                    <button onclick="setGridFilter('ALL')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Todas</button>
+                                    <button onclick="setGridFilter('PENDING')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;">Pendentes</button>
+                                    <button onclick="setGridFilter('FLAGGED')" class="action-btn action-btn-secondary" style="padding: 2px 6px; font-size: 0.7rem;"><i class="ph-bold ph-flag"></i> Dúvidas</button>
+                                </div>
+                            </div>
+                            <div class="nav-grid" id="nav-grid"></div>
+                        </div>
+
+                        <!-- BENTO ITEM 5: CONTROLES DA SESSÃO (SPAN 12) -->
+                        <div class="bento-card" style="grid-column: span 12; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 18px 24px;">
+                            <button class="action-btn action-btn-danger" onclick="resetQuiz()"><i class="ph-bold ph-arrows-counter-clockwise"></i> Recomeçar Módulo</button>
+                            <button class="action-btn" id="btn-report-view" onclick="showReport()" style="background: var(--green-primary);"><i class="ph-bold ph-chart-line-up"></i> Finalizar & Ver Relatório</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TELA DE RELATÓRIO FINAL -->
+                <div class="report-screen" id="report-screen">
+                    <div class="report-header-title" id="rep-edition-title">
+                        <i class="ph-bold ph-chart-line-up" style="color: var(--purple-primary);"></i> Diagnóstico Final de Desempenho
+                    </div>
+                    
+                    <div class="report-score-container">
+                        <div class="score-ring" id="score-ring">
+                            <div class="score-ring-inner">
+                                <span class="report-score-big" id="rep-score-big">0%</span>
+                                <span class="score-label">Aproveitamento</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center; color: var(--text-muted); font-size: 1.05rem; font-weight: 500;" id="rep-status-msg"></p>
+
+                    <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 28px 0;">
+                        <div class="rep-stat-card">
+                            <div class="rep-stat-label"><i class="ph-bold ph-timer" style="color: var(--purple-primary);"></i> Tempo Total</div>
+                            <div class="rep-stat-val" style="color: var(--purple-primary);" id="rep-total-time">00:00</div>
+                        </div>
+                        <div class="rep-stat-card">
+                            <div class="rep-stat-label"><i class="ph-bold ph-clock" style="color: #6366f1;"></i> Média / Questão</div>
+                            <div class="rep-stat-val" style="color: #6366f1;" id="rep-avg-time">0s</div>
+                        </div>
+                        <div class="rep-stat-card" id="rep-conf-box-summary">
+                            <div class="rep-stat-label"><i class="ph-bold ph-target" style="color: var(--correct-green);"></i> Acertos Certeza / Chute</div>
+                            <div class="rep-stat-val" style="color: var(--correct-green);" id="rep-conf-ratio">0 / 0</div>
+                        </div>
+                    </div>
+
+                    <div class="diagnostic-card" id="rep-diagnostic-box">
+                        <div class="diagnostic-card-title">
+                            <i class="ph-bold ph-lightbulb"></i> Recomendação de Estudos
+                        </div>
+                        <div id="rep-diagnostic-text"></div>
+                    </div>
+
+                    <h3 style="color: var(--text-main); margin-top: 32px; font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                        <i class="ph-bold ph-list-checks" style="color: var(--purple-primary);"></i> Análise Detalhada por Tema de Farmacologia
+                    </h3>
+                    
+                    <div style="overflow-x: auto; margin-top: 12px;">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>Tema / Categoria</th>
+                                    <th>Total de Questões</th>
+                                    <th>Acertos</th>
+                                    <th>Aproveitamento</th>
+                                    <th>Nível</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rep-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 32px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                        <button class="action-btn action-btn-secondary" onclick="goToHub()"><i class="ph-bold ph-house"></i> Menu Principal</button>
+                        <button class="action-btn action-btn-danger" onclick="resetQuiz()"><i class="ph-bold ph-arrows-counter-clockwise"></i> Recomeçar Sessão</button>
+                        <button class="action-btn" onclick="restartGame()"><i class="ph-bold ph-arrow-clockwise"></i> Refazer Simulado</button>
+                        <button class="action-btn" onclick="startCadernoErros()" style="background: var(--incorrect-red);"><i class="ph-bold ph-x-circle"></i> Caderno de Erros</button>
+                        <button class="action-btn" onclick="exportNotesAndReport()" style="background: #0284c7;"><i class="ph-bold ph-download-simple"></i> Exportar (.txt)</button>
+                        <button class="action-btn" onclick="printReport()" style="background: #8b5cf6;"><i class="ph-bold ph-printer"></i> Exportar (PDF / Impressão)</button>
+                        <button class="action-btn action-btn-secondary" onclick="hideReport()"><i class="ph-bold ph-magnifying-glass"></i> Revisar Respostas</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE AJUDA DOS ATALHOS DE TECLADO -->
+    <div class="modal-overlay" id="key-help-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span><i class="ph-bold ph-keyboard" style="color: var(--purple-primary);"></i> Atalhos de Teclado</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeKeyHelpModal()"><i class="ph-bold ph-x"></i></span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="setting-item">
+                    <span class="setting-label"><kbd>Enter</kbd></span>
+                    <span class="setting-sub" style="font-weight: 600; color: var(--text-main);">Confirmar / Próxima questão</span>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label"><kbd>1</kbd> - <kbd>5</kbd> ou <kbd>A</kbd> - <kbd>E</kbd></span>
+                    <span class="setting-sub" style="font-weight: 600; color: var(--text-main);">Selecionar alternativa A-E</span>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label"><kbd>←</kbd> <kbd>→</kbd></span>
+                    <span class="setting-sub" style="font-weight: 600; color: var(--text-main);">Questão anterior / próxima</span>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label"><kbd>F</kbd></span>
+                    <span class="setting-sub" style="font-weight: 600; color: var(--text-main);">Sinalizar / remover dúvida <i class="ph-bold ph-flag" style="color:var(--accent-yellow);"></i></span>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label"><kbd>H</kbd> ou <kbd>Espaço</kbd></span>
+                    <span class="setting-sub" style="font-weight: 600; color: var(--text-main);">Ativar / desativar marca-texto <i class="ph-bold ph-highlighter"></i></span>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label"><kbd>Esc</kbd></span>
+                    <span class="setting-sub" style="font-weight: 600; color: var(--text-main);">Fechar janelas e modais</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px; text-align: right;">
+                <button class="action-btn" onclick="closeKeyHelpModal()">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIGURAÇÕES -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">
+                <span><i class="ph-bold ph-sliders-horizontal"></i> Configurações da Plataforma</span>
+                <span style="cursor: pointer; font-size: 1.2rem;" onclick="closeSettingsModal()"><i class="ph-bold ph-x"></i></span>
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-timer" style="color: var(--purple-primary);"></i> Exibir Cronômetro</div>
+                    <div class="setting-sub">Mostra o tempo total decorrido no cabeçalho.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-timer" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-clock" style="color: #6366f1;"></i> Métrica de Tempo Médio / Questão</div>
+                    <div class="setting-sub">Calcula os segundos gastos em cada questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-avgtime" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-target" style="color: var(--purple-primary);"></i> Nível de Confiança ao Responder</div>
+                    <div class="setting-sub">Permite indicar se a resposta foi por certeza ou chute nas objetivas.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-confidence" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-note-pencil" style="color: var(--purple-primary);"></i> Exibir Bloco de Notas</div>
+                    <div class="setting-sub">Mostra a caixa de anotações lateral no simulado.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-notes" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-chart-pie-slice" style="color: var(--green-primary);"></i> Exibir Gráfico em Tempo Real</div>
+                    <div class="setting-sub">Mostra o gráfico circular de desempenho ao lado da questão.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-chart" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-wrench" style="color: var(--purple-primary);"></i> Barra de Ferramentas da Questão</div>
+                    <div class="setting-sub">Mostra os botões de marca-texto, borracha, dúvida e tamanho de fonte.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-toolbar" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div class="setting-item">
+                <div>
+                    <div class="setting-label"><i class="ph-bold ph-grid-four" style="color: var(--purple-primary);"></i> Grade de Navegação</div>
+                    <div class="setting-sub">Exibe o mapa de questões na barra lateral.</div>
+                </div>
+                <input type="checkbox" class="toggle-checkbox" id="cfg-grid" onchange="updateSettingsFromUI()">
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="action-btn" onclick="closeSettingsModal()">Concluído</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE INTERATIVIDADE GLOW SEGUIDOR DO MOUSE -->
+    <script>
+      document.addEventListener("mousemove", (e) => {
+        document.querySelectorAll(".hub-card, .bento-card, .modal-box, .report-screen, .history-screen, .hub-screen, .rep-stat-card").forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        });
+      });
+    </script>
+
+    <script>
+        /* ==========================================================================
+           1. BANCO DE DADOS - FARMACOLOGIA (QUESTÕES 01 A 35 INTACTAS)[span_2](start_span)[span_2](end_span)
+           ========================================================================== */
+        const objectiveQuestions = [
+            {
+                num: 1,
+                type: "objective",
+                category: "Farmacologia Cardiovascular - Anti-hipertensivos",
+                statement: "Utilize o caso clínico abaixo para responder as questões 01 e 02:\nM.M.C, 46 anos, masculino, branco, solteiro, professor, procedente de Jundiaí, interior de São Paulo. Hipertenso desde os 35 anos em uso de losartana. O paciente refere que, há um mês submeteu-se a exame médico e constatou níveis pressóricos de 160/100 mmHg (várias medidas). Embora estivesse totalmente assintomático, foi aconselhado a procurar atendimento clínico. Nega doenças sérias no passado e refere que sua pressão arterial, medida há dois anos, era normal. Não pratica atividade física regular e a obesidade o acompanha desde criança. Seu pai e sua mãe são hipertensos e seu avô faleceu em decorrência de um AVC. Sabe-se que a FC basal de JW está em torno de 130 bpm, não apresenta diabetes e nem dislipidemia[span_3](start_span)[span_3](end_span).\n\n01. Considerando a aplicação de uma farmacoterapia anti-hipertensiva segura e a necessidade de associar um novo fármaco, qual dos medicamentos abaixo deve ser evitado na associação para M.M.C[span_4](start_span)[span_4](end_span)?",
+                options: [
+                    "a) Enalapril;",
+                    "b) Anlodipino;",
+                    "c) Atenolol;",
+                    "d) Propranolol;",
+                    "e) Hidroclorotiazida;"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A associação de dois inibidores do Sistema Renina-Angiotensina-Aldosterona (SRAA), como um IECA (Enalapril) e um BRA (Losartana), é contraindicada por aumentar os riscos de hipercalemia, hipotensão grave e lesão renal sem benefícios terapêuticos adicionais[span_5](start_span)[span_5](end_span).<br><br><b>Justificativa da alternativa correta:</b> O paciente já faz uso de Losartana (BRA), portanto deve-se evitar a inclusão do Enalapril (IECA)[span_6](start_span)[span_6](end_span)."
+            },
+            {
+                num: 2,
+                type: "objective",
+                category: "Diretrizes de Hipertensão Arterial",
+                statement: "02. Considerando a aplicação de uma farmacoterapia anti-hipertensiva inicial segura e eficaz, qual dos medicamentos ou combinações poderiam ser prescritos para M.M.C, seguindo as orientações das Diretrizes Brasileiras de Hipertensão (2020)[span_7](start_span)[span_7](end_span):",
+                options: [
+                    "a) Apenas losartana;",
+                    "b) Losartana + hidroclorotiazida;",
+                    "c) Atenolol + alfametildopa;",
+                    "d) Apenas hidroclorotiazida;",
+                    "e) Anlodipino + hidralazina;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Nas Diretrizes Brasileiras de Hipertensão (2020), para hipertensão Estágio 2 (PA ≥ 160/100 mmHg), a conduta indicada é o início de terapia combinada com dois anti-hipertensivos de primeira linha[span_8](start_span)[span_8](end_span).<br><br><b>Justificativa da alternativa correta:</b> A combinação de BRA (Losartana) com Diurético Tiazídico (Hidroclorotiazida) é uma dupla de primeira linha recomendada[span_9](start_span)[span_9](end_span)."
+            },
+            {
+                num: 3,
+                type: "objective",
+                category: "Farmacologia do SRAA",
+                statement: "03. Os fármacos inibidores do sistema renina-angiotensina-aldosterona estão entre os anti-hipertensivos mais utilizados na última década, tanto para o tratamento da hipertensão arterial sistêmica, quanto o tratamento das cardiopatias.\nAnalise as sentenças abaixo e assinale a alternativa correta:\nI. O captopril e o enalapril são inibidores da enzima conversora de angiotensina, sendo o primeiro um fármaco ativo e o segundo um pró-fármaco;\nII. Losartana é um bloqueador do receptor AT1 e, portanto, não promove a tosse como reação adversa;\nIII. Captopril pode ser utilizado em pacientes com doença renal crônica a fim de reduzir os efeitos deletérios da angiotensina II e aldosterona nos rins;\nIV. Losartana reduz, nos pacientes estresse oxidativo, processo inflamatório e fibrogênese nos rins, previne ou reduz também a hipertrofia e remodelagem cardíaca na insuficiência cardíaca, e ainda melhorar o clearance de creatinina na nefropatia diabética;\nV. O fármaco captopril é capaz de reduzir nos pacientes a resistência vascular periférica, a retenção de água e sódio pelos rins e a concentração plasmática de aldosterona;\nEstão corretas somente as sentenças[span_10](start_span)[span_10](end_span):",
+                options: [
+                    "a) I, II e III;",
+                    "b) II, IV e V;",
+                    "c) I, IV e V",
+                    "d) II, III e IV;",
+                    "e) Todas estão corretas"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> O bloqueio do SRAA proporciona vasodilatação e proteção renal e cardíaca. Os IECA podem causar tosse por acúmulo de bradicinina, efeito não visto nos BRA (como a Losartana)[span_11](start_span)[span_11](end_span).<br><br><b>Justificativa da alternativa correta:</b> Todas as afirmativas (I a V) descrevem corretamente aspectos farmacológicos, mecanismos de ação e efeitos benéficos dos IECA e BRA[span_12](start_span)[span_12](end_span)."
+            },
+            {
+                num: 4,
+                type: "objective",
+                category: "Anti-hipertensivos na Gestação",
+                statement: "Utilize o caso clínico abaixo para responder as questões 04, 05 e 06:\nMTF, 34 anos, sexo feminino, teve diagnóstico de HAS aos 34 anos de idade e iniciou uso de losartana 50 mg 1x/dia. Há 1 ano atrás MTF decidiu engravidar e seu médico substituiu o medicamento losartana por anlodipino 5 mg 1x/dia. Sabe-se que a paciente apresenta asma brônquica e hipertrigliceridemia, porém nenhuma complicação metabólica foi relatada.\nA PA da paciente manteve-se estabilizada em 125/80 mmHg até a 25 semana de gestação, quando a paciente começou a apresentar PAS 170 e PAD 110 mmHg e proteinúria (600mg/24 h).\nA partir desse momento, o medicamento anlodipino foi substituído por α-metildopa 750 mg/dia e sua PA voltou a 125/80 mmHg[span_13](start_span)[span_13](end_span).\n\n04. Considerando que o fármaco losartana estava controlando a Pressão arterial da paciente adequadamente, por que ela foi substituída por anlodipino[span_14](start_span)[span_14](end_span)?",
+                options: [
+                    "a) Foi um erro ter alterado a terapia com losartana, ela deveria ter sido mantida, já que a pressão da paciente estava estável;",
+                    "b) Por ser um antagonista de receptores AT1. Não se deve inibir o sistema renina-angiotensina-aldosterona durante a gestação, esta conduta poderia causar malformação fetal;",
+                    "c) A retirada da losartana aconteceu antes da gravidez. Esta conduta é comum, pois losartana reduz a fertilidade da mulher dificultando a ocorrência de gravidez;",
+                    "d) A substituição de losartana por anlodipino não foi adequada, pois anlodipino também pode causar mal formação fetal, além de aumentar o risco de um parto prematuro;",
+                    "e) Houve a substituição porque losartana está contra-indicada para pacientes asmáticos, aumentando o risco de broncoespasmo;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Fármacos que inibem o SRAA (IECA e BRA) são teratogênicos e estritamente contraindicados na gestação por causarem oligoidrâmnio, disgenesia renal e óbito fetal[span_15](start_span)[span_15](end_span).<br><br><b>Justificativa da alternativa correta:</b> A Losartana é um BRA antagonista do receptor AT1 e deve ser descontinuada no planejamento gestacional devido ao risco de malformações fetais[span_16](start_span)[span_16](end_span)."
+            },
+            {
+                num: 5,
+                type: "objective",
+                category: "Farmacologia do Sistema Nervoso Autônomo - Alfa-metildopa",
+                statement: "05. Sobre o fármaco alfa-metildopa, analise as sentenças abaixo e assinale a alternativa correta:\nI. é um antagonista de receptores alfa2-adrenérgicos;\nII. é um anti-hipertensivo seguro na gestação;\nIII. é um fármaco utilizado no processo de sedação em unidade de terapia intensiva;\nIV. é um fármaco colinérgico de ação direta;\nV. seu uso contínuo aumenta o risco de anemia hemolítica por processo autoimune;\nEstão corretas[span_17](start_span)[span_17](end_span):",
+                options: [
+                    "a) Somente I e II;",
+                    "b) Somente III e IV;",
+                    "c) Somente II e V;",
+                    "d) Somente I e IV;",
+                    "e) Todas as sentenças estão corretas;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A α-metildopa é um AGONISTA α₂-adrenérgico central de escolha e seguro na gestação, mas que pode causar teste de Coombs positivo e anemia hemolítica autoimune com o uso prolongado[span_18](start_span)[span_18](end_span).<br><br><b>Justificativa da alternativa correta:</b> II e V são verdadeiras. A afirmativa I é incorreta pois a metildopa é um *agonista* α₂[span_19](start_span)[span_19](end_span)."
+            },
+            {
+                num: 6,
+                type: "objective",
+                category: "Tocolíticos na Gestação",
+                statement: "06. Caso a gestante comece a apresentar contrações prematuras, e risco de um parto prematuro, quais fármacos podem ser administrados, a fim de reduzir o risco de parto prematuro[span_20](start_span)[span_20](end_span):",
+                options: [
+                    "a) Propranolol ou enalapril;",
+                    "b) Doxazosina ou alfametildopa;",
+                    "c) Fenoterol ou losartana;",
+                    "d) Salbutamol ou nifedipino;",
+                    "e) Hidralazina ou furosemida;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Agentes tocolíticos reduzem a contratilidade uterina. Agonistas β₂-adrenérgicos (Salbutamol) e bloqueadores dos canais de cálcio (Nifedipino) relaxam a musculatura lisa do miométrio[span_21](start_span)[span_21](end_span).<br><br><b>Justificativa da alternativa correta:</b> Salbutamol e Nifedipino atuam inibindo contrações uterinas no trabalho de parto prematuro[span_22](start_span)[span_22](end_span)."
+            },
+            {
+                num: 7,
+                type: "objective",
+                category: "Diuréticos e Manejo de Eletrólitos",
+                statement: "07. Paciente Maria, 57 anos, hipertensa e nefropata fazia uso de enalapril, furosemida e espironolactona. Devido a uma descompensação pressórica, houve a necessidade de retirar a furosemida e manter apenas enalapril e espironolactona. Qual o risco para esta paciente[span_23](start_span)[span_23](end_span):",
+                options: [
+                    "a) Hipomagnesemia;",
+                    "b) Hipermagnesemia;",
+                    "c) Hiperuricemia;",
+                    "d) Hipocalemia;",
+                    "e) Hipercalemia;"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> A combinação de IECA (Enalapril) com um poupador de potássio (Espironolactona) retém K⁺. A Furosemida excretava potássio e compensava essa retenção; sua suspensão gera alto risco de hipercalemia[span_24](start_span)[span_24](end_span).<br><br><b>Justificativa da alternativa correta:</b> Sem a ação caliurética da Furosemida, o uso conjunto de Enalapril e Espironolactona promove acúmulo de potássio[span_25](start_span)[span_25](end_span)."
+            },
+            {
+                num: 8,
+                type: "objective",
+                category: "Diuréticos e Remodelamento Cardíaco",
+                statement: "08. Qual dos fármacos abaixo pode reduzir o risco de hipocalemia e remodelagem cardíaca[span_26](start_span)[span_26](end_span):",
+                options: [
+                    "a) Furosemida;",
+                    "b) Espironolactona;",
+                    "c) Clortalidona;",
+                    "d) Hidroclorotiazida;",
+                    "e) Amilorida;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A Espironolactona é um antagonista da aldosterona que poupa potássio e bloqueia os efeitos profibróticos e o remodelamento cardíaco induzidos pela aldosterona[span_27](start_span)[span_27](end_span).<br><br><b>Justificativa da alternativa correta:</b> Reduz a perda urinária de K⁺ e inibe a fibrose/remodelamento miocárdico[span_28](start_span)[span_28](end_span)."
+            },
+            {
+                num: 9,
+                type: "objective",
+                category: "Classes de Diuréticos e Indicações",
+                statement: "09. Diuréticos são fármacos amplamente utilizados no tratamento da hipertensão arterial sistêmica, cardiopatias e doença renal. Qual das sentenças abaixo indica, respectivamente, um bom diurético para o tratamento da hipertensão arterial sistêmica de estágio 01, insuficiência cardíaca e edema[span_29](start_span)[span_29](end_span):",
+                options: [
+                    "a) Hidroclorotiazida, espironolactona e furosemida;",
+                    "b) Espironolactona, furosemida e captopril;",
+                    "c) Furosemida, hidroclorotiazida e espironolactona;",
+                    "d) Dopamina, espironolactona e digoxina;",
+                    "e) Hidroclorotiazida, hidralazina e nitroprussiato de sódio;"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> Tiazídicos (Hidroclorotiazida) são 1ª linha na HAS estágio 1; Antagonistas da aldosterona (Espironolactona) reduzem mortalidade na Insuficiência Cardíaca; Diuréticos de alça (Furosemida) tratam edemas sintomáticos[span_30](start_span)[span_30](end_span).<br><br><b>Justificativa da alternativa correta:</b> Apresenta as três medicações na ordem correta das indicações solicitadas[span_31](start_span)[span_31](end_span)."
+            },
+            {
+                num: 10,
+                type: "objective",
+                category: "Agonistas Beta-2 Adrenérgicos",
+                statement: "10. O fenoterol e o salbutamol, dois simpatomiméticos bastante utilizados no tratamento da asma, podem causar todos os efeitos a seguir com exceção de[span_32](start_span)[span_32](end_span):",
+                options: [
+                    "a) Glicogenólise;",
+                    "b) Taquicardia;",
+                    "c) Tremor;",
+                    "d) Redução da resistência das vias aéreas;",
+                    "e) Midríase;"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> Fenoterol e salbutamol são agonistas seletivos β₂. A midríase (dilatação pupilar) é mediada por receptores α₁ no músculo radial da íris[span_33](start_span)[span_33](end_span).<br><br><b>Justificativa da alternativa correta:</b> Fármacos β₂-seletivos não atuam em receptores α₁ e, portanto, não causam midríase[span_34](start_span)[span_34](end_span)."
+            },
+            {
+                num: 11,
+                type: "objective",
+                category: "SNA e Catecolaminas - Dopamina",
+                statement: "11. A dopamina é uma catecolamina que promove diferentes efeitos, de acordo com a dose administrada, sendo assim é um fármaco amplamente utilizado em algumas situações de choque. Sobre este fármaco, é correto afirmar[span_35](start_span)[span_35](end_span):",
+                options: [
+                    "a) Doses baixas (0,2 a 3,0 ug/kg/min) promovem dilatação da arteríola eferente renal e consequente redução do débito urinário;",
+                    "b) Doses moderadas (3,0 a 10,0 ug/kg/min) promovem ativação de receptores beta1-adrenérgicos e consequentemente aumento da contratilidade cardíaca;",
+                    "c) Doses elevadas (superior a 20,0 ug/kg/min) promovem ativação seletiva de receptores beta1-adrenérgicos causando inotropismo positivo;",
+                    "d) Independente da dose, a dopamina é uma catecolamina agonista de receptores dopaminérgicos e adrenérgicos;",
+                    "e) Independente da dose, a dopamina é uma catecolamina exclusivamente agonista de receptores dopaminérgicos;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A dopamina possui efeitos dose-dependentes: doses baixas ativam receptores D₁; doses moderadas (3-10 µg/kg/min) ativam β₁ (inotropismo positivo); doses altas (>10-20 µg/kg/min) ativam α₁ (vasoconstrição)[span_36](start_span)[span_36](end_span).<br><br><b>Justificativa da alternativa correta:</b> Doses moderadas estimulam receptores β₁-adrenérgicos cardíacos, aumentando a força de contração[span_37](start_span)[span_37](end_span)."
+            },
+            {
+                num: 12,
+                type: "objective",
+                category: "Inotrópicos e Débito Cardíaco",
+                statement: "12. O aumento do débito cardíaco está associado com qual dos seguintes fármacos listados a seguir[span_38](start_span)[span_38](end_span)?",
+                options: [
+                    "a) Clonidina;",
+                    "b) Alfa-metildopa;",
+                    "c) Dobutamina;",
+                    "d) Propranolol;",
+                    "e) Fenilefrina;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A Dobutamina é um agonista predominantemente β₁-adrenérgico com potente efeito inotrópico positivo, aumentando a contratilidade e o débito cardíaco[span_39](start_span)[span_39](end_span).<br><br><b>Justificativa da alternativa correta:</b> O estímulo aos receptores β₁ eleva a força de contração do coração[span_40](start_span)[span_40](end_span)."
+            },
+            {
+                num: 13,
+                type: "objective",
+                category: "Simpatomiméticos de Ação Mista",
+                statement: "13. A efedrina é um simpatomimético de ação mista, esta é utilizada em quadros de hipotensão causada por anestésicos gerais. Sabe-se que a efedrina promove[span_41](start_span)[span_41](end_span):",
+                options: [
+                    "a) Somente ativação de receptores adrenérgicos;",
+                    "b) Somente aumento de noradrenalina na fenda sináptica;",
+                    "c) Ativação de receptores adrenérgicos e aumento de noradrenalina na fenda sináptica;",
+                    "d) Inibição das enzimas MAO e COMT;",
+                    "e) Ativação de receptores adrenérgicos e colinérgicos;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Fármacos de ação mista possuem efeito duplo: ativam diretamente os receptores adrenérgicos (α e β) e estimulam a liberação de noradrenalina pré-sináptica[span_42](start_span)[span_42](end_span).<br><br><b>Justificativa da alternativa correta:</b> A efedrina combina ação direta nos receptores com liberação indireta do neurotransmissor[span_43](start_span)[span_43](end_span)."
+            },
+            {
+                num: 14,
+                type: "objective",
+                category: "Desgestionantes Nasais e Agonistas Alfa-1",
+                statement: "14. A fenilefrina é um fármaco amplamente utilizado em medicamentos antigripais, juntamente com analgésicos e anti-histamínicos. Uma das principais justificativas para sua inclusão nestes medicamentos é acarretar diminuição da congestão nasal causada por doenças respiratórias, como rinites. A fenilefrina possivelmente é um fármaco[span_44](start_span)[span_44](end_span):",
+                options: [
+                    "a) Dopaminérgico de ação direta;",
+                    "b) Adrenérgico de ação direta;",
+                    "c) Colinérgico de ação direta;",
+                    "d) Adrenérgico de ação indireta;",
+                    "e) Simpatolítico"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A fenilefrina liga-se diretamente aos receptores α₁-adrenérgicos vasculares da mucosa nasal, promovendo vasoconstrição local e reduzindo o edema e a congestão[span_45](start_span)[span_45](end_span).<br><br><b>Justificativa da alternativa correta:</b> É um agonista adrenérgico de ação direta no receptor α₁[span_46](start_span)[span_46](end_span)."
+            },
+            {
+                num: 15,
+                type: "objective",
+                category: "Antidepressivos e Tônus Adrenérgico",
+                statement: "Utilize o caso clínico abaixo para responder as questões 15 e 16:\nUma mulher, com 53 anos de idade, peso de 59 kg e altura de 1,56 m, é atendida em ambulatório, apresentando pressão arterial (PA) = 180 x 110 mmHg. A paciente relata histórico de hipertensão, controlada com dieta hipossódica e uso de captopril (25 mg/dia) em duas tomadas. Informa que, há dois meses, após episódios de humor marcadamente deprimido, anedonia, astenia, ideação suicida e anorexia, seu médico lhe receita venlafaxina (25 mg/dia), potente antidepressivo de última geração, que atua no sistema nervoso central, inibindo a recaptação de serotonina e noradrenalina, tendo aumentado a dosagem progressivamente. A paciente refere que, após o uso desta medicação, vem sentindo cefaleia, mal-estar abdominal e instabilidade nos níveis pressóricos. Pergunta-se[span_47](start_span)[span_47](end_span):\n\n15. O fármaco venlafaxina pode ser classificado como[span_48](start_span)[span_48](end_span):",
+                options: [
+                    "a) Colinérgico de ação indireta;",
+                    "b) Adrenérgico de ação direta;",
+                    "c) Anticolinesterásico;",
+                    "d) Adrenérgico de ação indireta;",
+                    "e) Colinérgico de ação direta;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Fármacos que inibem a recaptação de noradrenalina (como a Venlafaxina) aumentam a oferta do neurotransmissor na fenda sem se ligar diretamente ao receptor, caracterizando ação adrenérgica indireta[span_49](start_span)[span_49](end_span).<br><br><b>Justificativa da alternativa correta:</b> A inibição da recaptação monoaminérgica aumenta o tônus noradrenérgico por via indireta[span_50](start_span)[span_50](end_span)."
+            },
+            {
+                num: 16,
+                type: "objective",
+                category: "Interações Medicamentosas na Hipertensão",
+                statement: "16. Diante do caso clínico descrito acima, podemos concluir[span_51](start_span)[span_51](end_span):",
+                options: [
+                    "a) O captopril não é um bom anti-hipertensivo para o perfil da paciente;",
+                    "b) O captopril estava reagindo com a venlafaxina piorando o quadro de depressão;",
+                    "c) A venlafaxina estava reduzindo a efetividade do tratamento anti-hipertensivo instituído;",
+                    "d) A paciente deveria associar alfametildopa ao tratamento;",
+                    "e) A paciente deveria associar losartana ao tratamento;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O acúmulo de noradrenalina provocado pela venlafaxina promove vasoconstrição periférica e aumento da PA, anulando a eficácia do tratamento anti-hipertensivo previamente estabilizado com captopril[span_52](start_span)[span_52](end_span).<br><br><b>Justificativa da alternativa correta:</b> A venlafaxina elevou a pressão arterial por ação adrenérgica, reduzindo o efeito do anti-hipertensivo[span_53](start_span)[span_53](end_span)."
+            },
+            {
+                num: 17,
+                type: "objective",
+                category: "Nefroproteção na Doença Renal Crônica",
+                statement: "17. Uma mulher com 42 anos de idade, portadora de doença renal policística, procurou atendimento médico por apresentar picos hipertensivos em três ocasiões diferentes, em repouso. A paciente não faz uso de medicações e não tem histórico prévio de Hipertensão Arterial Sistêmica (HAS). Ao exame físico, apresentou: pressão arterial (PA) = 150 x 140 mmHg; auscultas cardíaca e pulmonar normais; edema em membros inferiores 2+/4+. A dosagem sérica de creatinina foi de 1,8 mg/dL (normal: 0,6-1,2) e a proteinúria 24 horas de 870 mg/dL. A paciente foi orientada a adotar medidas não farmacológicas. Nessa situação, para que a progressão da doença renal se torne mais lenta, o anti-hipertensivo a ser iniciado é[span_54](start_span)[span_54](end_span):",
+                options: [
+                    "a) atenolol;",
+                    "b) clonidina;",
+                    "c) espironolactona;",
+                    "d) enalapril;",
+                    "e) furosemida;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Os IECA (Enalapril) dilatam a arteríola eferente glomerular, reduzindo a pressão intraglomerular e a proteinúria, desacelerando a progressão da doença renal crônica[span_55](start_span)[span_55](end_span).<br><br><b>Justificativa da alternativa correta:</b> É a droga de escolha pela ação nefroprotetora comprovada em pacientes com proteinúria[span_56](start_span)[span_56](end_span)."
+            },
+            {
+                num: 18,
+                type: "objective",
+                category: "Vasodilatadores Diretos - Minoxidil",
+                statement: "18. Sobre o fármaco Minoxidil é correto afirmar[span_57](start_span)[span_57](end_span):",
+                options: [
+                    "a) é um vasodilatador ativador de canais de potássio na membrana do músculo liso vascular;",
+                    "b) é um vasodilatador bloqueador de canais de cálcio do tipo didropiridinas;",
+                    "c) é um vasodilatador de mecanismo de ação desconhecido, utilizado somente por via tópica;",
+                    "d) é um cárdio-inibidor antagonista de receptores beta-adrenérgicos;",
+                    "e) é um diurético tiazídico;"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O minoxidil promove a abertura de canais de K⁺ sensíveis ao ATP no músculo liso vascular, hiperpolarizando a membrana e gerando vasodilatação arterial potente[span_58](start_span)[span_58](end_span).<br><br><b>Justificativa da alternativa correta:</b> Atua diretamente abrindo canais de potássio na musculatura vascular[span_59](start_span)[span_59](end_span)."
+            },
+            {
+                num: 19,
+                type: "objective",
+                category: "Manejo do Choque Séptico",
+                statement: "19. Paciente em choque óptico apresenta hipotensão grave, com redução acentuada do débito cardíaco, resistência vascular periférica e insuficiência renal aguda. Qual das condutas abaixo é mais adequada para ele[span_60](start_span)[span_60](end_span):",
+                options: [
+                    "a) Associação de dobutamina (agonista seletivo de receptores beta 2-adrenérgicos) e furosemida (diurético de alça);",
+                    "b) Associação de dopamina (agonista adrenérgico) e doxazosina (agonista seletivo de receptores alfa 1-adrenérgicos);",
+                    "c) Associação de noradrenalina (potente agonista alfa1-adrenérgico) e dopamina em doses dopaminérgicas;",
+                    "d) Associação de adrenalina (agonista preferencial de receptores beta-2 adrenérgicos) e salbutamol (agonista seletivo de receptores beta1-adrenérgicos);",
+                    "e) Associação de dopamina via oral e noradrenalina em bomba de infusão contínua;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> A noradrenalina é o vasopressor de escolha no choque séptico por sua potente ação α₁ (reversão da vasodilatação). A dopamina em dose baixa/dopaminérgica preserva a perfusão renal[span_61](start_span)[span_61](end_span).<br><br><b>Justificativa da alternativa correta:</b> Restabelece a resistência vascular e a pressão de perfusão tecidual[span_62](start_span)[span_62](end_span)."
+            },
+            {
+                num: 20,
+                type: "objective",
+                category: "Diuréticos Osmóticos - Manitol",
+                statement: "20. Sobre o uso endovenoso de mannitol é correto afirmar[span_63](start_span)[span_63](end_span):",
+                options: [
+                    "a) Tem ação laxativa;",
+                    "b) É utilizado para fazer lavagem intestinal, a fim de realizar uma colonoscopia;",
+                    "c) Inibe transportadores de sódio no túbulo proximal e ramo descendente da alça de Henle;",
+                    "d) É um diurético osmótico utilizado para reduzir a hipertensão intracraniana;",
+                    "e) Não deve ser utilizado por via endovenosa. Seu uso é restrito para via oral;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> O manitol EV eleva a osmolaridade plasmática, drenando água do parênquima cerebral para a circulação sistêmica e reduzindo a pressão intracraniana (PIC)[span_64](start_span)[span_64](end_span).<br><br><b>Justificativa da alternativa correta:</b> É um diurético osmótico indicado em emergências para redução do edema cerebral e PIC[span_65](start_span)[span_65](end_span)."
+            },
+            {
+                num: 21,
+                type: "objective",
+                category: "Antiarrítmicos - Controle de Ritmo na FA",
+                statement: "21. Paciente Maria apresenta quadros de fibrilação atrial paroxística. Qual dos antiarrítmicos abaixo citados poderia ser prescrito para o tratamento de Maria, para prevenir novas ocorrências desta arritmia[span_66](start_span)[span_66](end_span)?",
+                options: [
+                    "a) Lidocaína;",
+                    "b) Propafenona;",
+                    "c) Quinidina;",
+                    "d) Losartana;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A Propafenona (Classe Ic de Vaughan Williams) é um antiarrítmico bloqueador dos canais de sódio utilizado no controle de ritmo e prevenção de episódios de fibrilação atrial paroxística[span_67](start_span)[span_67](end_span).<br><br><b>Justificativa da alternativa correta:</b> É indicada na reversão e prevenção da FAP em corações sem cardiopatia estrutural grave[span_68](start_span)[span_68](end_span)."
+            },
+            {
+                num: 22,
+                type: "objective",
+                category: "Classificação de Vaughan Williams",
+                statement: "22. Sobre a Classificação de Vaughan Williams de antiarrítmicos e a eletrofisiologia cardíaca, analise as sentenças abaixo:\nI. Antiarrítmicos de classe I reduzem a fase de repouso do nó sinusal;\nII. Antiarrítmicos de classe Ib prolongam o tempo de despolarização do músculo ventricular e de repolarização;\nIII. Antiarrítmicos de classe III atuam como bloqueadores de canais de potássio;\nIV. Antiarrítmicos de classe IV atuam como bloqueadores de canais de Cálcio;\nV. Antiarrítmicos de classe III prolongam o período refratário de miócitos ventriculares;\nEstão corretas somente[span_69](start_span)[span_69](end_span):",
+                options: [
+                    "a) I, II e III;",
+                    "b) I, III e V;",
+                    "c) III, IV e V;",
+                    "d) I e IV;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> Classe III bloqueia canais de K⁺ (prolongando repolarização e período refratário); Classe IV bloqueia canais de Ca²⁺[span_70](start_span)[span_70](end_span).<br><br><b>Justificativa da alternativa correta:</b> As afirmações III, IV e V estão corretas na classificação de Vaughan Williams[span_71](start_span)[span_71](end_span)."
+            },
+            {
+                num: 23,
+                type: "objective",
+                category: "Estatinas e Metabolismo Lipídico",
+                statement: "Utilize o caso clínico abaixo para responder as questões 23, 24 e 25:\nUma mulher de 85 anos, diabética e hipertensa foi hospitalizada devido a cólica biliar complicada. Apresentava histórico de fibrilação atrial paroxística, miocardiopatia hipertensiva e depressão. A paciente fazia uso de losartana, hidroclorotiazida, sinvastatina, amiodarona, metoprolol, metformina, dapagliflozina e citalopram. No dia anterior à hospitalização, a paciente tomou (em casa) metoclopramida, devido à náuseas e vômitos e este medicamento foi mantido nos primeiros dias de internação.\nNo quinto dia de internação a paciente apresentou parada cardiorrespiratória. A ressuscitação cardiopulmonar básica foi iniciada e um Torsades de Pointes (TdP) autolimitado foi identificado, enquanto o ECG estava sendo monitorado. Seu ECG de 12 derivações mostrou ritmo sinusal, bloqueio do ramo esquerdo e um intervalo QT prolongado. Hipocalemia (3,3 mEq/L) e hipomagnesemia (1,5 mg/dL) também foram encontrados. Fármacos que prolongam o intervalo QT foram retirados e os distúrbios eletrolíticos foram corrigidos. Não houve novos eventos[span_72](start_span)[span_72](end_span).\n\n23. Sobre a sinvastatina e seu uso no caso descrito anteriormente, é correto afirmar[span_73](start_span)[span_73](end_span):",
+                options: [
+                    "a) Ela pode ter contribuído com a complicação do paciente, pois pode reduzir CK ou CPK;",
+                    "b) Ela pode ter contribuído com a complicação do paciente, pois aumenta a perda renal de eletroclitos;",
+                    "c) Além das enfermidades descritas no caso, provavelmente a paciente apresenta hipercolesterolemia associada ou não a uma cardiopatia, o que justifica o uso da sinvastatina;",
+                    "d) O uso de sinvastatina exige o monitoramento das transaminases hepáticas e dos lipídeos plasmáticos. Além de reduzir a síntese hepática do colesterol, ela ainda reduz receptores de LDL na membrana de hepatócitos;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> As estatinas (Sinvastatina) inibem a HMG-CoA redutase, reduzindo o colesterol e aumentando a expressão de receptores de LDL no fígado. Seu uso é indicado em hipercolesterolemia e cardiopatia isquêmica/hipertensiva[span_74](start_span)[span_74](end_span).<br><br><b>Justificativa da alternativa correta:</b> Justifica-se a indicação para controle lipídico e redução do risco cardiovascular na paciente[span_75](start_span)[span_75](end_span)."
+            },
+            {
+                num: 24,
+                type: "objective",
+                category: "Betabloqueadores - Metoprolol",
+                statement: "24. Sobre a indicação de metoprolol no caso clínico, é correto afirmar[span_76](start_span)[span_76](end_span):",
+                options: [
+                    "a) Trata-se de um betabloqueador de 3ª geração, antagonista de receptores beta e alfa adrenérgicos;",
+                    "b) Não deve ser utilizado em arritmias atriais;",
+                    "c) Seu efeito cardioprotetor justifica seu uso na miocardiopatia hipertensiva;",
+                    "d) Apresenta baixo índice terapêutico e, portanto, exige monitoramento de eletroclitos;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O Metoprolol é um β₁-bloqueador de 2ª geração que reduz a demanda miocárdica de O₂ e previne a remodelagem cardíaca[span_77](start_span)[span_77](end_span).<br><br><b>Justificativa da alternativa correta:</b> Seu efeito cardioprotetor é indicado no manejo da miocardiopatia hipertensiva[span_78](start_span)[span_78](end_span)."
+            },
+            {
+                num: 25,
+                type: "objective",
+                category: "Farmacologia das Dislipidemias",
+                statement: "25. Analise as sentenças abaixo e assinale a alternativa correta:\nI. Fibratos são agonistas de receptores PPAR-alfa;\nII. Fibratos são bastante efetivos para reduzir triglicerídeos plasmáticos;\nIII. Ezetimiba reduz a absorção intestinal de colesterol e é frequentemente é associado a estatinas;\nIV. Atorvastatina é mais efetiva do que sinvastatina na redução de LDL e triglicerídeos plasmáticos;\nEstão corretas somente[span_79](start_span)[span_79](end_span):",
+                options: [
+                    "a) I e II;",
+                    "b) I, II e III;",
+                    "c) III e IV;",
+                    "d) Todas estão corretas;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Fibratos ativam PPAR-α reduzindo triglicerídeos; Ezetimiba inibe a absorção de colesterol no delgado; Atorvastatina é estatina de alta potência superior à Sinvastatina[span_80](start_span)[span_80](end_span).<br><br><b>Justificativa da alternativa correta:</b> Todas as afirmações I, II, III e IV são inteiramente verdadeiras[span_81](start_span)[span_81](end_span)."
+            },
+            {
+                num: 26,
+                type: "objective",
+                category: "Antiagregantes Plaquetários",
+                statement: "26. Sobre o uso de antiagregantes plaquetário é correto afirmar[span_82](start_span)[span_82](end_span):",
+                options: [
+                    "a) AAS e clopidogrel não devem ser associados, devido risco do aparecimento de púrpura trombocitopênica;",
+                    "b) AAS e clopidogrel são inibidores da enzima ciclooxigenase-1 e receptor purinérgico P2Y12, respectivamente;",
+                    "c) AAS é antiagregante plaquetário e clopidogrel é anticoagulante;",
+                    "d) Não devem ser prescritos para pacientes cardiopatas, devido risco de hemorragia;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> O AAS inibe a COX-1 (bloqueando TXA2) e o Clopidogrel inibe irreversivelmente o receptor purinérgico P2Y12 nas plaquetas[span_83](start_span)[span_83](end_span).<br><br><b>Justificativa da alternativa correta:</b> Corresponde exatamente ao mecanismo molecular dos dois antiagregantes[span_84](start_span)[span_84](end_span)."
+            },
+            {
+                num: 27,
+                type: "objective",
+                category: "Antagonistas Muscarínicos - Escopolamina",
+                statement: "27. A escopolamina é o princípio ativo do medicamento Buscopan®. Este fármaco é amplamente utilizado para diminuir cólicas intestinais e renais por atuar como[span_85](start_span)[span_85](end_span):",
+                options: [
+                    "a) Antagonista muscarínico;",
+                    "b) Inibidor da MAO;",
+                    "c) Simpatolítico;",
+                    "d) Agonista muscarínico;",
+                    "e) Anticolinesterásico;"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> A escopolamina bloqueia os receptores muscarínicos de acetilcolina na musculatura lisa das vísceras, promovendo relaxamento e alívio de espasmos[span_86](start_span)[span_86](end_span).<br><br><b>Justificativa da alternativa correta:</b> É um antiespasmódico com ação antagonista antimuscarínica[span_87](start_span)[span_87](end_span)."
+            },
+            {
+                num: 28,
+                type: "objective",
+                category: "Farmacologia da Atropina",
+                statement: "28. A atropina já foi amplamente utilizada na ressuscitação cardiorrespiratória, e ainda hoje existem várias indicações clínicas que utilizam este fármaco. Sobre a atropina, é incorreto afirmar[span_88](start_span)[span_88](end_span):",
+                options: [
+                    "a) Ativa receptores β adrenérgicos no coração retirando o paciente da parada cardiorrespiratória;",
+                    "b) Ativa receptores muscarínicos no coração, aumentando a frequência cardíaca;",
+                    "c) Inibe a enzima acetilcolinesterase promovendo ações excitatórias no sistema nervoso central do paciente;",
+                    "d) Antagoniza receptores muscarínicos no coração, diminuindo as ações bradicárdicas da acetilcolina;",
+                    "e) Inibe a enzima MAO, aumentando os efeitos cardioestimuladores da adrenalina no coração;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> A atropina antagoniza de forma competitiva os receptores muscarínicos M₂ cardíacos, anulando o efeito vagal da acetilcolina para reverter bradicardias[span_89](start_span)[span_89](end_span).<br><br><b>Justificativa da alternativa correta:</b> A opção D traz o mecanismo fisiológico verdadeiro da atropina para reversão da bradicardia vagal[span_90](start_span)[span_90](end_span)."
+            },
+            {
+                num: 29,
+                type: "objective",
+                category: "Anticolinérgicos Inalatórios - Ipratrópio",
+                statement: "29. O brometo de ipratrópio (Atrovent®) é um fármaco frequentemente utilizado para promover[span_91](start_span)[span_91](end_span):",
+                options: [
+                    "a) Broncodilatação;",
+                    "b) Hipersecreção gástrica;",
+                    "c) Bradicardia;",
+                    "d) Vasoconstrição;",
+                    "e) Diarreia;"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> O brometo de ipratrópio bloqueia os receptores M₃ da musculatura lisa brônquica, inibindo a broncoconstrição vagal e promovendo broncodilatação[span_92](start_span)[span_92](end_span).<br><br><b>Justificativa da alternativa correta:</b> Indicado como broncodilatador em quadros de asma e DPOC[span_93](start_span)[span_93](end_span)."
+            },
+            {
+                num: 30,
+                type: "objective",
+                category: "Fármacos da Miastenia Gravis",
+                statement: "Utilize o caso clínico abaixo para responder a questão 30:\nUma mulher de 30 anos apresenta quadro de fraqueza muscular nos membros inferiores com predomínio distal, há alguns anos. Na evolução apresentou fraqueza muscular nos membros superiores. O exame físico mostrava nervos cranianos sem alterações, atrofia bilateral dos músculos quadríceps e interósseos dos pés, redução da força muscular mais intensa em tibiais anteriores e interósseos dorsais dos pés e reflexos tendinosos globalmente hipoativos. Notou, também, dificuldade para mastigar e deglutir. A dosagem de anticorpos anti-receptor nicotínico foi positiva (Arquivos de neuropsiquiatria, 2003)[span_94](start_span)[span_94](end_span).\n\n30. O tratamento da paciente pode ser feito com[span_95](start_span)[span_95](end_span):",
+                options: [
+                    "a) L-DOPA;",
+                    "b) Piridostigmina / fisostigmina;",
+                    "c) Succinilcolina;",
+                    "d) Toxina Botulínica;",
+                    "e) Atropina;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> Na Miastenia Gravis, os anticorpos destroem receptores nicotínicos (Nm). Os inibidores da acetilcolinesterase (Piridostigmina) aumentam os níveis de ACh na fenda, restaurando a força muscular[span_96](start_span)[span_96](end_span).<br><br><b>Justificativa da alternativa correta:</b> Anticolinesterásicos elevam a ACh na junção neuromuscular[span_97](start_span)[span_97](end_span)."
+            },
+            {
+                num: 31,
+                type: "objective",
+                category: "Toxicologia - Intoxicação por Organofosforados / Carbamatos",
+                statement: "Utilize o texto abaixo para responder a questão 31:\nNo Brasil, o \"Chumbinho\" é um produto clandestino, irregularmente utilizado como raticida. Não possui registro na Anvisa, nem em nenhum outro órgão de governo. O agrotóxico carbamato aldicarbe (classificado como colinomimético de ação indireta) é o preferido pelos contraventores, encontrado em cerca de 50% dos \"chumbinhos\" analisados. A outra metade são organofosforados diversos. A Anvisa afirma que a matéria prima para este produto vem de roubo de carga ou entrada ilegal de produtos químicos pelas fronteiras. Seu uso está relacionado intensamente a assassinatos, suicídios, e mortes por intoxicação acidental.\nPergunta-se[span_98](start_span)[span_98](end_span):\n\n31. O tratamento de um paciente intoxicado com chumbinho poderá ser feito com[span_99](start_span)[span_99](end_span):",
+                options: [
+                    "a) Atropina;",
+                    "b) Neostigmina;",
+                    "c) Nitroprussiato de sódio;",
+                    "d) Fisostigmina;",
+                    "e) Metildopa;"
+                ],
+                correct: 0,
+                context: "<b>Mini-resumo:</b> Carbamatos inibem a acetilcolinesterase, causando crise colinérgica. A Atropina é o antídoto que antagoniza os receptores muscarínicos superestimulados[span_100](start_span)[span_100](end_span).<br><br><b>Justificativa da alternativa correta:</b> Bloqueia os efeitos parassimpáticos fatais da intoxicação[span_101](start_span)[span_101](end_span)."
+            },
+            {
+                num: 32,
+                type: "objective",
+                category: "Efeitos Anticolinérgicos Oculares",
+                statement: "32. Sobre atropina podemos afirmar que a mesma[span_102](start_span)[span_102](end_span):",
+                options: [
+                    "a) Pode provocar intensa taquicardia devido ao bloqueio dos receptores nicotínicos cardíacos;",
+                    "b) Inibem intensamente o tónus intestinal, a motilidade e aumentam as secreções do TGI;",
+                    "c) Pode provocar midríase, cicloplegia e fotofobia;",
+                    "d) Podem produzir broncoconstrição;"
+                ],
+                correct: 2,
+                context: "<b>Mini-resumo:</b> O bloqueio muscarínico ocular inibe a contração do esfíncter da íris (midríase) e do músculo ciliar (cicloplegia/perda da acomodação), gerando fotofobia[span_103](start_span)[span_103](end_span).<br><br><b>Justificativa da alternativa correta:</b> Apresenta a tríade de manifestações oculares antimuscarínicas[span_104](start_span)[span_104](end_span)."
+            },
+            {
+                num: 33,
+                type: "objective",
+                category: "Glicosídeos Cardíacos - Digoxina",
+                statement: "33. O local responsável pelas ações farmacológicas e tóxicas dos glicosídeos digitálicos é[span_105](start_span)[span_105](end_span):",
+                options: [
+                    "a) receptores Beta-adrenérgicos;",
+                    "b) a bomba de Na/K ATPase;",
+                    "c) a proteína quinase C;",
+                    "d) a proteína quinase dependente de AMPc;"
+                ],
+                correct: 1,
+                context: "<b>Mini-resumo:</b> A Digoxina inibe seletivamente a Na⁺/K⁺ ATPase da membrana dos cardiomiócitos, aumentando o cálcio intracelular e a força inotrópica[span_106](start_span)[span_106](end_span).<br><br><b>Justificativa da alternativa correta:</b> O alvo molecular direto é a bomba de Na⁺/K⁺ ATPase[span_107](start_span)[span_107](end_span)."
+            },
+            {
+                num: 34,
+                type: "objective",
+                category: "Vasodilatadores - Nitratos Orgânicos",
+                statement: "34. Todos os seguintes são efeitos colaterais dos nitratos orgânicos EXCETO[span_108](start_span)[span_108](end_span):",
+                options: [
+                    "a) Hipotensão;",
+                    "b) Cefaleia;",
+                    "c) Tolerância;",
+                    "d) Taquicardia reflexa;",
+                    "e) Lesão renal;"
+                ],
+                correct: 4,
+                context: "<b>Mini-resumo:</b> Os nitratos causam venodilatação, hipotensão, cefaleia (vasodilatação meníngea), taquicardia reflexa e tolerância por depleção de tióis. Não provocam lesão renal direta[span_109](start_span)[span_109](end_span).<br><br><b>Justificativa da alternativa correta:</b> Toxicidade renal não é um efeito adverso típico do uso de nitratos[span_110](start_span)[span_110](end_span)."
+            },
+            {
+                num: 35,
+                type: "objective",
+                category: "Mecanismo de Ação dos Nitratos Orgânicos",
+                statement: "35. Quais das seguintes ações dos nitratos orgânicos estão corretas[span_111](start_span)[span_111](end_span):",
+                options: [
+                    "a) Dilatam os vasos colaterais coronarianos;",
+                    "b) Geram óxido nítrico;",
+                    "c) Aumentam o GMPc;",
+                    "d) Todas as afirmativas estão corretas;"
+                ],
+                correct: 3,
+                context: "<b>Mini-resumo:</b> Os nitratos orgânicos são bioativados liberando Óxido Nítrico (NO), que ativa a guanilil ciclase, aumenta os níveis de GMPc e promove relaxamento vascular e redistribuição coronariana[span_112](start_span)[span_112](end_span).<br><br><b>Justificativa da alternativa correta:</b> As afirmações a, b e c são todas verdadeiras[span_113](start_span)[span_113](end_span)."
+            }
+        ];
+
+        /* ==========================================================================
+           2. ESTADO GLOBAL, CONFIGURAÇÕES E MOTOR DO SISTEMA
+           ========================================================================== */
+        let currentModuleType = 'objective'; 
+        let currentQuestions = objectiveQuestions;
+        let currentQIndex = 0;
+        let userAnswers = []; 
+        let userConfidence = []; 
+        let questionTimes = [];
+        let questionStartTime = Date.now();
+        let selectedOptionIndex = null;
+        let selectedConfidence = null;
+        let strikethroughState = [];
+        let questionNotes = [];
+        let flaggedQuestions = [];
+        let score = 0;
+        let streak = 0;
+        let gameMode = 'estudo';
+        let isFinished = false;
+        let fontDelta = 0;
+        let gridFilter = 'ALL';
+        let isForceMobile = false;
+        let isDarkMode = false;
+        let isSidebarCollapsed = false;
+
+        /* CRONÔMETRO */
+        let timerInterval = null;
+        let totalElapsedSeconds = 0;
+
+        /* CONFIGURAÇÕES PADRÃO */
+        let appSettings = {
+            showTimer: true,
+            showAvgTime: true,
+            showConfidence: true,
+            showHistory: true,
+            showNotes: true,
+            showChart: true,
+            showToolbar: true,
+            showGrid: true
+        };
+
+        let isPenActive = false;
+        let isEraserActive = false;
+
+        window.onload = function() {
+            populateTopicFilter();
+            loadSettings();
+            loadState();
+            renderHistory();
+            initKeyboardShortcuts();
+        };
+
+        function toggleSidebar() {
+            isSidebarCollapsed = !isSidebarCollapsed;
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('collapsed', isSidebarCollapsed);
+            }
+            saveState();
+        }
+
+        function updateSidebarActiveNav(activeId) {
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const target = document.getElementById(activeId);
+            if (target) target.classList.add('active');
+        }
+
+        function goToHistoryScreen() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('history-screen').style.display = 'block';
+            updateSidebarActiveNav('nav-history');
+            renderHistory();
+        }
+
+        function openCadernoErrosSidebar() {
+            startCadernoErros();
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            applyDarkModeUI();
+            saveState();
+        }
+
+        function applyDarkModeUI() {
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            const themeIcon = document.getElementById('theme-toggle-icon');
+            const themeText = document.getElementById('theme-toggle-text');
+
+            if (isDarkMode) {
+                if (themeIcon) themeIcon.className = 'ph-bold ph-sun';
+                if (themeText) themeText.innerText = 'Modo Claro';
+            } else {
+                if (themeIcon) themeIcon.className = 'ph-bold ph-moon';
+                if (themeText) themeText.innerText = 'Modo Escuro';
+            }
+        }
+
+        function openKeyHelpModal() {
+            document.getElementById('key-help-modal').style.display = 'flex';
+        }
+
+        function closeKeyHelpModal() {
+            document.getElementById('key-help-modal').style.display = 'none';
+        }
+
+        function openSettingsModal() {
+            document.getElementById('cfg-timer').checked = appSettings.showTimer;
+            document.getElementById('cfg-avgtime').checked = appSettings.showAvgTime;
+            document.getElementById('cfg-confidence').checked = appSettings.showConfidence;
+            document.getElementById('cfg-notes').checked = appSettings.showNotes;
+            document.getElementById('cfg-chart').checked = appSettings.showChart;
+            document.getElementById('cfg-toolbar').checked = appSettings.showToolbar;
+            document.getElementById('cfg-grid').checked = appSettings.showGrid;
+
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        function updateSettingsFromUI() {
+            appSettings.showTimer = document.getElementById('cfg-timer').checked;
+            appSettings.showAvgTime = document.getElementById('cfg-avgtime').checked;
+            appSettings.showConfidence = document.getElementById('cfg-confidence').checked;
+            appSettings.showNotes = document.getElementById('cfg-notes').checked;
+            appSettings.showChart = document.getElementById('cfg-chart').checked;
+            appSettings.showToolbar = document.getElementById('cfg-toolbar').checked;
+            appSettings.showGrid = document.getElementById('cfg-grid').checked;
+
+            saveSettings();
+            applySettings();
+        }
+
+        function saveSettings() {
+            localStorage.setItem('simulado_farma_settings', JSON.stringify(appSettings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('simulado_farma_settings');
+            if (saved) {
+                try {
+                    appSettings = { ...appSettings, ...JSON.parse(saved) };
+                } catch(e) { console.error(e); }
+            }
+            applySettings();
+        }
+
+        function applySettings() {
+            document.getElementById('hud-timer-stat').style.display = appSettings.showTimer ? 'flex' : 'none';
+            document.getElementById('hud-avgtime-stat').style.display = appSettings.showAvgTime ? 'flex' : 'none';
+            document.getElementById('notes-card-box').style.display = appSettings.showNotes ? 'flex' : 'none';
+            document.getElementById('chart-card-box').style.display = appSettings.showChart ? 'flex' : 'none';
+            
+            const toolbar = document.getElementById('q-integrated-toolbar');
+            if (toolbar) {
+                toolbar.style.display = appSettings.showToolbar ? 'flex' : 'none';
+            }
+            
+            document.getElementById('grid-card-box').style.display = appSettings.showGrid ? 'flex' : 'none';
+        }
+
+        function populateTopicFilter() {
+            const container = document.getElementById('topic-checkbox-list');
+            container.innerHTML = '';
+
+            const categories = [...new Set(objectiveQuestions.map(q => q.category))].sort();
+
+            let html = `
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; cursor: pointer; color: var(--text-main); font-weight: bold;">
+                    <input type="checkbox" value="ALL" id="cb-all-topics" checked onchange="toggleAllTopics(this)">
+                    [Selecionar Todos os Temas]
+                </label>
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
+            `;
+
+            categories.forEach((cat) => {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.88rem; cursor: pointer; color: var(--text-main);">
+                        <input type="checkbox" class="topic-cb" value="${cat}" checked onchange="updateTopicSelection()">
+                        ${cat}
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateTopicBtnLabel();
+        }
+
+        function toggleTopicDropdown() {
+            const list = document.getElementById('topic-checkbox-list');
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('#topic-dropdown-wrapper')) {
+                const list = document.getElementById('topic-checkbox-list');
+                if (list) list.style.display = 'none';
+            }
+        };
+
+        function toggleAllTopics(source) {
+            const cbs = document.querySelectorAll('.topic-cb');
+            cbs.forEach(cb => cb.checked = source.checked);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicSelection() {
+            const cbs = document.querySelectorAll('.topic-cb');
+            const allCb = document.getElementById('cb-all-topics');
+            const total = cbs.length;
+            const checkedCount = document.querySelectorAll('.topic-cb:checked').length;
+
+            allCb.checked = (checkedCount === total);
+            updateTopicBtnLabel();
+        }
+
+        function updateTopicBtnLabel() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            const total = document.querySelectorAll('.topic-cb').length;
+            const btn = document.getElementById('topic-dropdown-btn');
+
+            if (checked.length === 0) {
+                btn.innerText = 'Nenhum tema selecionado ▾';
+            } else if (checked.length === total) {
+                btn.innerText = 'Todos os Temas ▾';
+            } else {
+                btn.innerText = `${checked.length} Temas Selecionados ▾`;
+            }
+        }
+
+        function getSelectedTopics() {
+            const checked = document.querySelectorAll('.topic-cb:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        function initKeyboardShortcuts() {
+            window.addEventListener('keydown', function(e) {
+                const activeEl = document.activeElement;
+                if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
+                    return;
+                }
+
+                const isGameVisible = document.getElementById('game-hud').style.display === 'flex';
+                const key = e.key.toLowerCase();
+
+                if (e.key === 'Escape') {
+                    closeSettingsModal();
+                    closeKeyHelpModal();
+                    return;
+                }
+
+                if (!isGameVisible) return;
+
+                if (['1','2','3','4','5'].includes(key)) {
+                    const idx = parseInt(key) - 1;
+                    selectOption(idx);
+                } else if (['a','b','c','d','e'].includes(key)) {
+                    const map = { 'a':0, 'b':1, 'c':2, 'd':3, 'e':4 };
+                    selectOption(map[key]);
+                } else if (key === 'enter') {
+                    e.preventDefault();
+                    if (document.getElementById('btn-confirm').style.display !== 'none') {
+                        confirmAnswer();
+                    } else {
+                        nextQuestion();
+                    }
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextQuestion();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevQuestion();
+                } else if (key === 'f') {
+                    e.preventDefault();
+                    toggleFlag();
+                } else if (key === 'h' || e.code === 'Space') {
+                    e.preventDefault();
+                    toggleHighlight();
+                }
+            });
+        }
+
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalElapsedSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secs = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').innerText = `${mins}:${secs}`;
+        }
+
+        function toggleMobileLayout() {
+            isForceMobile = !isForceMobile;
+            applyLayoutMode();
+            saveState();
+        }
+
+        function applyLayoutMode() {
+            document.body.classList.toggle('force-mobile-mode', isForceMobile);
+            const btns = document.querySelectorAll('.btn-layout-toggle-class');
+            btns.forEach(btn => {
+                btn.innerHTML = isForceMobile 
+                    ? '<i class="ph-bold ph-device-mobile"></i> <span>Modo Celular: LIGADO</span>' 
+                    : '<i class="ph-bold ph-device-mobile"></i> <span>Modo Celular: AUTO</span>';
+                if (isForceMobile) {
+                    btn.style.background = 'var(--purple-light)';
+                    btn.style.color = 'var(--purple-primary)';
+                } else {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            });
+        }
+
+        function startModule(moduleType) {
+            currentModuleType = 'objective';
+            gameMode = document.getElementById('game-mode-select').value;
+            const selectedTopics = getSelectedTopics();
+
+            if (selectedTopics.length === 0) {
+                alert('Por favor, selecione pelo menos um tema para iniciar.');
+                return;
+            }
+
+            let baseQuestions = objectiveQuestions.map(q => ({...q}));
+
+            const totalCategories = document.querySelectorAll('.topic-cb').length;
+            if (selectedTopics.length < totalCategories) {
+                baseQuestions = baseQuestions.filter(q => selectedTopics.includes(q.category));
+            }
+
+            if (baseQuestions.length === 0) {
+                alert('Não há questões correspondentes aos temas selecionados.');
+                return;
+            }
+
+            currentQuestions = baseQuestions;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            isPenActive = false;
+            isEraserActive = false;
+
+            document.getElementById('quiz-title-badge').innerText = `SIMULADO FARMACOLOGIA (${gameMode.toUpperCase()})`;
+            document.getElementById('quiz-title-badge').style.color = 'var(--purple-primary)';
+
+            document.getElementById('hub-screen').style.display = 'none';
+            document.getElementById('history-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+
+            updateSidebarActiveNav('nav-hub');
+
+            resetTimer();
+            startTimer();
+
+            setupGrifoEvents();
+            renderNavGrid();
+            drawChart();
+            loadQuestion(0);
+            updateHUD();
+            saveState();
+        }
+
+        function goToHub() {
+            stopTimer();
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('history-screen').style.display = 'none';
+            document.getElementById('hub-screen').style.display = 'block';
+            updateSidebarActiveNav('nav-hub');
+        }
+
+        function changeFontSize(delta) {
+            fontDelta = Math.max(-2, Math.min(4, fontDelta + delta));
+            const stmt = document.getElementById('q-statement');
+            stmt.style.fontSize = (1.08 + fontDelta * 0.1) + 'rem';
+            document.querySelectorAll('.opt-btn').forEach(b => {
+                b.style.fontSize = (0.98 + fontDelta * 0.1) + 'rem';
+            });
+        }
+
+        function toggleFlag() {
+            flaggedQuestions[currentQIndex] = !flaggedQuestions[currentQIndex];
+            updateFlagUI();
+            renderNavGrid();
+            saveState();
+        }
+
+        function updateFlagUI() {
+            const btn = document.getElementById('btn-flag');
+            const labelText = btn.querySelector('.tool-btn-text');
+            if (flaggedQuestions[currentQIndex]) {
+                btn.style.background = 'var(--accent-yellow)';
+                btn.style.color = '#fff';
+                btn.style.borderColor = 'var(--accent-yellow)';
+                if (labelText) labelText.innerText = 'Dúvida (Ativa)';
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+                if (labelText) labelText.innerText = 'Dúvida';
+            }
+        }
+
+        function setGridFilter(filter) {
+            gridFilter = filter;
+            renderNavGrid();
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const isAnswered = userAnswers[idx] !== null;
+                const isFlagged = flaggedQuestions[idx];
+
+                if (gridFilter === 'PENDING' && isAnswered) return;
+                if (gridFilter === 'FLAGGED' && !isFlagged) return;
+
+                const btn = document.createElement('button');
+                btn.className = 'q-nav-btn';
+                btn.id = `nav-btn-${idx}`;
+                
+                let label = `<span>${idx + 1}</span>`;
+                if (isFlagged) label += ' <i class="ph-bold ph-flag" style="color:var(--accent-yellow);"></i>';
+                btn.innerHTML = label;
+
+                if (isAnswered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        if (userAnswers[idx] === q.correct) btn.classList.add('correct-q');
+                        else btn.classList.add('incorrect-q');
+                    } else {
+                        btn.classList.add('answered-realista-q');
+                    }
+                }
+
+                if (idx === currentQIndex) btn.classList.add('active-q');
+                btn.onclick = () => { loadQuestion(idx); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function toggleHighlight() {
+            isPenActive = !isPenActive;
+            if (isPenActive) isEraserActive = false;
+            updatePenEraserUI();
+        }
+
+        function toggleEraser() {
+            isEraserActive = !isEraserActive;
+            if (isEraserActive) isPenActive = false;
+            updatePenEraserUI();
+        }
+
+        function updatePenEraserUI() {
+            const qStmt = document.getElementById('q-statement');
+            const btnPen = document.getElementById('btn-highlight');
+            const btnEraser = document.getElementById('btn-eraser');
+
+            qStmt.classList.toggle('pen-active', isPenActive);
+            qStmt.classList.toggle('eraser-active', isEraserActive);
+
+            if (isPenActive) {
+                btnPen.style.background = '#fef08a';
+                btnPen.style.color = '#854d0e';
+                btnPen.style.borderColor = '#fde047';
+            } else {
+                btnPen.style.background = '';
+                btnPen.style.color = '';
+                btnPen.style.borderColor = '';
+            }
+
+            if (isEraserActive) {
+                btnEraser.style.background = 'rgba(239, 68, 68, 0.15)';
+                btnEraser.style.color = 'var(--incorrect-red)';
+                btnEraser.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            } else {
+                btnEraser.style.background = '';
+                btnEraser.style.color = '';
+                btnEraser.style.borderColor = '';
+            }
+        }
+
+        function setupGrifoEvents() {
+            const targetEl = document.getElementById('q-statement');
+            if (!targetEl) return;
+            
+            targetEl.addEventListener('click', (e) => {
+                if (!isPenActive && !isEraserActive) return;
+                const sel = window.getSelection();
+                if (sel.rangeCount > 0 && !sel.isCollapsed && isPenActive) {
+                    const range = sel.getRangeAt(0);
+                    const span = document.createElement('span');
+                    span.className = 'hl-word marked';
+                    range.surroundContents(span);
+                    sel.removeAllRanges();
+                }
+            });
+        }
+
+        function formatExplanationHTML(contextText) {
+            if (!contextText) return '';
+            let html = contextText;
+            
+            if (html.includes('<b>Mini-resumo:</b>')) {
+                html = html.replace(/<b>Mini-resumo:<\/b>\s*/gi, '<div class="exp-subcard exp-summary"><div class="exp-subcard-title"><i class="ph-bold ph-lightbulb"></i> Mini-Resumo & Ponto-Chave</div><div class="exp-subcard-content">');
+            }
+            if (html.includes('<b>Justificativa da alternativa correta') || html.includes('<b>Justificativa da alternativa incorreta') || html.includes('<b>Justificativa:</b>')) {
+                html = html.replace(/<br><br><b>Justificativa/gi, '</div></div><div class="exp-subcard exp-justification"><div class="exp-subcard-title"><i class="ph-bold ph-check-circle"></i> Justificativa</div><div class="exp-subcard-content"><b>Justificativa');
+            }
+            
+            html += '</div></div>';
+            return html;
+        }
+
+        function loadQuestion(idx) {
+            if (currentQIndex !== null) {
+                const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+                questionTimes[currentQIndex] = (questionTimes[currentQIndex] || 0) + elapsed;
+            }
+            questionStartTime = Date.now();
+
+            currentQIndex = idx;
+            selectedOptionIndex = null;
+            selectedConfidence = userConfidence[idx] || null;
+            const q = currentQuestions[idx];
+
+            isPenActive = false;
+            isEraserActive = false;
+            updatePenEraserUI();
+            updateFlagUI();
+
+            document.getElementById('q-notes').value = questionNotes[idx] || '';
+
+            renderNavGrid();
+
+            document.getElementById('hud-q-num').innerText = `${idx + 1} / ${currentQuestions.length}`;
+            
+            const categoryTag = document.getElementById('q-category');
+            categoryTag.innerText = q.category.toUpperCase();
+
+            document.getElementById('q-statement').innerText = q.statement;
+            changeFontSize(0);
+
+            const optsContainer = document.getElementById('options-group');
+            const expPanel = document.getElementById('explanation-panel');
+            const confBox = document.getElementById('confidence-box');
+            const btnConfirm = document.getElementById('btn-confirm');
+
+            optsContainer.style.display = 'flex';
+            optsContainer.innerHTML = '';
+            btnConfirm.style.display = 'none';
+
+            const answered = userAnswers[idx] !== null;
+
+            if (appSettings.showConfidence && !answered) {
+                confBox.style.display = 'block';
+            } else {
+                confBox.style.display = 'none';
+            }
+
+            updateConfidenceUI();
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.id = `opt-btn-${optIdx}`;
+                btn.innerText = optText;
+
+                if (strikethroughState[idx] && strikethroughState[idx][optIdx]) {
+                    btn.classList.add('strikethrough');
+                }
+
+                if (answered) {
+                    if (gameMode === 'estudo' || isFinished) {
+                        btn.classList.add('disabled');
+                        if (optIdx === q.correct) {
+                            btn.classList.add('correct-choice');
+                        }
+                        if (userAnswers[idx] === optIdx && optIdx !== q.correct) {
+                            btn.classList.add('incorrect-choice');
+                        }
+                    } else {
+                        if (userAnswers[idx] === optIdx) {
+                            btn.classList.add('selected-choice');
+                        }
+                        btn.onclick = () => selectOption(optIdx);
+                        btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                    }
+                } else {
+                    btn.onclick = () => selectOption(optIdx);
+                    btn.ondblclick = (e) => toggleStrikethrough(optIdx, e);
+                }
+
+                optsContainer.appendChild(btn);
+            });
+
+            if (answered && (gameMode === 'estudo' || isFinished)) {
+                expPanel.style.display = 'block';
+                document.getElementById('exp-body').innerHTML = formatExplanationHTML(q.context);
+            } else {
+                expPanel.style.display = 'none';
+            }
+
+            document.getElementById('btn-prev').disabled = idx === 0;
+
+            const btnNext = document.getElementById('btn-next');
+            if (idx === currentQuestions.length - 1) {
+                btnNext.innerText = "Finalizar";
+                btnNext.disabled = false;
+            } else {
+                btnNext.innerText = "Próxima →";
+                btnNext.disabled = false;
+            }
+
+            updateHUD();
+        }
+
+        function setConfidence(level) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            selectedConfidence = level;
+            userConfidence[currentQIndex] = level;
+            updateConfidenceUI();
+        }
+
+        function updateConfidenceUI() {
+            const btnCert = document.getElementById('conf-btn-certeza');
+            const btnChute = document.getElementById('conf-btn-chute');
+
+            if (btnCert) btnCert.classList.toggle('active-certain', selectedConfidence === 'certeza');
+            if (btnChute) btnChute.classList.toggle('active-guess', selectedConfidence === 'chute');
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+            if (strikethroughState[currentQIndex] && strikethroughState[currentQIndex][optIdx]) return;
+
+            selectedOptionIndex = optIdx;
+
+            document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
+                btn.classList.toggle('selected-choice', idx === optIdx);
+            });
+
+            document.getElementById('btn-confirm').style.display = 'block';
+        }
+
+        function toggleStrikethrough(optIdx, e) {
+            if (e) e.preventDefault();
+            if (userAnswers[currentQIndex] !== null && (gameMode === 'estudo' || isFinished)) return;
+
+            if (!strikethroughState[currentQIndex]) {
+                strikethroughState[currentQIndex] = [false, false, false, false, false];
+            }
+
+            strikethroughState[currentQIndex][optIdx] = !strikethroughState[currentQIndex][optIdx];
+            const btn = document.getElementById(`opt-btn-${optIdx}`);
+            if (btn) {
+                btn.classList.toggle('strikethrough', strikethroughState[currentQIndex][optIdx]);
+            }
+
+            if (strikethroughState[currentQIndex][optIdx] && selectedOptionIndex === optIdx) {
+                selectedOptionIndex = null;
+                if (btn) btn.classList.remove('selected-choice');
+                document.getElementById('btn-confirm').style.display = 'none';
+            }
+            saveState();
+        }
+
+        function confirmAnswer() {
+            if (selectedOptionIndex === null) return;
+
+            const optIdx = selectedOptionIndex;
+            userAnswers[currentQIndex] = optIdx;
+            userConfidence[currentQIndex] = selectedConfidence || 'certeza';
+            const q = currentQuestions[currentQIndex];
+            const isCorrect = optIdx === q.correct;
+
+            if (isCorrect) {
+                streak++;
+                score += 100 + (streak > 1 ? streak * 20 : 0);
+                if (streak >= 2 && gameMode === 'estudo') {
+                    const badge = document.getElementById('combo-badge');
+                    badge.style.display = 'inline-flex';
+                    badge.innerHTML = `<i class="ph-bold ph-fire"></i> COMBO x${streak}!`;
+                }
+            } else {
+                streak = 0;
+                document.getElementById('combo-badge').style.display = 'none';
+            }
+
+            loadQuestion(currentQIndex);
+            updateHUD();
+            drawChart();
+            saveState();
+        }
+
+        function saveNote(text) {
+            questionNotes[currentQIndex] = text;
+            saveState();
+        }
+
+        function updateHUD() {
+            let correct = 0;
+            let answered = 0;
+            let totalSecondsSpent = 0;
+
+            currentQuestions.forEach((q, i) => {
+                totalSecondsSpent += (questionTimes[i] || 0);
+
+                if (userAnswers[i] !== null) {
+                    answered++;
+                    if (userAnswers[i] === q.correct) correct++;
+                }
+            });
+
+            const acc = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            const avgTime = answered > 0 ? Math.round(totalSecondsSpent / answered) : 0;
+
+            document.getElementById('hud-score').innerText = `${score} PTS`;
+            document.getElementById('hud-accuracy').innerText = `${acc}%`;
+            document.getElementById('hud-avgtime').innerText = `${avgTime}s`;
+
+            const progressFill = document.getElementById('hud-progress-fill');
+            if (progressFill && currentQuestions.length > 0) {
+                const pct = Math.round(((currentQIndex + 1) / currentQuestions.length) * 100);
+                progressFill.style.width = `${pct}%`;
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQIndex === currentQuestions.length - 1) {
+                showReport();
+            } else if (currentQIndex < currentQuestions.length - 1) {
+                loadQuestion(currentQIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                loadQuestion(currentQIndex - 1);
+            }
+        }
+
+        function resetQuiz() {
+            if (confirm(`Tem certeza de que deseja recomeçar este módulo?`)) {
+                userAnswers = new Array(currentQuestions.length).fill(null);
+                userConfidence = new Array(currentQuestions.length).fill(null);
+                questionTimes = new Array(currentQuestions.length).fill(0);
+                strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+                questionNotes = new Array(currentQuestions.length).fill('');
+                flaggedQuestions = new Array(currentQuestions.length).fill(false);
+                score = 0;
+                streak = 0;
+                isFinished = false;
+                selectedOptionIndex = null;
+                selectedConfidence = null;
+
+                resetTimer();
+                startTimer();
+
+                document.getElementById('combo-badge').style.display = 'none';
+                updateHUD();
+                drawChart();
+                if (document.getElementById('report-screen').style.display === 'block') {
+                    hideReport();
+                }
+                loadQuestion(0);
+                saveState();
+            }
+        }
+
+        function drawChart() {
+            const canvas = document.getElementById('realtimeChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 150;
+            canvas.height = 150;
+
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            currentQuestions.forEach((q, i) => {
+                const ans = userAnswers[i];
+                if (ans === null) unanswered++;
+                else if (ans === q.correct) correct++;
+                else incorrect++;
+            });
+
+            document.getElementById('lbl-correct').innerText = correct;
+            document.getElementById('lbl-incorrect').innerText = incorrect;
+
+            const total = currentQuestions.length;
+            const acc = (correct + incorrect) > 0 ? Math.round((correct / (correct + incorrect)) * 100) : 0;
+            document.getElementById('chart-center').innerText = `${acc}%`;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 62;
+            const innerRadius = 45;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const slices = [
+                { val: correct, color: '#10b981' },
+                { val: incorrect, color: '#ef4444' },
+                { val: unanswered, color: '#cbd5e1' }
+            ];
+
+            let startAngle = -Math.PI / 2;
+
+            slices.forEach(slice => {
+                if (slice.val === 0) return;
+                const sliceAngle = (slice.val / total) * (Math.PI * 2);
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = slice.color;
+                ctx.fill();
+
+                startAngle += sliceAngle;
+            });
+        }
+
+        function showReport() {
+            stopTimer();
+            isFinished = true;
+            let correct = 0;
+            let answered = 0;
+            let totalSecs = 0;
+            let certainCorrect = 0;
+            let guessCorrect = 0;
+            const catStats = {};
+
+            currentQuestions.forEach((q, idx) => {
+                const cat = q.category;
+                if (!catStats[cat]) {
+                    catStats[cat] = { total: 0, correct: 0 };
+                }
+                catStats[cat].total++;
+
+                totalSecs += (questionTimes[idx] || 0);
+
+                const ans = userAnswers[idx];
+                if (ans !== null) {
+                    answered++;
+                    if (ans === q.correct) {
+                        correct++;
+                        catStats[cat].correct++;
+                        if (userConfidence[idx] === 'chute') guessCorrect++;
+                        else certainCorrect++;
+                    }
+                }
+            });
+
+            const overallPercent = Math.round((correct / currentQuestions.length) * 100);
+            const avgTimeSecs = answered > 0 ? Math.round(totalSecs / answered) : 0;
+
+            const minsStr = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+            const secsStr = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('rep-total-time').innerText = `${minsStr}:${secsStr}`;
+            document.getElementById('rep-avg-time').innerText = `${avgTimeSecs}s / questão`;
+            
+            const confBoxSum = document.getElementById('rep-conf-box-summary');
+            confBoxSum.style.display = 'flex';
+            document.getElementById('rep-conf-ratio').innerText = `${certainCorrect} / ${guessCorrect}`;
+
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('history-screen').style.display = 'none';
+            document.getElementById('report-screen').style.display = 'block';
+
+            const editionName = 'SIMULADO FARMACOLOGIA (Q01-35)';
+            document.getElementById('rep-score-big').innerText = `${overallPercent}%`;
+            
+            const scoreRing = document.getElementById('score-ring');
+            let ringColor = 'var(--correct-green)';
+            if (overallPercent < 50) ringColor = 'var(--incorrect-red)';
+            else if (overallPercent < 70) ringColor = 'var(--accent-yellow)';
+            scoreRing.style.background = `conic-gradient(${ringColor} ${overallPercent}%, var(--border-color) 0)`;
+
+            document.getElementById('rep-status-msg').innerText = `Você respondeu ${answered} de ${currentQuestions.length} questões com ${score} pontos totais.`;
+
+            const tbody = document.getElementById('rep-table-body');
+            tbody.innerHTML = '';
+            let weakCategories = [];
+
+            for (const [catName, stats] of Object.entries(catStats)) {
+                const pct = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                if (pct < 70) weakCategories.push(catName);
+
+                const tr = document.createElement('tr');
+                const badgeClass = pct >= 70 ? 'rep-badge-success' : 'rep-badge-warning';
+                const badgeIcon = pct >= 70 ? 'ph-check-circle' : 'ph-warning-circle';
+                const badgeText = pct >= 70 ? 'Excelente' : 'Revisar';
+
+                tr.innerHTML = `
+                    <td><b>${catName}</b></td>
+                    <td><b>${stats.total}</b></td>
+                    <td><b>${stats.correct}</b></td>
+                    <td>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width: ${pct}%; background: ${pct < 60 ? 'var(--incorrect-red)' : pct < 80 ? 'var(--accent-yellow)' : 'var(--correct-green)'};"></div>
+                        </div>
+                        <b>${pct}%</b>
+                    </td>
+                    <td>
+                        <span class="rep-topic-badge ${badgeClass}">
+                            <i class="ph-bold ${badgeIcon}"></i> ${badgeText}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            const diagBox = document.getElementById('rep-diagnostic-text');
+            if (weakCategories.length > 0) {
+                diagBox.innerHTML = `Com base no seu aproveitamento, sugerimos focar a revisão nos temas:<br><div style="margin-top: 6px; font-weight: 700; color: var(--accent-yellow);">• ${weakCategories.join('<br>• ')}</div>`;
+            } else {
+                diagBox.innerHTML = `<i class="ph-bold ph-sparkles" style="color:var(--correct-green);"></i> Desempenho fantástico! Seu aproveitamento superou 70% em todas as categorias de Farmacologia.`;
+            }
+
+            saveAttemptToHistory(editionName, overallPercent, score, `${minsStr}:${secsStr}`);
+            saveState();
+        }
+
+        function saveAttemptToHistory(edition, pct, pts, timeStr) {
+            let history = JSON.parse(localStorage.getItem('simulado_farma_history') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                edition,
+                pct,
+                pts,
+                timeStr
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('simulado_farma_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const dedicatedContainer = document.getElementById('dedicated-history-list');
+            let history = JSON.parse(localStorage.getItem('simulado_farma_history') || '[]');
+            
+            if (history.length === 0) {
+                const emptyMsg = '<p style="color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 20px;">Nenhuma tentativa concluída ainda. Complete um simulado para ver sua evolução!</p>';
+                if (dedicatedContainer) dedicatedContainer.innerHTML = emptyMsg;
+                return;
+            }
+
+            let html = '';
+            history.forEach(item => {
+                const color = item.pct >= 70 ? 'var(--correct-green)' : (item.pct >= 50 ? 'var(--accent-yellow)' : 'var(--incorrect-red)');
+                html += `
+                    <div class="history-card-item">
+                        <div>
+                            <div style="font-weight: 800; font-size: 1rem; color: var(--text-main); margin-bottom: 4px;">${item.edition}</div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);"><i class="ph-bold ph-calendar-blank"></i> ${item.date} | <i class="ph-bold ph-timer"></i> ${item.timeStr} | <i class="ph-bold ph-trophy"></i> ${item.pts} PTS</div>
+                        </div>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: ${color};">${item.pct}%</div>
+                    </div>
+                `;
+            });
+            if (dedicatedContainer) dedicatedContainer.innerHTML = html;
+        }
+
+        function clearHistory() {
+            if (confirm('Deseja realmente apagar o histórico de desempenho?')) {
+                localStorage.removeItem('simulado_farma_history');
+                renderHistory();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function hideReport() {
+            document.getElementById('report-screen').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'flex';
+            startTimer();
+            loadQuestion(currentQIndex);
+        }
+
+        function startCadernoErros() {
+            const errorQs = [];
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null && userAnswers[idx] !== q.correct) errorQs.push(q);
+            });
+
+            if (errorQs.length === 0) {
+                alert('Você não cometeu erros neste simulado!');
+                return;
+            }
+
+            currentQuestions = errorQs;
+            currentQIndex = 0;
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            document.getElementById('quiz-title-badge').innerText = `CADERNO DE ERROS (${currentQuestions.length} Qs)`;
+            document.getElementById('quiz-title-badge').style.color = 'var(--incorrect-red)';
+
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+        }
+
+        function exportNotesAndReport() {
+            let correct = 0;
+            let answered = 0;
+
+            currentQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] !== null) {
+                    answered++;
+                    if (userAnswers[idx] === q.correct) correct++;
+                }
+            });
+
+            const overallPercent = answered > 0 ? Math.round((correct / currentQuestions.length) * 100) : 0;
+            const editionName = 'SIMULADO FARMACOLOGIA (Q01-35)';
+
+            let text = `==================================================\n`;
+            text += `   RELATÓRIO E ANOTAÇÕES - FARMACOLOGIA\n`;
+            text += `==================================================\n\n`;
+            text += `Módulo: ${editionName}\n`;
+            text += `Aproveitamento Geral: ${overallPercent}%\n`;
+            text += `Questões Respondidas: ${answered} de ${currentQuestions.length}\n`;
+            text += `Pontuação Total: ${score} PTS\n\n`;
+            text += `--------------------------------------------------\n`;
+            text += ` DETALHAMENTO DAS QUESTÕES E ANOTAÇÕES DA SESSÃO\n`;
+            text += `--------------------------------------------------\n\n`;
+
+            currentQuestions.forEach((q, idx) => {
+                let status = 'Não Respondida';
+                let userContent = '';
+
+                const userAns = userAnswers[idx];
+                if (userAns !== null) {
+                    status = userAns === q.correct ? 'ACERTOU (🟢)' : 'ERROU (🔴)';
+                    userContent = `Opção Escolhida: ${q.options[userAns]}`;
+                }
+
+                const flag = flaggedQuestions[idx] ? ' [SINALIZADA COM DÚVIDA]' : '';
+                const timeSpent = questionTimes[idx] ? ` [Tempo: ${questionTimes[idx]}s]` : '';
+                const note = questionNotes[idx] ? questionNotes[idx] : '(Sem anotações)';
+
+                text += `Questão ${idx + 1} - Tema: ${q.category}${flag}${timeSpent}\n`;
+                text += `Status: ${status}\n`;
+                if (userContent) text += `${userContent}\n`;
+                text += `Sua Anotação: ${note}\n`;
+                text += `--------------------------------------------------\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_Farmacologia_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function restartGame() {
+            userAnswers = new Array(currentQuestions.length).fill(null);
+            userConfidence = new Array(currentQuestions.length).fill(null);
+            questionTimes = new Array(currentQuestions.length).fill(0);
+            strikethroughState = Array.from({ length: currentQuestions.length }, () => [false, false, false, false, false]);
+            questionNotes = new Array(currentQuestions.length).fill('');
+            flaggedQuestions = new Array(currentQuestions.length).fill(false);
+            score = 0;
+            streak = 0;
+            isFinished = false;
+            selectedOptionIndex = null;
+            selectedConfidence = null;
+
+            resetTimer();
+            startTimer();
+
+            document.getElementById('combo-badge').style.display = 'none';
+            updateHUD();
+            drawChart();
+            hideReport();
+            loadQuestion(0);
+            saveState();
+        }
+
+        function saveState() {
+            const state = {
+                currentModuleType,
+                userAnswers,
+                userConfidence,
+                questionTimes,
+                totalElapsedSeconds,
+                strikethroughState,
+                questionNotes,
+                flaggedQuestions,
+                score,
+                streak,
+                gameMode,
+                isFinished,
+                isForceMobile,
+                isDarkMode,
+                isSidebarCollapsed
+            };
+            localStorage.setItem('simulado_farma_state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('simulado_farma_state');
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    if (state.isForceMobile !== undefined) {
+                        isForceMobile = state.isForceMobile;
+                        applyLayoutMode();
+                    }
+                    if (state.isDarkMode !== undefined) {
+                        isDarkMode = state.isDarkMode;
+                        applyDarkModeUI();
+                    }
+                    if (state.isSidebarCollapsed !== undefined) {
+                        isSidebarCollapsed = state.isSidebarCollapsed;
+                        const sidebar = document.getElementById('sidebar');
+                        if (sidebar) sidebar.classList.toggle('collapsed', isSidebarCollapsed);
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados salvos', e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
